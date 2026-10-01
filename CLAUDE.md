@@ -7,6 +7,7 @@ Static site on GitHub Pages. No build step: edit the HTML, CSS and JS files dire
 - `teaching/classical-mechanics/` is only a redirect to `teaching/physics-1/` (the old address of the Physics I course page); keep it so old links work.
 - Header, menu and footer are repeated in every page. A change to them must be made in all eight pages.
 - Shared files: `assets/site.css`, `assets/site.js`, `assets/analytics.js` (GoatCounter), `assets/img/`.
+- Every page links `site.css?v=N` and `site.js?v=N`. After changing either file, raise N by one in every page so browsers load the new version instead of a cached copy.
 - In `assets/site.js`: `PAPERS` (publication list, newest first; also feeds the home page and the research page), `GT` (group theory weekly schedule), `PHYS` (Physics I: Mechanics topics). Resources marked `soon:1` render as dashed "soon" buttons; give them a `url` when the file exists.
 - Group theory lecture notes live in `teaching/group-theory/notes/`; simulations are the `.html` files in `teaching/group-theory/`.
 
