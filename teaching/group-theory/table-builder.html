@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Multiplication-table builder – Theory of Groups in Physics</title>
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<script src="../../assets/analytics.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F8F5; --ink:#1E2723; --muted:#56635C; --rule:#DCE1DC; --link:#2A6650; --bad:#B5503F;
+  --board:#2C463B; --chalk:#EEEDE6; --chalk-dim:rgba(238,237,230,.68); --chalk-faint:rgba(238,237,230,.28);
+  --yellow:#E9CB6B; --warn:#E89A8E;
+  --tray-1:#CFD3D5; --tray-2:#9FA5A9; --tray-3:#7E8488;
+  --cell:#FFFFFF; --tint:.34;
+  --serif:"STIX Two Text","Iowan Old Style","Palatino Linotype","Times New Roman",serif;
+  --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:light; box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  background:var(--board);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--paper:#131916;--ink:#E3E6E1;--muted:#9CA79F;--rule:#2C3631;--link:#8FCBB1;--bad:#E89A8E;--board:#223a2f;--cell:#1A221E;--tint:.30;--tray-1:#737a7e;--tray-2:#50575b;--tray-3:#3a4043;color-scheme:dark}
+}
+:root[data-theme="dark"]{--paper:#131916;--ink:#E3E6E1;--muted:#9CA79F;--rule:#2C3631;--link:#8FCBB1;--bad:#E89A8E;--board:#223a2f;--cell:#1A221E;--tint:.30;--tray-1:#737a7e;--tray-2:#50575b;--tray-3:#3a4043;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:1.075rem;line-height:1.55}
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(16px,4vw,40px)}
+:focus-visible{outline:2px solid var(--link);outline-offset:2px;border-radius:3px}
+.board{background-color:var(--board);background-image:radial-gradient(110% 80% at 15% 18%,rgba(255,255,255,.06),transparent 60%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 .075 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");color:var(--chalk)}
+.board :focus-visible{outline-color:var(--yellow)}
+.m{font-family:var(--serif);font-style:italic}
+.top{padding-block:22px 30px}
+.crumb{margin:0 0 10px;font-family:var(--sans);font-size:.95rem;color:var(--chalk-dim)}
+.crumb a{color:var(--chalk);text-decoration-color:var(--yellow);text-underline-offset:4px}
+.top h1{margin:0;font-weight:500;font-size:clamp(2.2rem,1.4rem + 3vw,3.4rem);line-height:1.05;letter-spacing:-.01em}
+.top .sub{margin:.45em 0 0;font-size:1.15rem;color:var(--chalk-dim);max-width:38em}
+.tray{height:12px;background:linear-gradient(to bottom,var(--tray-1),var(--tray-2) 55%,var(--tray-3));box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 4px 8px -3px rgba(0,0,0,.3)}
+
+.lab{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px clamp(24px,4vw,52px);padding-block:28px 40px;align-items:start}
+@media (max-width:920px){.lab{grid-template-columns:minmax(0,1fr)}}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font:500 .95rem/1 var(--sans);padding:9px 14px;border-radius:999px;border:1px solid var(--rule);background:transparent;color:var(--ink);cursor:pointer}
+.pill:hover{border-color:var(--muted)}
+.pill[aria-pressed="true"]{background:var(--board);border-color:var(--board);color:var(--chalk)}
+.pill .m{font-size:1.05rem}
+.gdesc{margin:12px 0 18px;max-width:40em}
+
+/* table */
+.tablewrap{overflow-x:auto;padding:2px}
+table.mt{border-collapse:separate;border-spacing:4px;margin:0}
+.mt th,.mt td{padding:0}
+.hd{min-width:46px;height:46px;border-radius:6px;background:var(--board);color:var(--chalk);font:italic 1.15rem/1 var(--serif);text-align:center;vertical-align:middle}
+.corner{font:500 .78rem/1.15 var(--sans);color:var(--muted);text-align:center;vertical-align:middle;padding:0 4px}
+.cell{display:block;width:100%;min-width:46px;height:46px;border-radius:6px;border:1px solid var(--rule);background:var(--cell);color:var(--ink);font:italic 1.15rem/1 var(--serif);cursor:pointer;position:relative;transition:background-color .25s}
+.cell:hover{border-color:var(--muted)}
+.cell.empty::after{content:"";position:absolute;left:50%;top:50%;width:5px;height:5px;margin:-2.5px;border-radius:50%;background:var(--rule)}
+.cell.sel{outline:3px solid var(--yellow);outline-offset:-1px;border-color:transparent}
+.cell.asym{box-shadow:inset 0 0 0 2.5px var(--bad)}
+.cell.symok{box-shadow:inset 0 0 0 2px var(--link)}
+.cell.fresh{animation:pop .45s ease-out}
+@keyframes pop{from{transform:scale(1.18)}}
+.legend{margin:10px 0 0;font-family:var(--sans);font-size:.92rem;color:var(--muted)}
+.tools{display:flex;flex-wrap:wrap;gap:8px 10px;margin-top:16px;align-items:center}
+.btn{font:500 .93rem/1 var(--sans);padding:10px 14px;border-radius:8px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--link)}
+.btn.primary{background:var(--board);border-color:var(--board);color:var(--chalk)}
+.btn.quiet{border-color:transparent;color:var(--muted);padding-inline:8px}
+.btn:disabled{opacity:.45;cursor:default}
+.toggle{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:.93rem;color:var(--ink);cursor:pointer}
+.toggle input{width:18px;height:18px;accent-color:var(--link)}
+.progress{font-family:var(--sans);font-size:.92rem;color:var(--muted);margin-left:auto}
+.status{margin:14px 0 0;font-family:var(--sans);font-size:.98rem;min-height:1.4em;color:var(--muted)}
+.status.good{color:var(--link);font-weight:600}
+.status.bad{color:var(--bad)}
+
+/* right column */
+.side{display:grid;gap:22px}
+.stage{position:relative;border-radius:8px;overflow:hidden;aspect-ratio:4/3}
+.stage svg{display:block;width:100%;height:100%}
+.steps{position:absolute;left:16px;right:16px;top:12px;display:flex;flex-wrap:wrap;gap:6px 14px;font-family:var(--sans);font-size:.95rem;color:var(--chalk-dim)}
+.steps .on{color:var(--yellow)}
+.steps .m{font-size:1.1rem}
+.result{position:absolute;left:16px;bottom:12px;font:italic 1.7rem/1 var(--serif);color:var(--chalk)}
+.result small{font:400 .95rem var(--sans);color:var(--chalk-dim);margin-left:10px;font-style:normal}
+.foot{fill:none;stroke:var(--chalk);stroke-opacity:.32;stroke-width:.018;stroke-dasharray:.06 .05}
+.body{stroke:var(--chalk);stroke-width:.03;stroke-linejoin:round}
+.axis{stroke:var(--yellow);stroke-width:.016;stroke-dasharray:.08 .06;opacity:0;transition:opacity .2s}
+.axis.on{opacity:.95}
+.vdot{stroke:rgba(0,0,0,.25);stroke-width:.01}
+.vnum{font:600 .16px var(--sans);fill:#1d2b25;text-anchor:middle;dominant-baseline:central}
+.side-txt{font:italic .2px var(--serif);fill:var(--chalk-dim);text-anchor:middle;dominant-baseline:central}
+.ask h2,.side h2,.compare h2{margin:0 0 8px;font-family:var(--sans);font-size:.95rem;font-weight:600;color:var(--muted)}
+.q{margin:0 0 10px;font-size:1.2rem}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choice{min-width:48px;padding:9px 12px;border-radius:6px;border:1px solid var(--rule);background:var(--cell);color:var(--ink);font:italic 1.15rem/1 var(--serif);cursor:pointer}
+.choice:hover{border-color:var(--link)}
+.choice:disabled{opacity:.5;cursor:default}
+.hint{margin:10px 0 0;font-family:var(--sans);font-size:.92rem;color:var(--muted)}
+.tasks{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.tasks li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start}
+.tick{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--rule);margin-top:.2em;display:grid;place-items:center}
+.tick svg{width:12px;height:12px;stroke:var(--chalk);stroke-width:2.4;fill:none;opacity:0}
+.tasks li.done .tick{background:var(--link);border-color:var(--link)}
+.tasks li.done .tick svg{opacity:1}
+.tasks p{margin:0}
+.tasks .ans{margin-top:.35em;font-size:1rem;color:var(--link)}
+.tasks details{margin-top:.35em;font-family:var(--sans);font-size:.92rem;color:var(--muted)}
+.tasks summary{cursor:pointer}
+.tasks details p{font-family:var(--serif);font-size:1rem;color:var(--ink);margin-top:.35em}
+
+.compare{padding-block:8px 64px}
+.compare-grid{display:grid;grid-template-columns:repeat(2,minmax(0,max-content));gap:24px 56px;margin-top:14px}
+@media (max-width:640px){.compare-grid{grid-template-columns:minmax(0,1fr)}}
+.compare-grid > div{overflow-x:auto}
+@media (max-width:480px){table.mt{border-spacing:3px}.hd,.cell{min-width:36px;height:38px;font-size:1rem}.compare .cell{line-height:36px !important}.corner{font-size:.7rem}}
+.compare > h2{font-family:var(--serif);font-size:clamp(1.6rem,1.2rem + 1vw,2.1rem);font-weight:500;color:var(--ink);margin:0 0 4px}
+.compare h3{margin:0 0 8px;font-size:1.25rem;font-weight:500}
+.compare .mt .cell{cursor:default}
+.compare p.cap{max-width:42em;margin:16px 0 0}
+.diag-on .cell.dg{outline:3px solid var(--yellow);outline-offset:-1px}
+@media (prefers-reduced-motion: reduce){.cell{transition:none}.cell.fresh{animation:none}}
+</style>
+</head>
+<body>
+<header class="board">
+  <div class="wrap top">
+    <p class="crumb"><a href="./">Theory of Groups in Physics</a>, Week 1</p>
+    <h1>Multiplication-table builder</h1>
+    <p class="sub">Build a group’s table one entry at a time. Predict each product, then watch the symmetries act.</p>
+  </div>
+</header>
+<div class="tray" aria-hidden="true"></div>
+
+<main>
+  <div class="wrap lab">
+    <section aria-label="The table">
+      <div class="pills" role="group" aria-label="Choose a group" id="groups"></div>
+      <p class="gdesc" id="gdesc"></p>
+      <div class="tablewrap"><table class="mt" id="table"></table></div>
+      <p class="legend">The entry in row <span class="m">a</span> and column <span class="m">b</span> is <span class="m">ab</span>: the column element <span class="m">b</span> acts first, then the row element <span class="m">a</span>.</p>
+      <div class="tools">
+        <button class="btn" id="next" type="button">Next empty cell</button>
+        <button class="btn quiet" id="fill" type="button">Fill the rest</button>
+        <button class="btn quiet" id="clear" type="button">Clear</button>
+        <span class="progress" id="progress"></span>
+      </div>
+      <div class="tools">
+        <label class="toggle"><input type="checkbox" id="t-color" checked> Color by element</label>
+        <label class="toggle"><input type="checkbox" id="t-sym"> Compare <span class="m">ab</span> with <span class="m">ba</span></label>
+      </div>
+      <p class="status" id="status" aria-live="polite"></p>
+    </section>
+
+    <aside class="side" aria-label="Watch and predict">
+      <div class="stage board">
+        <svg id="stage" viewBox="-1.75 -1.45 3.5 2.75" role="img" aria-label="The shape acted on by the two symmetries of the chosen entry"></svg>
+        <div class="steps" id="steps"></div>
+        <div class="result" id="result"></div>
+      </div>
+      <section class="ask" id="ask">
+        <h2>Your prediction</h2>
+        <p class="q" id="q">Pick an empty cell in the table.</p>
+        <div class="choices" id="choices"></div>
+        <p class="hint" id="hint"></p>
+      </section>
+      <section>
+        <h2>Try this</h2>
+        <ul class="tasks" id="tasks"></ul>
+      </section>
+    </aside>
+  </div>
+
+  <section class="wrap compare" aria-label="Two groups of order four">
+    <h2>Two groups with four elements</h2>
+    <div class="compare-grid" id="compare"></div>
+    <p class="tools"><label class="toggle"><input type="checkbox" id="t-diag"> Highlight the diagonal</label></p>
+    <p class="cap">Both tables have four rows and four columns. In <span class="m">Z</span><sub>4</sub> the diagonal holds <span class="m">e</span> only twice, because <span class="m">r</span> has order 4. In the cuboid group every diagonal entry is <span class="m">e</span>: each element is its own inverse, so no element has order 4. No relabeling turns one table into the other, so the two groups are not isomorphic.</p>
+  </section>
+</main>
+
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg', PI=Math.PI;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var VCOL=['#E9CB6B','#EDA4B8','#9CCAEA','#A9DBA2'];
+  var HUES=[null,'#E2B93B','#D9739A','#5FA8D3','#6FB86A','#E58F4A','#9C86D6','#4FB5A8'];
+
+  /* ---------- groups ---------- */
+  function rot(t){return [Math.cos(t),-Math.sin(t),Math.sin(t),Math.cos(t)];}
+  function mm(A,B){return [A[0]*B[0]+A[1]*B[2],A[0]*B[1]+A[1]*B[3],A[2]*B[0]+A[3]*B[2],A[2]*B[1]+A[3]*B[3]];}
+  function ap(M,v){return [M[0]*v[0]+M[1]*v[1],M[2]*v[0]+M[3]*v[1]];}
+  function poly(n,R){var v=[],p0=3*PI/2-PI/n;for(var i=0;i<n;i++)v.push([R*Math.cos(p0+2*PI*i/n),R*Math.sin(p0+2*PI*i/n)]);return v;}
+  function dihedral(n,withRefl){
+    var p0=3*PI/2-PI/n,els=[];
+    for(var k=0;k<n;k++)els.push({k:k,f:0});
+    if(withRefl)for(var k2=0;k2<n;k2++)els.push({k:k2,f:1});
+    els.forEach(function(e){
+      e.html=(!e.k&&!e.f)?'e':(e.k?'r'+(e.k>1?'<sup>'+e.k+'</sup>':''):'')+(e.f?'s':'');
+      if(!e.f){e.M=rot(2*PI*e.k/n);e.path=function(t){return rot(2*PI*e.k*t/n);};e.axis=null;}
+      else{var al=p0+PI*e.k/n,u=[Math.cos(al),Math.sin(al)];
+        e.M=[Math.cos(2*al),Math.sin(2*al),Math.sin(2*al),-Math.cos(2*al)];e.axis=al;
+        e.path=function(t){var c=Math.cos(PI*t);return [u[0]*u[0]+c*(1-u[0]*u[0]),u[0]*u[1]*(1-c),u[0]*u[1]*(1-c),u[1]*u[1]+c*(1-u[1]*u[1])];};}
+      e.flip=false;
+    });
+    function mul(a,b){var k=((a.k+(a.f?-b.k:b.k))%n+n)%n,f=a.f^b.f;return els.findIndex(function(x){return x.k===k&&x.f===f;});}
+    return {els:els,mul:function(i,j){return mul(els[i],els[j]);},verts:poly(n,n===3?1.05:1.05),n:n};
+  }
+  function cuboid(){
+    var els=[
+      {html:'e',bits:[0,0],M:[1,0,0,1],path:function(){return [1,0,0,1];},axis:null,flip:false},
+      {html:'a',bits:[1,0],M:[1,0,0,-1],path:function(t){return [1,0,0,Math.cos(PI*t)];},axis:0,flip:true},
+      {html:'b',bits:[0,1],M:[-1,0,0,1],path:function(t){return [Math.cos(PI*t),0,0,1];},axis:PI/2,flip:true},
+      {html:'ab',bits:[1,1],M:[-1,0,0,-1],path:function(t){return rot(PI*t);},axis:null,flip:false}
+    ];
+    return {els:els,mul:function(i,j){var a=els[i].bits,b=els[j].bits,c=[a[0]^b[0],a[1]^b[1]];return els.findIndex(function(x){return x.bits[0]===c[0]&&x.bits[1]===c[1];});},
+            verts:[[-1.25,-.72],[1.25,-.72],[1.25,.72],[-1.25,.72]],card:true};
+  }
+  var GROUPS={
+    Z3:{pill:'<span class="m">Z</span><sub>3</sub>',name:'<span class="m">Z</span><sub>3</sub>',desc:'<span class="m">Z</span><sub>3</sub>: the three turns of an equilateral triangle, <span class="m">r</span> being the 120° counterclockwise turn.',g:dihedral(3,false),abelian:true},
+    D3:{pill:'<span class="m">D</span><sub>3</sub>',name:'<span class="m">D</span><sub>3</sub>',desc:'<span class="m">D</span><sub>3</sub>: the three turns and three reflections of an equilateral triangle. <span class="m">s</span> is the reflection in the line through vertex 1.',g:dihedral(3,true),abelian:false},
+    Z4:{pill:'<span class="m">Z</span><sub>4</sub>',name:'<span class="m">Z</span><sub>4</sub>',desc:'<span class="m">Z</span><sub>4</sub>: the four turns of a square, <span class="m">r</span> being the quarter-turn.',g:dihedral(4,false),abelian:true},
+    D2:{pill:'Cuboid',name:'the cuboid group',desc:'The cuboid group: the identity and the three half-turns of a box with unequal edges, seen face on. <span class="m">a</span> and <span class="m">b</span> turn it about the horizontal and vertical axes, which shows its back face; <span class="m">ab</span> turns it in the plane.',g:cuboid(),abelian:true},
+    D4:{pill:'<span class="m">D</span><sub>4</sub>',name:'<span class="m">D</span><sub>4</sub>',desc:'<span class="m">D</span><sub>4</sub>: the four turns and four reflections of a square. <span class="m">s</span> is the reflection in the diagonal through vertex 1.',g:dihedral(4,true),abelian:false}
+  };
+  var ORDER=['Z3','D3','Z4','D2','D4'];
+
+  /* ---------- state ---------- */
+  var G,N,cur,filled,sel=null,busy=false,stats,tasks=[];
+  function setGroup(id){
+    cur=GROUPS[id];G=cur.g;N=G.els.length;filled={};sel=null;stats={predicted:0,right:0};
+    [].forEach.call(document.querySelectorAll('#groups .pill'),function(b){b.setAttribute('aria-pressed',String(b.dataset.id===id));});
+    document.getElementById('gdesc').innerHTML=cur.desc;
+    document.getElementById('t-sym').checked=false;
+    buildTable();buildStage();buildTasks();resetAsk();status('');refresh();
+  }
+  function cellKey(i,j){return i+','+j;}
+
+  /* ---------- table ---------- */
+  function buildTable(){
+    var t=document.getElementById('table'),h='<thead><tr><th class="corner" scope="col">row · column</th>';
+    G.els.forEach(function(e){h+='<th class="hd" scope="col">'+e.html+'</th>';});
+    h+='</tr></thead><tbody>';
+    for(var i=0;i<N;i++){
+      h+='<tr><th class="hd" scope="row">'+G.els[i].html+'</th>';
+      for(var j=0;j<N;j++)h+='<td><button type="button" class="cell empty" data-i="'+i+'" data-j="'+j+'" aria-label="Row '+strip(G.els[i].html)+', column '+strip(G.els[j].html)+', not filled yet"></button></td>';
+      h+='</tr>';
+    }
+    t.innerHTML=h+'</tbody>';
+  }
+  function strip(h){return h.replace(/<sup>(\d)<\/sup>/g,'^$1').replace(/<[^>]+>/g,'');}
+  function cellEl(i,j){return document.querySelector('#table .cell[data-i="'+i+'"][data-j="'+j+'"]');}
+  function tintFor(idx){return HUES[idx%HUES.length];}
+  function paintCell(c,idx,fresh){
+    c.classList.remove('empty');c.innerHTML=G.els[idx].html;
+    c.setAttribute('aria-label','Row '+strip(G.els[+c.dataset.i].html)+', column '+strip(G.els[+c.dataset.j].html)+': '+strip(G.els[idx].html));
+    c.dataset.v=idx;
+    if(fresh){c.classList.remove('fresh');void c.offsetWidth;c.classList.add('fresh');}
+  }
+  function refresh(){
+    var color=document.getElementById('t-color').checked,sym=document.getElementById('t-sym').checked;
+    [].forEach.call(document.querySelectorAll('#table .cell'),function(c){
+      var k=cellKey(c.dataset.i,c.dataset.j),v=filled[k];
+      c.classList.toggle('sel',!!sel&&sel[0]==c.dataset.i&&sel[1]==c.dataset.j);
+      c.style.backgroundColor=(color&&v!==undefined&&HUES[v%HUES.length])?mix(HUES[v%HUES.length]):'';
+      c.classList.remove('asym','symok');
+      if(sym&&v!==undefined){var w=filled[cellKey(c.dataset.j,c.dataset.i)];if(w!==undefined&&c.dataset.i!==c.dataset.j)c.classList.add(w===v?'symok':'asym');}
+    });
+    var n=Object.keys(filled).length;
+    document.getElementById('progress').textContent=n+' of '+(N*N)+' filled';
+    document.getElementById('next').disabled=n===N*N;document.getElementById('fill').disabled=n===N*N;
+    if(n===N*N){
+      var msg='Complete. Every row and every column contains each element exactly once.';
+      if(sym) msg+=' '+symVerdict();
+      status(msg,'good');
+    } else if(sym){status(symVerdict(true));}
+    updateTasks();
+  }
+  function mix(hex){
+    var a=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--tint'))||.3;
+    var r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+    return 'rgba('+r+','+g+','+b+','+a+')';
+  }
+  function symVerdict(partial){
+    for(var i=0;i<N;i++)for(var j=i+1;j<N;j++){
+      var x=filled[cellKey(i,j)],y=filled[cellKey(j,i)];
+      if(x!==undefined&&y!==undefined&&x!==y)
+        return 'Not symmetric: '+tx(i)+' · '+tx(j)+' = '+tx(x)+' but '+tx(j)+' · '+tx(i)+' = '+tx(y)+'. The group is non-Abelian.';
+    }
+    if(partial) return 'No mismatched pair yet among the filled cells.';
+    return 'The table is symmetric across its diagonal: ab = ba for every pair, so the group is Abelian.';
+  }
+  function tx(i,plain){return strip(G.els[i].html).replace(/\^(\d)/g,function(m,d){return {2:'²',3:'³'}[d]||m;});}
+  function status(msg,kind){var s=document.getElementById('status');s.textContent=msg;s.className='status'+(kind?' '+kind:'');}
+
+  /* ---------- asking ---------- */
+  function resetAsk(){
+    document.getElementById('q').innerHTML='Pick an empty cell in the table.';
+    document.getElementById('choices').innerHTML='';document.getElementById('hint').textContent='';
+    document.getElementById('steps').innerHTML='';document.getElementById('result').innerHTML='';
+    placeAt([1,0,0,1],false);
+  }
+  function select(i,j){
+    if(busy) return;
+    sel=[i,j];refresh();
+    var k=cellKey(i,j),a=G.els[i].html,b=G.els[j].html;
+    if(filled[k]!==undefined){
+      document.getElementById('q').innerHTML='<span class="m">'+a+'</span> · <span class="m">'+b+'</span> = <span class="m">'+G.els[filled[k]].html+'</span>';
+      document.getElementById('choices').innerHTML='';document.getElementById('hint').textContent='Watching it again.';
+      play(i,j,null);return;
+    }
+    document.getElementById('q').innerHTML='What is <span class="m">'+a+'</span> · <span class="m">'+b+'</span>?';
+    document.getElementById('hint').innerHTML='<span class="m">'+b+'</span> acts first, then <span class="m">'+a+'</span>. Pick your answer, or <button class="btn quiet" id="showme" type="button" style="padding:0;font-size:inherit;text-decoration:underline">just show me</button>.';
+    var ch=document.getElementById('choices');ch.innerHTML='';
+    G.els.forEach(function(e,idx){
+      var btn=document.createElement('button');btn.type='button';btn.className='choice';btn.innerHTML=e.html;
+      btn.addEventListener('click',function(){answer(i,j,idx);});ch.appendChild(btn);
+    });
+    document.getElementById('showme').addEventListener('click',function(){answer(i,j,null);});
+    placeAt([1,0,0,1],false);document.getElementById('steps').innerHTML='';document.getElementById('result').innerHTML='';
+    if(window.matchMedia('(max-width:920px)').matches) document.getElementById('ask').scrollIntoView({block:'nearest',behavior:reduce?'auto':'smooth'});
+  }
+  function answer(i,j,guess){
+    if(busy) return;
+    [].forEach.call(document.querySelectorAll('.choice'),function(b){b.disabled=true;});
+    play(i,j,function(v){
+      var a=G.els[i].html,b=G.els[j].html,res=G.els[v].html;
+      if(guess!==null){
+        stats.predicted++;
+        if(guess===v){stats.right++;document.getElementById('hint').innerHTML='Yes: <span class="m">'+a+'</span> · <span class="m">'+b+'</span> = <span class="m">'+res+'</span>.';}
+        else document.getElementById('hint').innerHTML='Not quite: <span class="m">'+a+'</span> · <span class="m">'+b+'</span> = <span class="m">'+res+'</span>, not <span class="m">'+G.els[guess].html+'</span>.';
+      } else document.getElementById('hint').innerHTML='<span class="m">'+a+'</span> · <span class="m">'+b+'</span> = <span class="m">'+res+'</span>.';
+      filled[cellKey(i,j)]=v;paintCell(cellEl(i,j),v,true);refresh();
+    });
+  }
+
+  /* ---------- the little board ---------- */
+  function el(tag,a,parent){var e=document.createElementNS(NS,tag);for(var k in a)e.setAttribute(k,a[k]);(parent||svg).appendChild(e);return e;}
+  var svg=document.getElementById('stage'),body,dots,nums,axisLine,sideTxt;
+  function pts(vs){return vs.map(function(v){return v[0].toFixed(4)+','+(-v[1]).toFixed(4);}).join(' ');}
+  function buildStage(){
+    svg.innerHTML='';
+    el('polygon',{points:pts(G.verts),'class':'foot'});
+    axisLine=el('line',{'class':'axis'});
+    body=el('polygon',{points:pts(G.verts),'class':'body'});
+    sideTxt=el('text',{x:0,y:0,'class':'side-txt'});
+    dots=[];nums=[];
+    G.verts.forEach(function(v,i){dots.push(el('circle',{r:.12,fill:VCOL[i%VCOL.length],'class':'vdot'}));var t=el('text',{'class':'vnum'});t.textContent=String(i+1);nums.push(t);});
+    placeAt([1,0,0,1],false);
+  }
+  function placeAt(M,back){
+    var w=G.verts.map(function(v){return ap(M,v);});
+    body.setAttribute('points',pts(w));
+    body.style.fill=back?'rgba(233,203,107,.24)':'rgba(238,237,230,.08)';
+    sideTxt.textContent=G.card?(back?'back':'front'):'';
+    w.forEach(function(p,i){dots[i].setAttribute('cx',p[0]);dots[i].setAttribute('cy',-p[1]);nums[i].setAttribute('x',p[0]);nums[i].setAttribute('y',-p[1]+.004);});
+  }
+  function showAxis(al){
+    if(al===null||al===undefined){axisLine.classList.remove('on');return;}
+    var L=1.5,x=Math.cos(al),y=Math.sin(al);
+    axisLine.setAttribute('x1',-L*x);axisLine.setAttribute('y1',L*y);axisLine.setAttribute('x2',L*x);axisLine.setAttribute('y2',-L*y);axisLine.classList.add('on');
+  }
+  function stepAnim(e,M0,back0,done){
+    var dur=reduce?0:(e.html==='e'?250:720),t0=null;
+    showAxis(e.axis);
+    if(!dur){placeAt(mm(e.M,M0),e.flip?!back0:back0);showAxis(null);done();return;}
+    function f(ts){
+      if(t0===null)t0=ts;var t=Math.min(1,(ts-t0)/dur),s=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+      placeAt(mm(e.path(s),M0),e.flip&&s>.5?!back0:back0);
+      if(t<1)requestAnimationFrame(f);else{showAxis(null);done();}
+    }
+    requestAnimationFrame(f);
+  }
+  function play(i,j,cb){
+    busy=true;setBusy(true);
+    var a=G.els[i],b=G.els[j],v=G.mul(i,j);
+    var steps=document.getElementById('steps'),res=document.getElementById('result');res.innerHTML='';
+    steps.innerHTML='<span id="st1">First <span class="m">'+b.html+'</span></span><span id="st2">then <span class="m">'+a.html+'</span></span>';
+    placeAt([1,0,0,1],false);
+    setTimeout(function(){
+      document.getElementById('st1').classList.add('on');
+      stepAnim(b,[1,0,0,1],false,function(){
+        document.getElementById('st1').classList.remove('on');document.getElementById('st2').classList.add('on');
+        setTimeout(function(){
+          stepAnim(a,b.M,b.flip,function(){
+            document.getElementById('st2').classList.remove('on');
+            res.innerHTML='<span class="m">'+a.html+'</span><span class="m">'+b.html+'</span> = <span class="m">'+G.els[v].html+'</span>';
+            busy=false;setBusy(false);if(cb)cb(v);
+          });
+        },reduce?0:220);
+      });
+    },reduce?0:150);
+  }
+  function setBusy(b){[].forEach.call(document.querySelectorAll('.btn,.cell,.pill'),function(x){x.disabled=b;});}
+
+  /* ---------- tasks ---------- */
+  function full(){return Object.keys(filled).length===N*N;}
+  function buildTasks(){
+    var selfInv=G.els.map(function(e,i){return G.mul(i,i)===0?i:-1;}).filter(function(i){return i>=0;});
+    tasks=[
+      {q:'Predict each entry before you check it, and fill the whole table.',done:full,
+       a:function(){return stats.predicted?'You predicted '+stats.right+' of '+stats.predicted+' entries correctly.':'Table complete.';}},
+      {q:'Look along any row. Can an element appear twice?',reveal:'No. If <span class="m">ab</span> = <span class="m">ac</span>, multiplying on the left by <span class="m">a</span><sup>−1</sup> gives <span class="m">b</span> = <span class="m">c</span>. So every row, and likewise every column, is a rearrangement of the whole group.'},
+      {q:'Where does <span class="m">e</span> appear? What does that tell you?',reveal:'Row <span class="m">a</span>, column <span class="m">b</span> holds <span class="m">e</span> exactly when <span class="m">b</span> = <span class="m">a</span><sup>−1</sup>, so each row has one <span class="m">e</span>. An <span class="m">e</span> on the diagonal marks an element that is its own inverse: here '+selfInv.map(function(i){return '<span class="m">'+G.els[i].html+'</span>';}).join(', ')+'.'},
+      {q:'Switch on “Compare <span class="m">ab</span> with <span class="m">ba</span>”. Is the table symmetric across its diagonal?',
+       done:function(){return full()&&document.getElementById('t-sym').checked;},
+       a:function(){return cur.abelian?'Yes. Every pair commutes, so '+cur.name+' is Abelian.':'No. For example <span class="m">rs</span> ≠ <span class="m">sr</span>, so '+cur.name+' is non-Abelian.';}}
+    ];
+    var ul=document.getElementById('tasks');ul.innerHTML='';
+    tasks.forEach(function(t,i){
+      var li=document.createElement('li');li.id='task'+i;
+      li.innerHTML='<span class="tick" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5"/></svg></span><div><p>'+t.q+'</p>'+
+        (t.reveal?'<details><summary>Show the answer</summary><p>'+t.reveal+'</p></details>':'<p class="ans" hidden></p>')+'</div>';
+      ul.appendChild(li);
+    });
+  }
+  function updateTasks(){
+    tasks.forEach(function(t,i){
+      if(!t.done) return;
+      var li=document.getElementById('task'+i);if(!li)return;var ok=!!t.done();
+      li.classList.toggle('done',ok);var a=li.querySelector('.ans');if(a){a.hidden=!ok;if(ok)a.innerHTML=t.a();}
+    });
+  }
+
+  /* ---------- comparison of the two groups of order four ---------- */
+  function staticTable(g){
+    var h='<table class="mt"><thead><tr><th class="corner"></th>';
+    g.els.forEach(function(e){h+='<th class="hd" scope="col">'+e.html+'</th>';});
+    h+='</tr></thead><tbody>';
+    for(var i=0;i<g.els.length;i++){
+      h+='<tr><th class="hd" scope="row">'+g.els[i].html+'</th>';
+      for(var j=0;j<g.els.length;j++){var v=g.mul(i,j);h+='<td><span class="cell'+(i===j?' dg':'')+'" data-v="'+v+'" style="line-height:44px;text-align:center">'+g.els[v].html+'</span></td>';}
+      h+='</tr>';
+    }
+    return h+'</tbody></table>';
+  }
+  function buildCompare(){
+    var c=document.getElementById('compare');
+    c.innerHTML='<div><h3><span class="m">Z</span><sub>4</sub>, turns of a square</h3>'+staticTable(GROUPS.Z4.g)+'</div><div><h3>The cuboid group</h3>'+staticTable(GROUPS.D2.g)+'</div>';
+    paintCompare();
+  }
+  function paintCompare(){
+    var color=document.getElementById('t-color').checked;
+    [].forEach.call(document.querySelectorAll('#compare .cell'),function(c){var v=+c.dataset.v;c.style.backgroundColor=color&&HUES[v]?mix(HUES[v]):'';});
+    document.getElementById('compare').classList.toggle('diag-on',document.getElementById('t-diag').checked);
+  }
+
+  /* ---------- wiring ---------- */
+  var gp=document.getElementById('groups');
+  ORDER.forEach(function(id){var b=document.createElement('button');b.type='button';b.className='pill';b.dataset.id=id;b.innerHTML=GROUPS[id].pill;b.addEventListener('click',function(){if(!busy)setGroup(id);});gp.appendChild(b);});
+  document.getElementById('table').addEventListener('click',function(e){var c=e.target.closest('.cell');if(c)select(+c.dataset.i,+c.dataset.j);});
+  document.getElementById('next').addEventListener('click',function(){
+    if(busy)return;
+    var start=sel?sel[0]*N+sel[1]:-1;
+    for(var s=1;s<=N*N;s++){var q=(start+s+N*N)%(N*N),i=Math.floor(q/N),j=q%N;if(filled[cellKey(i,j)]===undefined){select(i,j);cellEl(i,j).focus({preventScroll:true});return;}}
+  });
+  document.getElementById('fill').addEventListener('click',function(){
+    if(busy)return;
+    for(var i=0;i<N;i++)for(var j=0;j<N;j++){var k=cellKey(i,j);if(filled[k]===undefined){filled[k]=G.mul(i,j);paintCell(cellEl(i,j),filled[k],false);}}
+    sel=null;resetAsk();refresh();
+  });
+  document.getElementById('clear').addEventListener('click',function(){if(!busy){var id=ORDER.filter(function(k){return GROUPS[k]===cur;})[0];setGroup(id);}});
+  document.getElementById('t-color').addEventListener('change',function(){refresh();paintCompare();});
+  document.getElementById('t-sym').addEventListener('change',function(){refresh();});
+  document.getElementById('t-diag').addEventListener('change',paintCompare);
+  buildCompare();
+  setGroup('D3');
+})();
+</script>
+</body>
+</html>

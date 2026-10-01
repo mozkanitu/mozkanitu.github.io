@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Same group, different clothes – Theory of Groups in Physics</title>
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<script src="../../assets/analytics.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F8F5; --ink:#1E2723; --muted:#56635C; --rule:#DCE1DC; --link:#2A6650; --bad:#B5503F;
+  --board:#2C463B; --chalk:#EEEDE6; --chalk-dim:rgba(238,237,230,.68); --chalk-faint:rgba(238,237,230,.28);
+  --yellow:#E9CB6B; --warn:#E89A8E; --cell:#FFFFFF;
+  --tray-1:#CFD3D5; --tray-2:#9FA5A9; --tray-3:#7E8488;
+  --serif:"STIX Two Text","Iowan Old Style","Palatino Linotype","Times New Roman",serif;
+  --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:light; box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  background:var(--board);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--paper:#131916;--ink:#E3E6E1;--muted:#9CA79F;--rule:#2C3631;--link:#8FCBB1;--bad:#E89A8E;--board:#223a2f;--cell:#1A221E;--tray-1:#737a7e;--tray-2:#50575b;--tray-3:#3a4043;color-scheme:dark}
+}
+:root[data-theme="dark"]{--paper:#131916;--ink:#E3E6E1;--muted:#9CA79F;--rule:#2C3631;--link:#8FCBB1;--bad:#E89A8E;--board:#223a2f;--cell:#1A221E;--tray-1:#737a7e;--tray-2:#50575b;--tray-3:#3a4043;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:1.075rem;line-height:1.55}
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(16px,4vw,40px)}
+:focus-visible{outline:2px solid var(--link);outline-offset:2px;border-radius:3px}
+.board{background-color:var(--board);background-image:radial-gradient(110% 80% at 15% 18%,rgba(255,255,255,.06),transparent 60%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 .075 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");color:var(--chalk)}
+.board :focus-visible{outline-color:var(--yellow)}
+.m{font-family:var(--serif);font-style:italic}
+.top{padding-block:22px 30px}
+.crumb{margin:0 0 10px;font-family:var(--sans);font-size:.95rem;color:var(--chalk-dim)}
+.crumb a{color:var(--chalk);text-decoration-color:var(--yellow);text-underline-offset:4px}
+.top h1{margin:0;font-weight:500;font-size:clamp(2.2rem,1.4rem + 3vw,3.4rem);line-height:1.05;letter-spacing:-.01em}
+.top .sub{margin:.45em 0 0;font-size:1.15rem;color:var(--chalk-dim);max-width:38em}
+.tray{height:12px;background:linear-gradient(to bottom,var(--tray-1),var(--tray-2) 55%,var(--tray-3));box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 4px 8px -3px rgba(0,0,0,.3)}
+
+.tabs{display:flex;flex-wrap:wrap;gap:8px;padding-top:24px}
+.tab{font:500 .97rem/1 var(--sans);padding:11px 16px;border-radius:999px;border:1px solid var(--rule);background:transparent;color:var(--ink);cursor:pointer}
+.tab:hover{border-color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--board);border-color:var(--board);color:var(--chalk)}
+.panel{padding-block:24px 64px}
+.panel[hidden]{display:none}
+.intro{max-width:44em;margin:0 0 22px}
+.two{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px clamp(24px,4vw,52px);align-items:start}
+@media (max-width:920px){.two{grid-template-columns:minmax(0,1fr)}}
+h2.h{margin:0 0 8px;font-family:var(--sans);font-size:.95rem;font-weight:600;color:var(--muted)}
+.btn{font:500 .93rem/1 var(--sans);padding:10px 14px;border-radius:8px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--link)}
+.btn.primary{background:var(--board);border-color:var(--board);color:var(--chalk)}
+.btn.quiet{border-color:transparent;color:var(--muted);padding-inline:8px}
+.btn:disabled{opacity:.45;cursor:default}
+.btn .m{font-size:1.1rem}
+.row{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:12px}
+.row-label{font-family:var(--sans);font-size:.92rem;color:var(--muted);margin-right:2px}
+.status{margin:14px 0 0;font-family:var(--sans);font-size:.98rem;min-height:1.4em;color:var(--muted)}
+.status.good{color:var(--link);font-weight:600}
+.status.bad{color:var(--bad)}
+.toggle{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:.93rem;cursor:pointer}
+.toggle input{width:18px;height:18px;accent-color:var(--link)}
+
+/* composer */
+.stage{position:relative;border-radius:8px;overflow:hidden}
+.stage svg{display:block;width:100%;height:auto}
+.slot{fill:none;stroke:var(--chalk);stroke-opacity:.38;stroke-width:2;stroke-dasharray:6 5}
+.slotnum{font:500 15px var(--sans);fill:var(--chalk-dim);text-anchor:middle}
+.bead{stroke:rgba(0,0,0,.25);stroke-width:1.2}
+.beadnum{font:600 22px var(--sans);fill:#1d2b25;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.expr{position:absolute;left:18px;top:12px;font:italic 1.9rem/1.1 var(--serif);color:var(--chalk);display:flex;flex-wrap:wrap;align-items:baseline;gap:0}
+.expr .f{padding:0 1px;border-radius:4px;transition:color .2s,background .2s}
+.expr .f.on{color:#1d2b25;background:var(--yellow)}
+.expr .eq{font-style:normal;color:var(--chalk-dim);margin:0 .3em}
+.expr .ph{font:400 1rem var(--sans);color:var(--chalk-dim);font-style:normal;align-self:center}
+.track{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:1.15rem}
+.track li{display:flex;align-items:center;flex-wrap:wrap;gap:4px}
+.arr{display:inline-flex;flex-direction:column;align-items:center;font-size:.8rem;line-height:1;margin:0 4px;color:var(--muted);font-family:var(--serif);font-style:italic}
+.arr::after{content:"⟶";font-style:normal;font-size:1.1rem;line-height:1}
+.lbl{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;font:600 .95rem var(--sans);color:#1d2b25}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choice{min-width:52px;padding:9px 12px;border-radius:6px;border:1px solid var(--rule);background:var(--cell);color:var(--ink);font:italic 1.12rem/1 var(--serif);cursor:pointer}
+.choice:hover{border-color:var(--link)}
+.choice[aria-pressed="true"]{border-color:var(--board);box-shadow:inset 0 0 0 2px var(--board)}
+.side{display:grid;gap:22px}
+
+/* tasks */
+.tasks{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.tasks li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start}
+.tick{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--rule);margin-top:.2em;display:grid;place-items:center}
+.tick svg{width:12px;height:12px;stroke:var(--chalk);stroke-width:2.4;fill:none;opacity:0}
+.tasks li.done .tick{background:var(--link);border-color:var(--link)}
+.tasks li.done .tick svg{opacity:1}
+.tasks p{margin:0}
+.tasks .ans{margin-top:.35em;font-size:1rem;color:var(--link)}
+.tasks details{margin-top:.35em;font-family:var(--sans);font-size:.92rem;color:var(--muted)}
+.tasks summary{cursor:pointer}
+.tasks details p{font-family:var(--serif);font-size:1rem;color:var(--ink);margin-top:.35em}
+
+/* matcher */
+.match{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px clamp(16px,3vw,36px)}
+.colh{margin:0 0 10px;font-family:var(--sans);font-size:.95rem;font-weight:600;color:var(--muted)}
+.tiles{display:grid;gap:8px}
+.tile{display:grid;grid-template-columns:62px 1fr auto;align-items:center;gap:10px;width:100%;text-align:left;padding:6px 10px 6px 6px;border-radius:8px;border:1px solid var(--rule);background:var(--cell);color:var(--ink);cursor:pointer;font:inherit}
+.tile:hover{border-color:var(--muted)}
+.tile.sel{outline:3px solid var(--yellow);outline-offset:-1px;border-color:transparent}
+.tile .ic{width:62px;height:52px;border-radius:6px;display:block}
+.tile .nm{font:italic 1.25rem/1 var(--serif)}
+.tile .ord{display:block;font:400 .82rem var(--sans);color:var(--muted);font-style:normal;margin-top:4px}
+.tile .pair{font:italic 1.05rem/1 var(--serif);padding:6px 9px;border-radius:5px;min-width:44px;text-align:center}
+.tile .pair:empty{display:none}
+.tile.badpair{box-shadow:inset 0 0 0 2px var(--bad)}
+.hideord .ord{display:none}
+.result-box{margin-top:6px}
+.icdot{stroke:rgba(0,0,0,.25);stroke-width:.6}
+.icnum{font:600 7.5px var(--sans);fill:#1d2b25;text-anchor:middle;dominant-baseline:central}
+
+/* Z3 three ways */
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:760px){.three{grid-template-columns:minmax(0,1fr)}}
+.three figure{margin:0}
+.three .stage{aspect-ratio:1/1}
+.three figcaption{margin-top:10px;font-family:var(--sans);font-size:.95rem;color:var(--muted)}
+.three .now{position:absolute;left:14px;top:10px;font:italic 1.7rem/1 var(--serif);color:var(--chalk)}
+.law{margin:18px 0 0;font-size:1.2rem}
+@media (prefers-reduced-motion: reduce){.expr .f{transition:none}}
+</style>
+</head>
+<body>
+<header class="board">
+  <div class="wrap top">
+    <p class="crumb"><a href="./">Theory of Groups in Physics</a>, Week 1</p>
+    <h1>Same group, different clothes</h1>
+    <p class="sub">Compose permutations, then match the triangle’s symmetries with them. Two descriptions are the same group when their products agree.</p>
+  </div>
+</header>
+<div class="tray" aria-hidden="true"></div>
+
+<main class="wrap">
+  <div class="tabs" role="tablist" aria-label="Parts of this simulation">
+    <button class="tab" role="tab" id="tab-compose" aria-controls="p-compose" aria-selected="true">Composing permutations</button>
+    <button class="tab" role="tab" id="tab-match" aria-controls="p-match" aria-selected="false"><span class="m">D</span><sub>3</sub> and <span class="m">S</span><sub>3</sub></button>
+    <button class="tab" role="tab" id="tab-z3" aria-controls="p-z3" aria-selected="false"><span class="m">Z</span><sub>3</sub> three ways</button>
+    <button class="tab" role="tab" id="tab-z4" aria-controls="p-z4" aria-selected="false"><span class="m">Z</span><sub>4</sub> and the cuboid</button>
+  </div>
+
+  <!-- composing permutations -->
+  <section class="panel" id="p-compose" role="tabpanel" aria-labelledby="tab-compose">
+    <p class="intro">Three numbered beads sit in three slots. A permutation moves the bead in slot <span class="m">i</span> to slot <span class="m">σ</span>(<span class="m">i</span>), so (123) sends slot 1 to slot 2, slot 2 to slot 3 and slot 3 to slot 1. A product is read from right to left: in (12)(23), the factor (23) acts first.</p>
+    <div class="two">
+      <div>
+        <div class="stage board">
+          <svg id="beads" viewBox="0 0 420 220" role="img" aria-label="Three beads in three slots"></svg>
+          <div class="expr" id="expr" aria-live="polite"></div>
+        </div>
+        <div class="row"><span class="row-label">Add a factor</span><span id="palette" style="display:contents"></span></div>
+        <div class="row">
+          <button class="btn primary" id="apply" type="button">Apply the product</button>
+          <button class="btn quiet" id="back" type="button">Remove last factor</button>
+          <button class="btn quiet" id="clearx" type="button">Clear</button>
+        </div>
+        <div class="row"><span class="row-label">From the slides</span><span id="presets" style="display:contents"></span></div>
+      </div>
+      <div class="side">
+        <section>
+          <h2 class="h">Predict the product (optional)</h2>
+          <div class="choices" id="pchoices"></div>
+          <p class="status" id="pstatus"></p>
+        </section>
+        <section>
+          <h2 class="h">Follow each bead</h2>
+          <ul class="track" id="track"></ul>
+        </section>
+        <section>
+          <h2 class="h">Try this</h2>
+          <ul class="tasks" id="ctasks"></ul>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- D3 and S3 -->
+  <section class="panel" id="p-match" role="tabpanel" aria-labelledby="tab-match" hidden>
+    <p class="intro">Match each symmetry of the triangle with a permutation of three beads. Tap a symmetry, then tap its partner. The matching is an isomorphism when every product agrees: the partner of <span class="m">ab</span> must be the partner of <span class="m">a</span> times the partner of <span class="m">b</span>.</p>
+    <div id="m1"></div>
+  </section>
+
+  <!-- Z3 three ways -->
+  <section class="panel" id="p-z3" role="tabpanel" aria-labelledby="tab-z3" hidden>
+    <p class="intro">The same three-element group, dressed three ways: turns of a triangle, the cube roots of unity under multiplication, and the numbers 0, 1, 2 added modulo 3. One button acts on all three at once.</p>
+    <div class="three">
+      <figure><div class="stage board"><svg id="z3a" viewBox="-1.4 -1.4 2.8 2.8"></svg><span class="now" id="z3a-now">e</span></div><figcaption>Turns of a triangle</figcaption></figure>
+      <figure><div class="stage board"><svg id="z3b" viewBox="-1.4 -1.4 2.8 2.8"></svg><span class="now" id="z3b-now">1</span></div><figcaption>Multiplying by <span class="m">ω</span> = <span class="m">e</span><sup>2π<span class="m">i</span>/3</sup></figcaption></figure>
+      <figure><div class="stage board"><svg id="z3c" viewBox="-1.4 -1.4 2.8 2.8"></svg><span class="now" id="z3c-now">0</span></div><figcaption>Adding modulo 3</figcaption></figure>
+    </div>
+    <div class="row">
+      <button class="btn primary" id="z3-step" type="button">Apply <span class="m">r</span>, <span class="m">ω</span>, +1</button>
+      <button class="btn" id="z3-step2" type="button">Apply <span class="m">r</span><sup>2</sup>, <span class="m">ω</span><sup>2</sup>, +2</button>
+      <button class="btn quiet" id="z3-reset" type="button">Reset</button>
+    </div>
+    <p class="law" id="z3-law"></p>
+  </section>
+
+  <!-- Z4 and cuboid -->
+  <section class="panel" id="p-z4" role="tabpanel" aria-labelledby="tab-z4" hidden>
+    <p class="intro">Both groups have four elements. Try to match the turns of a square with the half-turns of a box, so that every product agrees.</p>
+    <div id="m2"></div>
+  </section>
+</main>
+
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg',PI=Math.PI;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var COL=['#E9CB6B','#EDA4B8','#9CCAEA','#A9DBA2'];
+  var PAIRC=['#E2B93B','#D9739A','#5FA8D3','#6FB86A','#E58F4A','#9C86D6'];
+  function rgba(hex,a){return 'rgba('+parseInt(hex.slice(1,3),16)+','+parseInt(hex.slice(3,5),16)+','+parseInt(hex.slice(5,7),16)+','+a+')';}
+  function el(tag,a,parent){var e=document.createElementNS(NS,tag);for(var k in a)e.setAttribute(k,a[k]);if(parent)parent.appendChild(e);return e;}
+
+  /* ---------- permutations of {1,2,3}; p[i] is the image of i (0-indexed) ---------- */
+  function comp(s,t){return t.map(function(x){return s[x];});}      // s∘t : t acts first
+  function cyc(p){var seen=[],out='';for(var i=0;i<p.length;i++){if(seen[i]||p[i]===i){seen[i]=true;continue;}var c=[],j=i;while(!seen[j]){seen[j]=true;c.push(j+1);j=p[j];}out+='('+c.join('')+')';}return out||'e';}
+  function eq(a,b){return a.join()===b.join();}
+  var S3=[[0,1,2],[1,2,0],[2,0,1],[1,0,2],[2,1,0],[0,2,1]]; // e,(123),(132),(12),(13),(23)
+  var PAL=[[1,0,2],[2,1,0],[0,2,1],[1,2,0],[2,0,1]];         // (12),(13),(23),(123),(132)
+  function cycHTML(p){var c=cyc(p);return c==='e'?'<span class="m">e</span>':c;}
+
+  /* ---------- tabs ---------- */
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(u){u.setAttribute('aria-selected',String(u===t));document.getElementById(u.getAttribute('aria-controls')).hidden=u!==t;});
+  });});
+
+  /* ======================================================================
+     Part 1: composing permutations with beads
+     ====================================================================== */
+  var bsvg=document.getElementById('beads'),SX=[90,210,330],SY=130,beads=[],factors=[],busy=false,pred=null,history={};
+  (function(){
+    for(var i=0;i<3;i++){el('circle',{cx:SX[i],cy:SY,r:34,'class':'slot'},bsvg);var t=el('text',{x:SX[i],y:SY+62,'class':'slotnum'},bsvg);t.textContent='slot '+(i+1);}
+    for(var b=0;b<3;b++){var g=el('g',{},bsvg);el('circle',{r:27,fill:COL[b],'class':'bead'},g);var n=el('text',{'class':'beadnum'},g);n.textContent=String(b+1);beads.push({g:g,slot:b});}
+    placeBeads();
+  })();
+  function placeBeads(){beads.forEach(function(b){b.g.setAttribute('transform','translate('+SX[b.slot]+','+SY+')');});}
+  function exprHTML(active,result){
+    if(!factors.length) return '<span class="ph">Add factors below, for example (12) and then (23).</span>';
+    var h=factors.map(function(f,i){return '<span class="f'+(i===active?' on':'')+'">'+cyc(f)+'</span>';}).join('');
+    if(result) h+='<span class="eq">=</span>'+cycHTML(result);
+    return h;
+  }
+  function renderExpr(active,result){document.getElementById('expr').innerHTML=exprHTML(active,result);}
+  function product(){var p=[0,1,2];for(var i=0;i<factors.length;i++)p=comp(p,factors[i]);return p;} // f1 f2 ... fm, fm first
+  function renderTrack(upto){
+    // upto = number of factors already applied (from the right)
+    var ul=document.getElementById('track');
+    if(!factors.length){ul.innerHTML='<li style="font-family:var(--sans);font-size:.95rem;color:var(--muted)">Each bead’s journey appears here as the factors act.</li>';return;}
+    var html='';
+    for(var b=0;b<3;b++){
+      var s=b,line='<span class="lbl" style="background:'+COL[b]+'">'+(b+1)+'</span>';
+      for(var k=0;k<upto;k++){var f=factors[factors.length-1-k];s=f[s];line+='<span class="arr">'+cyc(f)+'</span><span>'+(s+1)+'</span>';}
+      html+='<li aria-label="Bead '+(b+1)+'">'+line+'</li>';
+    }
+    ul.innerHTML=html;
+  }
+  function buildPalette(){
+    var pal=document.getElementById('palette');
+    PAL.forEach(function(p){var b=document.createElement('button');b.type='button';b.className='btn';b.innerHTML=cyc(p);b.addEventListener('click',function(){if(busy||factors.length>=5)return;factors.push(p);resetBoard();});pal.appendChild(b);});
+    var pre=document.getElementById('presets');
+    [[[1,0,2],[0,2,1]],[[0,2,1],[1,0,2]],[[1,2,0],[0,2,1]]].forEach(function(fs){
+      var b=document.createElement('button');b.type='button';b.className='btn';b.innerHTML=fs.map(cyc).join('');
+      b.addEventListener('click',function(){if(busy)return;factors=fs.slice();resetBoard();});pre.appendChild(b);
+    });
+    var pc=document.getElementById('pchoices');
+    S3.forEach(function(p,i){var b=document.createElement('button');b.type='button';b.className='choice';b.innerHTML=cycHTML(p);b.setAttribute('aria-pressed','false');
+      b.addEventListener('click',function(){pred=pred===i?null:i;[].forEach.call(pc.children,function(c,j){c.setAttribute('aria-pressed',String(j===pred));});});pc.appendChild(b);});
+  }
+  function resetBoard(){
+    beads.forEach(function(b,i){b.slot=i;});placeBeads();renderExpr(-1,null);renderTrack(0);
+    pred=null;[].forEach.call(document.getElementById('pchoices').children,function(c){c.setAttribute('aria-pressed','false');});
+    document.getElementById('pstatus').textContent='';document.getElementById('pstatus').className='status';
+    document.getElementById('apply').disabled=!factors.length;document.getElementById('back').disabled=!factors.length;
+  }
+  function moveBeads(f,done){
+    var from=beads.map(function(b){return b.slot;}),to=from.map(function(s){return f[s];}),dur=reduce?0:700,t0=null;
+    if(!dur){beads.forEach(function(b,i){b.slot=to[i];});placeBeads();done();return;}
+    function step(ts){
+      if(t0===null)t0=ts;var t=Math.min(1,(ts-t0)/dur),e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+      beads.forEach(function(b,i){
+        var x0=SX[from[i]],x1=SX[to[i]],x=x0+(x1-x0)*e,h=Math.abs(x1-x0)*.22*(x1>x0?-1:1),y=SY+h*Math.sin(PI*e);
+        b.g.setAttribute('transform','translate('+x+','+y+')');
+      });
+      if(t<1)requestAnimationFrame(step);else{beads.forEach(function(b,i){b.slot=to[i];});placeBeads();done();}
+    }
+    requestAnimationFrame(step);
+  }
+  function apply(){
+    if(busy||!factors.length)return;busy=true;setBusyC(true);
+    beads.forEach(function(b,i){b.slot=i;});placeBeads();
+    var k=0;
+    (function next(){
+      if(k===factors.length){
+        var p=product();renderExpr(-1,p);
+        var key=factors.map(cyc).join('');history[key]=p;
+        var st=document.getElementById('pstatus');
+        if(pred!==null){if(eq(S3[pred],p)){st.innerHTML='Yes: the product is '+cycHTML(p)+'.';st.className='status good';}else{st.innerHTML='Not quite: the product is '+cycHTML(p)+', not '+cycHTML(S3[pred])+'.';st.className='status bad';}}
+        else{st.innerHTML='The product is '+cycHTML(p)+'.';st.className='status';}
+        busy=false;setBusyC(false);updateCTasks();return;
+      }
+      var idx=factors.length-1-k;renderExpr(idx,null);
+      setTimeout(function(){moveBeads(factors[idx],function(){k++;renderTrack(k);setTimeout(next,reduce?0:260);});},reduce?0:200);
+    })();
+  }
+  function setBusyC(b){[].forEach.call(document.querySelectorAll('#p-compose .btn,#p-compose .choice'),function(x){x.disabled=b;});if(!b){document.getElementById('apply').disabled=!factors.length;document.getElementById('back').disabled=!factors.length;}}
+  document.getElementById('apply').addEventListener('click',apply);
+  document.getElementById('back').addEventListener('click',function(){if(!busy){factors.pop();resetBoard();}});
+  document.getElementById('clearx').addEventListener('click',function(){if(!busy){factors=[];resetBoard();}});
+
+  var CT=[
+    {q:'Compute (12)(23) and (23)(12). Are they equal?',done:function(){return history['(12)(23)']&&history['(23)(12)'];},
+     a:'(12)(23) = (123), but (23)(12) = (132). Permutations need not commute.'},
+    {q:'Write (123) as a product of two transpositions.',done:function(){return Object.keys(history).some(function(k){var m=k.match(/\(\d\d\)/g);return m&&m.length===2&&m.join('')===k&&cyc(history[k])==='(123)';});},
+     a:'For example (123) = (12)(23). The products (13)(12) and (23)(13) also give (123).'},
+    {q:'Apply a transposition twice, and a three-cycle three times. What do you get?',done:function(){return Object.keys(history).some(function(k){return /^(\(\d\d\))\1$/.test(k);})&&Object.keys(history).some(function(k){return /^(\(\d\d\d\))\1\1$/.test(k);});},
+     a:'Both give <span class="m">e</span>: a transposition has order 2, a three-cycle order 3.'}
+  ];
+  function buildCTasks(){
+    var ul=document.getElementById('ctasks');
+    ul.innerHTML=CT.map(function(t,i){return '<li id="ct'+i+'"><span class="tick" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5"/></svg></span><div><p>'+t.q+'</p><p class="ans" hidden></p></div></li>';}).join('');
+  }
+  function updateCTasks(){CT.forEach(function(t,i){var li=document.getElementById('ct'+i),ok=!!t.done();li.classList.toggle('done',ok);var a=li.querySelector('.ans');a.hidden=!ok;if(ok)a.innerHTML=t.a;});}
+  buildPalette();buildCTasks();resetBoard();
+
+  /* ======================================================================
+     Small icons
+     ====================================================================== */
+  function polyV(n,R){var v=[],p0=3*PI/2-PI/n;for(var i=0;i<n;i++)v.push([R*Math.cos(p0+2*PI*i/n),R*Math.sin(p0+2*PI*i/n)]);return v;}
+  function iconPoly(n,perm,opts){
+    opts=opts||{};
+    var s=el('svg',{viewBox:'-31 -26 62 52','class':'ic'});s.style.background='var(--board)';
+    var V=opts.verts||polyV(n,n===3?19:17);
+    var pts=V.map(function(v){return v[0].toFixed(1)+','+(-v[1]).toFixed(1);}).join(' ');
+    var poly=el('polygon',{points:pts,fill:opts.back?'rgba(233,203,107,.28)':'rgba(238,237,230,.08)',stroke:'rgba(238,237,230,.85)','stroke-width':1.2},s);
+    for(var i=0;i<V.length;i++){var p=V[perm[i]];el('circle',{cx:p[0],cy:-p[1],r:5.6,fill:COL[i],'class':'icdot'},s);var t=el('text',{x:p[0],y:-p[1]+.3,'class':'icnum'},s);t.textContent=String(i+1);}
+    return s;
+  }
+  function iconBeads(perm){
+    var s=el('svg',{viewBox:'0 0 62 52','class':'ic'});s.style.background='var(--board)';
+    var X=[12,31,50];
+    for(var i=0;i<3;i++)el('circle',{cx:X[i],cy:24,r:8.4,fill:'none',stroke:'rgba(238,237,230,.35)','stroke-dasharray':'2 2'},s);
+    for(var b=0;b<3;b++){var x=X[perm[b]];el('circle',{cx:x,cy:24,r:7.4,fill:COL[b],'class':'icdot'},s);var t=el('text',{x:x,y:24.3,'class':'icnum'},s);t.textContent=String(b+1);}
+    for(var k=0;k<3;k++){var tt=el('text',{x:X[k],y:44,'text-anchor':'middle',style:'font:500 6.5px var(--sans);fill:rgba(238,237,230,.6)'},s);tt.textContent=String(k+1);}
+    return s;
+  }
+
+  /* ======================================================================
+     Groups for matching
+     ====================================================================== */
+  function d3(){
+    var els=[];[[0,0],[1,0],[2,0],[0,1],[1,1],[2,1]].forEach(function(e){
+      var k=e[0],f=e[1],perm=[0,1,2].map(function(i){return f?((k-i)%3+3)%3:(i+k)%3;});
+      els.push({html:(!k&&!f)?'e':(k?'r'+(k>1?'<sup>'+k+'</sup>':''):'')+(f?'s':''),k:k,f:f,perm:perm,icon:function(){return iconPoly(3,perm);}});
+    });
+    return {title:'Symmetries of the triangle',els:els,mul:function(i,j){var a=els[i],b=els[j],k=((a.k+(a.f?-b.k:b.k))%3+3)%3,f=a.f^b.f;return els.findIndex(function(x){return x.k===k&&x.f===f;});}};
+  }
+  function s3(){
+    var order=[4,0,1,5,2,3];  // shown shuffled so the matching is a puzzle
+    var els=order.map(function(i){var p=S3[i];return {html:cycHTML(p),perm:p,icon:function(){return iconBeads(p);}};});
+    return {title:'Permutations of three beads',els:els,mul:function(i,j){var p=comp(els[i].perm,els[j].perm);return els.findIndex(function(x){return eq(x.perm,p);});}};
+  }
+  function z4(){
+    var els=[0,1,2,3].map(function(k){var perm=[0,1,2,3].map(function(i){return (i+k)%4;});return {html:k?'r'+(k>1?'<sup>'+k+'</sup>':''):'e',k:k,perm:perm,icon:function(){return iconPoly(4,perm);}};});
+    return {title:'Turns of a square',els:els,mul:function(i,j){return (i+j)%4;}};
+  }
+  function cub(){
+    var V=[[-24,-13],[24,-13],[24,13],[-24,13]];
+    var spec=[['e',[0,0],[0,1,2,3],false],['a',[1,0],[3,2,1,0],true],['b',[0,1],[1,0,3,2],true],['ab',[1,1],[2,3,0,1],false]];
+    var els=spec.map(function(s){return {html:s[0],bits:s[1],perm:s[2],icon:function(){return iconPoly(4,s[2],{verts:V,back:s[3]});}};});
+    return {title:'Half-turns of a box (shaded: back face showing)',els:els,mul:function(i,j){var a=els[i].bits,b=els[j].bits;return els.findIndex(function(x){return x.bits[0]===(a[0]^b[0])&&x.bits[1]===(a[1]^b[1]);});}};
+  }
+  function idOf(G){for(var e=0;e<G.els.length;e++){var ok=true;for(var x=0;x<G.els.length;x++)if(G.mul(e,x)!==x){ok=false;break;}if(ok)return e;}return 0;}
+  function orderOf(G,i){var e=idOf(G),p=i,n=1;while(p!==e){p=G.mul(p,i);n++;if(n>12)break;}return n;}
+
+  /* ======================================================================
+     Matcher component
+     ====================================================================== */
+  function Matcher(root,G,H,opts){
+    var phi=new Array(G.els.length).fill(-1),selL=null,found={},checks=0;
+    var wrap=document.createElement('div');
+    wrap.innerHTML='<div class="match hideord"><div><p class="colh">'+G.title+'</p><div class="tiles" data-side="L"></div></div><div><p class="colh">'+H.title+'</p><div class="tiles" data-side="R"></div></div></div>'+
+      '<div class="row"><button class="btn primary" type="button" data-a="check">Check every product</button>'+(opts.standard?'<button class="btn" type="button" data-a="std">'+opts.standardLabel+'</button>':'')+
+      '<button class="btn quiet" type="button" data-a="clear">Clear</button><label class="toggle"><input type="checkbox" data-a="ord"> Show element orders</label></div>'+
+      '<p class="status result-box" aria-live="polite"></p><h2 class="h" style="margin-top:26px">Try this</h2><ul class="tasks"></ul>';
+    root.appendChild(wrap);
+    var L=wrap.querySelector('[data-side=L]'),R=wrap.querySelector('[data-side=R]'),st=wrap.querySelector('.status'),match=wrap.querySelector('.match');
+    function tile(e,side,i,ord){
+      var b=document.createElement('button');b.type='button';b.className='tile';b.dataset.i=i;
+      b.appendChild(e.icon());
+      var nm=document.createElement('span');nm.innerHTML='<span class="nm">'+e.html+'</span><span class="ord">order '+ord+'</span>';b.appendChild(nm);
+      var pr=document.createElement('span');pr.className='pair';b.appendChild(pr);
+      b.addEventListener('click',function(){side==='L'?pickL(i):pickR(i);});
+      return b;
+    }
+    G.els.forEach(function(e,i){L.appendChild(tile(e,'L',i,orderOf(G,i)));});
+    H.els.forEach(function(e,i){R.appendChild(tile(e,'R',i,orderOf(H,i)));});
+    function pickL(i){selL=i;render();}
+    function pickR(j){
+      if(selL===null){st.textContent='Tap a '+(opts.leftNoun||'symmetry')+' on the left first.';st.className='status result-box';return;}
+      for(var k=0;k<phi.length;k++)if(phi[k]===j)phi[k]=-1;
+      phi[selL]=j;
+      var nxt=phi.indexOf(-1);selL=nxt>=0?nxt:null;
+      st.textContent='';render();
+    }
+    function render(){
+      [].forEach.call(L.children,function(t,i){
+        t.classList.toggle('sel',selL===i);t.classList.remove('badpair');
+        var pr=t.querySelector('.pair');
+        if(phi[i]>=0){pr.innerHTML=H.els[phi[i]].html;pr.style.background=rgba(PAIRC[i%PAIRC.length],.32);}else{pr.innerHTML='';pr.style.background='';}
+      });
+      [].forEach.call(R.children,function(t,j){
+        var i=phi.indexOf(j),pr=t.querySelector('.pair');t.classList.remove('badpair');
+        if(i>=0){pr.innerHTML=G.els[i].html;pr.style.background=rgba(PAIRC[i%PAIRC.length],.32);}else{pr.innerHTML='';pr.style.background='';}
+      });
+      wrap.querySelector('[data-a=check]').disabled=phi.indexOf(-1)>=0;
+    }
+    function check(){
+      checks++;
+      var n=G.els.length,ok=0,first=null;
+      for(var a=0;a<n;a++)for(var b=0;b<n;b++){
+        var lhs=phi[G.mul(a,b)],rhs=H.mul(phi[a],phi[b]);
+        if(lhs===rhs)ok++;else if(!first)first=[a,b,G.mul(a,b),lhs,rhs];
+      }
+      if(!first){
+        found[phi.join()]=true;
+        st.innerHTML='All '+(n*n)+' products agree. This matching is an isomorphism.';st.className='status result-box good';
+      } else {
+        var a=first[0],b=first[1];
+        st.innerHTML=ok+' of '+(n*n)+' products agree. For example, <span class="m">'+G.els[a].html+'</span> · <span class="m">'+G.els[b].html+'</span> = <span class="m">'+G.els[first[2]].html+'</span>, so its partner should be '+
+          H.els[phi[a]].html+' · '+H.els[phi[b]].html+' = '+H.els[first[4]].html+'. You matched it with '+H.els[first[3]].html+'.';
+        st.className='status result-box bad';
+        L.children[first[2]].classList.add('badpair');R.children[first[3]].classList.add('badpair');
+      }
+      updateTasks();
+    }
+    wrap.querySelector('[data-a=check]').addEventListener('click',check);
+    if(opts.standard)wrap.querySelector('[data-a=std]').addEventListener('click',function(){phi=opts.standard.slice();selL=null;render();st.textContent='';});
+    wrap.querySelector('[data-a=clear]').addEventListener('click',function(){phi.fill(-1);selL=0;render();st.textContent='';});
+    wrap.querySelector('[data-a=ord]').addEventListener('change',function(e){match.classList.toggle('hideord',!e.target.checked);});
+    var tasks=opts.tasks(function(){return {found:found,checks:checks,standard:opts.standard};}),ul=wrap.querySelector('.tasks');
+    ul.innerHTML=tasks.map(function(t,i){return '<li><span class="tick" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5"/></svg></span><div><p>'+t.q+'</p>'+(t.reveal?'<details><summary>Show the answer</summary><p>'+t.reveal+'</p></details>':'<p class="ans" hidden></p>')+'</div></li>';}).join('');
+    function updateTasks(){tasks.forEach(function(t,i){if(!t.done)return;var li=ul.children[i],okk=!!t.done();li.classList.toggle('done',okk);var a=li.querySelector('.ans');a.hidden=!okk;if(okk)a.innerHTML=t.a;});}
+    selL=0;render();
+  }
+
+  // D3 and S3. Standard labeling from the slides: r=(123), r^2=(132), s=(23), rs=(12), r^2 s=(13)
+  var G1=d3(),H1=s3();
+  var std1=G1.els.map(function(e){return H1.els.findIndex(function(h){return eq(h.perm,e.perm);});});
+  Matcher(document.getElementById('m1'),G1,H1,{standard:std1,standardLabel:'Use the labeling from the slides',tasks:function(info){return [
+    {q:'Find a matching in which every product agrees.',done:function(){return Object.keys(info().found).length>0;},a:'That is an isomorphism: <span class="m">D</span><sub>3</sub> ≅ <span class="m">S</span><sub>3</sub>. Labeling the vertices turns every symmetry into a permutation.'},
+    {q:'Find a second matching that also works.',done:function(){return Object.keys(info().found).length>1;},a:'There are six isomorphisms in all. Once you choose where <span class="m">r</span> and <span class="m">s</span> go, every other partner is forced.'},
+    {q:'Why must <span class="m">r</span> be matched with a three-cycle?',reveal:'An isomorphism preserves element orders. <span class="m">r</span> has order 3, and the only permutations of order 3 are (123) and (132). In the same way, each reflection must go to a transposition.'}
+  ];}});
+
+  // Z4 and the cuboid group
+  var G2=z4(),H2=cub();
+  Matcher(document.getElementById('m2'),G2,H2,{leftNoun:'turn',tasks:function(info){return [
+    {q:'Try to match the two groups so that every product agrees.',done:function(){return info().checks>=2;},a:'However you match them, some product fails. These two groups are not isomorphic.'},
+    {q:'Why can no matching work?',reveal:'An isomorphism preserves element orders. In <span class="m">Z</span><sub>4</sub> the quarter-turn <span class="m">r</span> has order 4, but every element of the cuboid group has order 1 or 2: each half-turn done twice is <span class="m">e</span>. Switch on “Show element orders” to see it.'}
+  ];}});
+
+  /* ======================================================================
+     Z3 three ways
+     ====================================================================== */
+  var zk=0,zbusy=false;
+  var A=document.getElementById('z3a'),B=document.getElementById('z3b'),C=document.getElementById('z3c');
+  var TV=polyV(3,.95),tri,tdots=[],tnums=[];
+  (function(){
+    el('polygon',{points:TV.map(function(v){return v[0]+','+(-v[1]);}).join(' '),fill:'none',stroke:'rgba(238,237,230,.32)','stroke-width':.018,'stroke-dasharray':'.06 .05'},A);
+    tri=el('polygon',{fill:'rgba(238,237,230,.08)',stroke:'#EEEDE6','stroke-width':.03},A);
+    for(var i=0;i<3;i++){tdots.push(el('circle',{r:.12,fill:COL[i],style:'stroke:rgba(0,0,0,.25);stroke-width:.01'},A));var t=el('text',{'class':'icnum',style:'font-size:.16px'},A);t.textContent=String(i+1);tnums.push(t);}
+    el('circle',{cx:0,cy:0,r:1,fill:'none',stroke:'rgba(238,237,230,.4)','stroke-width':.014},B);
+    el('line',{x1:-1.2,y1:0,x2:1.2,y2:0,stroke:'rgba(238,237,230,.2)','stroke-width':.01},B);el('line',{x1:0,y1:-1.2,x2:0,y2:1.2,stroke:'rgba(238,237,230,.2)','stroke-width':.01},B);
+    ['1','ω','ω²'].forEach(function(lb,k){var a=2*PI*k/3;el('circle',{cx:Math.cos(a),cy:-Math.sin(a),r:.05,fill:'rgba(238,237,230,.7)'},B);var t=el('text',{x:1.22*Math.cos(a),y:-1.22*Math.sin(a)+.02,style:'font:italic .2px var(--serif);fill:rgba(238,237,230,.8)','text-anchor':'middle','dominant-baseline':'middle'},B);t.textContent=lb;});
+    B.pt=el('circle',{r:.11,fill:'#E9CB6B',stroke:'rgba(0,0,0,.25)','stroke-width':.01},B);
+    el('circle',{cx:0,cy:0,r:1,fill:'none',stroke:'rgba(238,237,230,.4)','stroke-width':.014},C);
+    for(var k=0;k<3;k++){var a=PI/2-2*PI*k/3;var t2=el('text',{x:.78*Math.cos(a),y:-.78*Math.sin(a)+.02,style:'font:600 .26px var(--sans);fill:rgba(238,237,230,.85)','text-anchor':'middle','dominant-baseline':'middle'},C);t2.textContent=String(k);el('line',{x1:.92*Math.cos(a),y1:-.92*Math.sin(a),x2:1.06*Math.cos(a),y2:-1.06*Math.sin(a),stroke:'rgba(238,237,230,.6)','stroke-width':.02},C);}
+    C.hand=el('line',{x1:0,y1:0,stroke:'#E9CB6B','stroke-width':.05,'stroke-linecap':'round'},C);el('circle',{cx:0,cy:0,r:.05,fill:'#E9CB6B'},C);
+    drawZ3(0);
+  })();
+  function drawZ3(t){ // t = continuous position in units of one step
+    var th=2*PI*t/3;
+    var W=TV.map(function(v){return [Math.cos(th)*v[0]-Math.sin(th)*v[1],Math.sin(th)*v[0]+Math.cos(th)*v[1]];});
+    tri.setAttribute('points',W.map(function(v){return v[0].toFixed(3)+','+(-v[1]).toFixed(3);}).join(' '));
+    W.forEach(function(v,i){tdots[i].setAttribute('cx',v[0]);tdots[i].setAttribute('cy',-v[1]);tnums[i].setAttribute('x',v[0]);tnums[i].setAttribute('y',-v[1]+.005);});
+    B.pt.setAttribute('cx',Math.cos(th));B.pt.setAttribute('cy',-Math.sin(th));
+    var ha=PI/2-th;C.hand.setAttribute('x2',.62*Math.cos(ha));C.hand.setAttribute('y2',-.62*Math.sin(ha));
+  }
+  function zname(k){return {a:['e','r','r<sup>2</sup>'][k],b:['1','ω','ω<sup>2</sup>'][k],c:String(k)};}
+  function zlabel(){var n=zname(zk);document.getElementById('z3a-now').innerHTML=n.a;document.getElementById('z3b-now').innerHTML=n.b;document.getElementById('z3c-now').innerHTML=n.c;
+    document.getElementById('z3-law').innerHTML='<span class="m">'+n.a+'</span> ⟷ <span class="m">'+n.b+'</span> ⟷ '+n.c+'. In every version, combining the <span class="m">a</span>-th and <span class="m">b</span>-th elements gives the (<span class="m">a</span> + <span class="m">b</span> mod 3)-th: <span class="m">r<sup>a</sup>r<sup>b</sup></span> = <span class="m">r</span><sup><span class="m">a</span>+<span class="m">b</span></sup>, <span class="m">ω<sup>a</sup>ω<sup>b</sup></span> = <span class="m">ω</span><sup><span class="m">a</span>+<span class="m">b</span></sup>.';}
+  function zstep(d){
+    if(zbusy)return;zbusy=true;var from=zk,dur=reduce?0:650*d,t0=null;
+    function f(ts){if(t0===null)t0=ts;var t=dur?Math.min(1,(ts-t0)/dur):1,e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;drawZ3(from+d*e);
+      if(t<1)requestAnimationFrame(f);else{zk=(from+d)%3;drawZ3(zk);zlabel();zbusy=false;}}
+    requestAnimationFrame(f);
+  }
+  document.getElementById('z3-step').addEventListener('click',function(){zstep(1);});
+  document.getElementById('z3-step2').addEventListener('click',function(){zstep(2);});
+  document.getElementById('z3-reset').addEventListener('click',function(){if(!zbusy){zk=0;drawZ3(0);zlabel();}});
+  zlabel();
+})();
+</script>
+</body>
+</html>

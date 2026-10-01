@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mehmet Özkan, Istanbul Technical University</title>
+<meta name="description" content="Mehmet Özkan, Professor of Physics at Istanbul Technical University. Supergravity, higher-derivative theories, Carrollian physics, three-dimensional gravity and holography.">
+<meta property="og:title" content="Mehmet Özkan, Istanbul Technical University">
+<meta property="og:description" content="Mehmet Özkan, Professor of Physics at Istanbul Technical University. Supergravity, higher-derivative theories, Carrollian physics, three-dimensional gravity and holography.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/analytics.js" defer></script>
+</head>
+<body data-page="home">
+<a class="skip" href="#content">Skip to content</a>
+
+<header class="board">
+  <div class="wrap top">
+    <a class="mark" href="./" aria-label="Mehmet Özkan, home">
+      <svg viewBox="0 0 24 36" aria-hidden="true"><path class="mk" d="M4 2 L4 34 L20 18 Z"/><path class="mk-scri" d="M4 2 L20 18"/></svg>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="research/">Research</a>
+      <a href="publications/">Publications</a>
+      <a href="projects/">Projects &amp; Honors</a>
+      <a href="group/">Group</a>
+      <div class="has-sub">
+        <a href="teaching/" aria-haspopup="true">Teaching</a>
+        <div class="sub"><div class="sub-box">
+          <a href="teaching/group-theory/" data-p="gt">Group Theory</a>
+          <a href="teaching/classical-mechanics/" data-p="phys">Classical Mechanics</a>
+        </div></div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="head wrap hero" data-page="home">
+    <div>
+      <h1 tabindex="-1">Mehmet Özkan</h1>
+      <p class="role">Professor of Physics, Istanbul Technical University</p>
+      <p class="lead">I am a theoretical physicist working at the interface of gravity, supersymmetry, and quantum field theory. My research focuses on supergravity, higher-derivative theories, Carrollian physics, three-dimensional gravity, and holography.</p>
+      <p class="lead">I am also interested in how AI can be incorporated into theoretical-physics research without giving up control of the underlying calculations and scientific reasoning. I am developing an AI-assisted environment for supergravity calculations that combines symbolic computation, code, and step-by-step analytical work, and I will post more about it here in due course.</p>
+      <ul class="links">
+        <li><a href="https://inspirehep.net/authors/1223921">INSPIRE</a></li>
+        <li><a href="https://scholar.google.com/citations?user=Mg3UL-UAAAAJ">Google Scholar</a></li>
+        <li><button type="button" class="mail-btn">Email</button></li>
+      </ul>
+    </div>
+    <figure class="diagram">
+      <svg id="penrose" viewBox="0 0 300 500" role="img" aria-labelledby="pd-t pd-d">
+        <title id="pd-t">Penrose diagram of Minkowski spacetime</title>
+        <desc id="pd-d">A conformal diagram with the origin r equals zero on the left, spatial infinity on the right, and future null infinity highlighted in yellow. Light signals travel at 45 degrees and end on future null infinity.</desc>
+        <defs>
+          <filter id="chalk" filterUnits="userSpaceOnUse" x="0" y="0" width="300" height="500">
+            <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7" result="n"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="1.9" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+        <g id="grid"></g>
+        <g id="edges" filter="url(#chalk)"></g>
+        <g id="rays" filter="url(#chalk)"></g>
+        <g id="marks"></g>
+        <text class="lab" x="44" y="15" text-anchor="middle">i⁺</text>
+        <text class="lab" x="44" y="494" text-anchor="middle">i⁻</text>
+        <text class="lab" x="272" y="254">i⁰</text>
+        <text class="lab scri" x="166" y="127">ℐ⁺</text>
+        <text class="lab" x="166" y="383">ℐ⁻</text>
+        <text class="lab" transform="translate(29 248) rotate(-90)" text-anchor="middle">r = 0</text>
+      </svg>
+      <figcaption>Future null infinity ℐ⁺ carries a Carrollian structure. Tap inside the diagram to send light toward it.</figcaption>
+      <button class="send" id="send" type="button">Send a light signal</button>
+    </figure>
+  </div>
+  <div class="tray" aria-hidden="true"></div>
+</header>
+
+<main id="content">
+
+    <section class="section">
+      <div class="wrap split">
+        <div>
+          <h2>Research</h2>
+          <a class="more" href="research/">More about the research</a>
+        </div>
+        <div class="themes">
+          <article>
+            <h3>Carrollian physics and supersymmetry</h3>
+            <p>Carroll contractions (c → 0) of supersymmetry algebras, magnetic Carroll superalgebras, and the field theories that realize them.</p>
+          </article>
+          <article>
+            <h3>Off-shell supergravity</h3>
+            <p>Superconformal tensor calculus, higher-derivative invariants in five and six dimensions, and their matter couplings.</p>
+          </article>
+          <article>
+            <h3>Three-dimensional gravity and holography</h3>
+            <p>Chern–Simons-like formulations of massive 3D gravity, and non-relativistic (super)gravity in three dimensions.</p>
+          </article>
+          <article>
+            <h3>AI for theoretical physics</h3>
+            <p>An AI-assisted environment for supergravity calculations that combines symbolic computation, code and step-by-step analytic work, with the physicist in control of the reasoning.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section flush">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2>Recent papers</h2>
+          <a href="publications/">All publications</a>
+        </div>
+        <ul class="papers" id="home-papers"></ul>
+      </div>
+    </section>
+
+    <section class="section flush">
+      <div class="wrap duo">
+        <article class="feature">
+          <img src="assets/img/group.jpg" width="1400" height="880" alt="Students gathered around a chalkboard covered with the super-Poincaré algebra during a discussion at ITU" style="object-position:50% 45%">
+          <h2>Group</h2>
+          <p>Students and researchers at ITU working on Carroll symmetry, supersymmetry and supergravity.</p>
+          <a class="more" href="group/">Meet the group</a>
+        </article>
+        <article class="feature">
+          <img src="assets/img/lecture.jpg" width="1400" height="828" alt="A lecture on symmetry and the Coleman–Mandula theorem in a full ITU classroom" style="object-position:50% 60%">
+          <h2>Teaching</h2>
+          <p>This term I am teaching Theory of Groups in Physics and Classical Mechanics at ITU. Each course has its own page with notes, readings and quizzes.</p>
+          <a class="more" href="teaching/">Go to the courses</a>
+        </article>
+      </div>
+    </section>
+
+  
+</main>
+
+<footer class="board foot">
+  <div class="wrap foot-grid">
+    <div>
+      <h2 class="foot-h">Contact</h2>
+      <address>Istanbul Technical University<br>Faculty of Science and Letters<br>Department of Physics<br>Maslak, 34469 Istanbul, Türkiye<br><button type="button" class="mail-btn">Email</button></address>
+    </div>
+    <div>
+      <h2 class="foot-h">Profiles</h2>
+      <ul>
+        <li><a href="https://inspirehep.net/authors/1223921">INSPIRE</a></li>
+        <li><a href="https://scholar.google.com/citations?user=Mg3UL-UAAAAJ">Google Scholar</a></li>
+        <li><a href="https://orcid.org/0000-0001-5131-880X">ORCID</a></li>
+      </ul>
+    </div>
+    <p class="copy">© 2026 Mehmet Özkan</p>
+  </div>
+</footer>
+<script src="assets/site.js"></script>
+</body>
+</html>

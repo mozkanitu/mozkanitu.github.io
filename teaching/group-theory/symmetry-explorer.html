@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Symmetry explorer – Theory of Groups in Physics</title>
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<script src="../../assets/analytics.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F8F5; --ink:#1E2723; --muted:#56635C; --rule:#DCE1DC; --link:#2A6650;
+  --board:#2C463B; --chalk:#EEEDE6; --chalk-dim:rgba(238,237,230,.68); --chalk-faint:rgba(238,237,230,.28);
+  --yellow:#E9CB6B; --warn:#E89A8E; --ok:#9FD3B4;
+  --tray-1:#CFD3D5; --tray-2:#9FA5A9; --tray-3:#7E8488;
+  --serif:"STIX Two Text","Iowan Old Style","Palatino Linotype","Times New Roman",serif;
+  --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:light; box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  background:var(--board);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--paper:#131916;--ink:#E3E6E1;--muted:#9CA79F;--rule:#28312C;--link:#8FCBB1;--board:#223a2f;--tray-1:#737a7e;--tray-2:#50575b;--tray-3:#3a4043;color-scheme:dark}
+}
+:root[data-theme="dark"]{--paper:#131916;--ink:#E3E6E1;--muted:#9CA79F;--rule:#28312C;--link:#8FCBB1;--board:#223a2f;--tray-1:#737a7e;--tray-2:#50575b;--tray-3:#3a4043;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:1.075rem;line-height:1.55}
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(16px,4vw,40px)}
+:focus-visible{outline:2px solid var(--link);outline-offset:3px;border-radius:3px}
+.board{background-color:var(--board);background-image:radial-gradient(110% 80% at 15% 18%,rgba(255,255,255,.06),transparent 60%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 .075 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");color:var(--chalk)}
+.board :focus-visible{outline-color:var(--yellow)}
+.m{font-family:var(--serif);font-style:italic}
+
+/* header */
+.top{padding-block:22px 30px}
+.crumb{margin:0 0 10px;font-family:var(--sans);font-size:.95rem;color:var(--chalk-dim)}
+.crumb a{color:var(--chalk);text-decoration-color:var(--yellow);text-underline-offset:4px}
+.top h1{margin:0;font-weight:500;font-size:clamp(2.2rem,1.4rem + 3vw,3.4rem);line-height:1.05;letter-spacing:-.01em}
+.top .sub{margin:.45em 0 0;font-size:1.15rem;color:var(--chalk-dim);max-width:36em}
+.tray{height:12px;background:linear-gradient(to bottom,var(--tray-1),var(--tray-2) 55%,var(--tray-3));box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 4px 8px -3px rgba(0,0,0,.3)}
+
+/* layout */
+.lab{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px clamp(24px,4vw,48px);padding-block:28px 56px;align-items:start}
+@media (max-width:900px){.lab{grid-template-columns:1fr}}
+
+.shapes{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.pill{font:500 .92rem/1 var(--sans);padding:9px 14px;border-radius:999px;border:1px solid var(--rule);background:transparent;color:var(--ink);cursor:pointer}
+.pill:hover{border-color:var(--muted)}
+.pill[aria-pressed="true"]{background:var(--board);border-color:var(--board);color:var(--chalk)}
+
+.stage{position:relative;border-radius:8px;overflow:hidden;aspect-ratio:1/1;max-height:min(72vh,640px);margin-inline:auto;width:100%}
+.stage svg{display:block;width:100%;height:100%;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.hud{position:absolute;left:16px;top:12px;display:flex;align-items:baseline;gap:12px;pointer-events:none}
+#hud-name{font-size:1.75rem;line-height:1;color:var(--chalk)}
+#hud-perm{font-family:var(--sans);font-size:.95rem;color:var(--chalk-dim)}
+.hud.off #hud-name,.hud.off #hud-perm{color:var(--warn)}
+.toast{margin:12px 0 0;font-family:var(--sans);font-size:.95rem;line-height:1.35;color:var(--muted);min-height:1.35em}
+.toast.warn{color:#B5503F}
+.toast.good{color:var(--link);font-weight:600}
+:root[data-theme="dark"] .toast.warn{color:var(--warn)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .toast.warn{color:var(--warn)}}
+
+/* svg pieces */
+.foot{fill:none;stroke:var(--chalk);stroke-opacity:.35;stroke-width:.018;stroke-dasharray:.06 .05}
+.parent{fill:none;stroke:var(--chalk);stroke-opacity:.12;stroke-width:.012}
+.mirror{stroke:var(--chalk);stroke-opacity:.38;stroke-width:.014;stroke-dasharray:.08 .06}
+.mirror-hit{stroke:transparent;stroke-width:.2;cursor:pointer}
+.mg:hover .mirror,.mg.flash .mirror{stroke:var(--yellow);stroke-opacity:.95}
+.mtag{fill:var(--chalk-dim);font:italic .16px var(--serif);text-anchor:middle;dominant-baseline:middle;pointer-events:none}
+.mg:hover .mtag,.mg.flash .mtag{fill:var(--yellow)}
+.body{fill:rgba(238,237,230,.07);stroke:var(--chalk);stroke-width:.03;stroke-linejoin:round;transition:stroke .2s}
+.body.off{stroke:var(--warn)}
+.vdot{stroke:rgba(0,0,0,.25);stroke-width:.01}
+.vnum{font:600 .17px var(--sans);fill:#1d2b25;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.ctr{fill:var(--chalk-dim)}
+
+/* controls */
+.moves{display:flex;flex-wrap:wrap;gap:8px 10px;margin-top:16px;align-items:center}
+.mv{display:inline-flex;align-items:center;gap:8px;font:500 .95rem/1 var(--sans);padding:11px 15px;border-radius:8px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer}
+.mv:hover{border-color:var(--link)}
+.mv .m{font-size:1.15rem}
+.mv svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.mv.primary{background:var(--board);border-color:var(--board);color:var(--chalk)}
+.mv.quiet{border-color:transparent;color:var(--muted);padding-inline:10px}
+.mv:disabled{opacity:.45;cursor:default}
+.row-label{font-family:var(--sans);font-size:.92rem;color:var(--muted);margin-right:2px}
+.mirrors-row{margin-top:10px}
+.spacer{flex:1}
+
+/* panel */
+.panel{display:grid;gap:26px}
+.panel h2{margin:0 0 8px;font-family:var(--sans);font-size:.95rem;font-weight:600;color:var(--muted)}
+.cur{margin:0;font-size:clamp(2.4rem,1.8rem + 2vw,3.2rem);line-height:1.05;font-style:italic}
+.cur-off{margin:.35em 0 0;font-family:var(--sans);font-size:.95rem;color:#B5503F}
+:root[data-theme="dark"] .cur-off{color:var(--warn)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .cur-off{color:var(--warn)}}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;margin:12px 0 0;font-size:1.05rem}
+.facts dt{font-family:var(--sans);font-size:.92rem;color:var(--muted);padding-top:.12em}
+.facts dd{margin:0}
+.word{margin:0;font-size:1.35rem;font-style:italic;word-spacing:.12em;min-height:1.5em}
+.word .eq{font-style:normal;color:var(--muted);margin-inline:.25em}
+.note{margin:.4em 0 0;font-family:var(--sans);font-size:.9rem;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;min-height:38px}
+.chip{display:inline-block;text-align:center;min-width:46px;padding:7px 12px;border-radius:6px;background:var(--board);color:var(--chalk);font:italic 1.12rem/1 var(--serif)}
+.chip.new{animation:pop .45s ease-out}
+@keyframes pop{from{transform:scale(1.25);background:#4f7a66}}
+.found-note{margin:.6em 0 0;font-family:var(--sans);font-size:.95rem;color:var(--muted)}
+.found-note.done{color:var(--link);font-weight:600}
+.tasks{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.tasks li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start}
+.tick{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--rule);margin-top:.2em;display:grid;place-items:center}
+.tick svg{width:12px;height:12px;stroke:var(--chalk);stroke-width:2.4;fill:none;opacity:0}
+.tasks li.done .tick{background:var(--link);border-color:var(--link)}
+.tasks li.done .tick svg{opacity:1}
+.tasks p{margin:0}
+.tasks .ans{margin-top:.35em;font-size:1rem;color:var(--link)}
+.tasks details{margin-top:.35em;font-family:var(--sans);font-size:.92rem;color:var(--muted)}
+.tasks summary{cursor:pointer}
+.tasks details p{font-family:var(--serif);font-size:1rem;color:var(--ink);margin-top:.35em}
+.keys{font-family:var(--sans);font-size:.85rem;color:var(--muted);margin:14px 0 0}
+kbd{font-family:var(--sans);font-size:.8rem;border:1px solid var(--rule);border-bottom-width:2px;border-radius:4px;padding:1px 5px}
+@media (prefers-reduced-motion: reduce){.chip.new{animation:none}.body{transition:none}}
+</style>
+</head>
+<body>
+<header class="board">
+  <div class="wrap top">
+    <p class="crumb"><a href="./">Theory of Groups in Physics</a>, Week 1</p>
+    <h1>Symmetry explorer</h1>
+    <p class="sub">Turn and reflect a shape. Which moves put it back on its outline?</p>
+  </div>
+</header>
+<div class="tray" aria-hidden="true"></div>
+
+<main class="wrap lab">
+  <section aria-label="Shape and moves">
+    <div class="shapes" role="group" aria-label="Choose a shape" id="shapes"></div>
+    <div class="stage board">
+      <div class="hud" aria-hidden="true"><span class="m" id="hud-name">e</span><span id="hud-perm">e</span></div>
+      <svg id="stage" viewBox="-1.97 -1.97 3.94 3.94" role="img" aria-label="The shape on the board, its outline and its mirror lines"></svg>
+    </div>
+    <p class="toast" id="toast" aria-live="polite"></p>
+    <div class="moves">
+      <button class="mv primary" id="btn-r" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12a7 7 0 1 1-2.05-4.95"/><path d="M19 4v4h-4"/></svg><span class="m">r</span><span id="r-label">Turn 120°</span></button>
+      <button class="mv" id="btn-rinv" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12a7 7 0 1 0 2.05-4.95"/><path d="M5 4v4h4"/></svg><span class="m">r<sup>−1</sup></span><span>Turn back</span></button>
+      <span class="spacer"></span>
+      <button class="mv quiet" id="btn-undo" type="button">Undo</button>
+      <button class="mv quiet" id="btn-reset" type="button">Reset</button>
+    </div>
+    <div class="moves mirrors-row" id="mirror-btns"><span class="row-label">Reflect in</span></div>
+    <p class="keys">Tap a dashed line to reflect in it. Keys: <kbd>R</kbd> turn, <kbd>S</kbd> reflect in <span class="m">s</span>, <kbd>Z</kbd> undo.</p>
+  </section>
+
+  <aside class="panel" aria-label="What happened">
+    <section>
+      <h2>Current position</h2>
+      <p class="cur" id="cur" aria-live="polite">e</p>
+      <p class="cur-off" id="cur-off" hidden>Not a symmetry: the shape is off its outline.</p>
+      <dl class="facts">
+        <dt>Permutation</dt><dd id="perm">e</dd>
+        <dt>Order</dt><dd id="ord">1</dd>
+      </dl>
+    </section>
+    <section>
+      <h2>Moves so far</h2>
+      <p class="word" id="word"></p>
+      <p class="note">The newest move is written on the left: in <span class="m">rs</span>, the reflection <span class="m">s</span> acts first.</p>
+    </section>
+    <section>
+      <h2>Symmetries found</h2>
+      <div class="chips" id="found"></div>
+      <p class="found-note" id="found-note"></p>
+    </section>
+    <section>
+      <h2>Try this</h2>
+      <ul class="tasks" id="tasks"></ul>
+    </section>
+  </aside>
+</main>
+
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg', PI=Math.PI;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var SUB='₀₁₂₃₄₅₆₇₈₉', SUP={2:'²',3:'³',4:'⁴',5:'⁵'};
+  function sub(s){return String(s).replace(/\d/g,function(d){return SUB[d];});}
+  var COLORS=['#E9CB6B','#EDA4B8','#9CCAEA','#A9DBA2','#F2B67E','#C9BAEE'];
+
+  /* Shapes. Every move is an element r^k s^f of the dihedral group D_n of the "frame":
+     positions P_i at angles phi0 + 2*pi*i/n, r = counterclockwise turn by 2*pi/n,
+     s = reflection in the line through position 1. Products read right to left. */
+  function regular(n){var v=[],R=1.18,p0=3*PI/2-PI/n;for(var i=0;i<n;i++){v.push([R*Math.cos(p0+2*PI*i/n),R*Math.sin(p0+2*PI*i/n)]);}return v;}
+  var SHAPES={
+    tri:{label:'Equilateral triangle',n:3,regular:true},
+    iso:{label:'Isosceles triangle',n:3,regular:false,parent:'tri',noun:'isosceles triangle',
+         verts:(function(){var p0=3*PI/2-PI/3,a=1.12,b=1.5;return [[a*Math.cos(p0),a*Math.sin(p0)],[a*Math.cos(p0+2*PI/3),a*Math.sin(p0+2*PI/3)],[0,b]];})()},
+    sq:{label:'Square',n:4,regular:true},
+    rect:{label:'Rectangle',n:4,regular:false,parent:'sq',noun:'rectangle',verts:[[-1.3,-.72],[1.3,-.72],[1.3,.72],[-1.3,.72]],
+          tags:['σ_d','σ_v','σ_d′','σ_h']},
+    pent:{label:'Pentagon',n:5,regular:true},
+    hex:{label:'Hexagon',n:6,regular:true}
+  };
+  var ORDER=['tri','iso','sq','rect','pent','hex'];
+
+  var S, n, phi0, verts, elem, history, seq, found, groupKeys, tried, recorded, busy=false;
+  var svg=document.getElementById('stage');
+
+  function phiZero(n){return 3*PI/2-PI/n;}
+  function mul(a,b){return [((a[0]+(a[1]?-b[0]:b[0]))%n+n)%n, a[1]^b[1]];}
+  function mat(e){
+    if(!e[1]){var t=2*PI*e[0]/n;return [Math.cos(t),-Math.sin(t),Math.sin(t),Math.cos(t)];}
+    var al=phi0+PI*e[0]/n;return [Math.cos(2*al),Math.sin(2*al),Math.sin(2*al),-Math.cos(2*al)];
+  }
+  function ap(M,v){return [M[0]*v[0]+M[1]*v[1],M[2]*v[0]+M[3]*v[1]];}
+  function key(e){return e[0]+','+e[1];}
+  function name(e){
+    var k=e[0],f=e[1];
+    if(!k&&!f) return 'e';
+    var r=k?('r'+(k>1?(SUP[k]||'<sup>'+k+'</sup>'):'')):'';
+    return r+(f?'s':'');
+  }
+  function nameHTML(e){
+    var k=e[0],f=e[1];
+    if(!k&&!f) return 'e';
+    return (k?'r'+(k>1?'<sup>'+k+'</sup>':''):'')+(f?'s':'');
+  }
+  function order(e){if(e[1])return 2;if(!e[0])return 1;var g=function(a,b){return b?g(b,a%b):a;};return n/g(e[0],n);}
+  // where each vertex label lands (null if the shape is off its outline)
+  function perm(e){
+    var M=mat(e),p=[];
+    for(var i=0;i<verts.length;i++){
+      var w=ap(M,verts[i]),hit=-1;
+      for(var j=0;j<verts.length;j++){if(Math.hypot(w[0]-verts[j][0],w[1]-verts[j][1])<1e-6){hit=j;break;}}
+      if(hit<0) return null; p.push(hit);
+    }
+    return p;
+  }
+  function cycles(p){
+    var seen=[],out='';
+    for(var i=0;i<p.length;i++){
+      if(seen[i]||p[i]===i){seen[i]=true;continue;}
+      var c=[],j=i;while(!seen[j]){seen[j]=true;c.push(j+1);j=p[j];}
+      out+='('+c.join('')+')';
+    }
+    return out||'e';
+  }
+  function mirrorInfo(j){
+    if(S.tags) return S.tags[j].replace('_d′','<sub>d′</sub>').replace(/_(\w)/,'<sub>$1</sub>');
+    if(n%2){var pidx=(j*(n+1)/2)%n;return 'σ'+sub(pidx+1);}
+    if(j%2===0){var a=j/2;return 'σ'+sub(a+1)+sub(a+1+n/2);}
+    var b=(j-1)/2;return 'σ'+sub(b+1)+sub(b+2);
+  }
+  function tagAngle(j){
+    if(S.tags) return phi0+PI*j/n;
+    if(n%2) return phi0+2*PI*((j*(n+1)/2)%n)/n;
+    return j%2===0? phi0+2*PI*(j/2)/n : phi0+PI*j/n;
+  }
+  function svgTag(j){
+    if(!S.tags) return mirrorInfo(j);
+    var m=S.tags[j].split('_');return 'σ<tspan dy=".045" font-size=".11">'+m[1]+'</tspan>';
+  }
+  function mirrorText(j){return mirrorInfo(j).replace(/<\/?sub>/g,'');}
+
+  /* ---------- drawing ---------- */
+  function el(tag,a,parent){var e=document.createElementNS(NS,tag);for(var k in a)e.setAttribute(k,a[k]);(parent||svg).appendChild(e);return e;}
+  var body,dots,nums,mgroups=[];
+  function pts(vs){return vs.map(function(v){return v[0].toFixed(4)+','+(-v[1]).toFixed(4);}).join(' ');}
+  function build(){
+    svg.innerHTML='';mgroups=[];
+    var defs=el('defs',{});
+    var f=el('filter',{id:'chalk',filterUnits:'userSpaceOnUse',x:-2,y:-2,width:4,height:4},defs);
+    el('feTurbulence',{type:'fractalNoise',baseFrequency:'14',numOctaves:'2',seed:'3',result:'n'},f);
+    el('feDisplacementMap',{in:'SourceGraphic',in2:'n',scale:'.018',xChannelSelector:'R',yChannelSelector:'G'},f);
+    if(S.parent){el('polygon',{points:pts(regular(n)),'class':'parent'});}
+    // mirror lines, fixed in space
+    for(var j=0;j<n;j++){
+      var al=phi0+PI*j/n,L=1.62,x=Math.cos(al),y=Math.sin(al);
+      var g=el('g',{'class':'mg','data-j':j});
+      el('line',{x1:-L*x,y1:L*y,x2:L*x,y2:-L*y,'class':'mirror',filter:'url(#chalk)'},g);
+      el('line',{x1:-L*x,y1:L*y,x2:L*x,y2:-L*y,'class':'mirror-hit'},g);
+      var ta=tagAngle(j),tx=(L+.1)*Math.cos(ta),ty=-(L+.1)*Math.sin(ta);
+      var t=el('text',{x:tx,y:ty,'class':'mtag'},g); t.innerHTML=svgTag(j);
+      (function(jj){g.addEventListener('click',function(){move([jj,1],'m'+jj);});})(j);
+      mgroups.push(g);
+    }
+    el('polygon',{points:pts(verts),'class':'foot'});
+    body=el('polygon',{points:pts(verts),'class':'body',filter:'url(#chalk)'});
+    el('circle',{cx:0,cy:0,r:.025,'class':'ctr'});
+    dots=[];nums=[];
+    for(var i=0;i<verts.length;i++){
+      dots.push(el('circle',{r:.12,fill:COLORS[i%COLORS.length],'class':'vdot'}));
+      var tt=el('text',{'class':'vnum'});tt.textContent=String(i+1);nums.push(tt);
+    }
+    place(mat(elem));
+  }
+  function place(M){
+    var w=verts.map(function(v){return ap(M,v);});
+    body.setAttribute('points',pts(w));
+    for(var i=0;i<w.length;i++){
+      var x=w[i][0]*1.0,y=-w[i][1];
+      dots[i].setAttribute('cx',x);dots[i].setAttribute('cy',y);
+      nums[i].setAttribute('x',x);nums[i].setAttribute('y',y+.004);
+    }
+  }
+  function lerpMove(M0,mv,t){
+    var G;
+    if(!mv[1]){var th=2*PI*mv[0]/n;if(th>PI)th-=2*PI;th*=t;G=[Math.cos(th),-Math.sin(th),Math.sin(th),Math.cos(th)];}
+    else{var al=phi0+PI*mv[0]/n,u=[Math.cos(al),Math.sin(al)],c=Math.cos(PI*t);
+      G=[u[0]*u[0]+c*(1-u[0]*u[0]), u[0]*u[1]-c*u[0]*u[1], u[0]*u[1]-c*u[0]*u[1], u[1]*u[1]+c*(1-u[1]*u[1])];}
+    return [G[0]*M0[0]+G[1]*M0[2],G[0]*M0[1]+G[1]*M0[3],G[2]*M0[0]+G[3]*M0[2],G[2]*M0[1]+G[3]*M0[3]];
+  }
+  function animate(mv,from,done){
+    var M0=mat(from),dur=reduce?0:620,t0=null;
+    if(mv[1]){var g=mgroups[mv[0]];g.classList.add('flash');setTimeout(function(){g.classList.remove('flash');},dur+250);}
+    if(!dur){done();return;}
+    function step(ts){
+      if(t0===null)t0=ts;var t=Math.min(1,(ts-t0)/dur),e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+      place(lerpMove(M0,mv,e));
+      if(t<1)requestAnimationFrame(step);else done();
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* ---------- state ---------- */
+  function setShape(id){
+    S=SHAPES[id];n=S.n;phi0=phiZero(n);verts=S.regular?regular(n):S.verts;
+    elem=[0,0];history=[];seq=[];found={};found[key(elem)]=true;tried={rot:false};recorded={sr:null,rs:null};
+    groupKeys=[];
+    for(var f=0;f<2;f++)for(var k=0;k<n;k++){if(perm([k,f]))groupKeys.push(k+','+f);}
+    [].forEach.call(document.querySelectorAll('#shapes .pill'),function(b){b.setAttribute('aria-pressed',String(b.dataset.id===id));});
+    document.getElementById('r-label').textContent='Turn '+(360/n)+'°';
+    var row=document.getElementById('mirror-btns');row.innerHTML='<span class="row-label">Reflect in</span>';
+    var js=[];for(var q=0;q<n;q++)js.push(q);
+    if(n%2&&!S.tags) js.sort(function(a,b){return ((a*(n+1)/2)%n)-((b*(n+1)/2)%n);});
+    js.forEach(function(j){
+      var b=document.createElement('button');b.type='button';b.className='mv';
+      b.innerHTML='<span class="m">'+mirrorInfo(j)+'</span>'+(j===0?'<span>(s)</span>':'');
+      b.setAttribute('aria-label','Reflect in '+mirrorText(j)+(j===0?', which is s':''));
+      (function(jj){b.addEventListener('click',function(){move([jj,1],'m'+jj);});})(j);
+      row.appendChild(b);
+    });
+    build();buildTasks();render(null);toast('');
+  }
+  function move(mv,code){
+    if(busy) return;
+    busy=true;setBusy(true);
+    var from=elem;
+    animate(mv,from,function(){
+      elem=mul(mv,from);history.push({from:from,code:code});seq.push(code);
+      if(!mv[1]) tried.rot=true;
+      afterMove(true);
+      busy=false;setBusy(false);
+    });
+  }
+  function undo(){
+    if(busy||!history.length) return;
+    var last=history.pop();busy=true;setBusy(true);
+    var inv=last.code.charAt(0)==='m'?[parseInt(last.code.slice(1),10),1]:(last.code==='r'?[n-1,0]:[1,0]);
+    animate(inv,elem,function(){elem=last.from;seq.pop();afterMove(false);busy=false;setBusy(false);});
+  }
+  function reset(){
+    if(busy) return;
+    elem=[0,0];history=[];seq=[];place(mat(elem));render(null);toast('Back at the start.');
+  }
+  function setBusy(b){[].forEach.call(document.querySelectorAll('.mv'),function(x){x.disabled=b;});}
+  function afterMove(isNew){
+    var k=key(elem),p=perm(elem),fresh=false;
+    if(p&&!found[k]){found[k]=true;fresh=true;}
+    // record the two orders for the s, r comparison
+    var w=seq.join(' ');
+    if(w==='m0 r') recorded.sr=elem.slice();   // s first, then r  ->  rs
+    if(w==='r m0') recorded.rs=elem.slice();   // r first, then s  ->  sr
+    render(fresh?k:null);
+    if(!p) toast('Off its outline: this move is not a symmetry of the '+(S.noun||'shape')+'.','warn');
+    else if(fresh&&Object.keys(found).length===groupKeys.length) toast('That is every symmetry of the '+(S.noun||S.label.toLowerCase())+'.','good');
+    else toast('');
+  }
+
+  /* ---------- panel ---------- */
+  function wordHTML(){
+    if(!seq.length) return '<span style="font-style:normal;color:var(--muted);font-family:var(--sans);font-size:1rem">No moves yet</span>';
+    var parts=seq.slice().reverse().map(function(c){
+      if(c==='r') return 'r'; if(c==='ri') return 'r<sup>−1</sup>';
+      var j=parseInt(c.slice(1),10);return j===0?'s':mirrorInfo(j);
+    });
+    var w=parts.join(' ');
+    return (seq.length===1&&w===nameHTML(elem))?w:w+'<span class="eq">=</span>'+nameHTML(elem);
+  }
+  function render(freshKey){
+    var p=perm(elem);
+    document.getElementById('cur').innerHTML=nameHTML(elem);
+    document.getElementById('hud-name').innerHTML=nameHTML(elem);
+    document.getElementById('hud-perm').textContent=p?cycles(p):'off its outline';
+    document.querySelector('.hud').classList.toggle('off',!p);
+    document.getElementById('cur-off').hidden=!!p;
+    document.getElementById('perm').textContent=p?cycles(p):'none, the vertices are off the outline';
+    document.getElementById('ord').textContent=order(elem);
+    body.classList.toggle('off',!p);
+    document.getElementById('word').innerHTML=wordHTML();
+    var keys=groupKeys.filter(function(k){return found[k];});
+    document.getElementById('found').innerHTML=keys.map(function(k){var e=k.split(',').map(Number);return '<span class="chip'+(k===freshKey?' new':'')+'">'+nameHTML(e)+'</span>';}).join('');
+    var all=keys.length===groupKeys.length,note=document.getElementById('found-note');
+    note.className='found-note'+(all?' done':'');
+    if(all){
+      note.innerHTML=S.regular?'All '+groupKeys.length+' found: |<span class="m">D</span><sub>'+n+'</sub>| = '+groupKeys.length+'.':
+        'All '+groupKeys.length+' found: {'+groupKeys.map(function(k){return '<span class="m">'+nameHTML(k.split(',').map(Number))+'</span>';}).join(', ')+'}.';
+    } else note.textContent=keys.length+(keys.length===1?' symmetry':' symmetries')+' so far. Keep going: how many are there?';
+    updateTasks();
+  }
+  function toast(msg,kind){var t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(kind?' '+kind:'');}
+
+  /* ---------- tasks ---------- */
+  var TASKS=[];
+  function nm(e){return '<span class="m">'+nameHTML(e)+'</span>';}
+  function buildTasks(){
+    var id=ORDER.filter(function(k){return SHAPES[k]===S;})[0];
+    var allFound=function(){return groupKeys.every(function(k){return found[k];});};
+    if(S.regular){
+      var o2=groupKeys.filter(function(k){return order(k.split(',').map(Number))===2;});
+      var rs=mul([1,0],[0,1]),sr=mul([0,1],[1,0]);
+      TASKS=[
+        {q:'Find every symmetry. How many are there?',done:allFound,a:function(){return 'There are '+(2*n)+': '+n+' turns and '+n+' reflections.';}},
+        {q:'From the start, reflect in σ₁ and then turn. Press Reset, then turn first and reflect second. Do you land in the same place?',
+         done:function(){return recorded.sr&&recorded.rs;},
+         a:function(){return 'Reflect, then turn: <span class="m">rs</span> = '+cycles(perm(rs))+'. Turn, then reflect: <span class="m">sr</span> = '+nm(sr)+' = '+cycles(perm(sr))+'. The order matters.';}},
+        {q:'Find every symmetry of order 2.',done:function(){return o2.every(function(k){return found[k];});},
+         a:function(){return o2.map(function(k){return nm(k.split(',').map(Number));}).join(', ')+(n%2?': the '+n+' reflections.':': the '+n+' reflections and the half-turn.');}}
+      ];
+    } else if(id==='iso'){
+      TASKS=[
+        {q:'Try the moves. Which ones put the triangle back on its outline?',done:function(){return tried.rot&&allFound();},
+         a:function(){return 'Only the reflection in σ₃. The symmetries are {'+nm([0,0])+', '+nm([1,1])+'}, two of the equilateral triangle’s six.';}},
+        {q:'Why does it keep only two?',reveal:'Vertex 3 is different from the other two, so every symmetry has to leave it where it is. Only the identity and the mirror through vertex 3 do that.'}
+      ];
+    } else {
+      TASKS=[
+        {q:'Which of the square’s moves still work for the rectangle?',done:allFound,
+         a:function(){return 'Four of the square’s eight: '+groupKeys.map(function(k){return nm(k.split(',').map(Number));}).join(', ')+'.';}},
+        {q:'Apply each of these symmetries twice. What do you notice?',reveal:'Each one gives e: every element has order 1 or 2. With no element of order 4, this group cannot be Z₄. It is the other group of order four from Lecture 2.'}
+      ];
+    }
+    var ul=document.getElementById('tasks');ul.innerHTML='';
+    TASKS.forEach(function(t,i){
+      var li=document.createElement('li');li.id='task'+i;
+      li.innerHTML='<span class="tick" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5"/></svg></span><div><p>'+t.q+'</p>'+
+        (t.reveal?'<details><summary>Show the answer</summary><p>'+t.reveal+'</p></details>':'<p class="ans" hidden></p>')+'</div>';
+      ul.appendChild(li);
+    });
+  }
+  function updateTasks(){
+    TASKS.forEach(function(t,i){
+      if(!t.done) return;
+      var li=document.getElementById('task'+i),ok=!!t.done();
+      li.classList.toggle('done',ok);
+      var a=li.querySelector('.ans');if(a){a.hidden=!ok;if(ok)a.innerHTML=t.a();}
+    });
+  }
+
+  /* ---------- wiring ---------- */
+  var sh=document.getElementById('shapes');
+  ORDER.forEach(function(id){
+    var b=document.createElement('button');b.type='button';b.className='pill';b.dataset.id=id;b.textContent=SHAPES[id].label;
+    b.addEventListener('click',function(){if(!busy)setShape(id);});sh.appendChild(b);
+  });
+  document.getElementById('btn-r').addEventListener('click',function(){move([1,0],'r');});
+  document.getElementById('btn-rinv').addEventListener('click',function(){move([n-1,0],'ri');});
+  document.getElementById('btn-undo').addEventListener('click',undo);
+  document.getElementById('btn-reset').addEventListener('click',reset);
+  document.addEventListener('keydown',function(e){
+    if(e.target.closest&&e.target.closest('input,textarea,summary'))return;
+    var k=e.key.toLowerCase();
+    if(k==='r'&&!e.metaKey&&!e.ctrlKey){move(e.shiftKey?[n-1,0]:[1,0],e.shiftKey?'ri':'r');}
+    else if(k==='s'&&!e.metaKey&&!e.ctrlKey){move([0,1],'m0');}
+    else if(k==='z'&&!e.metaKey&&!e.ctrlKey){undo();}
+  });
+  setShape('tri');
+})();
+</script>
+</body>
+</html>
