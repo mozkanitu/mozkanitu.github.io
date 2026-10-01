@@ -3,10 +3,11 @@
 Static site on GitHub Pages. No build step: edit the HTML, CSS and JS files directly.
 
 ## Layout
-- One folder per page, each with an `index.html`: `research/`, `publications/`, `projects/`, `group/`, `teaching/`, `teaching/group-theory/`, `teaching/classical-mechanics/`. The home page is `index.html`.
+- One folder per page, each with an `index.html`: `research/`, `publications/`, `projects/`, `group/`, `teaching/`, `teaching/group-theory/`, `teaching/physics-1/`. The home page is `index.html`.
+- `teaching/classical-mechanics/` is only a redirect to `teaching/physics-1/` (the old address of the Physics I course page); keep it so old links work.
 - Header, menu and footer are repeated in every page. A change to them must be made in all eight pages.
 - Shared files: `assets/site.css`, `assets/site.js`, `assets/analytics.js` (GoatCounter), `assets/img/`.
-- In `assets/site.js`: `PAPERS` (publication list, newest first; also feeds the home page and the research page), `GT` (group theory weekly schedule), `PHYS` (classical mechanics topics). Resources marked `soon:1` render as dashed "soon" buttons; give them a `url` when the file exists.
+- In `assets/site.js`: `PAPERS` (publication list, newest first; also feeds the home page and the research page), `GT` (group theory weekly schedule), `PHYS` (Physics I: Mechanics topics). Resources marked `soon:1` render as dashed "soon" buttons; give them a `url` when the file exists.
 - Group theory lecture notes live in `teaching/group-theory/notes/`; simulations are the `.html` files in `teaching/group-theory/`.
 
 ## Rules from the owner
