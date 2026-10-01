@@ -58,6 +58,7 @@ img{max-width:100%}
 .hero h1{font-weight:500;font-size:clamp(3.1rem,1.7rem + 5.2vw,5.6rem);line-height:1;letter-spacing:-.014em;margin:0 0 .32em}
 .role{font-family:var(--sans);font-size:1.05rem;color:var(--chalk-dim);margin:0 0 1.9em}
 .lead{font-size:clamp(1.08rem,.98rem + .42vw,1.26rem);line-height:1.62;max-width:33em;margin:0 0 1em}
+@media (min-width:600px){.lead{text-align:justify;hyphens:auto;-webkit-hyphens:auto}}
 .lead:last-of-type{margin-bottom:1.9em}
 .lead a{color:var(--chalk);text-decoration-color:var(--yellow);text-decoration-thickness:1.5px;text-underline-offset:4px}
 .links{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:10px 30px;font-family:var(--sans);font-size:1rem}
