@@ -113,7 +113,7 @@
   });
   function wkRow(w,start){
     var cur=start&&isNow(start);
-    return '<article class="wk'+(cur?' current':'')+'"><div><span class="wk-n">'+w.label+'</span>'+
+    return '<article class="wk'+(cur?' current':'')+'"'+(cur?' id="this-week"':'')+'><div><span class="wk-n">'+w.label+'</span>'+
       (start?'<span class="wk-d">'+fmt(start,addDays(start,4))+'</span>':'')+(cur?'<span class="now-tag">This week</span>':'')+'</div>'+
       '<div><h3>'+esc(w.title)+'</h3>'+(w.lec?'<p class="lec">'+esc(w.lec)+'</p>':'')+
       '<div class="chips">'+w.res.map(chip).join('')+'</div></div></article>';
@@ -125,13 +125,19 @@
       w.label='Week '+w.n;
       if(w.n===8){
         var bs=addDays(TERM_START,49), cur=isNow(bs);
-        h+='<div class="brk'+(cur?' current':'')+'"><div><span class="wk-n">Fall break</span><span class="wk-d">'+fmt(bs,addDays(bs,4))+'</span></div><p class="lec">No classes. The midterm will be held just before or just after the break; the date will be announced.</p></div>';
+        h+='<div class="brk'+(cur?' current':'')+'"'+(cur?' id="this-week"':'')+'><div><span class="wk-n">Fall break</span><span class="wk-d">'+fmt(bs,addDays(bs,4))+'</span></div><p class="lec">No classes. The midterm will be held just before or just after the break; the date will be announced.</p></div>';
         h+='<p class="part-h">Part II. Continuous groups</p>';
       }
       h+=wkRow(w,weekStart(w.n));
     });
     h+='<article class="wk"><div><span class="wk-n">Final exam</span><span class="wk-d">2–17 Jan 2027</span></div><div><h3>Whole course, weighted toward Weeks 8–13</h3><p class="lec">The exact date is set by the Registrar\u2019s Office.</p></div></article>';
     gtEl.innerHTML=h;
+  }
+  var gtJump=document.getElementById('gt-jump');
+  if(gtJump){
+    var jw=null; GT.forEach(function(w){ if(isNow(weekStart(w.n))) jw='Week '+w.n+', '+w.title; });
+    if(!jw && isNow(addDays(TERM_START,49))) jw='Fall break';
+    if(jw){ gtJump.querySelector('a').textContent='Go to this week: '+jw; gtJump.hidden=false; }
   }
   var gtNow=document.getElementById('gt-now');
   if(gtNow){
@@ -181,6 +187,21 @@
     });
   });
 
+
+  /* ---------- teaching menu on touch screens: first tap opens it, links inside navigate ---------- */
+  var hs=document.querySelector('.has-sub');
+  if(hs && window.matchMedia('(hover:none)').matches){
+    var hsTop=hs.querySelector('a'), hsBox=hs.querySelector('.sub-box');
+    var allC=document.createElement('a'); allC.href=hsTop.getAttribute('href'); allC.textContent='All courses';
+    hsBox.insertBefore(allC,hsBox.firstChild);
+    hsTop.setAttribute('aria-expanded','false');
+    var setOpen=function(o){
+      hs.classList.toggle('open',o); hs.classList.remove('flip'); hsTop.setAttribute('aria-expanded',String(o));
+      if(o && hsBox.getBoundingClientRect().right>document.documentElement.clientWidth-8) hs.classList.add('flip');
+    };
+    hsTop.addEventListener('click',function(e){ e.preventDefault(); setOpen(!hs.classList.contains('open')); });
+    document.addEventListener('click',function(e){ if(!hs.contains(e.target)) setOpen(false); });
+  }
 
   /* ---------- email, assembled only when clicked so it never sits in the page source ---------- */
   var MP=['itu','edu','tr'], MU=['ozkan','mehm'];

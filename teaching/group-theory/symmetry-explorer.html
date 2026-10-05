@@ -121,6 +121,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);
 .tasks summary{cursor:pointer}
 .tasks details p{font-family:var(--serif);font-size:1rem;color:var(--ink);margin-top:.35em}
 .keys{font-family:var(--sans);font-size:.85rem;color:var(--muted);margin:14px 0 0}
+@media (hover:none) and (pointer:coarse){.kb-hint{display:none}}
 kbd{font-family:var(--sans);font-size:.8rem;border:1px solid var(--rule);border-bottom-width:2px;border-radius:4px;padding:1px 5px}
 @media (prefers-reduced-motion: reduce){.chip.new{animation:none}.body{transition:none}}
 </style>
@@ -151,7 +152,7 @@ kbd{font-family:var(--sans);font-size:.8rem;border:1px solid var(--rule);border-
       <button class="mv quiet" id="btn-reset" type="button">Reset</button>
     </div>
     <div class="moves mirrors-row" id="mirror-btns"><span class="row-label">Reflect in</span></div>
-    <p class="keys">Tap a dashed line to reflect in it. Keys: <kbd>R</kbd> turn, <kbd>S</kbd> reflect in <span class="m">s</span>, <kbd>Z</kbd> undo.</p>
+    <p class="keys">Tap a dashed line to reflect in it.<span class="kb-hint"> Keys: <kbd>R</kbd> turn, <kbd>S</kbd> reflect in <span class="m">s</span>, <kbd>Z</kbd> undo.</span></p>
   </section>
 
   <aside class="panel" aria-label="What happened">

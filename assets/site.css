@@ -314,7 +314,10 @@ a.chip:hover{border-color:var(--link);color:var(--link)}
 .nav .sub a{display:block;padding:10px 12px;border-radius:5px;color:var(--chalk-dim);white-space:nowrap}
 .nav .sub a:hover{color:var(--chalk);background:rgba(255,255,255,.07)}
 .nav .sub a[aria-current="page"]{color:var(--chalk);text-decoration:none;background:rgba(255,255,255,.07)}
-@media (hover:none){.sub{display:none !important}}
+@media (hover:none){.sub{display:none !important;left:-12px;right:auto}.has-sub.open .sub{display:block !important}.has-sub.flip .sub{left:auto;right:-14px}}
+.jump{margin:.9em 0 0;font-family:var(--sans);font-size:1rem}
+.jump a{color:var(--chalk);text-decoration-color:var(--yellow);text-decoration-thickness:1.5px;text-underline-offset:5px}
+#this-week{scroll-margin-top:16px}
 .brk .lec{margin:0;font-family:var(--serif);font-size:1.02rem;color:var(--ink)}
 .brk{align-items:start}
 
