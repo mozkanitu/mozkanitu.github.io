@@ -138,6 +138,7 @@ h2{font-weight:500;font-size:clamp(1.9rem,1.4rem + 1.5vw,2.6rem);line-height:1.1
   .duo{grid-template-columns:1fr}
   .foot-grid{grid-template-columns:1fr}
 }
+@media (max-width:600px){.hero .diagram{display:none}}
 @media (max-width:560px){
   .top{flex-direction:column;align-items:flex-start;gap:10px;padding-block:18px 8px}
   .mark{margin-left:-4px}
