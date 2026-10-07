@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Problem Set 1 – Theory of Groups in Physics</title>
+<meta name="description" content="FZT 203E Theory of Groups in Physics, Fall 2026: Problem Set 1, due Wednesday 14 October 2026.">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/site.css?v=6">
+<link rel="stylesheet" href="../../../assets/katex/katex.min.css">
+<script src="../../../assets/analytics.js" defer></script>
+<style>
+.ps-links{margin:1.1em 0 0;display:flex;flex-wrap:wrap;gap:10px 28px;font-family:var(--sans);font-size:1rem}
+.ps-links a{color:var(--chalk);text-decoration-color:var(--yellow);text-decoration-thickness:1.5px;text-underline-offset:5px}
+.ps{max-width:46rem}
+.ps .facts{margin-bottom:2.2em}
+.ps h2{margin-top:1.6em}
+.ps h3{font-size:1.3rem;font-weight:600;line-height:1.3;margin:1.9em 0 .5em}
+.ps p{margin:0 0 .9em}
+.ps ul,.ps ol{margin:0 0 1em;padding-left:1.6em}
+.ps li{margin:0 0 .55em}
+.ps ul li::marker{color:var(--muted)}
+.ps ol.parts{list-style:none;counter-reset:part;padding-left:2.4em}
+.ps ol.parts>li{counter-increment:part;position:relative}
+.ps ol.parts>li::before{content:"(" counter(part,lower-alpha) ")";position:absolute;left:-2.4em;font-weight:700}
+.ps ol.items{margin:.5em 0 .6em;padding-left:1.8em}
+.ps ol.items>li{margin-bottom:.3em}
+.ps .note{color:var(--muted)}
+.ps .katex{font-size:1.08em}
+.ps .katex-display{margin:.8em 0;overflow-x:auto;overflow-y:hidden;padding:2px 0}
+.ps .eqs{display:flex;flex-wrap:wrap;align-items:center;column-gap:2.5em}
+.ps .eqs .katex-display{margin:.5em 0}
+.ps-end{margin-top:3em;padding-top:1.4em;border-top:1px solid var(--rule);font-family:var(--sans);font-size:1rem}
+@media (max-width:600px){.ps ol.parts{padding-left:2.1em}.ps ol.parts>li::before{left:-2.1em}}
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+
+<header class="board">
+  <div class="head wrap page-head">
+    <a class="crumb" href="../">Theory of Groups in Physics</a>
+    <h1 tabindex="-1">Problem Set 1</h1>
+    <p class="role">FZT 203E, Fall 2026. Due Wednesday 14 October, at the start of the lecture.</p>
+    <p class="ps-links"><a href="GT_PS1.pdf">Download the PDF</a></p>
+  </div>
+  <div class="tray" aria-hidden="true"></div>
+</header>
+
+<main id="content">
+  <section class="section">
+    <div class="wrap">
+      <article class="ps">
+        <dl class="facts">
+          <dt>Covers</dt><dd>Lectures 1–4: group axioms, $\Z_n$, $D_n$ and $S_3$, subgroups and generators, cosets and Lagrange's theorem, homomorphisms, isomorphisms and kernels. Direct products will appear on Problem Set 2.</dd>
+          <dt>Due</dt><dd>Wednesday, 14 October 2026, at the start of the lecture</dd>
+          <dt>Reading</dt><dd>Zee I.1–I.2; Bünemann Ch. 2; lecture notes for Weeks 1 and 2</dd>
+        </dl>
+
+        <p>Justify every answer; a correct answer without reasoning earns partial credit.</p>
+
+        <h2>Conventions</h2>
+        <p>These are the conventions of the lectures and the course simulations.</p>
+        <ul>
+          <li>The vertices of a regular $n$-gon are labelled $1, 2, \dots, n$ counterclockwise.</li>
+          <li>$r$ is the counterclockwise rotation by $2\pi/n$, and $s$ is the reflection in the axis through vertex 1 and the centre.</li>
+          <li>Products are read right to left: in $gh$, the element $h$ acts first. So $rs$ means “first $s$, then $r$”.</li>
+          <li>A symmetry is written as a permutation of positions: $i \to j$ when the vertex at position $i$ is carried to position $j$. For the triangle, $r = (123)$, $s = (23)$ and $rs = (12)$.</li>
+          <li>Permutations compose the same way: $(12)(23)$ means first $(23)$, then $(12)$.</li>
+          <li>$D_n$ has the relations $r^n = s^2 = e$ and $srs = r^{-1}$, and every element has a unique normal form $r^k s^m$ with $0 \le k &lt; n$ and $m \in \{0, 1\}$.</li>
+          <li>$\Z_n = \{0, 1, \dots, n-1\}$ under addition mod $n$. $D_2$ is the four-element group of half-turns of a box, in which every element squares to $e$.</li>
+        </ul>
+        <p>The <a href="../symmetry-explorer.html">Symmetry Explorer</a> and the <a href="../table-builder.html">Multiplication-Table Builder</a> on the course page can check your $D_4$ computations in Problems 2 and 4. Use them to check your algebra, not to replace it.</p>
+
+        <h2>Problems</h2>
+
+        <h3>1. Group or not?</h3>
+        <ol class="parts">
+          <li>Decide which of the following are groups. For each one that is not, name an axiom that fails and give an explicit counterexample. For each one that is, say whether it is Abelian.
+            <ol class="items">
+              <li>$\Z$ with $a * b = a - b$.</li>
+              <li>The odd integers under addition.</li>
+              <li>The nonzero integers under multiplication.</li>
+              <li>$\{1, i, -1, -i\}$ under multiplication of complex numbers.</li>
+              <li>The real $2\times 2$ matrices with determinant 1, under matrix multiplication.</li>
+              <li>$\R\setminus\{-1\}$ with $a * b = a + b + ab$. (Hint: compute $1 + a * b$.)</li>
+            </ol>
+          </li>
+          <li>Suppose every element of a group $G$ satisfies $g^2 = e$. Show that $G$ is Abelian.</li>
+          <li>Let $G$ be a finite group. Show that the elements with $g \ne g^{-1}$ come in pairs, so there is an even number of them. Deduce that every group of even order contains an element of order 2, and check this in $D_3$ and $\Z_6$.</li>
+        </ol>
+
+        <h3>2. Working in $D_4$</h3>
+        <p>Take the square with vertices $1, 2, 3, 4$ counterclockwise. Check that, with our conventions, $r = (1234)$ and $s = (24)$.</p>
+        <ol class="parts">
+          <li>Write all eight elements of $D_4$ in normal form and as permutations in cycle notation. For each reflection, describe its axis.</li>
+          <li>Show that $s r^k = r^{-k} s$ for every integer $k$. Use this to bring $x = s r^3 s r^2 s r$ to normal form, then check your answer by multiplying the permutations.</li>
+          <li>Find the order of every element of $D_4$.</li>
+          <li>$D_4$ has exactly ten subgroups. Find them all, say which are cyclic and which are isomorphic to $D_2$, and draw the subgroup lattice: each subgroup joined by a line to the subgroups directly above it that contain it. Explain why there are no others.</li>
+        </ol>
+
+        <h3>3. The cyclic group $\Z_{12}$</h3>
+        <ol class="parts">
+          <li>Find the order of every element of $\Z_{12}$. Guess a formula for the order of $k$ in terms of $k$ and 12, and check it on all twelve elements.</li>
+          <li>Which elements generate $\Z_{12}$?</li>
+          <li>Find all subgroups of $\Z_{12}$ and draw the subgroup lattice. You may use without proof that every subgroup of a cyclic group is cyclic.</li>
+          <li>For each subgroup $H$, list the elements $k$ with $\gen{k} = H$. What do the elements that generate the same subgroup have in common?</li>
+        </ol>
+
+        <h3>4. Cosets and Lagrange's theorem</h3>
+        <ol class="parts">
+          <li>In $D_4$ let $H = \gen{s} = \{e, s\}$. List the left cosets $gH$ and the right cosets $Hg$. Which left cosets are also right cosets?</li>
+          <li>Repeat (a) for $K = \gen{r^2}$ and for $R = \gen{r}$. What property of $r^2$ explains your answer for $K$?</li>
+          <li>A group $G$ has order 20. Which orders are possible for its subgroups, and which for its elements?</li>
+          <li>A group $G$ has order 15, and an element $g \in G$ satisfies $g^3 \ne e$ and $g^5 \ne e$. Show that $G$ is cyclic.</li>
+          <li>$H$ and $K$ are subgroups of a group $G$ with $|H| = 4$ and $|K| = 9$. Show that $H \cap K = \{e\}$.</li>
+          <li>By Lagrange's theorem the order of every element divides $|G|$. Give an example of a group $G$ and a divisor $d$ of $|G|$ such that $G$ has no element of order $d$.</li>
+        </ol>
+
+        <h3>5. Homomorphisms</h3>
+        <ol class="parts">
+          <li>Each element $g$ of $D_n$ acts on the plane as a $2\times 2$ matrix $M(g)$, with $M(gh) = M(g)M(h)$. With vertex 1 on the positive $x$-axis,
+            <div class="eqs">
+              <div>\[M(r) = \begin{pmatrix} \cos\frac{2\pi}{n} & -\sin\frac{2\pi}{n} \\[2pt] \sin\frac{2\pi}{n} & \cos\frac{2\pi}{n} \end{pmatrix},\]</div>
+              <div>\[M(s) = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}.\]</div>
+            </div>
+            Define $\varphi(g) = \det M(g)$. Show that $\varphi$ is a homomorphism from $D_n$ to the group $\{1, -1\}$ under multiplication, compute $\varphi(r^k s^m)$, and find the kernel and the image of $\varphi$.</li>
+          <li>Let $U(1) = \{z \in \C : |z| = 1\}$ under multiplication, and let $\psi(z) = z^2$. Show that $\psi$ is a homomorphism from $U(1)$ onto $U(1)$, find its kernel, and show that every element of $U(1)$ has exactly two preimages. More generally, show that the kernel of $z \mapsto z^n$ is isomorphic to $\Z_n$. (In Week 9 the map $SU(2) \to SO(3)$ will be two-to-one in the same way.)</li>
+          <li>Find all homomorphisms $\Z_4 \to \Z_6$ and all homomorphisms $\Z_6 \to \Z_4$, and give the kernel and image of each. A homomorphism from a cyclic group is fixed by where it sends a generator; check that each candidate is well defined.</li>
+          <li>For every homomorphism $\varphi\colon G \to G'$ you found in (a) and (c), check that $|\ker\varphi| \cdot |\operatorname{im}\varphi| = |G|$. We will see why this always holds when we meet quotient groups.</li>
+        </ol>
+
+        <h3>6. Isomorphic or not?</h3>
+        <ol class="parts">
+          <li>For each pair, either give an explicit isomorphism or prove that none exists. To rule one out, find a property that isomorphisms preserve, such as being Abelian or the orders of elements, that one group has and the other lacks. You may assume that each set below is a group.
+            <ol class="items">
+              <li>$\Z_6$ and $S_3$.</li>
+              <li>$\Z_4$ and $\{1, 2, 3, 4\}$ under multiplication mod 5.</li>
+              <li>$\Z_4$ and $\{1, 3, 5, 7\}$ under multiplication mod 8.</li>
+              <li>$(\R, +)$ and $(\R_{+}, \cdot\,)$, the positive reals under multiplication.</li>
+              <li>$(\R, +)$ and $(\R\setminus\{0\}, \cdot\,)$.</li>
+            </ol>
+          </li>
+          <li>Label the elements $1, 3, 5, 7$ of the group in item 3 as positions $1, 2, 3, 4$. Following Cayley's theorem, write multiplication by each element as a permutation in $S_4$. What do the four permutations have in common?</li>
+        </ol>
+
+        <h3>7. Adding velocities in special relativity</h3>
+        <p>In units with $c = 1$, two collinear velocities $u$ and $v$ combine to</p>
+        \[
+          u \oplus v = \frac{u + v}{1 + uv}.
+        \]
+        <p>Let $G = (-1, 1)$, the possible velocities of a massive particle.</p>
+        <ol class="parts">
+          <li>Show that $u \oplus v \in G$ whenever $u, v \in G$. (Hint: factor $1 - u\oplus v$ and $1 + u \oplus v$.)</li>
+          <li>Find the identity and the inverse of $u$. Is $\oplus$ commutative?</li>
+          <li>The rapidity $\eta$ of a velocity $u$ is defined by $u = \tanh\eta$. Use
+            \[
+              \tanh(\alpha + \beta) = \frac{\tanh\alpha + \tanh\beta}{1 + \tanh\alpha\tanh\beta}
+            \]
+            to show that $T(\eta) = \tanh\eta$ satisfies $T(\alpha + \beta) = T(\alpha) \oplus T(\beta)$. Since $T$ is a bijection from $\R$ onto $(-1, 1)$, write $u = T(\alpha)$, $v = T(\beta)$, $w = T(\gamma)$ and deduce that $\oplus$ is associative without expanding $(u \oplus v) \oplus w$. Conclude that $(G, \oplus)$ is a group isomorphic to $(\R, +)$.</li>
+          <li>Compute $0.5 \oplus 0.5$, then check your answer by adding rapidities. (Hint: $\tanh^{-1} u = \tfrac12 \ln\bigl[(1 + u)/(1 - u)\bigr]$.)</li>
+          <li>With $c$ restored, $u \oplus v = (u + v)/(1 + uv/c^2)$. Which group do you recover as $c \to \infty$?</li>
+        </ol>
+
+        <p class="ps-end"><a href="../">Back to the course page</a></p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<script src="../../../assets/katex/katex.min.js" defer></script>
+<script src="../../../assets/katex/auto-render.min.js" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  renderMathInElement(document.body,{
+    delimiters:[{left:'\\[',right:'\\]',display:true},{left:'$',right:'$',display:false}],
+    macros:{'\\Z':'\\mathbb{Z}','\\R':'\\mathbb{R}','\\C':'\\mathbb{C}','\\gen':'\\langle #1\\rangle'},
+    throwOnError:false
+  });
+});
+</script>
+</body>
+</html>
