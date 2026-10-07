@@ -88,8 +88,8 @@
   function isNow(a){return today>=a && today<addDays(a,7);}
 
   var GT=[
-    {n:1,title:"Symmetry and groups",lec:"Symmetry as the motivation. Group axioms, order, Abelian and non-Abelian groups. Zₙ, Dₙ, S₃.",read:"Zee I.1, Bünemann Ch. 2",notes:"notes/GT_W1.pdf",hw:"problem-sets/ps1.html",hwDue:"due Wednesday 14 Oct",sims:[["Symmetry explorer","symmetry-explorer.html"],["Multiplication-table builder","table-builder.html"],["Same group, different clothes","same-group.html"]]},
-    {n:2,title:"Subgroups, homomorphisms and cosets",lec:"Subgroups, cyclic groups, generators. Homomorphisms, isomorphisms, kernels. Direct products. Cosets and Lagrange's theorem.",read:"Zee I.1–I.2, Bünemann Ch. 2",notes:"notes/GT_W2.pdf",quiz:1,quizWhen:"Wednesday 7 Oct"},
+    {n:1,title:"Symmetry and groups",lec:"Symmetry as the motivation. Group axioms, order, Abelian and non-Abelian groups. Zₙ, Dₙ, S₃.",read:"Zee I.1, Bünemann Ch. 2",notes:"notes/GT_W1.pdf",noHW:1,sims:[["Symmetry explorer","symmetry-explorer.html"],["Multiplication-table builder","table-builder.html"],["Same group, different clothes","same-group.html"]]},
+    {n:2,title:"Subgroups, homomorphisms and cosets",lec:"Subgroups, cyclic groups, generators. Homomorphisms, isomorphisms, kernels. Direct products. Cosets and Lagrange's theorem.",read:"Zee I.1–I.2, Bünemann Ch. 2",notes:"notes/GT_W2.pdf",hw:"problem-sets/ps1.html",hwDue:"due Wednesday 14 Oct",quiz:1,quizWhen:"Wednesday 7 Oct"},
     {n:3,title:"Normal subgroups and the symmetric group",lec:"Normal subgroups, quotient groups. Conjugacy classes. Sₙ: cycle notation, parity, Aₙ.",read:"Zee I.2, Bünemann Ch. 2"},
     {n:4,title:"The linear algebra bridge",lec:"Matrices as linear maps, eigenvectors, diagonalization, trace and determinant under change of basis, unitary and orthogonal matrices, O(n), U(n) and SU(n) as groups, invariant subspaces.",read:"Zee II.1, Bünemann Ch. 4",quiz:2},
     {n:5,title:"Schur's lemmas and characters",lec:"Unitarity of finite-group representations. Schur's lemmas. The great orthogonality theorem. Characters as class functions.",read:"Zee II.2–II.3, Bünemann Ch. 4–5"},
