@@ -10,6 +10,7 @@ Static site on GitHub Pages. No build step: edit the HTML, CSS and JS files dire
 - Every page links `site.css?v=N` and `site.js?v=N`. After changing either file, raise N by one in every page so browsers load the new version instead of a cached copy.
 - In `assets/site.js`: `PAPERS` (publication list, newest first; also feeds the home page and the research page), `GT` (group theory weekly schedule), `PHYS` (Physics I: Mechanics topics). Resources marked `soon:1` render as dashed "soon" buttons; give them a `url` when the file exists.
 - Group theory lecture notes live in `teaching/group-theory/notes/`; simulations are the `.html` files in `teaching/group-theory/`.
+- Group theory problem sets live in `teaching/group-theory/problem-sets/`: `psN.html` (the web version, math typeset by the self-hosted KaTeX in `assets/katex/`) and `GT_PSN.pdf`. Link one from its week in `GT` with `hw` and `hwDue`.
 
 ## Rules from the owner
 - Never write the email address in plain text anywhere. The "Email" link is a `.mail-btn` button that assembles the address in `assets/site.js` when clicked.
