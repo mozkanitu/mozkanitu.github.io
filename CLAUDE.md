@@ -19,6 +19,7 @@ Static site on GitHub Pages. No build step: edit the HTML, CSS and JS files dire
 - Describe ongoing research only at the level the owner states; do not add unpublished details.
 - Group theory course: no tutorials; both weekly sessions (Monday 14:30–16:30, Wednesday 13:30–15:30) are lectures. The midterm date is not set; it will be just before or just after the fall break (16–20 November 2026).
 - Quiz solutions are posted only after the quiz has been given.
+- Group theory schedule: list a problem set or quiz only once the owner gives it; no "soon" placeholders for future ones.
 
 ## Group theory conventions (match the lecture slides)
 - Triangle vertices labeled 1, 2, 3 counterclockwise from the bottom left; `r` = counterclockwise turn by 2π/n; `s` = reflection in the line through vertex 1.

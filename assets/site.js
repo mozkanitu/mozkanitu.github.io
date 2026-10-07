@@ -88,27 +88,27 @@
   function isNow(a){return today>=a && today<addDays(a,7);}
 
   var GT=[
-    {n:1,title:"Symmetry and groups",lec:"Symmetry as the motivation. Group axioms, order, Abelian and non-Abelian groups. Zₙ, Dₙ, S₃.",read:"Zee I.1, Bünemann Ch. 2",notes:"notes/GT_W1.pdf",noHW:1,sims:[["Symmetry explorer","symmetry-explorer.html"],["Multiplication-table builder","table-builder.html"],["Same group, different clothes","same-group.html"]]},
-    {n:2,title:"Subgroups, homomorphisms and cosets",lec:"Subgroups, cyclic groups, generators. Homomorphisms, isomorphisms, kernels. Direct products. Cosets and Lagrange's theorem.",read:"Zee I.1–I.2, Bünemann Ch. 2",notes:"notes/GT_W2.pdf",hw:"problem-sets/ps1.html",hwDue:"due Wednesday 14 Oct",quiz:1,quizWhen:"Wednesday 7 Oct"},
-    {n:3,title:"Normal subgroups and the symmetric group",lec:"Normal subgroups, quotient groups. Conjugacy classes. Sₙ: cycle notation, parity, Aₙ.",read:"Zee I.2, Bünemann Ch. 2"},
-    {n:4,title:"The linear algebra bridge",lec:"Matrices as linear maps, eigenvectors, diagonalization, trace and determinant under change of basis, unitary and orthogonal matrices, O(n), U(n) and SU(n) as groups, invariant subspaces.",read:"Zee II.1, Bünemann Ch. 4",quiz:2},
+    {n:1,title:"Symmetry and groups",lec:"Symmetry as the motivation. Group axioms, order, Abelian and non-Abelian groups. Zₙ, Dₙ, S₃.",read:"Zee I.1, Bünemann Ch. 2",notes:"notes/GT_W1.pdf",sims:[["Symmetry explorer","symmetry-explorer.html"],["Multiplication-table builder","table-builder.html"],["Same group, different clothes","same-group.html"]]},
+    {n:2,title:"Subgroups, homomorphisms and cosets",lec:"Subgroups, cyclic groups, generators. Homomorphisms, isomorphisms, kernels. Direct products. Cosets and Lagrange's theorem.",read:"Zee I.1–I.2, Bünemann Ch. 2",notes:"notes/GT_W2.pdf",hw:"problem-sets/ps1.html",hwDue:"due Wednesday 14 Oct"},
+    {n:3,title:"Normal subgroups and the symmetric group",lec:"Normal subgroups, quotient groups. Conjugacy classes. Sₙ: cycle notation, parity, Aₙ.",read:"Zee I.2, Bünemann Ch. 2",quiz:1},
+    {n:4,title:"The linear algebra bridge",lec:"Matrices as linear maps, eigenvectors, diagonalization, trace and determinant under change of basis, unitary and orthogonal matrices, O(n), U(n) and SU(n) as groups, invariant subspaces.",read:"Zee II.1, Bünemann Ch. 4"},
     {n:5,title:"Schur's lemmas and characters",lec:"Unitarity of finite-group representations. Schur's lemmas. The great orthogonality theorem. Characters as class functions.",read:"Zee II.2–II.3, Bünemann Ch. 4–5"},
-    {n:6,title:"Character tables in practice",lec:"Character tables of D₄ and Z₂ × Z₂. Decomposing reducible representations with characters. Product representations.",read:"Zee IV.i1, III.2 (molecule example), Bünemann Ch. 5",quiz:3},
-    {n:7,title:"Point groups",lec:"Schoenflies notation and the 32 point groups. Subgroup restriction and crystal-field splitting.",read:"Zee II.i1, IV.i2, Bünemann Ch. 3, 7",noHW:1},
+    {n:6,title:"Character tables in practice",lec:"Character tables of D₄ and Z₂ × Z₂. Decomposing reducible representations with characters. Product representations.",read:"Zee IV.i1, III.2 (molecule example), Bünemann Ch. 5"},
+    {n:7,title:"Point groups",lec:"Schoenflies notation and the 32 point groups. Subgroup restriction and crystal-field splitting.",read:"Zee II.i1, IV.i2, Bünemann Ch. 3, 7"},
     {n:8,title:"Continuous groups: SO(3) and its Lie algebra",lec:"SO(2) and SO(3) as matrices; one-parameter subgroups, generators, the exponential map. The Lie algebra so(3) and its commutators.",read:"Zee I.3, IV.1"},
-    {n:9,title:"SU(2) and the double cover",lec:"Pauli matrices, su(2) ≅ so(3) as algebras. The two-to-one map SU(2) → SO(3). SU(2) as a 3-sphere.",read:"Zee IV.5, IV.4",quiz:4},
+    {n:9,title:"SU(2) and the double cover",lec:"Pauli matrices, su(2) ≅ so(3) as algebras. The two-to-one map SU(2) → SO(3). SU(2) as a 3-sphere.",read:"Zee IV.5, IV.4"},
     {n:10,title:"Irreducible representations of su(2)",lec:"Finite-dimensional irreps from the algebra: Casimir, J₃, ladder operators, highest weight, dimension 2j + 1. Integer and half-integer j and the double cover.",read:"Zee IV.2"},
-    {n:11,title:"Tensor products and Clebsch–Gordan",lec:"Tensor products of su(2) irreps. The Clebsch–Gordan decomposition j₁ ⊗ j₂ via characters and weights; ½ ⊗ ½ = 0 ⊕ 1 in detail.",read:"Zee IV.3, ★ Bünemann Ch. 10",quiz:5},
+    {n:11,title:"Tensor products and Clebsch–Gordan",lec:"Tensor products of su(2) irreps. The Clebsch–Gordan decomposition j₁ ⊗ j₂ via characters and weights; ½ ⊗ ½ = 0 ⊕ 1 in detail.",read:"Zee IV.3, ★ Bünemann Ch. 10"},
     {n:12,title:"Lie algebras and SU(3)",lec:"Structure constants, the Jacobi identity, Cartan generators, weights. SU(3): Gell-Mann matrices, T₃ and T₈, weight diagrams of 3, 3̄ and 8. The Eightfold Way as a picture.",read:"Zee V.2, selected VI.1, lecture notes"},
-    {n:13,title:"Noether and the Lorentz algebra",lec:"Rotations and angular momentum, translations and momentum. The Lorentz algebra: [J, J], [J, K], [K, K]; A = (J + iK)/2 and B = (J − iK)/2 give su(2) ⊕ su(2). Synthesis.",read:"Zee III.3, selected VII.2, lecture notes",quiz:6}
+    {n:13,title:"Noether and the Lorentz algebra",lec:"Rotations and angular momentum, translations and momentum. The Lorentz algebra: [J, J], [J, K], [K, K]; A = (J + iK)/2 and B = (J − iK)/2 give su(2) ⊕ su(2). Synthesis.",read:"Zee III.3, selected VII.2, lecture notes"}
   ];
   var hwN=0;
   GT.forEach(function(w){
     var r=[w.notes?{t:'notes',label:'Lecture notes (PDF)',url:w.notes,ext:1}:{t:'notes',label:'Lecture notes',soon:1},{t:'reading',label:w.read}];
     (w.sims||[]).forEach(function(x){r.push({t:'simulation',label:x[0],url:x[1],ext:1});});
-    if(!w.noHW){hwN++; r.push(w.hw?{t:'homework',label:'Problem set '+hwN+(w.hwDue?', '+w.hwDue:''),url:w.hw,ext:1}:{t:'homework',label:'Problem set '+hwN,soon:1});}
+    if(w.hw){hwN++; r.push({t:'homework',label:'Problem set '+hwN+(w.hwDue?', '+w.hwDue:''),url:w.hw,ext:1});}
     if(w.quiz) r.push({t:'quiz',label:'Quiz '+w.quiz+(w.quizWhen?', '+w.quizWhen:''),soon:1});
-    if(!w.noHW||w.quiz) r.push({t:'solutions',label:'Solutions',soon:1});
+    if(w.hw||w.quiz) r.push({t:'solutions',label:'Solutions',soon:1});
     w.res=r;
   });
   function wkRow(w,start){
