@@ -123,7 +123,23 @@ table.mt{border-collapse:separate;border-spacing:4px;margin:0}
 .compare .mt .cell{cursor:default}
 .compare p.cap{max-width:42em;margin:16px 0 0}
 .diag-on .cell.dg{outline:3px solid var(--yellow);outline-offset:-1px}
+
+/* rows as permutations */
+.toggle.locked{color:var(--muted);cursor:default}
+.locknote{margin:10px 0 0;font-family:var(--sans);font-size:.92rem;color:var(--muted)}
+.perms{margin-top:22px}
+.perms h2{margin:0 0 8px;font-family:var(--sans);font-size:.95rem;font-weight:600;color:var(--muted)}
+.perms .plab{margin:0 0 6px;max-width:40em}
+.perms .nw{white-space:nowrap}
+.plist{list-style:none;margin:12px 0 0;padding:0;columns:2 220px;column-gap:28px}
+.plist li{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:12px;padding:3px 0;break-inside:avoid}
+.plist .pg{min-width:46px;height:32px;padding:0 8px;border-radius:6px;background:var(--board);color:var(--chalk);font:italic 1.05rem/32px var(--serif);text-align:center}
+.plist .pv{justify-self:start;font-family:var(--serif);font-size:1.1rem;letter-spacing:.02em;transform-origin:left center}
+.plist .pv.wait{font-family:var(--sans);font-size:.9rem;letter-spacing:0;color:var(--muted)}
+.plist .pv.fresh{animation:pop .45s ease-out}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media (prefers-reduced-motion: reduce){.cell{transition:none}.cell.fresh{animation:none}}
+@media (prefers-reduced-motion: reduce){.plist .pv.fresh{animation:none}}
 </style>
 </head>
 <body>
@@ -152,8 +168,11 @@ table.mt{border-collapse:separate;border-spacing:4px;margin:0}
       <div class="tools">
         <label class="toggle"><input type="checkbox" id="t-color" checked> Color by element</label>
         <label class="toggle"><input type="checkbox" id="t-sym"> Compare <span class="m">ab</span> with <span class="m">ba</span></label>
+        <label class="toggle" id="perm-toggle"><input type="checkbox" id="t-perm" aria-describedby="perm-lock"> Rows as permutations</label>
       </div>
+      <p class="locknote" id="perm-lock" hidden></p>
       <p class="status" id="status" aria-live="polite"></p>
+      <section class="perms" id="perms" aria-label="Rows as permutations" hidden></section>
     </section>
 
     <aside class="side" aria-label="Watch and predict">
@@ -183,6 +202,8 @@ table.mt{border-collapse:separate;border-spacing:4px;margin:0}
   </section>
 </main>
 
+<script src="gt-lock.js"></script>
+<script src="gt-groups.js"></script>
 <script>
 (function(){
   var NS='http://www.w3.org/2000/svg', PI=Math.PI;
@@ -279,6 +300,7 @@ table.mt{border-collapse:separate;border-spacing:4px;margin:0}
       status(msg,'good');
     } else if(sym){status(symVerdict(true));}
     updateTasks();
+    renderPerms();
   }
   function mix(hex){
     var a=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--tint'))||.3;
@@ -426,6 +448,49 @@ table.mt{border-collapse:separate;border-spacing:4px;margin:0}
     });
   }
 
+  /* ---------- rows as permutations (Cayley) ----------
+     Elements are numbered 1..N in table order; row g sends the number of
+     column h to the number of gh, computed with this page's own G.mul.
+     Whether a group's permutations may be shown is asked of GT_LOCK. */
+  var CAYLEY=typeof GT!=='undefined'&&typeof GT_LOCK!=='undefined';
+  var permWant=false,permShown={},permFilled=null;
+  function curId(){return ORDER.filter(function(k){return GROUPS[k]===cur;})[0];}
+  function permLocked(){return GT_LOCK.isLocked('cayley:'+curId());}
+  function rowFull(i){for(var j=0;j<N;j++)if(filled[cellKey(i,j)]===undefined)return false;return true;}
+  function rowPerm(i){var p=[];for(var j=0;j<N;j++)p.push(G.mul(i,j));return p;}
+  // Built from GT_LOCK.message alone, so it follows any change made in gt-lock.js.
+  function lockNote(){
+    var m=String(GT_LOCK.message||'');
+    return /^This opens /.test(m)?m.replace(/^This opens/,'Rows as permutations open for this group'):('Rows as permutations open for this group later. '+m).trim();
+  }
+  function renderPerms(){
+    if(!CAYLEY) return;
+    var t=document.getElementById('t-perm'),box=document.getElementById('perms'),note=document.getElementById('perm-lock'),locked=permLocked();
+    t.disabled=locked;t.checked=permWant&&!locked;
+    document.getElementById('perm-toggle').classList.toggle('locked',locked);
+    note.hidden=!locked;note.textContent=locked?lockNote():'';
+    if(permFilled!==filled){permFilled=filled;permShown={};}
+    if(locked||!permWant){box.hidden=true;box.innerHTML='';permShown={};return;}
+    // A row that has just been completed pops, unless several appear at once
+    // (Fill the rest) or the list has only now been switched on.
+    var fresh=[],i;
+    for(i=0;i<N;i++) if(!permShown[i]&&rowFull(i)) fresh.push(i);
+    var pop=!box.hidden&&!reduce&&fresh.length===1?fresh[0]:-1;
+    var h='<h2>Rows as permutations</h2>'+
+      '<p class="plab">Number the elements in table order: '+G.els.map(function(e,i){return '<span class="nw"><span class="m">'+e.html+'</span> = '+(i+1)+'</span>';}).join(', ')+'.</p>'+
+      '<p class="plab">Row <span class="m">g</span> is left multiplication by <span class="m">g</span>: it sends the number of each column <span class="m">h</span> to the number of <span class="m">gh</span>, its entry in that column.</p>'+
+      '<ul class="plist">';
+    for(i=0;i<N;i++){
+      h+='<li><span class="pg"><span class="vh">Row </span>'+G.els[i].html+'</span>';
+      if(rowFull(i)){
+        var c=GT.cycles(rowPerm(i));permShown[i]=1;
+        h+='<span class="pv'+(i===pop?' fresh':'')+'">'+(c==='e'?'<span class="m">e</span>':c)+'</span>';
+      } else h+='<span class="pv wait">fill this row first</span>';
+      h+='</li>';
+    }
+    box.innerHTML=h+'</ul>';box.hidden=false;
+  }
+
   /* ---------- comparison of the two groups of order four ---------- */
   function staticTable(g){
     var h='<table class="mt"><thead><tr><th class="corner"></th>';
@@ -467,6 +532,10 @@ table.mt{border-collapse:separate;border-spacing:4px;margin:0}
   document.getElementById('t-color').addEventListener('change',function(){refresh();paintCompare();});
   document.getElementById('t-sym').addEventListener('change',function(){refresh();});
   document.getElementById('t-diag').addEventListener('change',paintCompare);
+  if(CAYLEY){
+    document.getElementById('t-perm').addEventListener('change',function(){permWant=this.checked;renderPerms();});
+    GT_LOCK.onOpen(renderPerms);
+  } else {var pt=document.getElementById('perm-toggle');pt.parentNode.removeChild(pt);}
   buildCompare();
   setGroup('D3');
 })();

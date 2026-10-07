@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Subgroups and cosets – Theory of Groups in Physics</title>
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<script src="../../assets/analytics.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F8F5; --ink:#1E2723; --muted:#56635C; --rule:#DCE1DC; --link:#2A6650; --bad:#B5503F;
+  --board:#2C463B; --chalk:#EEEDE6; --chalk-dim:rgba(238,237,230,.68); --chalk-faint:rgba(238,237,230,.28);
+  --yellow:#E9CB6B; --warn:#E89A8E; --cell:#FFFFFF; --tint:.34;
+  --tray-1:#CFD3D5; --tray-2:#9FA5A9; --tray-3:#7E8488;
+  --serif:"STIX Two Text","Iowan Old Style","Palatino Linotype","Times New Roman",serif;
+  --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:light; box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  background:var(--board);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--paper:#131916;--ink:#E3E6E1;--muted:#9CA79F;--rule:#2C3631;--link:#8FCBB1;--bad:#E89A8E;--board:#223a2f;--cell:#1A221E;--tint:.30;--tray-1:#737a7e;--tray-2:#50575b;--tray-3:#3a4043;color-scheme:dark}
+}
+:root[data-theme="dark"]{--paper:#131916;--ink:#E3E6E1;--muted:#9CA79F;--rule:#2C3631;--link:#8FCBB1;--bad:#E89A8E;--board:#223a2f;--cell:#1A221E;--tint:.30;--tray-1:#737a7e;--tray-2:#50575b;--tray-3:#3a4043;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:1.075rem;line-height:1.55}
+sup,sub{line-height:0}
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(16px,4vw,40px)}
+:focus-visible{outline:2px solid var(--link);outline-offset:2px;border-radius:3px}
+.board{background-color:var(--board);background-image:radial-gradient(110% 80% at 15% 18%,rgba(255,255,255,.06),transparent 60%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 .075 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");color:var(--chalk)}
+.board :focus-visible{outline-color:var(--yellow)}
+.m{font-family:var(--serif);font-style:italic}
+.top{padding-block:22px 30px}
+.crumb{margin:0 0 10px;font-family:var(--sans);font-size:.95rem;color:var(--chalk-dim)}
+.crumb a{color:var(--chalk);text-decoration-color:var(--yellow);text-underline-offset:4px}
+.top h1{margin:0;font-weight:500;font-size:clamp(2.2rem,1.4rem + 3vw,3.4rem);line-height:1.05;letter-spacing:-.01em}
+.top .sub{margin:.45em 0 0;font-size:1.15rem;color:var(--chalk-dim);max-width:38em}
+.tray{height:12px;background:linear-gradient(to bottom,var(--tray-1),var(--tray-2) 55%,var(--tray-3));box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 4px 8px -3px rgba(0,0,0,.3)}
+
+/* layout */
+.lab{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px clamp(24px,4vw,52px);padding-block:28px 64px;align-items:start}
+@media (max-width:920px){.lab{grid-template-columns:minmax(0,1fr)}}
+.side{display:grid;gap:26px}
+h2.h{margin:0 0 8px;font-family:var(--sans);font-size:.95rem;font-weight:600;color:var(--muted)}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font:500 .95rem/1 var(--sans);padding:9px 14px;border-radius:999px;border:1px solid var(--rule);background:transparent;color:var(--ink);cursor:pointer}
+.pill:hover{border-color:var(--muted)}
+.pill[aria-pressed="true"]{background:var(--board);border-color:var(--board);color:var(--chalk)}
+.pill .m{font-size:1.05rem}
+.locknote{margin:10px 0 0;font-family:var(--sans);font-size:.92rem;color:var(--muted)}
+.gdesc{margin:12px 0 20px;max-width:40em}
+.btn{font:500 .93rem/1 var(--sans);padding:10px 14px;border-radius:8px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--link)}
+.btn.primary{background:var(--board);border-color:var(--board);color:var(--chalk)}
+.btn.quiet{border-color:transparent;color:var(--muted);padding-inline:8px}
+.btn:disabled{opacity:.45;cursor:default}
+.status{margin:12px 0 0;font-family:var(--sans);font-size:.98rem;min-height:1.4em;color:var(--muted)}
+.status.good{color:var(--link);font-weight:600}
+.status.bad{color:var(--bad)}
+.note{margin:.6em 0 0;font-family:var(--sans);font-size:.9rem;color:var(--muted);max-width:42em}
+
+/* generator tiles */
+.tiles{display:grid;grid-template-columns:repeat(var(--cols,3),minmax(0,1fr));gap:8px;max-width:calc(var(--cols,3) * 112px)}
+@media (max-width:520px){.tiles{grid-template-columns:repeat(var(--cols-sm,3),minmax(0,1fr));max-width:none}}
+.tile{display:flex;flex-direction:column;align-items:center;gap:5px;padding:6px 4px 8px;border-radius:8px;border:1px solid var(--rule);background:var(--cell);color:var(--ink);cursor:pointer;font:inherit;min-width:0}
+.tile:hover{border-color:var(--muted)}
+.tile[aria-pressed="true"]{border-color:var(--yellow);box-shadow:inset 0 0 0 2px var(--yellow);background:rgba(233,203,107,.14)}
+.tile .ic{width:100%;max-width:62px;height:auto;aspect-ratio:62/52;border-radius:6px;display:block}
+.tile .nm{font:italic 1.2rem/1.1 var(--serif)}
+.tile .nm.num{font-style:normal}
+.ic{background:var(--board)}
+.icdot{stroke:rgba(0,0,0,.25);stroke-width:.6}
+.icnum{font:600 7.5px var(--sans);fill:#1d2b25;text-anchor:middle;dominant-baseline:central}
+
+/* generate */
+.gen-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:16px 0 14px}
+.pred{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-family:var(--sans);font-size:.95rem;color:var(--ink)}
+.pred .m{font-size:1.05rem}
+.pred input{width:4.4em;font:500 1rem/1.2 var(--sans);padding:8px 10px;border-radius:8px;border:1px solid var(--rule);background:var(--cell);color:var(--ink)}
+.pred input:disabled{opacity:.5}
+.stage{position:relative;border-radius:8px;overflow:hidden;padding:12px 16px 16px;min-height:220px}
+.st-kicker{margin:0;font-family:var(--sans);font-size:.88rem;color:var(--chalk-dim)}
+.st-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 14px;margin:2px 0 12px}
+.st-title{font:400 1.75rem/1.2 var(--serif);color:var(--chalk);overflow-wrap:anywhere}
+.st-size{font:400 .95rem var(--sans);color:var(--chalk-dim)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;min-height:38px;margin-bottom:12px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px 3px 3px;border-radius:6px;border:1px solid var(--chalk-faint);background:rgba(238,237,230,.07);color:var(--chalk);font:1.12rem/1 var(--serif)}
+.chip .ic{width:42px;height:35px;border-radius:4px;display:block}
+.chip.num{padding:8px 12px;min-width:38px;justify-content:center}
+.chip.new{animation:pop .45s ease-out}
+@keyframes pop{from{transform:scale(1.25);background:#4f7a66}}
+.log{list-style:none;margin:0;padding:0;display:grid;gap:4px;font:1.06rem/1.4 var(--serif);color:var(--chalk)}
+.log li{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px .7em}
+.log .tag{font:600 .78rem/1 var(--sans);color:#1d2b25;background:var(--yellow);padding:3px 6px;border-radius:4px}
+.log li.dim{font-family:var(--sans);font-size:.92rem;color:var(--chalk-dim);display:block}
+.log li.start{display:block}
+.log li.end{display:block;margin-top:4px}
+.log li.in{animation:slide .35s ease-out}
+@keyframes slide{from{opacity:0;transform:translateY(4px)}}
+
+/* lattice */
+.lat{position:relative;border-radius:8px;overflow:hidden}
+.lat svg{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+.lat line{stroke:#EEEDE6;stroke-opacity:.5;stroke-width:1.6}
+.node{position:absolute;transform:translate(-50%,-50%);display:inline-flex;flex-direction:column;align-items:center;gap:3px;padding:5px 9px 4px;min-width:42px;border-radius:8px;border:1.5px dashed rgba(238,237,230,.45);background:var(--board);color:var(--chalk);font:1.05rem/1.1 var(--serif);white-space:nowrap;cursor:pointer}
+.node:hover{border-color:var(--chalk)}
+.node.seen{border-style:solid;border-color:rgba(238,237,230,.62)}
+.node .sz{font:500 .72rem/1 var(--sans);color:var(--chalk-dim)}
+.node[aria-pressed="true"]{background:var(--yellow);border:1.5px solid var(--yellow);color:#1d2b25}
+.node[aria-pressed="true"] .sz{color:rgba(29,43,37,.75)}
+/* while a subgroup is being generated, the controls that would change it are dimmed */
+.pill:disabled,.tile:disabled,.node:disabled{opacity:.55;cursor:default}
+@media (max-width:520px){.node{padding:4px 7px 3px;font-size:1rem}}
+
+/* cosets */
+.hset{margin:0 0 12px;font-size:1.12rem}
+.cos2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.colh{margin:0 0 8px;font-family:var(--sans);font-size:.92rem;font-weight:600;color:var(--muted)}
+.colh .m{font-weight:400;font-size:1.05rem}
+.blocks{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.blk{padding:6px 9px;border-radius:6px;border-left:4px solid;font-size:1rem;line-height:1.4;overflow-wrap:anywhere}
+.blk.alt{border-left-style:dashed}
+.blk.wit{box-shadow:0 0 0 2px var(--bad)}
+.lagr{margin:14px 0 0}
+.verdict{margin:10px 0 0;padding-left:12px;border-left:3px solid var(--link)}
+.verdict.differ{border-left-color:var(--bad)}
+
+/* tasks */
+.tasks{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.tasks li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start}
+.tick{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--rule);margin-top:.2em;display:grid;place-items:center}
+.tick svg{width:12px;height:12px;stroke:var(--chalk);stroke-width:2.4;fill:none;opacity:0}
+.tasks li.done .tick{background:var(--link);border-color:var(--link)}
+.tasks li.done .tick svg{opacity:1}
+.tasks p{margin:0}
+.tasks .ans{margin-top:.35em;font-size:1rem;color:var(--link)}
+.tasks .prog{margin-top:.35em;font-family:var(--sans);font-size:.9rem;color:var(--muted)}
+.tasks details{margin-top:.35em;font-family:var(--sans);font-size:.92rem;color:var(--muted)}
+.tasks summary{cursor:pointer}
+.tasks details p{font-family:var(--serif);font-size:1rem;color:var(--ink);margin-top:.35em}
+@media (prefers-reduced-motion: reduce){.chip.new,.log li.in{animation:none}}
+</style>
+</head>
+<body>
+<header class="board">
+  <div class="wrap top">
+    <p class="crumb"><a href="./">Theory of Groups in Physics</a>, Week 2</p>
+    <h1>Subgroups and cosets</h1>
+    <p class="sub">Pick generators and watch a subgroup close up. Then cut the group into cosets and see Lagrange’s theorem at work.</p>
+  </div>
+</header>
+<div class="tray" aria-hidden="true"></div>
+
+<main class="wrap lab">
+  <section aria-label="Generate a subgroup">
+    <div class="pills" role="group" aria-label="Choose a group" id="groups"></div>
+    <p class="locknote" id="locknote" hidden></p>
+    <p class="gdesc" id="gdesc"></p>
+    <h2 class="h">Choose generators</h2>
+    <div class="tiles" id="tiles"></div>
+    <div class="gen-row">
+      <label class="pred"><span id="pred-txt"></span><input id="pred" type="number" inputmode="numeric" min="1" step="1" autocomplete="off"></label>
+      <button class="btn primary" id="go" type="button">Generate</button>
+      <button class="btn quiet" id="clear" type="button">Clear</button>
+    </div>
+    <div class="stage board">
+      <p class="st-kicker" id="st-kicker">Current subgroup</p>
+      <div class="st-head"><span class="st-title" id="st-title"></span><span class="st-size" id="st-size"></span></div>
+      <div class="chips" id="st-chips"></div>
+      <ol class="log" id="st-log"></ol>
+    </div>
+    <p class="status" id="status" aria-live="polite"></p>
+    <p class="note" id="gen-note"></p>
+  </section>
+
+  <aside class="side" aria-label="Lattice and cosets">
+    <section>
+      <h2 class="h">Subgroup lattice</h2>
+      <div class="lat board" id="lattice"></div>
+      <p class="note">Tap a subgroup to see its cosets. A line joins each subgroup to the subgroups directly above it that contain it. The small number is its size.</p>
+    </section>
+    <section aria-label="Cosets of the current subgroup">
+      <h2 class="h">Cosets of the current subgroup</h2>
+      <p class="hset" id="hset"></p>
+      <div class="cos2">
+        <div><h3 class="colh" id="left-h"></h3><ul class="blocks" id="left"></ul></div>
+        <div><h3 class="colh" id="right-h"></h3><ul class="blocks" id="right"></ul></div>
+      </div>
+      <p class="lagr" id="lagrange"></p>
+      <p class="verdict" id="verdict" aria-live="polite"></p>
+    </section>
+    <section>
+      <h2 class="h">Try this</h2>
+      <ul class="tasks" id="tasks"></ul>
+    </section>
+  </aside>
+</main>
+
+<script src="gt-lock.js"></script>
+<script src="gt-groups.js"></script>
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg',PI=Math.PI;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var COL=['#E9CB6B','#EDA4B8','#9CCAEA','#A9DBA2','#F2B67E','#C9BAEE'];
+  var HUES=[null,'#E2B93B','#D9739A','#5FA8D3','#6FB86A','#E58F4A','#9C86D6','#4FB5A8'];
+  // The groups this page offers. Whether one may be shown is always asked of GT_LOCK.
+  var ORDER=['Z6','Z8','Z12','D3','D4'];
+  // Generators for the first Try-this task; the dihedral groups use r² and s.
+  var PREDICT={Z6:[4],Z8:[6],Z12:[8]};
+  var SHAPE={3:'an equilateral triangle',4:'a square',5:'a regular pentagon',6:'a regular hexagon'};
+  var TICK='<span class="tick" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5"/></svg></span>';
+  var CACHE={},G=null,gid=null,subs=[],edges=[],cur=0,gens={},busy=false,viewed={},predictedRuns={},TASKS=[];
+
+  function $(id){return document.getElementById(id);}
+  function el(tag,a,parent){var e=document.createElementNS(NS,tag);for(var k in a)e.setAttribute(k,a[k]);if(parent)parent.appendChild(e);return e;}
+  function available(id){return !GT_LOCK.isLocked('group:'+id);}
+  function group(id){return CACHE[id]||(CACHE[id]=GT.byId(id));}
+  function eh(i){return GT.elHTML(G,i);}
+  function plural(n,w){return n+' '+w+(n===1?'':'s');}
+  function list(items,conj){if(items.length<2)return items.join('');return items.slice(0,-1).join(', ')+' '+(conj||'and')+' '+items[items.length-1];}
+  function setHTML(set){return '{'+set.map(eh).join(', ')+'}';}
+  function gensHTML(gl){return '⟨'+gl.map(eh).join(', ')+'⟩';}
+  function gensName(gl){return '⟨'+gl.map(function(i){return G.els[i].name;}).join(', ')+'⟩';}
+  function gensList(){return Object.keys(gens).map(Number).sort(function(a,b){return a-b;});}
+  function mH(){return '<span class="m">H</span>';}
+  function mix(hex,f){
+    var a=(parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--tint'))||.3)*(f||1);
+    return 'rgba('+parseInt(hex.slice(1,3),16)+','+parseInt(hex.slice(3,5),16)+','+parseInt(hex.slice(5,7),16)+','+a+')';
+  }
+  function status(msg,kind){var s=$('status');s.innerHTML=msg;s.className='status'+(kind?' '+kind:'');}
+
+  /* ---------- small pictures of the elements ---------- */
+  function polyV(n,R){var v=[],p0=3*PI/2-PI/n;for(var i=0;i<n;i++)v.push([R*Math.cos(p0+2*PI*i/n),R*Math.sin(p0+2*PI*i/n)]);return v;}
+  // The polygon with each numbered vertex drawn at the position the symmetry moves it to.
+  function iconPoly(n,perm){
+    var s=el('svg',{viewBox:'-31 -26 62 52','class':'ic','aria-hidden':'true'});
+    var V=polyV(n,n===3?19:17);
+    el('polygon',{points:V.map(function(v){return v[0].toFixed(1)+','+(-v[1]).toFixed(1);}).join(' '),fill:'rgba(238,237,230,.08)',stroke:'rgba(238,237,230,.85)','stroke-width':1.2},s);
+    for(var i=0;i<n;i++){
+      var p=V[perm[i]];
+      el('circle',{cx:p[0].toFixed(2),cy:(-p[1]).toFixed(2),r:5.6,fill:COL[i%COL.length],'class':'icdot'},s);
+      var t=el('text',{x:p[0].toFixed(2),y:(-p[1]+.3).toFixed(2),'class':'icnum'},s);t.textContent=String(i+1);
+    }
+    return s;
+  }
+  // Z_n as a dial with n marks: the hand points k steps round from 0.
+  function iconDial(n,k){
+    var s=el('svg',{viewBox:'-31 -26 62 52','class':'ic','aria-hidden':'true'}),R=19;
+    el('circle',{cx:0,cy:0,r:R,fill:'rgba(238,237,230,.08)',stroke:'rgba(238,237,230,.5)','stroke-width':1},s);
+    for(var j=0;j<n;j++){var a=PI/2-2*PI*j/n;el('circle',{cx:(R*Math.cos(a)).toFixed(2),cy:(-R*Math.sin(a)).toFixed(2),r:j===k?3.2:(j===0?2.3:1.6),fill:j===k?'#E9CB6B':'rgba(238,237,230,.8)'},s);}
+    var b=PI/2-2*PI*k/n;
+    el('line',{x1:0,y1:0,x2:(13.5*Math.cos(b)).toFixed(2),y2:(-13.5*Math.sin(b)).toFixed(2),stroke:'#E9CB6B','stroke-width':2.2,'stroke-linecap':'round'},s);
+    el('circle',{cx:0,cy:0,r:2.2,fill:'#E9CB6B'},s);
+    return s;
+  }
+  function icon(i){return G.kind==='dihedral'?iconPoly(G.n,G.els[i].perm):iconDial(G.n,G.els[i].val);}
+
+  /* ---------- choosing a group ---------- */
+  function buildPills(){
+    var gp=$('groups');gp.innerHTML='';
+    ORDER.forEach(function(id){
+      if(!available(id)) return;
+      var b=document.createElement('button');
+      b.type='button';b.className='pill';b.dataset.id=id;b.innerHTML=group(id).html;
+      b.setAttribute('aria-pressed',String(id===gid));
+      b.addEventListener('click',function(){if(!busy)setGroup(id);});
+      gp.appendChild(b);
+    });
+    var locked=ORDER.some(function(id){return !available(id);}),note=$('locknote');
+    note.hidden=!locked;
+    note.textContent=locked?lockNote():'';
+    setBusy(busy);
+  }
+  // Built from GT_LOCK.message alone, so it follows any change made in gt-lock.js.
+  function lockNote(){
+    var m=String(GT_LOCK.message||'');
+    return /^This opens /.test(m)?m.replace(/^This opens/,'More groups open here'):('More groups open here later. '+m).trim();
+  }
+  function describe(){
+    if(G.additive) return G.html+': the numbers 0, 1, …, '+(G.n-1)+' under addition modulo '+G.n+'. It is written additively: the identity is 0, and a coset of '+mH()+' is written <span class="m">g</span> + '+mH()+'.';
+    return G.html+': the '+G.n+' turns and '+G.n+' reflections of '+(SHAPE[G.n]||'a regular '+G.n+'-gon')+'. <span class="m">r</span> turns it by '+(360/G.n)+'° counterclockwise, and <span class="m">s</span> is the reflection in the line through vertex 1 and the centre.';
+  }
+  function setGroup(id){
+    if(!available(id)) return;
+    gid=id;G=group(id);subs=GT.subgroups(G);edges=GT.lattice(subs);
+    gens={};viewed={};predictedRuns={};
+    [].forEach.call(document.querySelectorAll('#groups .pill'),function(b){b.setAttribute('aria-pressed',String(b.dataset.id===id));});
+    $('gdesc').innerHTML=describe();
+    $('gen-note').innerHTML=G.additive?
+      'Each step adds a generator to an element already found. Sums that give nothing new are counted but not listed.':
+      'Each step multiplies an element already found by a generator, written on the left as the newest move: in <span class="m">gx</span>, <span class="m">x</span> acts first. Products that give nothing new are counted but not listed.';
+    $('left-h').innerHTML=G.additive?'Left cosets <span class="m">g</span> + '+mH():'Left cosets <span class="m">gH</span>';
+    $('right-h').innerHTML=G.additive?'Right cosets '+mH()+' + <span class="m">g</span>':'Right cosets <span class="m">Hg</span>';
+    $('pred').value='';$('pred').max=G.size;status('');
+    buildTiles();buildLattice();buildTasks();
+    choose(subs.length>2?1:0,'start');
+    updateGens();
+  }
+
+  /* ---------- generator tiles ---------- */
+  function buildTiles(){
+    var t=$('tiles'),n=G.size,cols,sm;
+    if(G.additive){cols=n<=6?n:Math.ceil(n/2);sm=4;while(n%sm)sm--;}
+    else{cols=G.n;sm=G.n;}
+    t.style.setProperty('--cols',cols);t.style.setProperty('--cols-sm',sm);
+    t.innerHTML='';
+    G.els.forEach(function(e,i){
+      var b=document.createElement('button');b.type='button';b.className='tile';b.dataset.i=i;
+      b.setAttribute('aria-pressed','false');b.setAttribute('aria-label',e.name);
+      b.appendChild(icon(i));
+      var nm=document.createElement('span');nm.className='nm'+(G.additive?' num':'');nm.innerHTML=e.html;b.appendChild(nm);
+      b.addEventListener('click',function(){
+        if(busy) return;
+        if(gens[i]) delete gens[i]; else gens[i]=true;
+        b.setAttribute('aria-pressed',String(!!gens[i]));
+        updateGens();
+      });
+      t.appendChild(b);
+    });
+  }
+  function updateGens(){
+    if(!G) return;
+    var gl=gensList();
+    $('pred-txt').innerHTML='Predict the size'+(gl.length?' of '+gensHTML(gl):'')+' (optional)';
+    $('go').disabled=busy||!gl.length;
+    $('clear').disabled=busy||!gl.length;
+  }
+  function setBusy(b){
+    [].forEach.call(document.querySelectorAll('.pill,.tile,.node,#pred'),function(x){x.disabled=b;});
+    updateGens();
+  }
+
+  /* ---------- the board: building a subgroup ---------- */
+  function chip(i,fresh){
+    var c=document.createElement('span');c.className='chip'+(G.additive?' num':'')+(fresh&&!reduce?' new':'');
+    if(!G.additive) c.appendChild(iconPoly(G.n,G.els[i].perm));
+    var s=document.createElement('span');s.innerHTML=eh(i);c.appendChild(s);
+    $('st-chips').appendChild(c);
+  }
+  function logLine(html,cls){
+    var li=document.createElement('li');li.className=(cls||'')+(reduce?'':' in');li.innerHTML=html;
+    $('st-log').appendChild(li);return li;
+  }
+  function showChosen(how){
+    var H=subs[cur],lb=GT.label(G,H);
+    $('st-kicker').textContent='Current subgroup';
+    $('st-title').innerHTML=lb.html;$('st-size').textContent=plural(H.length,'element');
+    $('st-chips').innerHTML='';H.forEach(function(i){chip(i,false);});
+    $('st-log').innerHTML='';
+    logLine(how==='start'?'Choose generators above, then press Generate to build a subgroup step by step.':'Picked in the lattice: '+(lb.html!==setHTML(H)?lb.html+' = ':'')+setHTML(H)+'.','dim');
+  }
+  function product(s){return eh(s.left)+(G.additive?' + ':' · ')+eh(s.right)+' = '+eh(s.result);}
+  function generate(){
+    var gl=gensList();
+    if(busy||!gl.length) return;
+    // A prediction counts only when it is a possible size: a whole number from 1 to |G|.
+    var inp=$('pred'),raw=inp.value.trim(),pred=null;
+    if(raw!==''||(inp.validity&&inp.validity.badInput)){
+      pred=Number(raw);
+      if(!(pred>=1&&pred<=G.size&&pred%1===0)){
+        status('A subgroup of '+G.html+' has from 1 to '+G.size+' elements. Type a whole number in that range, or leave the box empty.','bad');
+        return;
+      }
+    }
+    var res=GT.generate(G,gl),title=gensHTML(gl),news=res.steps.filter(function(s){return s.isNew;});
+    var others=res.steps.length-news.length,count=res.generators.length,k=0,wait=reduce?0:440;
+    busy=true;setBusy(true);status('');
+    $('st-kicker').textContent='Generating';
+    $('st-title').innerHTML=title;$('st-size').textContent=plural(count,'element')+' so far';
+    $('st-chips').innerHTML='';$('st-log').innerHTML='';
+    logLine('Start with '+gl.map(eh).join(', ')+'.','start');
+    gl.forEach(function(i){chip(i,true);});
+    function step(){
+      if(k<news.length){
+        var s=news[k++];count++;
+        logLine('<span>'+product(s)+'</span><span class="tag">new</span>');
+        chip(s.result,true);
+        $('st-size').textContent=plural(count,'element')+' so far';
+        setTimeout(step,wait);return;
+      }
+      finish();
+    }
+    function finish(){
+      var H=res.elements,N=H.length,lb=GT.label(G,H),extra='',what=others===1?'product gives an element':'products give elements';
+      if(G.additive) what=others===1?'sum gives an element':'sums give elements';
+      if(others) logLine((others===1?(news.length?'One more ':'The only '):(news.length?'The other ':'All ')+others+' ')+what+' already in the set.','dim');
+      if(N===G.size) extra=' That is all of '+G.html+'.';
+      else if(N===1) extra=' That is the trivial subgroup '+lb.html+'.';
+      else if(lb.name!==gensName(gl)) extra=' It is the same subgroup as '+lb.html+'.';
+      logLine('Nothing new: '+title+' is closed, with '+plural(N,'element')+'.'+extra,'end');
+      $('st-kicker').textContent='Current subgroup';$('st-size').textContent=plural(N,'element');
+      var target=GT.keyOf(targetGens())===GT.keyOf(gl);
+      if(pred!==null){
+        predictedRuns[GT.keyOf(gl)]=true;
+        if(pred===N) status('Yes: '+title+' has '+plural(N,'element')+', as you predicted.','good');
+        else status('You predicted '+pred+'; '+title+' has '+plural(N,'element')+'.','bad');
+      } else status(target?'To tick off the first task, type a prediction before you press Generate.':'');
+      $('pred').value='';
+      busy=false;setBusy(false);
+      var idx=0,key=GT.keyOf(H);
+      subs.forEach(function(S,j){if(GT.keyOf(S)===key)idx=j;});
+      choose(idx,'gen');
+    }
+    setTimeout(step,wait);
+  }
+
+  /* ---------- the lattice ---------- */
+  function cross(ax,ay,bx,by,cx,cy,dx,dy){
+    function o(px,py,qx,qy,rx,ry){var v=(qx-px)*(ry-py)-(qy-py)*(rx-px);return Math.abs(v)<1e-12?0:(v>0?1:-1);}
+    return o(ax,ay,bx,by,cx,cy)*o(ax,ay,bx,by,dx,dy)<0&&o(cx,cy,dx,dy,ax,ay)*o(cx,cy,dx,dy,bx,by)<0;
+  }
+  function permutations(a){
+    if(a.length<=1) return [a.slice()];
+    var out=[];
+    a.forEach(function(x,i){permutations(a.slice(0,i).concat(a.slice(i+1))).forEach(function(p){out.push([x].concat(p));});});
+    return out;
+  }
+  // Order the nodes in each row so that as few lines cross as possible, then keep lines short.
+  function arrange(rows){
+    function cost(rs){
+      var X={},Y={},c=0,i,k;
+      rs.forEach(function(row,l){row.forEach(function(j,q){X[j]=(q+.5)/row.length;Y[j]=l;});});
+      for(i=0;i<edges.length;i++){
+        var a=edges[i];c+=Math.pow(X[a[0]]-X[a[1]],2);
+        for(k=i+1;k<edges.length;k++){
+          var b=edges[k];
+          if(a[0]===b[0]||a[0]===b[1]||a[1]===b[0]||a[1]===b[1]) continue;
+          if(cross(X[a[0]],Y[a[0]],X[a[1]],Y[a[1]],X[b[0]],Y[b[0]],X[b[1]],Y[b[1]])) c+=100;
+        }
+      }
+      return c;
+    }
+    var perms=rows.map(permutations),total=perms.reduce(function(p,q){return p*q.length;},1);
+    if(total>20000) return rows;
+    var best=rows,bestC=Infinity;
+    for(var t=0;t<total;t++){
+      var rem=t,cand=perms.map(function(ps){var q=ps[rem%ps.length];rem=Math.floor(rem/ps.length);return q;});
+      var c=cost(cand);if(c<bestC-1e-9){bestC=c;best=cand;}
+    }
+    return best;
+  }
+  function buildLattice(){
+    var box=$('lattice'),L=GT.level(G.size),rows=[],l,pad=32,gap=72;
+    box.innerHTML='';
+    for(l=0;l<=L;l++) rows.push([]);
+    subs.forEach(function(H,j){rows[GT.level(H.length)].push(j);});
+    rows.forEach(function(row){row.sort(function(a,b){return subs[b].length-subs[a].length||a-b;});});
+    rows=arrange(rows);
+    var h=2*pad+L*gap,pos=[];
+    box.style.height=h+'px';
+    rows.forEach(function(row,lv){row.forEach(function(j,q){pos[j]={x:3+94*(q+.5)/row.length,y:pad+(L-lv)*gap};});});
+    var svg=el('svg',{viewBox:'0 0 100 '+h,preserveAspectRatio:'none','aria-hidden':'true'},box);
+    edges.forEach(function(e){var a=pos[e[0]],b=pos[e[1]];el('line',{x1:a.x,y1:a.y,x2:b.x,y2:b.y,'vector-effect':'non-scaling-stroke'},svg);});
+    subs.forEach(function(H,j){
+      var b=document.createElement('button'),lb=GT.label(G,H);
+      b.type='button';b.className='node';b.dataset.j=j;
+      b.innerHTML='<span class="lb">'+lb.html+'</span><span class="sz">'+H.length+'</span>';
+      b.setAttribute('aria-label',lb.name+', '+plural(H.length,'element'));
+      b.style.left=pos[j].x+'%';b.style.top=pos[j].y+'px';
+      b.addEventListener('click',function(){if(!busy)choose(j,'lattice');});
+      box.appendChild(b);
+    });
+  }
+  function paintLattice(){
+    [].forEach.call(document.querySelectorAll('#lattice .node'),function(b){
+      var j=+b.dataset.j;b.setAttribute('aria-pressed',String(j===cur));b.classList.toggle('seen',!!viewed[j]);
+    });
+  }
+  function choose(j,how){
+    cur=j;viewed[j]=true;
+    if(how!=='gen'){showChosen(how);status('');}
+    paintLattice();renderCosets();updateTasks();
+  }
+
+  /* ---------- cosets ---------- */
+  function cosetName(g,side){
+    if(g===G.e) return mH();
+    if(G.additive) return side==='left'?eh(g)+' + '+mH():mH()+' + '+eh(g);
+    return '<span class="m">'+(side==='left'?G.els[g].html+'H':'H'+G.els[g].html)+'</span>';
+  }
+  function renderCosets(){
+    if(!G) return;
+    var H=subs[cur],lb=GT.label(G,H),N=G.size,h=H.length,c=N/h,add=G.additive;
+    $('hset').innerHTML=mH()+' = '+(lb.html!==setHTML(H)?lb.html+' = ':'')+setHTML(H);
+    var Lb=GT.leftCosets(G,H),Rb=GT.rightCosets(G,H),hue={},n=0,w=GT.cosetWitness(G,H);
+    // One colour per block. With more blocks than colours, the second round is hatched and has a dashed edge.
+    function nextHue(){var i=n++,m=HUES.length-1;return {c:HUES[1+(i%m)],alt:i>=m};}
+    Lb.forEach(function(b){b.h=nextHue();hue[GT.keyOf(b.elements)]=b.h;});
+    Rb.forEach(function(b){b.h=hue[GT.keyOf(b.elements)]||nextHue();});
+    var wl=null,wr=null;
+    if(w>=0){
+      wl=H.map(function(x){return G.mul(w,x);}).sort(function(a,b){return a-b;});
+      wr=H.map(function(x){return G.mul(x,w);}).sort(function(a,b){return a-b;});
+    }
+    function blocks(B,side,wit){
+      var wk=wit?GT.keyOf(wit):null;
+      return B.map(function(b){
+        var c=b.h.c,bg=b.h.alt?'repeating-linear-gradient(135deg,'+mix(c)+' 0 5px,'+mix(c,.35)+' 5px 9px)':mix(c);
+        return '<li class="blk'+(b.h.alt?' alt':'')+(GT.keyOf(b.elements)===wk?' wit':'')+'" style="background:'+bg+';border-left-color:'+c+'">'+cosetName(b.rep,side)+' = '+setHTML(b.elements)+'</li>';
+      }).join('');
+    }
+    $('left').innerHTML=blocks(Lb,'left',wl);
+    $('right').innerHTML=blocks(Rb,'right',wr);
+    $('lagrange').innerHTML='Each side splits '+G.html+' into '+N+' / '+h+' = '+plural(c,'block')+' of '+plural(h,'element')+
+      '. The blocks do not overlap and each has as many elements as '+mH()+', so |'+mH()+'| divides |'+G.html+'|. This is Lagrange’s theorem.';
+    var v=$('verdict');
+    if(w<0){
+      v.className='verdict same';
+      v.innerHTML='Here every left coset is also a right coset: '+
+        (add?'<span class="m">g</span> + '+mH()+' = '+mH()+' + <span class="m">g</span>':'<span class="m">gH</span> = <span class="m">Hg</span>')+' for every <span class="m">g</span>.'+
+        (GT.isAbelian(G)?' In an Abelian group this always happens'+(add?', because <span class="m">g</span> + <span class="m">h</span> = <span class="m">h</span> + <span class="m">g</span>.':'.'):'');
+    } else {
+      v.className='verdict differ';
+      v.innerHTML='Left and right cosets differ: '+cosetName(w,'left')+' = '+setHTML(wl)+' but '+cosetName(w,'right')+' = '+setHTML(wr)+'.';
+    }
+  }
+
+  /* ---------- try this (computed for the chosen group) ---------- */
+  function targetGens(){return G.additive?(PREDICT[gid]||[1]):[2,G.n];}
+  function answerA(tg,res){
+    var H=res.elements,N=H.length,head=gensHTML(tg)+' = '+setHTML(H)+' has '+plural(N,'element')+': ';
+    if(G.additive){
+      var a=tg[0],x=a,seq=[a];
+      while(x!==0){x=(x+a)%G.n;seq.push(x);}
+      return head+'adding '+a+' again and again gives '+seq.join(', ')+', and then it repeats.';
+    }
+    var turns=H.filter(function(i){return !G.els[i].f;}),refl=H.filter(function(i){return G.els[i].f;});
+    return head+'the powers of '+eh(tg[0])+' give '+plural(turns.length,'turn')+' ('+turns.map(eh).join(', ')+'), and multiplying each of them by '+eh(tg[1])+' gives '+plural(refl.length,'reflection')+' ('+refl.map(eh).join(', ')+').'+
+      (N===G.size?' So '+gensHTML(tg)+' is all of '+G.html+'.':'');
+  }
+  function answerC(){
+    var same=[],diff=[];
+    subs.forEach(function(H){(GT.sameCosets(G,H)?same:diff).push(GT.label(G,H).html);});
+    if(!diff.length) return 'All of them. '+(G.additive?
+      'In an Abelian group <span class="m">g</span> + '+mH()+' = '+mH()+' + <span class="m">g</span> for every <span class="m">g</span>, because <span class="m">g</span> + <span class="m">h</span> = <span class="m">h</span> + <span class="m">g</span>.':
+      'For each of them <span class="m">gH</span> = <span class="m">Hg</span> for every <span class="m">g</span>.');
+    return list(same)+': for these <span class="m">gH</span> = <span class="m">Hg</span> for every <span class="m">g</span>. For '+list(diff)+', some left coset is not a right coset.';
+  }
+  function buildTasks(){
+    var tg=targetGens(),tk=GT.keyOf(tg),res=GT.generate(G,tg),N=G.size,k=2,sizes=[];
+    while(k<N&&N%k===0) k++;
+    subs.forEach(function(H){if(sizes.indexOf(H.length)<0)sizes.push(H.length);});
+    TASKS=[{q:'Predict the size of '+gensHTML(tg)+', then generate it.',
+            done:function(){return !!predictedRuns[tk];},a:function(){return answerA(tg,res);}}];
+    if(k<N) TASKS.push({q:'Find a subgroup of '+G.html+' with '+k+' elements.',
+      give:'There is none. By Lagrange’s theorem the size of a subgroup divides |'+G.html+'| = '+N+', and '+k+' does not divide '+N+'. The subgroups of '+G.html+' have '+list(sizes.map(String),'or')+' elements.'});
+    TASKS.push({q:'Which subgroups have the same left and right cosets?',
+      done:function(){return subs.every(function(H,j){return viewed[j];});},a:answerC,
+      prog:function(){var s=subs.filter(function(H,j){return viewed[j];}).length;return 'Tap every subgroup in the lattice and compare its two columns of cosets. Seen so far: '+s+' of '+subs.length+' (solid outline).';}});
+    var ul=$('tasks');ul.innerHTML='';
+    TASKS.forEach(function(t,i){
+      var li=document.createElement('li');li.id='task'+i;
+      li.innerHTML=TICK+'<div><p>'+t.q+'</p>'+
+        (t.give?'<details><summary>I give up</summary><p>'+t.give+'</p></details>':'')+
+        (t.prog?'<p class="prog"></p>':'')+(t.done?'<p class="ans" hidden></p>':'')+'</div>';
+      ul.appendChild(li);
+    });
+  }
+  function updateTasks(){
+    TASKS.forEach(function(t,i){
+      var li=$('task'+i);if(!li||!t.done) return;
+      var ok=!!t.done(),a=li.querySelector('.ans'),p=li.querySelector('.prog');
+      li.classList.toggle('done',ok);
+      a.hidden=!ok;a.innerHTML=ok?t.a():'';
+      if(p){p.hidden=ok;p.innerHTML=ok?'':t.prog();}
+    });
+  }
+
+  /* ---------- wiring ---------- */
+  $('go').addEventListener('click',generate);
+  $('clear').addEventListener('click',function(){
+    if(busy) return;
+    gens={};[].forEach.call(document.querySelectorAll('#tiles .tile'),function(t){t.setAttribute('aria-pressed','false');});
+    updateGens();
+  });
+  $('pred').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();generate();}});
+  var mq=window.matchMedia('(prefers-color-scheme: dark)');
+  if(mq.addEventListener) mq.addEventListener('change',renderCosets); else if(mq.addListener) mq.addListener(renderCosets);
+  gid='D3';
+  buildPills();
+  setGroup('D3');
+  // When the homework deadline passes while the page is open, offer the new groups.
+  GT_LOCK.onOpen(function(){buildPills();});
+})();
+</script>
+</body>
+</html>

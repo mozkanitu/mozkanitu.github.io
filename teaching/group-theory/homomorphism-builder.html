@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Homomorphism builder – Theory of Groups in Physics</title>
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<script src="../../assets/analytics.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F8F5; --ink:#1E2723; --muted:#56635C; --rule:#DCE1DC; --link:#2A6650; --bad:#B5503F;
+  --board:#2C463B; --chalk:#EEEDE6; --chalk-dim:rgba(238,237,230,.68); --chalk-faint:rgba(238,237,230,.28);
+  --yellow:#E9CB6B; --warn:#E89A8E; --cell:#FFFFFF;
+  --ker:#E9CB6B; --im:#9CCAEA; --ker-bg:rgba(233,203,107,.42); --im-bg:rgba(156,202,234,.5);
+  --plus-bg:rgba(95,168,211,.3); --minus-bg:rgba(229,143,74,.32);
+  --tray-1:#CFD3D5; --tray-2:#9FA5A9; --tray-3:#7E8488;
+  --serif:"STIX Two Text","Iowan Old Style","Palatino Linotype","Times New Roman",serif;
+  --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:light; box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  background:var(--board);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--paper:#131916;--ink:#E3E6E1;--muted:#9CA79F;--rule:#2C3631;--link:#8FCBB1;--bad:#E89A8E;--board:#223a2f;--cell:#1A221E;--ker:#E3C462;--im:#93C3E4;--ker-bg:rgba(233,203,107,.26);--im-bg:rgba(156,202,234,.24);--plus-bg:rgba(95,168,211,.28);--minus-bg:rgba(229,143,74,.28);--tray-1:#737a7e;--tray-2:#50575b;--tray-3:#3a4043;color-scheme:dark}
+}
+:root[data-theme="dark"]{--paper:#131916;--ink:#E3E6E1;--muted:#9CA79F;--rule:#2C3631;--link:#8FCBB1;--bad:#E89A8E;--board:#223a2f;--cell:#1A221E;--ker:#E3C462;--im:#93C3E4;--ker-bg:rgba(233,203,107,.26);--im-bg:rgba(156,202,234,.24);--plus-bg:rgba(95,168,211,.28);--minus-bg:rgba(229,143,74,.28);--tray-1:#737a7e;--tray-2:#50575b;--tray-3:#3a4043;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:1.075rem;line-height:1.55}
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(16px,4vw,40px)}
+:focus-visible{outline:2px solid var(--link);outline-offset:2px;border-radius:3px}
+.board{background-color:var(--board);background-image:radial-gradient(110% 80% at 15% 18%,rgba(255,255,255,.06),transparent 60%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 .075 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");color:var(--chalk)}
+.board :focus-visible{outline-color:var(--yellow)}
+.m{font-family:var(--serif);font-style:italic}
+.top{padding-block:22px 30px}
+.crumb{margin:0 0 10px;font-family:var(--sans);font-size:.95rem;color:var(--chalk-dim)}
+.crumb a{color:var(--chalk);text-decoration-color:var(--yellow);text-underline-offset:4px}
+.top h1{margin:0;font-weight:500;font-size:clamp(2.2rem,1.4rem + 3vw,3.4rem);line-height:1.05;letter-spacing:-.01em}
+.top .sub{margin:.45em 0 0;font-size:1.15rem;color:var(--chalk-dim);max-width:38em}
+.tray{height:12px;background:linear-gradient(to bottom,var(--tray-1),var(--tray-2) 55%,var(--tray-3));box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 4px 8px -3px rgba(0,0,0,.3)}
+
+.tabs{display:flex;flex-wrap:wrap;gap:8px;padding-top:24px}
+.tab{font:500 .97rem/1 var(--sans);padding:11px 16px;border-radius:999px;border:1px solid var(--rule);background:transparent;color:var(--ink);cursor:pointer}
+.tab:hover{border-color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--board);border-color:var(--board);color:var(--chalk)}
+.tab .m{font-size:1.05rem}
+.panel{padding-block:24px 64px}
+.panel[hidden]{display:none}
+.intro{max-width:44em;margin:0 0 22px}
+.two{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px clamp(24px,4vw,52px);align-items:start}
+@media (max-width:920px){.two{grid-template-columns:minmax(0,1fr)}}
+h2.h{margin:0 0 8px;font-family:var(--sans);font-size:.95rem;font-weight:600;color:var(--muted)}
+.btn{font:500 .93rem/1 var(--sans);padding:10px 14px;border-radius:8px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--link)}
+.btn.primary{background:var(--board);border-color:var(--board);color:var(--chalk)}
+.btn.quiet{border-color:transparent;color:var(--muted);padding-inline:8px}
+.btn:disabled{opacity:.45;cursor:default}
+.btn .m{font-size:1.08rem}
+.row{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:14px}
+.row-label{font-family:var(--sans);font-size:.92rem;color:var(--muted)}
+.status{margin:14px 0 0;font-family:var(--sans);font-size:.98rem;min-height:1.4em;color:var(--muted)}
+.status.good{color:var(--link)}
+.status.bad{color:var(--bad)}
+.status .m{font-size:1.08rem}
+.side{display:grid;gap:24px}
+.side > section > p{margin:0}
+
+/* controls of part 1 */
+.ctl{display:grid;grid-template-columns:5.4em minmax(0,1fr);gap:6px 10px;align-items:center;margin-bottom:10px}
+.ctl > .row-label{align-self:start;padding-top:.5em}
+@media (max-width:540px){.ctl{grid-template-columns:minmax(0,1fr)}.ctl > .row-label{padding-top:0}}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font:500 .95rem/1 var(--sans);padding:8px 11px;border-radius:999px;border:1px solid var(--rule);background:transparent;color:var(--ink);cursor:pointer}
+.pill:hover{border-color:var(--muted)}
+.pill[aria-pressed="true"]{background:var(--board);border-color:var(--board);color:var(--chalk)}
+.pill .m{font-size:1.05rem}
+.abtn{position:relative;min-width:42px;padding:9px 10px;border-radius:6px;border:1px solid var(--rule);background:var(--cell);color:var(--ink);font:500 1.02rem/1 var(--sans);cursor:pointer}
+.abtn:hover{border-color:var(--link)}
+.abtn[aria-pressed="true"]{background:var(--board);border-color:var(--board);color:var(--chalk)}
+@media (max-width:420px){#avals{gap:5px}.abtn{min-width:36px;padding-inline:8px}}
+.abtn .mk{position:absolute;right:-6px;top:-7px;width:16px;height:16px;border-radius:50%;display:none;place-items:center}
+.abtn .mk svg{width:9px;height:9px;fill:none;stroke:var(--paper);stroke-width:2.4;stroke-linecap:round}
+.abtn.ok .mk{display:grid;background:var(--link)}
+.abtn.no .mk{display:grid;background:var(--bad)}
+.locknote{margin:0;padding:10px 14px;border:1px dashed var(--muted);border-radius:8px;font-family:var(--sans);font-size:.95rem;color:var(--muted);max-width:34em}
+.marks-note{margin:4px 0 0;font-family:var(--sans);font-size:.85rem;color:var(--muted)}
+
+/* clocks */
+.stage{position:relative;border-radius:8px;overflow:hidden;margin-top:16px}
+.stage svg{display:block;width:100%;height:auto;-webkit-tap-highlight-color:transparent}
+.ring{fill:none;stroke:var(--chalk);stroke-opacity:.38;stroke-width:.02}
+.clabel{font:italic .5px var(--serif);fill:var(--chalk-dim);text-anchor:middle;dominant-baseline:central}
+.cside{font:500 .2px var(--sans);fill:var(--chalk-dim);text-anchor:middle;dominant-baseline:central}
+.rdot{fill:var(--board);stroke:var(--chalk);stroke-opacity:.8;stroke-width:.025}
+.rdot.ker{fill:var(--ker);stroke:rgba(0,0,0,.25);stroke-opacity:1}
+.rdot.im{fill:var(--im);stroke:rgba(0,0,0,.25);stroke-opacity:1}
+.rdot.bad{fill:var(--warn);stroke:rgba(0,0,0,.25);stroke-opacity:1}
+.rnum{font:600 .26px var(--sans);fill:var(--chalk);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.rnum.dark{fill:#1d2b25}
+.halo{fill:none;stroke:var(--warn);stroke-width:.05;opacity:0}
+.halo.on{opacity:1;animation:halo 1.1s ease-out 2}
+@keyframes halo{0%{stroke-width:.14;opacity:.2}60%{opacity:1}100%{stroke-width:.05}}
+.sdot{cursor:pointer}
+.arr path{fill:none;stroke:var(--chalk);stroke-opacity:.82;stroke-width:.032;stroke-linecap:round;stroke-linejoin:round;transition:opacity .2s}
+.arr polygon{fill:var(--chalk)}
+.arr.k path{stroke:var(--ker);stroke-opacity:.95}
+.arr.k polygon{fill:var(--ker)}
+.arr.clash path{stroke:var(--warn);stroke-opacity:1;stroke-dasharray:.11 .08}
+.arr.clash polygon{fill:var(--warn)}
+.arr{transition:opacity .2s}
+.arr.dim{opacity:.16}
+.arr.hot path{stroke-width:.055;stroke-opacity:1}
+.arr.off{display:none}
+.hand{stroke:var(--yellow);stroke-width:.06;stroke-linecap:round}
+.hand.bad{stroke:var(--warn)}
+.handtip{fill:var(--yellow)}
+.handtip.bad{fill:var(--warn)}
+.roundlog{margin:12px 0 0;font-size:1.05rem;min-height:3.1em}
+.roundlog .hint{font-family:var(--sans);font-size:.95rem;color:var(--muted)}
+.roundlog .badtxt{color:var(--bad)}
+.roundlog .goodtxt{color:var(--link)}
+
+/* map list, kernel and image */
+.formula{font-size:1.1rem}
+.maplist{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.mapc{font:500 .98rem/1 var(--sans);padding:7px 10px;border-radius:6px;border:1px solid var(--rule);background:var(--cell);color:var(--ink);cursor:pointer;white-space:nowrap}
+.mapc:hover{border-color:var(--link)}
+.mapc[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--board);border-color:var(--board)}
+.mapc .to{color:var(--muted);margin:0 .3em}
+.mapc.ker{background:var(--ker-bg)}
+.verdict{margin:12px 0 0;font-family:var(--sans);font-size:.98rem}
+.badge{display:inline-block;font:600 .85rem/1 var(--sans);padding:5px 9px;border-radius:999px;margin-right:6px;vertical-align:1px}
+.badge.good{background:var(--link);color:var(--paper)}
+.badge.bad{background:var(--bad);color:var(--paper)}
+.verdict .m{font-size:1.08rem}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin:0 0 10px;font-family:var(--sans);font-size:.92rem;color:var(--muted)}
+.sw{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-right:6px;border:1px solid rgba(0,0,0,.25)}
+.sw.ker{background:var(--ker)}
+.sw.im{background:var(--im)}
+.kerim{font-size:1.1rem}
+.set{padding:1px 5px;border-radius:4px}
+.set.ker{background:var(--ker-bg)}
+.set.im{background:var(--im-bg)}
+.muted{color:var(--muted);font-family:var(--sans);font-size:.95rem}
+
+/* tasks */
+.tasks{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.tasks li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start}
+.tick{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--rule);margin-top:.2em;display:grid;place-items:center}
+.tick svg{width:12px;height:12px;stroke:var(--chalk);stroke-width:2.4;fill:none;opacity:0}
+.tasks li.done .tick{background:var(--link);border-color:var(--link)}
+.tasks li.done .tick svg{opacity:1}
+.tasks p{margin:0}
+.tasks .ans{margin-top:.35em;font-size:1rem;color:var(--link)}
+.tasks details{margin-top:.35em;font-family:var(--sans);font-size:.92rem;color:var(--muted)}
+.tasks summary{cursor:pointer}
+.tasks details p{font-family:var(--serif);font-size:1rem;color:var(--ink);margin-top:.35em}
+
+/* part 2: the sign map */
+.pick{margin-bottom:18px}
+.tiles{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+@media (max-width:600px){.tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.tile{display:grid;justify-items:center;gap:6px;padding:6px 4px 8px;border-radius:8px;border:1px solid var(--rule);background:var(--cell);color:var(--ink);cursor:pointer;font:inherit;min-width:0}
+.tile:hover{border-color:var(--muted)}
+.tile[aria-pressed="true"]{background:var(--board);border-color:var(--board);color:var(--chalk);box-shadow:0 0 0 2px var(--link)}
+.tile.ker{outline:3px solid var(--yellow);outline-offset:-1px}
+.tile .ic{width:62px;max-width:100%;height:auto;aspect-ratio:62/52;border-radius:6px;display:block}
+.tile .nm{font:italic 1.2rem/1 var(--serif)}
+.icdot{stroke:rgba(0,0,0,.25);stroke-width:.6}
+.icnum{font:600 7.5px var(--sans);fill:#1d2b25;text-anchor:middle;dominant-baseline:central}
+.eqn{border-radius:8px;padding:16px 12px 14px;display:grid;grid-template-columns:auto repeat(5,auto);justify-content:center;align-items:center;gap:8px 10px;margin-top:4px}
+.eqn .rl{font:500 .8rem/1.2 var(--sans);color:var(--chalk-dim);text-align:right}
+.eqn .ic{width:72px;height:auto;aspect-ratio:62/52;border-radius:6px;display:block;box-shadow:0 0 0 1px var(--chalk-faint)}
+.eqn .nm{font:italic 1.45rem/1 var(--serif);text-align:center;min-height:1.1em}
+.eqn .op{font:400 1.3rem/1 var(--serif);color:var(--chalk-dim);text-align:center}
+.eqn .sg{font:600 1.05rem/1 var(--sans);text-align:center;padding:7px 8px;border-radius:5px;background:rgba(238,237,230,.1);white-space:nowrap}
+.eqn .qm{display:grid;place-items:center;width:72px;aspect-ratio:62/52;border-radius:6px;border:1.5px dashed var(--chalk-faint);font:italic 1.4rem/1 var(--serif);color:var(--chalk-dim)}
+.eqn .new{animation:pop .45s ease-out}
+@keyframes pop{from{transform:scale(1.2)}}
+@media (max-width:420px){.eqn{gap:8px 6px;padding-inline:8px}.eqn .ic,.eqn .qm{width:60px}.eqn .nm{font-size:1.25rem}.eqn .rl{font-size:.74rem}}
+.signs{border-collapse:separate;border-spacing:3px;margin:2px 0 0}
+.signs th,.signs td{padding:0}
+.signs .hd{min-width:34px;height:30px;border-radius:5px;background:var(--board);color:var(--chalk);font:italic 1rem/1 var(--serif);text-align:center;vertical-align:middle}
+.signs .corner{font:500 .74rem/1.1 var(--sans);color:var(--muted);text-align:center;vertical-align:middle;padding:0 4px}
+.sc{display:block;width:100%;min-width:34px;height:30px;border-radius:5px;border:1px solid var(--rule);background:var(--cell);color:var(--ink);font:600 .92rem/1 var(--sans);cursor:pointer;padding:0}
+.sc:hover{border-color:var(--muted)}
+.sc.plus{background:var(--plus-bg)}
+.sc.minus{background:var(--minus-bg)}
+.sc.cur{outline:2px solid var(--board);outline-offset:-1px}
+:root[data-theme="dark"] .sc.cur{outline-color:var(--chalk)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .sc.cur{outline-color:var(--chalk)}}
+.tally{margin:10px 0 0;font-family:var(--sans);font-size:.95rem;color:var(--muted)}
+.tally.good{color:var(--link)}
+.kerline{font-size:1.2rem}
+.note{font-family:var(--sans);font-size:.93rem;color:var(--muted)}
+/* on the dark paper the board colour is close to the background: ring the pressed controls */
+:root[data-theme="dark"] .pill[aria-pressed="true"],:root[data-theme="dark"] .tab[aria-selected="true"],:root[data-theme="dark"] .abtn[aria-pressed="true"]{border-color:var(--link)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pill[aria-pressed="true"],:root:not([data-theme="light"]) .tab[aria-selected="true"],:root:not([data-theme="light"]) .abtn[aria-pressed="true"]{border-color:var(--link)}}
+@media (prefers-reduced-motion: reduce){.arr,.arr path{transition:none}.halo.on{animation:none}.eqn .new{animation:none}}
+</style>
+</head>
+<body>
+<header class="board">
+  <div class="wrap top">
+    <p class="crumb"><a href="./">Theory of Groups in Physics</a>, Week 2</p>
+    <h1>Homomorphism builder</h1>
+    <p class="sub">Choose where a generator goes, follow where everything else has to go, and see whether the map respects the group operation.</p>
+  </div>
+</header>
+<div class="tray" aria-hidden="true"></div>
+
+<main class="wrap">
+  <div class="tabs" role="tablist" aria-label="Parts of this simulation">
+    <button class="tab" role="tab" id="tab-z" aria-controls="p-z" aria-selected="true"><span class="m">Z</span><sub><span class="m">m</span></sub> → <span class="m">Z</span><sub><span class="m">n</span></sub></button>
+    <button class="tab" role="tab" id="tab-d" aria-controls="p-d" aria-selected="false"><span class="m">D</span><sub>3</sub> → {+1, −1}</button>
+  </div>
+
+  <!-- Z_m -> Z_n -->
+  <section class="panel" id="p-z" role="tabpanel" aria-labelledby="tab-z">
+    <p class="intro">A homomorphism from <span class="m">Z</span><sub><span class="m">m</span></sub> is fixed by one choice: where 1 goes. If 1 ↦ <span class="m">a</span>, then <span class="m">k</span> = 1 + 1 + ⋯ + 1 has to go to <span class="m">a</span> + <span class="m">a</span> + ⋯ + <span class="m">a</span> = <span class="m">k</span> · <span class="m">a</span>. Choose the two groups and the image of 1, then check that the map is well defined.</p>
+    <div class="two">
+      <div>
+        <div class="ctl"><span class="row-label" id="lab-from">From</span><div class="pills" role="group" aria-labelledby="lab-from" id="from"></div></div>
+        <div class="ctl"><span class="row-label" id="lab-to">To</span><div class="pills" role="group" aria-labelledby="lab-to" id="to"></div></div>
+        <div class="ctl"><span class="row-label" id="lab-a">Send 1 to</span><div id="avals-wrap"><div class="pills" role="group" aria-labelledby="lab-a" id="avals"></div></div></div>
+        <div class="stage board" id="zstage"><svg id="clocks" viewBox="0 0 9.34 4.54" role="img" aria-label="Two clock faces with arrows from each element to its image"></svg></div>
+        <div id="round-ui">
+          <p class="roundlog" id="roundlog" aria-live="polite"></p>
+          <div class="row">
+            <button class="btn" id="go" type="button">Go once round</button>
+            <button class="btn" id="step" type="button">Add 1</button>
+            <button class="btn quiet" id="clear" type="button">Clear</button>
+          </div>
+        </div>
+      </div>
+      <div class="side">
+        <section>
+          <h2 class="h">The map</h2>
+          <div id="mapbox"></div>
+        </section>
+        <section id="kisec">
+          <h2 class="h">Kernel and image</h2>
+          <div id="kibox"></div>
+        </section>
+        <section>
+          <h2 class="h">Try this</h2>
+          <ul class="tasks" id="ztasks"></ul>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- D3 -> {+1, -1} -->
+  <section class="panel" id="p-d" role="tabpanel" aria-labelledby="tab-d" hidden>
+    <p class="intro">Send every rotation of the triangle to +1 and every reflection to −1. Call this map <span class="m">φ</span>. Pick two symmetries <span class="m">g</span> and <span class="m">h</span> and check that the sign of the product <span class="m">gh</span> is the product of the signs: <span class="m">φ</span>(<span class="m">gh</span>) = <span class="m">φ</span>(<span class="m">g</span>)<span class="m">φ</span>(<span class="m">h</span>).</p>
+    <div class="two">
+      <div>
+        <div class="pick">
+          <h2 class="h" id="lab-g">Pick <span class="m">g</span></h2>
+          <div class="tiles" role="group" aria-labelledby="lab-g" id="pick-g"></div>
+        </div>
+        <div class="pick">
+          <h2 class="h" id="lab-h">Pick <span class="m">h</span> (in <span class="m">gh</span>, <span class="m">h</span> acts first)</h2>
+          <div class="tiles" role="group" aria-labelledby="lab-h" id="pick-h"></div>
+        </div>
+        <div class="eqn board" id="eqn" aria-hidden="true"></div>
+        <div class="row">
+          <button class="btn primary" id="check" type="button">Check this pair</button>
+          <button class="btn quiet" id="checkall" type="button">Check all 36 pairs</button>
+        </div>
+        <p class="status" id="dstatus" aria-live="polite"></p>
+      </div>
+      <div class="side">
+        <section>
+          <h2 class="h">Pairs checked</h2>
+          <table class="signs" id="signs"></table>
+          <p class="note" style="margin:8px 0 0">Row <span class="m">g</span>, column <span class="m">h</span>: the sign of <span class="m">gh</span>. Tap a cell to check that pair.</p>
+          <p class="tally" id="tally"></p>
+        </section>
+        <section>
+          <h2 class="h">Kernel</h2>
+          <div id="kerbox"></div>
+          <p class="note" style="margin-top:12px">This is our first one-dimensional representation: each element becomes a 1 × 1 matrix, +1 or −1, and products are respected. Representations come in Week 4.</p>
+        </section>
+        <section>
+          <h2 class="h">Try this</h2>
+          <ul class="tasks" id="dtasks"></ul>
+        </section>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="gt-lock.js"></script>
+<script src="gt-groups.js"></script>
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg',PI=Math.PI;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var COL=['#E9CB6B','#EDA4B8','#9CCAEA','#A9DBA2'];
+  var TICK='<span class="tick" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5"/></svg></span>';
+  function $(id){return document.getElementById(id);}
+  function el(tag,a,parent){var e=document.createElementNS(NS,tag);for(var k in a)e.setAttribute(k,a[k]);if(parent)parent.appendChild(e);return e;}
+  function zh(n){return '<span class="m">Z</span><sub>'+n+'</sub>';}
+  function zt(n){return 'Z'+GT.subDigits(n);}
+  function M(s){return '<span class="m">'+s+'</span>';}
+  function setList(xs){return '{'+xs.join(', ')+'}';}
+
+  /* ---------- tabs ---------- */
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(u){u.setAttribute('aria-selected',String(u===t));$(u.getAttribute('aria-controls')).hidden=u!==t;});
+    if(t.id==='tab-z')fitLayout();
+  });});
+
+  /* ---------- "Try this" lists ---------- */
+  function Tasks(ul,list){
+    ul.innerHTML=list.map(function(t){return '<li>'+TICK+'<div><p>'+t.q+'</p>'+(t.reveal?'<details><summary>Show the answer</summary><p>'+t.reveal+'</p></details>':'<p class="ans" hidden></p>')+'</div></li>';}).join('');
+    return function(){
+      list.forEach(function(t,i){
+        if(!t.done)return;
+        var li=ul.children[i],ok=!!t.done(),a=li.querySelector('.ans');
+        li.classList.toggle('done',ok);
+        if(a){a.hidden=!ok;if(ok)a.innerHTML=t.a();}
+      });
+    };
+  }
+
+  /* ======================================================================
+     Part 1: Z_m -> Z_n, k -> k a
+     ====================================================================== */
+  var S={m:6,n:3,a:1};
+  var tried={};            // tried['m-n'][a] = well defined?
+  var seen=[],seenKey={};  // well-defined maps looked at, in order
+  var hot=-1;              // source element whose arrow is highlighted
+  var RD={k:null,tok:0,raf:0,next:null,playing:false};   // going once round: k = steps taken
+  var lastLocked=null;
+  function pairKey(m,n){return m+'-'+n;}
+  function locked(){return GT_LOCK.isLocked('hom:'+S.m+'-'+S.n);}
+
+  /* ---------- geometry of the two clocks ---------- */
+  // Residue k of Z_N sits at angle 2*pi*k/N, measured clockwise from the top.
+  // Arrows leave a residue radially, go round the outside of its clock to
+  // the side facing the other clock, cross over and come in radially.
+  var G={R:1.3,rd:.24,H0:.46,DL:.13,BETA:PI*62/180,tip:.03,M:2.27};
+  var LAYOUTS={wide:{th:0,d:4.8},tall:{th:PI/2,d:4.0}};
+  var kind=null,L=null;
+  function layout(k){
+    var o=LAYOUTS[k],dx=o.d*Math.cos(o.th),dy=o.d*Math.sin(o.th),g=[Math.cos(o.th),Math.sin(o.th)];
+    return {kind:k,w:2*G.M+dx,h:2*G.M+dy,S:[G.M,G.M],T:[G.M+dx,G.M+dy],gS:g,gT:[-g[0],-g[1]]};
+  }
+  function add(p,q){return [p[0]+q[0],p[1]+q[1]];}
+  function mul(p,s){return [p[0]*s,p[1]*s];}
+  function dist(p,q){return Math.hypot(p[0]-q[0],p[1]-q[1]);}
+  function unitAt(k,N){var t=2*PI*k/N;return [Math.sin(t),-Math.cos(t)];}
+  function ang(g,u){return Math.atan2(g[0]*u[1]-g[1]*u[0],g[0]*u[0]+g[1]*u[1]);}
+  function rot(g,t){return [g[0]*Math.cos(t)-g[1]*Math.sin(t),g[0]*Math.sin(t)+g[1]*Math.cos(t)];}
+  function isFar(a){return Math.abs(a)>G.BETA+1e-9;}
+  function travel(a,s){if(!isFar(a))return 0;if(s<0&&a>0)a-=2*PI;if(s>0&&a<0)a+=2*PI;return Math.abs(a-s*G.BETA);}
+  function leg(C,g,k,N,side,rho){
+    var u=unitAt(k,N),a=ang(g,u),pts=[];
+    if(!isFar(a)){pts.push(add(C,mul(u,rho)));return pts;}
+    if(side<0&&a>0)a-=2*PI;if(side>0&&a<0)a+=2*PI;
+    var b=side*G.BETA,steps=Math.max(1,Math.ceil(Math.abs(a-b)/(PI/5)));
+    for(var i=0;i<=steps;i++)pts.push(add(C,mul(rot(g,a+(b-a)*i/steps),rho)));
+    return pts;
+  }
+  function routePts(k,m,v,n,sS,rS,sT,rT){
+    var us=unitAt(k,m),ut=unitAt(v,n);
+    var pts=[add(L.S,mul(us,G.R))].concat(leg(L.S,L.gS,k,m,sS,rS));
+    pts=pts.concat(leg(L.T,L.gT,v,n,sT,rT).reverse());
+    pts.push(add(L.T,mul(ut,G.R+G.rd+G.tip)));
+    return pts;
+  }
+  function plen(p){var s=0;for(var i=1;i<p.length;i++)s+=dist(p[i-1],p[i]);return s;}
+  // arrows: [{k,v}]; chooses sides (shortest way round) and lanes
+  function plan(m,n,arrows){
+    var aS=[],aT=[],sA=[],sT=[],i,v,r0=G.R+G.H0+G.DL;
+    for(i=0;i<m;i++)aS[i]=ang(L.gS,unitAt(i,m));
+    for(v=0;v<n;v++){aT[v]=ang(L.gT,unitAt(v,n));sT[v]=aT[v]>=0?1:-1;}
+    arrows.forEach(function(x,j){sA[j]=aS[x.k]>=0?1:-1;});
+    for(var it=0;it<3;it++){
+      for(v=0;v<n;v++){
+        if(!isFar(aT[v]))continue;
+        var best=null;
+        [-1,1].forEach(function(s){var tot=0,any=false;arrows.forEach(function(x,j){if(x.v===v){any=true;tot+=plen(routePts(x.k,m,v,n,sA[j],r0,s,r0));}});if(any&&(!best||tot<best[0]-1e-9))best=[tot,s];});
+        if(best)sT[v]=best[1];
+      }
+      arrows.forEach(function(x,j){
+        if(!isFar(aS[x.k]))return;
+        var best=null;
+        [-1,1].forEach(function(s){var l=plen(routePts(x.k,m,x.v,n,s,r0,sT[x.v],r0));if(!best||l<best[0]-1e-9)best=[l,s];});
+        sA[j]=best[1];
+      });
+    }
+    // lanes, side by side: shorter trips run closer to the clock
+    function lanes(ids,angs,sideOf){
+      var rho={};
+      [-1,1].forEach(function(side){
+        var list=ids.filter(function(i){return isFar(angs[i])&&sideOf(i)===side;});
+        list.sort(function(x,y){return travel(angs[x],side)-travel(angs[y],side);});
+        var dl=Math.min(G.DL,3*G.DL/Math.max(1,list.length));
+        list.forEach(function(i,j){rho[i+':'+side]=G.R+G.H0+dl*(j+1);});
+      });
+      return function(i,side){return rho[i+':'+side]||G.R+G.H0;};
+    }
+    var srcIds=[],srcSide={};
+    arrows.forEach(function(x,j){var key=x.k+':'+sA[j];if(!srcSide[key]){srcSide[key]=1;srcIds.push(x.k+':'+sA[j]);}});
+    // a source residue may send two arrows (the clash), possibly to both sides
+    var bySide={};
+    [-1,1].forEach(function(side){
+      var list=srcIds.filter(function(id){return +id.split(':')[1]===side;}).map(function(id){return +id.split(':')[0];});
+      bySide[side]=lanes(list,aS,function(){return side;});
+    });
+    var usedT=[];arrows.forEach(function(x){if(usedT.indexOf(x.v)<0)usedT.push(x.v);});
+    var rT=lanes(usedT,aT,function(v){return sT[v];});
+    return arrows.map(function(x,j){
+      var pts=routePts(x.k,m,x.v,n,sA[j],bySide[sA[j]](x.k,sA[j]),sT[x.v],rT(x.v,sT[x.v]));
+      return {k:x.k,v:x.v,pts:pts,tip:pts[pts.length-1],dir:mul(unitAt(x.v,n),-1)};
+    });
+  }
+  // centripetal Catmull-Rom through the points, as an SVG path
+  function pathD(pts){
+    function f(p){return p[0].toFixed(3)+','+p[1].toFixed(3);}
+    var d='M'+f(pts[0]);
+    for(var i=0;i<pts.length-1;i++){
+      var p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||pts[i+1];
+      var d01=dist(p0,p1),d12=dist(p1,p2),d23=dist(p2,p3),a01=Math.sqrt(d01),a12=Math.sqrt(d12),a23=Math.sqrt(d23),c1=p1,c2=p2;
+      if(a01>1e-9){var A=2*d01+3*a01*a12+d12,N=3*a01*(a01+a12);c1=[(p1[0]*A-p0[0]*d12+p2[0]*d01)/N,(p1[1]*A-p0[1]*d12+p2[1]*d01)/N];}
+      if(a23>1e-9){var B=2*d23+3*a23*a12+d12,Mm=3*a23*(a23+a12);c2=[(p2[0]*B+p1[0]*d23-p3[0]*d12)/Mm,(p2[1]*B+p1[1]*d23-p3[1]*d12)/Mm];}
+      d+='C'+f(c1)+' '+f(c2)+' '+f(p2);
+    }
+    return d;
+  }
+
+  /* ---------- drawing ---------- */
+  var svg=$('clocks'),V={};   // V holds the live SVG pieces
+  function draw(){
+    var m=S.m,n=S.n,lk=locked(),h=lk?null:GT.homZ(m,n,S.a);
+    L=layout(kind);
+    svg.setAttribute('viewBox','0 0 '+L.w.toFixed(3)+' '+L.h.toFixed(3));
+    svg.innerHTML='';V={arrows:[],clash:null,sdots:[],tdots:[],h:h};
+    [[L.S,m,'from'],[L.T,n,'to']].forEach(function(c){
+      el('circle',{cx:c[0][0],cy:c[0][1],r:G.R,'class':'ring'},svg);
+      var t=el('text',{x:c[0][0],y:c[0][1],'class':'clabel'},svg);
+      t.innerHTML='Z<tspan dy=".12" font-size=".32" font-style="normal">'+c[1]+'</tspan>';
+    });
+    var ga=el('g',{},svg),gh=el('g',{},svg),gd=el('g',{},svg);
+    if(h){
+      var arrows=[];for(var k=0;k<m;k++)arrows.push({k:k,v:h.images[k]});
+      if(!h.wellDefined)arrows.push({k:0,v:h.clash,clash:true});
+      plan(m,n,arrows).forEach(function(r,j){
+        var cls='arr'+(arrows[j].clash?' clash off':(h.wellDefined&&r.v===0?' k':''));
+        var g=el('g',{'class':cls},ga);
+        el('path',{d:pathD(r.pts)},g);
+        var t=r.tip,u=r.dir,nx=-u[1],ny=u[0],hl=.19,hw=.09;
+        el('polygon',{points:[t,add(t,[-u[0]*hl+nx*hw,-u[1]*hl+ny*hw]),add(t,[-u[0]*hl-nx*hw,-u[1]*hl-ny*hw])].map(function(p){return p[0].toFixed(3)+','+p[1].toFixed(3);}).join(' ')},g);
+        if(arrows[j].clash)V.clash=g;else V.arrows[r.k]=g;
+      });
+      // hands for going once round
+      V.hands=[[L.S,m],[L.T,n]].map(function(c){
+        var g=el('g',{style:'display:none'},gh);
+        return {g:g,C:c[0],N:c[1],line:el('line',{'class':'hand'},g),tipc:el('circle',{r:.07,'class':'handtip'},g)};
+      });
+    }
+    function dot(C,k,N,parent,cls){
+      var u=unitAt(k,N),p=add(C,mul(u,G.R)),g=el('g',{},parent);
+      var halo=el('circle',{cx:p[0],cy:p[1],r:G.rd+.09,'class':'halo'},g);
+      var c=el('circle',{cx:p[0],cy:p[1],r:G.rd,'class':'rdot'+cls},g);
+      var t=el('text',{x:p[0],y:p[1]+.005,'class':'rnum'+(cls?' dark':'')},g);t.textContent=String(k);
+      return {g:g,c:c,t:t,halo:halo};
+    }
+    for(var i=0;i<m;i++){
+      var ker=h&&h.wellDefined&&h.kernel.indexOf(i)>=0;
+      var d=dot(L.S,i,m,gd,ker?' ker':'');V.sdots.push(d);
+      if(h){d.g.setAttribute('class','sdot');(function(ii){d.g.addEventListener('click',function(){setHot(hot===ii?-1:ii);});})(i);}
+    }
+    for(var j=0;j<n;j++){var im=h&&h.wellDefined&&h.image.indexOf(j)>=0;V.tdots.push(dot(L.T,j,n,gd,im?' im':''));}
+    svg.setAttribute('aria-label',lk?'Clock faces of '+zt(m)+' and '+zt(n)+', with no arrows yet':
+      'Clock faces of '+zt(m)+' and '+zt(n)+', with an arrow from each k to k · '+S.a+' mod '+n);
+    paintRound();
+  }
+
+  /* ---------- highlighting one arrow ---------- */
+  function setHot(k){
+    hot=k;
+    if(V.arrows)V.arrows.forEach(function(g,i){g.classList.toggle('dim',k>=0&&i!==k);g.classList.toggle('hot',k>=0&&i===k);});
+    [].forEach.call(document.querySelectorAll('#maplist .mapc'),function(b,i){b.setAttribute('aria-pressed',String(i===k));});
+  }
+
+  /* ---------- going once round ---------- */
+  function setHand(H,pos){ // pos may be fractional (in steps of 1/N of a turn)
+    var t=2*PI*pos/H.N,u=[Math.sin(t),-Math.cos(t)],a=add(H.C,mul(u,.46)),b=add(H.C,mul(u,G.R-G.rd-.1));
+    H.line.setAttribute('x1',a[0]);H.line.setAttribute('y1',a[1]);H.line.setAttribute('x2',b[0]);H.line.setAttribute('y2',b[1]);
+    H.tipc.setAttribute('cx',b[0]);H.tipc.setAttribute('cy',b[1]);
+  }
+  function paintRound(){
+    var h=V.h;if(!h){roundText();return;}
+    var k=RD.k,m=S.m,n=S.n,a=S.a,showClash=!h.wellDefined&&(k===null||k===m),end=k===m;
+    if(V.clash)V.clash.classList.toggle('off',!showClash);
+    V.tdots.forEach(function(d,v){
+      var bad=showClash&&v===h.clash;
+      d.c.setAttribute('class','rdot'+(bad?' bad':(h.wellDefined&&h.image.indexOf(v)>=0?' im':'')));
+      d.t.setAttribute('class','rnum'+(bad||(h.wellDefined&&h.image.indexOf(v)>=0)?' dark':''));
+      d.halo.classList.toggle('on',bad&&end);
+    });
+    V.hands.forEach(function(H){H.g.style.display=k===null?'none':'';});
+    if(k!==null){
+      setHand(V.hands[0],k%m);setHand(V.hands[1],(k*a)%n);
+      var bad=end&&!h.wellDefined;
+      V.hands[1].line.setAttribute('class','hand'+(bad?' bad':''));V.hands[1].tipc.setAttribute('class','handtip'+(bad?' bad':''));
+      setHot(k%m);
+    }
+    roundText();
+  }
+  function roundText(){
+    var log=$('roundlog'),h=V.h,m=S.m,n=S.n,a=S.a,k=RD.k;
+    $('round-ui').hidden=!h;
+    if(!h){log.innerHTML='';return;}
+    $('go').className='btn'+(h.wellDefined?'':' primary');
+    $('go').innerHTML='Go once round '+zh(m);
+    $('step').disabled=k===m;
+    $('clear').disabled=k===null;
+    if(k===null){
+      log.innerHTML='<span class="hint">'+(h.wellDefined?'Go once round '+zh(m)+' and watch where the images go.':'Go once round '+zh(m)+' to see what goes wrong.')+' “Add 1” takes one step at a time.</span>';
+      return;
+    }
+    if(k===0){log.innerHTML='Start at 0 in '+zh(m)+'. Its image is 0 in '+zh(n)+'.';return;}
+    if(k<m){log.innerHTML=k+' · 1 = '+k+' in '+zh(m)+' goes to '+k+' · '+a+' = '+(k*a)%n+' in '+zh(n)+'.';return;}
+    var c=(m*a)%n;
+    if(!c) log.innerHTML=m+' · 1 = 0 in '+zh(m)+': once round, back at 0. And '+m+' · '+a+' = 0 in '+zh(n)+': the images are back at 0 too. <span class="goodtxt">The map is well defined.</span>';
+    else log.innerHTML=m+' · 1 = 0 in '+zh(m)+': once round, back at 0. But '+m+' · '+a+' = '+c+' in '+zh(n)+', not 0. <span class="badtxt">So 0 would have two images, 0 and '+c+': the map is not well defined.</span>';
+  }
+  // RD.next: where the step still animating will land (null when none is)
+  function roundStop(){RD.tok++;if(RD.raf)cancelAnimationFrame(RD.raf);RD.raf=0;RD.next=null;RD.playing=false;}
+  function roundClear(){roundStop();RD.k=null;setHot(-1);paintRound();}
+  // one step: both hands move together, the source by 1, the target by a
+  function roundStep(done){
+    if(!V.h||RD.k===S.m){if(done)done();return;}
+    if(RD.k===null){RD.k=0;paintRound();if(done)done();return;}
+    var k0=RD.k,m=S.m,n=S.n,a=S.a,tok=RD.tok,dur=reduce?0:420,t0=null;
+    if(RD.raf)cancelAnimationFrame(RD.raf);
+    RD.next=k0+1;
+    function fin(){RD.raf=0;RD.next=null;RD.k=k0+1;paintRound();if(done)done();}
+    if(!dur){fin();return;}
+    setHot(k0%m);
+    function f(ts){
+      if(tok!==RD.tok)return;
+      if(t0===null)t0=ts;var t=Math.min(1,(ts-t0)/dur),e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+      setHand(V.hands[0],k0+e);setHand(V.hands[1],k0*a+a*e);
+      if(t<1)RD.raf=requestAnimationFrame(f);else fin();
+    }
+    RD.raf=requestAnimationFrame(f);
+  }
+  // stop the round where it is; a step still animating is finished at once
+  function roundHalt(){var k=RD.next!==null?RD.next:RD.k;roundStop();RD.k=k;return k;}
+  // go once round from the start, or (resume) carry on from RD.k
+  function roundPlay(resume){
+    if(resume===true)roundHalt();else{roundStop();RD.k=null;}
+    RD.playing=true;var tok=RD.tok;
+    (function next(){
+      if(tok!==RD.tok||!V.h)return;
+      roundStep(function(){if(tok!==RD.tok)return;if(RD.k<S.m)setTimeout(next,reduce?0:(RD.k===0?350:160));else RD.playing=false;});
+    })();
+  }
+  $('go').addEventListener('click',function(){roundPlay();});
+  // every tap adds 1: a step still animating is completed first
+  $('step').addEventListener('click',function(){
+    var was=RD.k;roundHalt();
+    if(RD.k===null)RD.k=0;
+    if(RD.k!==was)paintRound();
+    roundStep();
+  });
+  $('clear').addEventListener('click',roundClear);
+
+  /* ---------- controls ---------- */
+  function pills(id,cur,onPick){
+    var box=$(id);box.innerHTML='';
+    for(var k=2;k<=8;k++){(function(k){
+      var b=document.createElement('button');b.type='button';b.className='pill';b.innerHTML=zh(k);
+      b.setAttribute('aria-pressed',String(k===cur));b.setAttribute('aria-label',zt(k));
+      b.addEventListener('click',function(){onPick(k);});box.appendChild(b);
+    })(k);}
+  }
+  var MARK_OK='<span class="mk" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5"/></svg></span>';
+  var MARK_NO='<span class="mk" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M3.2 3.2l5.6 5.6M8.8 3.2l-5.6 5.6"/></svg></span>';
+  function renderControls(){
+    pills('from',S.m,function(k){if(S.m===k)return;S.m=k;changed();});
+    pills('to',S.n,function(k){if(S.n===k)return;S.n=k;if(S.a>=k)S.a=1;changed();});
+    var wrap=$('avals-wrap');
+    if(locked()){wrap.innerHTML='<p class="locknote">'+GT_LOCK.message+'</p>';return;}
+    var t=tried[pairKey(S.m,S.n)]||{},any=false;
+    var h='<div class="pills" role="group" aria-labelledby="lab-a" id="avals">';
+    for(var a=0;a<S.n;a++){
+      var st=t.hasOwnProperty(a)?(t[a]?' ok':' no'):'';if(st)any=true;
+      h+='<button type="button" class="abtn'+st+'" data-a="'+a+'" aria-pressed="'+(a===S.a)+'"'+(st?' aria-label="'+a+(t[a]?', tried: a homomorphism':', tried: not well defined')+'"':'')+'>'+a+(st?(t[a]?MARK_OK:MARK_NO):'')+'</button>';
+    }
+    h+='</div>';
+    if(any)h+='<p class="marks-note">Tick: a homomorphism. Cross: not well defined.</p>';
+    wrap.innerHTML=h;
+    [].forEach.call(wrap.querySelectorAll('.abtn'),function(b){b.addEventListener('click',function(){var a=+b.dataset.a;if(a===S.a&&RD.k===null&&V.h&&V.h.wellDefined){record(true);updateZ();return;}S.a=a;changed(true);});});
+  }
+  // chosen: false for maps the student did not pick (the example shown on
+  // load, or one reached by changing the groups); they count as tried, but
+  // not towards "three different homomorphisms"
+  function record(chosen){
+    if(locked())return;
+    var h=GT.homZ(S.m,S.n,S.a),key=pairKey(S.m,S.n);
+    (tried[key]=tried[key]||{})[S.a]=h.wellDefined;
+    if(h.wellDefined&&chosen){var id=key+'-'+S.a;if(!seenKey[id]){seenKey[id]=1;seen.push({m:S.m,n:S.n,a:S.a,h:h});}}
+  }
+
+  /* ---------- the side panel ---------- */
+  function renderSide(){
+    var box=$('mapbox'),kb=$('kibox'),m=S.m,n=S.n,a=S.a;
+    if(locked()){
+      box.innerHTML='<p class="muted">Nothing to show for this pair yet. Pick another pair of groups for now.</p>';
+      kb.innerHTML='';$('kisec').hidden=true;return;
+    }
+    $('kisec').hidden=false;
+    var h=V.h||GT.homZ(m,n,a);
+    var html='<p class="formula">'+M('φ')+'(1) = '+a+', so '+M('φ')+'('+M('k')+') = '+M('k')+' · '+a+' mod '+n+'.</p><ul class="maplist" id="maplist">';
+    for(var k=0;k<m;k++)html+='<li><button type="button" class="mapc'+(h.wellDefined&&h.images[k]===0?' ker':'')+'" aria-pressed="'+(k===hot)+'">'+k+'<span class="to">↦</span>'+h.images[k]+'</button></li>';
+    html+='</ul>';
+    if(h.wellDefined) html+='<p class="verdict"><span class="badge good">Homomorphism</span>'+m+' · '+a+' = 0 in '+zh(n)+', so the images come back to 0 after going once round '+zh(m)+'.</p>';
+    else html+='<p class="verdict"><span class="badge bad">Not well defined</span>In '+zh(m)+', '+m+' · 1 = 0, but in '+zh(n)+', '+m+' · '+a+' = '+h.clash+'. So 0 would have two images, 0 and '+h.clash+'. For example '+M('φ')+'('+(m-1)+' + 1) = '+M('φ')+'(0) = 0, but '+M('φ')+'('+(m-1)+') + '+M('φ')+'(1) = '+h.images[m-1]+' + '+a+' = '+h.clash+'.</p>';
+    box.innerHTML=html;
+    [].forEach.call(box.querySelectorAll('.mapc'),function(b,i){b.addEventListener('click',function(){if(RD.k!==null)roundClear();setHot(hot===i?-1:i);});});
+    if(h.wellDefined){
+      kb.innerHTML='<p class="legend"><span><span class="sw ker"></span>kernel: sent to 0</span><span><span class="sw im"></span>image: every value that is hit</span></p>'+
+        '<p class="kerim">ker '+M('φ')+' = <span class="set ker">'+setList(h.kernel)+'</span>, im '+M('φ')+' = <span class="set im">'+setList(h.image)+'</span>: |ker '+M('φ')+'| · |im '+M('φ')+'| = '+h.kernel.length+' · '+h.image.length+' = '+m+'.</p>';
+    } else kb.innerHTML='<p class="muted">No kernel or image: the map is not well defined.</p>';
+  }
+
+  /* ---------- tasks ---------- */
+  function triedAll(m,n){var t=tried[pairKey(m,n)]||{};for(var a=0;a<n;a++)if(!t.hasOwnProperty(a))return false;return true;}
+  function goodImages(m,n){var out=[];for(var a=0;a<n;a++)if(GT.homZ(m,n,a).wellDefined)out.push(a);return out;}
+  var updateZ=Tasks($('ztasks'),[
+    {q:'Find every image of 1 that gives a homomorphism '+zh(6)+' → '+zh(3)+'.',done:function(){return triedAll(6,3);},
+     a:function(){var g=goodImages(6,3);return (g.length===3?'All three: ':'')+g.map(function(a){return '1 ↦ '+a;}).join(', ')+'. Going once round '+zh(6)+' adds '+M('a')+' to itself six times, and 6'+M('a')+' is always a multiple of 3.';}},
+    {q:'Find a homomorphism '+zh(3)+' → '+zh(6)+' other than the zero map.',done:function(){var t=tried['3-6']||{};for(var a=1;a<6;a++)if(t[a])return true;return false;},
+     a:function(){var g=goodImages(3,6).filter(function(a){return a;});return g.map(function(a){return '1 ↦ '+a;}).join(' and ')+(g.length>1?' both work: ':' works: ')+g.map(function(a){return '3 · '+a+' = '+(3*a);}).join(' and ')+(g.length>1?' are multiples of 6, so they are 0 in ':' is a multiple of 6, so it is 0 in ')+zh(6)+'.';}},
+    {q:'Is there a homomorphism '+zh(5)+' → '+zh(4)+' other than the zero map?',reveal:(function(){
+      var g=goodImages(5,4);
+      if(g.length===1&&g[0]===0) return 'No. If 1 ↦ '+M('a')+', going once round '+zh(5)+' adds '+M('a')+' to itself five times, so 5'+M('a')+' must be 0 in '+zh(4)+'. But 5'+M('a')+' = 4'+M('a')+' + '+M('a')+', which is '+M('a')+' in '+zh(4)+'. So '+M('a')+' = 0: only the zero map.';
+      return 'Yes: '+g.map(function(a){return '1 ↦ '+a;}).join(', ')+'.';
+    })()},
+    {q:'Check |ker '+M('φ')+'| · |im '+M('φ')+'| = '+M('m')+' for three different homomorphisms.',done:function(){return seen.length>=3;},
+     a:function(){return 'It holds every time. '+seen.slice(0,3).map(function(s){return zh(s.m)+' → '+zh(s.n)+' with 1 ↦ '+s.a+': '+s.h.kernel.length+' · '+s.h.image.length+' = '+s.m;}).join('; ')+'. We will see why when we meet quotient groups.';}}
+  ]);
+
+  /* ---------- putting it together ---------- */
+  function render(){
+    lastLocked=locked();
+    renderControls();draw();renderSide();setHot(hot);updateZ();
+  }
+  function focusInfo(){
+    var f=document.activeElement,box=f&&f.closest&&f.closest('#from,#to,#avals');
+    return box?{id:box.id,i:[].indexOf.call(box.children,f)}:null;
+  }
+  function refocus(fi){if(!fi)return;var box=$(fi.id),b=box&&box.children[fi.i];if(b&&b.focus)b.focus({preventScroll:true});}
+  // chosen: true only when the student picked the image of 1 themselves
+  function changed(chosen){
+    var fi=focusInfo();
+    roundStop();RD.k=null;hot=-1;
+    record(!!chosen);render();refocus(fi);
+    if(V.h&&!V.h.wellDefined)roundPlay();
+  }
+  // Side by side unless the board is phone-narrow; stacked, the arrows stay
+  // legible on a phone, and tablets and small laptops keep both clocks in view.
+  var TALL_BELOW=430;
+  function kindFor(w){return w&&w<TALL_BELOW?'tall':'wide';}
+  function fitLayout(){
+    var w=$('zstage').clientWidth;if(!w)return;
+    var k=kindFor(w);
+    if(k!==kind){
+      kind=k;var play=RD.playing;roundHalt();draw();setHot(hot);
+      if(play&&RD.k!==null&&RD.k<S.m)roundPlay(true);   // a round in progress carries on
+    }
+  }
+  kind=kindFor($('zstage').clientWidth);
+  record(false);render();
+  if(window.ResizeObserver)new ResizeObserver(fitLayout).observe($('zstage'));else window.addEventListener('resize',fitLayout);
+  // The homework lock lifts by itself while the page is open.
+  function relock(){var was=lastLocked;roundStop();RD.k=null;if(was)record(false);render();}
+  GT_LOCK.onOpen(relock);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden&&lastLocked!==locked())relock();});
+
+  /* ======================================================================
+     Part 2: the sign map D3 -> {+1, -1}
+     ====================================================================== */
+  var D=GT.dihedral(3),N=D.size,pg=1,ph=3,checked={},kerShown=false,lastPair=null;
+  function sgn(i){return GT.sign(D,i);}
+  function sgnTxt(v){return v>0?'+1':'−1';}
+  function nmH(i){return D.els[i].html;}
+  function polyV(n,R){var v=[],p0=3*PI/2-PI/n;for(var i=0;i<n;i++)v.push([R*Math.cos(p0+2*PI*i/n),R*Math.sin(p0+2*PI*i/n)]);return v;}
+  function iconPoly(n,perm){
+    var s=el('svg',{viewBox:'-31 -26 62 52','class':'ic','aria-hidden':'true'});s.style.background='var(--board)';
+    var V3=polyV(n,19),pts=V3.map(function(v){return v[0].toFixed(1)+','+(-v[1]).toFixed(1);}).join(' ');
+    el('polygon',{points:pts,fill:'rgba(238,237,230,.08)',stroke:'rgba(238,237,230,.85)','stroke-width':1.2},s);
+    for(var i=0;i<V3.length;i++){var p=V3[perm[i]];el('circle',{cx:p[0],cy:-p[1],r:5.6,fill:COL[i],'class':'icdot'},s);var t=el('text',{x:p[0],y:-p[1]+.3,'class':'icnum'},s);t.textContent=String(i+1);}
+    return s;
+  }
+  function buildPicker(id,which){
+    var box=$(id);
+    D.els.forEach(function(e,i){
+      var b=document.createElement('button');b.type='button';b.className='tile';b.dataset.i=i;
+      b.setAttribute('aria-label',(which==='g'?'g = ':'h = ')+e.name+', '+(e.f?'a reflection':(i?'a rotation':'the identity')));
+      b.appendChild(iconPoly(3,e.perm));
+      var nm=document.createElement('span');nm.className='nm';nm.innerHTML=e.html;b.appendChild(nm);
+      b.addEventListener('click',function(){if(which==='g')pg=i;else ph=i;lastPair=null;renderD();});
+      box.appendChild(b);
+    });
+  }
+  function eqnHTML(done,anim){
+    var p=D.mul(pg,ph);
+    function icon(i){var w=document.createElement('div');w.appendChild(iconPoly(3,D.els[i].perm));return w.innerHTML;}
+    var q='<span class="qm">?</span>';
+    var nw=anim?' new':'';
+    return '<span></span>'+
+      '<span>'+icon(pg)+'</span><span></span><span>'+icon(ph)+'</span><span></span><span class="'+nw+'">'+(done?icon(p):q)+'</span>'+
+      '<span class="rl">in <span class="m">D</span><sub>3</sub></span><span class="nm">'+nmH(pg)+'</span><span class="op">·</span><span class="nm">'+nmH(ph)+'</span><span class="op">=</span><span class="nm'+nw+'">'+(done?nmH(p):'?')+'</span>'+
+      '<span class="rl">signs</span><span class="sg">'+sgnTxt(sgn(pg))+'</span><span class="op">·</span><span class="sg">'+sgnTxt(sgn(ph))+'</span><span class="op">=</span><span class="sg'+nw+'">'+(done?sgnTxt(sgn(p)):'?')+'</span>';
+  }
+  function renderD(fresh){
+    [].forEach.call(document.querySelectorAll('#pick-g .tile'),function(b,i){b.setAttribute('aria-pressed',String(i===pg));b.classList.toggle('ker',kerShown&&!D.els[i].f);});
+    [].forEach.call(document.querySelectorAll('#pick-h .tile'),function(b,i){b.setAttribute('aria-pressed',String(i===ph));b.classList.toggle('ker',kerShown&&!D.els[i].f);});
+    var done=lastPair===pg+','+ph;
+    $('eqn').innerHTML=eqnHTML(done,done&&fresh!==false);
+    var st=$('dstatus');
+    if(done){
+      var p=D.mul(pg,ph);
+      st.innerHTML=M('φ')+'('+M(nmH(p))+') = '+sgnTxt(sgn(p))+' and '+M('φ')+'('+M(nmH(pg))+')'+M('φ')+'('+M(nmH(ph))+') = ('+sgnTxt(sgn(pg))+')('+sgnTxt(sgn(ph))+') = '+sgnTxt(sgn(pg)*sgn(ph))+'. '+(sgn(p)===sgn(pg)*sgn(ph)?'They agree.':'They differ.');
+      st.className='status good';
+    } else {st.innerHTML='Press “Check this pair” to compute '+M(nmH(pg))+' · '+M(nmH(ph))+' and its sign.';st.className='status';}
+    renderSigns();renderKer();updateD();
+  }
+  function check(g,h){
+    var f=document.activeElement,inGrid=f&&f.classList&&f.classList.contains('sc');
+    pg=g;ph=h;checked[g+','+h]=true;lastPair=g+','+h;
+    if(!kerShown&&Object.keys(checked).length>=4)kerShown=true;
+    renderD();
+    if(inGrid){var c=document.querySelector('#signs .sc[data-i="'+g+'"][data-j="'+h+'"]');if(c)c.focus({preventScroll:true});}
+  }
+  function renderSigns(){
+    var t=$('signs'),h='<thead><tr><th class="corner" scope="col">'+M('g')+' · '+M('h')+'</th>';
+    D.els.forEach(function(e){h+='<th class="hd" scope="col">'+e.html+'</th>';});
+    h+='</tr></thead><tbody>';
+    for(var i=0;i<N;i++){
+      h+='<tr><th class="hd" scope="row">'+D.els[i].html+'</th>';
+      for(var j=0;j<N;j++){
+        var k=i+','+j,c=checked[k],v=c?sgn(D.mul(i,j)):0;
+        h+='<td><button type="button" class="sc'+(c?(v>0?' plus':' minus'):'')+(i===pg&&j===ph?' cur':'')+'" data-i="'+i+'" data-j="'+j+'" aria-label="g = '+D.els[i].name+', h = '+D.els[j].name+(c?': sign of gh is '+(v>0?'+1':'−1'):', not checked yet')+'">'+(c?(v>0?'+':'−'):'')+'</button></td>';
+      }
+      h+='</tr>';
+    }
+    t.innerHTML=h+'</tbody>';
+    var n=Object.keys(checked).length,ta=$('tally');
+    ta.innerHTML=n?(n===36?'All 36 pairs checked: '+M('φ')+'('+M('gh')+') = '+M('φ')+'('+M('g')+')'+M('φ')+'('+M('h')+') every time, so '+M('φ')+' is a homomorphism.':n+' of 36 pairs checked. '+M('φ')+'('+M('gh')+') = '+M('φ')+'('+M('g')+')'+M('φ')+'('+M('h')+') every time so far.'):'No pairs checked yet.';
+    ta.className='tally'+(n===36?' good':'');
+  }
+  $('signs').addEventListener('click',function(e){var b=e.target.closest('.sc');if(b)check(+b.dataset.i,+b.dataset.j);});
+  function renderKer(){
+    var box=$('kerbox');
+    if(kerShown){
+      var ker=[];for(var i=0;i<N;i++)if(sgn(i)===1)ker.push(i);
+      var lab=GT.label(D,ker);
+      box.innerHTML='<p class="kerline">ker '+M('φ')+' = {'+ker.map(function(i){return M(nmH(i));}).join(', ')+'} = '+lab.html+'</p><p class="note" style="margin-top:6px">The rotations, outlined in yellow, are exactly the elements sent to +1.</p>';
+    } else {
+      box.innerHTML='<p class="muted">Which elements are sent to +1? Check a few pairs and the kernel lights up.</p><div class="row" style="margin-top:10px"><button class="btn" id="showker" type="button">Show the kernel</button></div>';
+      $('showker').addEventListener('click',function(){kerShown=true;renderD(false);});
+    }
+  }
+  function isRot(i){return !D.els[i].f;}
+  var updateD=Tasks($('dtasks'),[
+    {q:'Check a rotation with a reflection, and two reflections.',done:function(){
+      var mixed=false,two=false;Object.keys(checked).forEach(function(k){var p=k.split(',').map(Number);if(isRot(p[0])!==isRot(p[1]))mixed=true;if(!isRot(p[0])&&!isRot(p[1]))two=true;});return mixed&&two;},
+     a:function(){return 'A rotation and a reflection make a reflection: (+1)(−1) = −1. Two reflections make a rotation: (−1)(−1) = +1. The sign of a product is the product of the signs.';}},
+    {q:'Which elements are sent to +1?',reveal:'The rotations '+M('e')+', '+M('r')+', '+M('r<sup>2</sup>')+'. They form the kernel, ker '+M('φ')+' = ⟨'+M('r')+'⟩.'},
+    {q:'Is there a pair with '+M('φ')+'('+M('gh')+') ≠ '+M('φ')+'('+M('g')+')'+M('φ')+'('+M('h')+')?',done:function(){return Object.keys(checked).length===36;},
+     a:function(){return 'No. All 36 pairs agree, so '+M('φ')+' is a homomorphism from '+M('D')+'<sub>3</sub> to {+1, −1}.';}}
+  ]);
+  $('check').addEventListener('click',function(){check(pg,ph);});
+  $('checkall').addEventListener('click',function(){for(var i=0;i<N;i++)for(var j=0;j<N;j++)checked[i+','+j]=true;check(pg,ph);});
+  buildPicker('pick-g','g');buildPicker('pick-h','h');renderD();
+})();
+</script>
+</body>
+</html>
