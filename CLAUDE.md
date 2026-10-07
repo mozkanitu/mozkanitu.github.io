@@ -9,7 +9,12 @@ Static site on GitHub Pages. No build step: edit the HTML, CSS and JS files dire
 - Shared files: `assets/site.css`, `assets/site.js`, `assets/analytics.js` (GoatCounter), `assets/img/`.
 - Every page links `site.css?v=N` and `site.js?v=N`. After changing either file, raise N by one in every page so browsers load the new version instead of a cached copy.
 - In `assets/site.js`: `PAPERS` (publication list, newest first; also feeds the home page and the research page), `GT` (group theory weekly schedule), `PHYS` (Physics I: Mechanics topics). Resources marked `soon:1` render as dashed "soon" buttons; give them a `url` when the file exists.
-- Group theory lecture notes live in `teaching/group-theory/notes/`; simulations are the `.html` files in `teaching/group-theory/`.
+- Group theory lecture notes live in `teaching/group-theory/notes/`.
+- Group theory simulations, one `.html` file each in `teaching/group-theory/` with inline style and script (plus the shared scripts below):
+  - Week 1: `symmetry-explorer.html`, `table-builder.html` (has a "Rows as permutations" Cayley switch), `same-group.html`.
+  - Week 2: `subgroups-cosets.html`, `homomorphism-builder.html`. Not linked from the course page yet; add them to `GT` week 2 `sims` in `assets/site.js` when the owner says so.
+- Shared simulation code in `teaching/group-theory/`: `gt-groups.js` (groups, subgroups, lattice, cosets, homomorphisms, cycle notation; everything computed from multiplication tables) and `gt-lock.js` (the homework lock). Check both with `node _tests/group-theory.test.js` after any change; `_tests/` is not published.
+- Homework lock: `gt-lock.js` is the only place that hides Problem Set 1 answers from the simulations (D₄ and Z₁₂ on the subgroups page, Z₄ → Z₆ and Z₆ → Z₄ on the homomorphism page, Cayley permutations of the cuboid group and D₄ in the table builder). It lifts by itself on Wednesday 14 October 2026 at 18:00 Istanbul time (15:00 UTC). Never hard-code answers for locked items in a page; for a later problem set, add its keys and date there.
 - Group theory problem sets live in `teaching/group-theory/problem-sets/`: `psN.html` (the web version, math typeset by the self-hosted KaTeX in `assets/katex/`) and `GT_PSN.pdf`. Link one from its week in `GT` with `hw` and `hwDue`.
 
 ## Rules from the owner
