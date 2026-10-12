@@ -90,7 +90,7 @@
   var GT=[
     {n:1,title:"Symmetry and groups",lec:"Symmetry as the motivation. Group axioms, order, Abelian and non-Abelian groups. Zₙ, Dₙ, S₃.",read:"Zee I.1, Bünemann Ch. 2",notes:"notes/GT_W1.pdf",sims:[["Symmetry explorer","symmetry-explorer.html"],["Multiplication-table builder","table-builder.html"],["Same group, different clothes","same-group.html"]]},
     {n:2,title:"Subgroups, homomorphisms and cosets",lec:"Subgroups, cyclic groups, generators. Homomorphisms, isomorphisms, kernels. Direct products. Cosets and Lagrange's theorem.",read:"Zee I.1–I.2, Bünemann Ch. 2",notes:"notes/GT_W2.pdf",hw:"problem-sets/ps1.html",hwDue:"due Wednesday 14 Oct"},
-    {n:3,title:"Normal subgroups and the symmetric group",lec:"Normal subgroups, quotient groups. Conjugacy classes. Sₙ: cycle notation, parity, Aₙ.",read:"Zee I.2, Bünemann Ch. 2",quiz:1,quizUrl:"quizzes/quiz1.html",quizWhen:"Monday 12 Oct, 14:30"},
+    {n:3,title:"Normal subgroups and the symmetric group",lec:"Normal subgroups, quotient groups. Conjugacy classes. Sₙ: cycle notation, parity, Aₙ.",read:"Zee I.2, Bünemann Ch. 2",quiz:1,quizUrl:"quizzes/quiz1.html",solUrl:"quizzes/quiz1-solutions.html",quizWhen:"Monday 12 Oct, 14:30"},
     {n:4,title:"The linear algebra bridge",lec:"Matrices as linear maps, eigenvectors, diagonalization, trace and determinant under change of basis, unitary and orthogonal matrices, O(n), U(n) and SU(n) as groups, invariant subspaces.",read:"Zee II.1, Bünemann Ch. 4"},
     {n:5,title:"Schur's lemmas and characters",lec:"Unitarity of finite-group representations. Schur's lemmas. The great orthogonality theorem. Characters as class functions.",read:"Zee II.2–II.3, Bünemann Ch. 4–5"},
     {n:6,title:"Character tables in practice",lec:"Character tables of D₄ and Z₂ × Z₂. Decomposing reducible representations with characters. Product representations.",read:"Zee IV.i1, III.2 (molecule example), Bünemann Ch. 5"},
@@ -108,7 +108,7 @@
     (w.sims||[]).forEach(function(x){r.push({t:'simulation',label:x[0],url:x[1],ext:1});});
     if(w.hw){hwN++; r.push({t:'homework',label:'Problem set '+hwN+(w.hwDue?', '+w.hwDue:''),url:w.hw,ext:1});}
     if(w.quiz) r.push(w.quizUrl?{t:'quiz',label:'Quiz '+w.quiz+(w.quizWhen?', '+w.quizWhen:''),url:w.quizUrl}:{t:'quiz',label:'Quiz '+w.quiz+(w.quizWhen?', '+w.quizWhen:''),soon:1});
-    if(w.hw||w.quiz) r.push({t:'solutions',label:'Solutions',soon:1});
+    if(w.hw||w.quiz) r.push(w.solUrl?{t:'solutions',label:'Solutions',url:w.solUrl}:{t:'solutions',label:'Solutions',soon:1});
     w.res=r;
   });
   function wkRow(w,start){
