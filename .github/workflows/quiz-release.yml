@@ -1,0 +1,45 @@
+# Releases a quiz by publishing its passphrase (see CLAUDE.md, "Quizzes").
+name: Release a quiz
+on:
+  workflow_dispatch:
+    inputs:
+      quiz:
+        description: "Quiz to release now, e.g. quiz1"
+        required: true
+        default: "quiz1"
+      test_passphrase:
+        description: "Only for quizzes marked test in .github/quizzes.json; leave empty"
+        required: false
+        default: ""
+  schedule:
+    # Every 30 minutes on weekdays, 06:07 to 16:37 UTC. A run releases the next
+    # quiz due within 80 minutes, sleeping until its release time.
+    - cron: "7,37 6-16 * * 1-5"
+permissions:
+  contents: write
+  pages: write
+concurrency:
+  group: quiz-release
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Release
+        env:
+          EVENT: ${{ github.event_name }}
+          QUIZ: ${{ inputs.quiz }}
+          TEST_PASSPHRASE: ${{ inputs.test_passphrase }}
+          BRANCH: ${{ github.event.repository.default_branch }}
+          REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ github.token }}
+          QUIZ_1_KEY: ${{ secrets.QUIZ_1_KEY }}
+          QUIZ_2_KEY: ${{ secrets.QUIZ_2_KEY }}
+          QUIZ_3_KEY: ${{ secrets.QUIZ_3_KEY }}
+          QUIZ_4_KEY: ${{ secrets.QUIZ_4_KEY }}
+          QUIZ_5_KEY: ${{ secrets.QUIZ_5_KEY }}
+          QUIZ_6_KEY: ${{ secrets.QUIZ_6_KEY }}
+          QUIZ_TEST_KEY: ${{ secrets.QUIZ_TEST_KEY }}
+        run: node .github/scripts/quiz-release.js
