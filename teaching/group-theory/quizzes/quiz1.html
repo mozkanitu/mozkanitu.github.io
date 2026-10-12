@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quiz 1 – Theory of Groups in Physics</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/site.css?v=9">
+<script src="../../../assets/analytics.js" defer></script>
+<style>
+.quiz{max-width:44rem}
+.opens{font-size:clamp(1.6rem,1.2rem + 1.6vw,2.2rem);line-height:1.2;margin:0 0 .3em}
+.count{font-family:var(--sans);font-size:clamp(2.4rem,1.8rem + 3vw,3.6rem);font-weight:600;font-variant-numeric:tabular-nums;color:var(--link);margin:0 0 1.2em}
+.pwbox{margin-top:1.4em;padding:20px 22px;border:1px solid var(--rule);border-radius:6px}
+.pwbox label{display:block;font-family:var(--sans);font-size:1rem;font-weight:600;color:var(--muted);margin-bottom:10px}
+.pwrow{display:flex;gap:10px;flex-wrap:wrap}
+.pwrow input{flex:1 1 12rem;min-width:0;font:1.1rem var(--sans);padding:11px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--ink)}
+.pwrow button{font:600 1rem var(--sans);padding:11px 18px;border-radius:6px;border:1px solid var(--board);background:var(--board);color:var(--chalk);cursor:pointer}
+.pwrow button:disabled{opacity:.6}
+.pwmsg{margin:10px 0 0;font-family:var(--sans);font-size:.98rem;min-height:1.4em;color:var(--muted)}
+.pwmsg.bad{color:#B5503F}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pwmsg.bad{color:#E89A8E}}
+:root[data-theme="dark"] .pwmsg.bad{color:#E89A8E}
+#questions{overflow-wrap:anywhere}
+#questions .qmeta{font-family:var(--sans);font-weight:600;color:var(--muted);margin:0 0 1em}
+#questions .qbox{padding:16px 20px;border:1px solid var(--rule);border-radius:6px;margin-bottom:1.6em}
+#questions .qbox p{margin:0 0 .7em}#questions .qbox p:last-child{margin:0}
+#questions h2{font-size:clamp(1.35rem,1.15rem + .8vw,1.7rem);margin:1.5em 0 .5em}
+#questions .pts{font-family:var(--sans);font-size:.85rem;font-weight:500;color:var(--muted);white-space:nowrap}
+#questions ol.parts{list-style:none;counter-reset:part;padding-left:2.2em;margin:0}
+#questions ol.parts>li{counter-increment:part;position:relative;margin:0 0 .7em}
+#questions ol.parts>li::before{content:"(" counter(part,lower-alpha) ")";position:absolute;left:-2.2em;font-weight:700}
+</style>
+</head>
+<body>
+<header class="board">
+  <div class="head wrap page-head">
+    <a class="crumb" href="../">Theory of Groups in Physics</a>
+    <h1 tabindex="-1">Quiz 1</h1>
+    <p class="role">FZT 203E, Monday 12 October 2026</p>
+  </div>
+  <div class="tray" aria-hidden="true"></div>
+</header>
+<main id="content">
+  <section class="section">
+    <div class="wrap">
+      <div class="quiz" id="quiz" data-id="quiz1" data-name="Quiz 1" data-opens="2026-10-12T11:30:00Z" data-opens-label="14:30">
+        <div id="wait" aria-live="polite">
+          <p class="opens">Quiz 1 opens at 14:30</p>
+          <p class="count" id="count"></p>
+        </div>
+        <div id="questions" hidden></div>
+        <form class="pwbox" id="pw" autocomplete="off">
+          <label for="pwin">Enter the password written on the board</label>
+          <div class="pwrow"><input id="pwin" type="text" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="go"><button type="submit">Open the quiz</button></div>
+          <p class="pwmsg" id="pwmsg" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="quiz.js"></script>
+</body>
+</html>
