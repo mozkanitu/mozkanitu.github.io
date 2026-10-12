@@ -17,6 +17,22 @@ Static site on GitHub Pages. No build step: edit the HTML, CSS and JS files dire
 - Homework lock: `gt-lock.js` is the only place that hides Problem Set 1 answers from the simulations (D₄ and Z₁₂ on the subgroups page, Z₄ → Z₆ and Z₆ → Z₄ on the homomorphism page, Cayley permutations of the cuboid group and D₄ in the table builder). It lifts by itself on Wednesday 14 October 2026 at 18:00 Istanbul time (15:00 UTC). Never hard-code answers for locked items in a page; for a later problem set, add its keys and date there.
 - Group theory problem sets live in `teaching/group-theory/problem-sets/`: `psN.html` (the web version, math typeset by the self-hosted KaTeX in `assets/katex/`) and `GT_PSN.pdf`. Link one from its week in `GT` with `hw` and `hwDue`.
 
+## Quizzes (encrypted, released on time)
+The repo is public, so quiz questions are committed only encrypted; a time check in JavaScript would hide nothing.
+- Files in `teaching/group-theory/quizzes/`: `quizN.html` (page shell: countdown, password box), `quizN.enc.json` (AES-256-GCM ciphertext, salt, IV; key from PBKDF2-SHA256, 600,000 iterations), `quiz.js` (shared loader: polls `quizN.key?t=…` every 15 s, decrypts with WebCrypto, waits for the release time by the server clock), and after release `quizN.key` (the passphrase, which stays so the quiz remains readable).
+- Never commit quiz plaintext, not even briefly. Keep it outside the repo (or in the gitignored `_private/`). After any quiz work, check: `git grep -F "<a phrase from the quiz>" $(git rev-list --all)` must print nothing.
+- Release: `.github/workflows/quiz-release.yml` reads the passphrase from the quiz's Actions secret, checks it opens `quizN.enc.json` (`_tools/quiz-check.js`), then commits `quizN.key` to `main`; Pages deploys in about 70 s (measured). `lead_seconds` in `.github/quizzes.json` is how early it publishes (150 s); the page itself shows the questions only at the release time.
+  - By hand (also from the GitHub mobile app): Actions > "Release a quiz" > Run workflow, quiz id e.g. `quiz2`. Releases at once.
+  - Scheduled: runs at :07 and :37 past each hour, 06–16 UTC on weekdays; a run releases the next quiz due within 80 minutes, sleeping until its release time minus `lead_seconds`. Not yet tested end to end; test it before relying on it (see below).
+  - Fallback in class: write the passphrase on the board; students type it in the page's password box.
+- Adding the next quiz (N = 2, …, 6):
+  1. Write the questions as an HTML fragment outside the repo (same classes as Quiz 1: `qmeta`, `qbox`, `h2` with `span.pts`, `ol.parts`).
+  2. Choose four random lowercase words; encrypt: `node _tools/quiz-encrypt.js /outside/quizN.html quizN "four random words here"`.
+  3. Copy `quiz1.html` to `quizN.html` and change `data-id`, `data-name`, `data-opens` (UTC ISO time), `data-opens-label`, the title, `h1` and the date line.
+  4. Add `{ "id": "quizN", "secret": "QUIZ_N_KEY", "release": "<UTC ISO time>" }` to `.github/quizzes.json` and the secret `QUIZ_N_KEY` (the passphrase) under Settings > Secrets and variables > Actions. Secrets QUIZ_1_KEY … QUIZ_6_KEY are wired into the workflow.
+  5. Link it from its week in `GT` (`assets/site.js`) with `quizUrl` and `quizWhen`, raise the asset version, commit, and run the plaintext check above.
+- Turkey is UTC+3 all year: 14:30 Istanbul = 11:30 UTC, 13:30 = 10:30 UTC.
+
 ## Rules from the owner
 - Never write the email address in plain text anywhere. The "Email" link is a `.mail-btn` button that assembles the address in `assets/site.js` when clicked.
 - Do not add an Apps section or mention any apps until the owner asks.

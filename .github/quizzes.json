@@ -1,7 +1,6 @@
 {
   "lead_seconds": 150,
   "quizzes": [
-    { "id": "quiz1", "secret": "QUIZ_1_KEY", "release": "2026-10-12T11:30:00Z", "note": "Quiz 1, Monday 12 October 2026, 14:30 Istanbul" },
-    { "id": "test1", "secret": "QUIZ_TEST_KEY", "release": "2026-10-12T00:00:00Z", "test": true, "note": "dummy quiz for testing the release; remove after the test" }
+    {"id": "quiz1", "secret": "QUIZ_1_KEY", "release": "2026-10-12T11:30:00Z", "note": "Quiz 1, Monday 12 October 2026, 14:30 Istanbul"}
   ]
 }
