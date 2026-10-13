@@ -149,7 +149,7 @@
     {title:"Units, physical quantities and vectors",read:"Young & Freedman, Ch. 1",
       videos:[["Powers of Ten (Eames, 1977)","https://www.youtube.com/watch?v=0fKBhvDjuy0"],["Feathers and a bowling ball in a vacuum chamber","https://www.youtube.com/watch?v=E43-CfukEgs"]],sims:[["PhET: Vector Addition","vector-addition"]]},
     {title:"Kinematics: motion in one, two and three dimensions",read:"Young & Freedman, Ch. 2–3",videos:[],sims:[]},
-    {title:"Newton's laws of motion",read:"Young & Freedman, Ch. 4",quizzes:[["Quiz 1","12–16 Oct"]],videos:[],sims:[]},
+    {title:"Newton's laws of motion",read:"Young & Freedman, Ch. 4",quizzes:[["Quiz 1","Tuesday 13 Oct, 14:30","quizzes/quiz1.html"]],videos:[],sims:[]},
     {title:"Applying Newton's laws",read:"Young & Freedman, Ch. 5",quizzes:[["Quiz 2","19–23 Oct"]],videos:[],sims:[]},
     {title:"Work and kinetic energy",read:"Young & Freedman, Ch. 6",videos:[],sims:[]},
     {title:"Potential energy and energy conservation",read:"Young & Freedman, Ch. 7",quizzes:[["Quiz 3","2–6 Nov"]],videos:[],sims:[]},
@@ -166,7 +166,7 @@
       var r=[{t:'reading',label:p.read}];
       p.videos.forEach(function(v){r.push({t:'video',label:v[0],url:v[1],ext:1});});
       p.sims.forEach(function(v){r.push({t:'simulation',label:v[0],url:PHET+v[1],ext:1});});
-      if(p.quizzes){ p.quizzes.forEach(function(q){r.push({t:'quiz',label:q[0]+', '+q[1],soon:1});}); r.push({t:'solutions',label:'Solutions',soon:1}); }
+      if(p.quizzes){ p.quizzes.forEach(function(q){r.push(q[2]?{t:'quiz',label:q[0]+', '+q[1],url:q[2]}:{t:'quiz',label:q[0]+', '+q[1],soon:1});}); r.push({t:'solutions',label:'Solutions',soon:1}); }
       p.res=r;
       return wkRow(p,null);
     }).join('');
