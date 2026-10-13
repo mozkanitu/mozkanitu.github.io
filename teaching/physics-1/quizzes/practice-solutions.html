@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Practice quiz solutions – Physics I: Mechanics</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/site.css?v=13">
+<script src="../../../assets/analytics.js" defer></script>
+<style>
+.sol{max-width:44rem;overflow-wrap:anywhere}
+.sol .qmeta{font-family:var(--sans);font-weight:600;color:var(--muted);margin:0 0 1em}
+.sol .qbox{padding:16px 20px;border:1px solid var(--rule);border-radius:6px;margin-bottom:1.6em}
+.sol .qbox p{margin:0 0 .6em}.sol .qbox p:last-child{margin:0}
+.sol h2{font-size:clamp(1.35rem,1.15rem + .8vw,1.7rem);margin:1.6em 0 .5em}
+.sol ol.parts{list-style:none;counter-reset:part;padding-left:2.2em;margin:0}
+.sol ol.parts>li{counter-increment:part;position:relative;margin:0 0 1.2em}
+.sol ol.parts>li::before{content:"(" counter(part,lower-alpha) ")";position:absolute;left:-2.2em;font-weight:700}
+.sol .q{color:var(--muted);margin:0 0 .35em}
+.sol .a{margin:0 0 .35em}
+.sol .a:last-child{margin-bottom:0}
+.sol .eq{display:block;margin:.5em 0 .6em 1.2em;font-size:1.12em}
+.sol .ans{font-weight:600}
+.ps-links{margin:1.1em 0 0;font-family:var(--sans);font-size:1rem}
+.ps-links a{color:var(--chalk);text-decoration-color:var(--yellow);text-decoration-thickness:1.5px;text-underline-offset:5px}
+</style>
+</head>
+<body>
+<header class="board">
+  <div class="head wrap page-head">
+    <a class="crumb" href="../">Physics I: Mechanics</a>
+    <h1 tabindex="-1">Practice quiz solutions</h1>
+    <p class="role">FIZ 101, Tuesday 13 October 2026 · not graded</p>
+    <p class="ps-links"><a href="practice.html">The practice quiz</a></p>
+  </div>
+  <div class="tray" aria-hidden="true"></div>
+</header>
+<main id="content">
+  <section class="section">
+    <div class="wrap">
+      <article class="sol">
+        <p class="qmeta">Projectile motion · the solution in symbols</p>
+        <div class="qbox">
+          <p>A ball is thrown horizontally with speed <i>v</i><sub>0</sub> from the top of a cliff of height <i>h</i>. Gravity gives it a constant acceleration <i>g</i>, downward; air resistance is ignored.</p>
+          <p>Put the origin at the point where the ball leaves the hand, with the <i>x</i>-axis horizontal, in the direction of the throw, and the <i>y</i>-axis vertical, upward. The ground is then at <i>y</i> = −<i>h</i>, and the acceleration is <i>a</i><sub><i>x</i></sub> = 0, <i>a</i><sub><i>y</i></sub> = −<i>g</i>.</p>
+        </div>
+
+        <h2>The motion</h2>
+        <p>The two directions are independent. Horizontally nothing acts, so the velocity stays constant; vertically the ball falls with constant acceleration from rest:</p>
+        <p><span class="eq"><i>x</i>(<i>t</i>) = <i>v</i><sub>0</sub><i>t</i>,  <i>v</i><sub><i>x</i></sub>(<i>t</i>) = <i>v</i><sub>0</sub></span><span class="eq"><i>y</i>(<i>t</i>) = −½<i>g</i><i>t</i>²,  <i>v</i><sub><i>y</i></sub>(<i>t</i>) = −<i>g</i><i>t</i></span></p>
+
+        <h2>The parts</h2>
+        <ol class="parts">
+          <li>
+            <p class="q">The vertical component of the velocity just after the throw.</p>
+            <p class="a">The throw is horizontal, so the whole initial velocity is along <i>x</i>: <span class="ans"><i>v</i><sub>0<i>x</i></sub> = <i>v</i><sub>0</sub> and <i>v</i><sub>0<i>y</i></sub> = 0</span>. The vertical motion starts from rest, exactly as if the ball were dropped.</p>
+          </li>
+          <li>
+            <p class="q">The time to reach the ground.</p>
+            <p class="a">The ball lands when <i>y</i>(<i>t</i>) = −<i>h</i>, that is ½<i>g</i><i>t</i>² = <i>h</i>:</p>
+            <p class="a"><span class="eq ans"><i>t</i> = √(2<i>h</i>/<i>g</i>)</span></p>
+            <p class="a">It does not depend on <i>v</i><sub>0</sub>: a ball dropped from rest at the same moment lands at the same time.</p>
+          </li>
+          <li>
+            <p class="q">The distance from the base of the cliff.</p>
+            <p class="a">The horizontal velocity stays <i>v</i><sub>0</sub> for the whole flight:</p>
+            <p class="a"><span class="eq ans"><i>x</i> = <i>v</i><sub>0</sub><i>t</i> = <i>v</i><sub>0</sub>√(2<i>h</i>/<i>g</i>)</span></p>
+          </li>
+          <li>
+            <p class="q">The vertical component of the velocity just before landing.</p>
+            <p class="a">Vertically the ball gains speed <i>g</i> each second, for a time √(2<i>h</i>/<i>g</i>):</p>
+            <p class="a"><span class="eq ans"><i>v</i><sub><i>y</i></sub> = −<i>g</i>√(2<i>h</i>/<i>g</i>) = −√(2<i>g</i><i>h</i>)</span></p>
+            <p class="a">So its size is √(2<i>g</i><i>h</i>) and it points downward. The horizontal component is still <i>v</i><sub>0</sub>.</p>
+          </li>
+          <li>
+            <p class="q">The speed just before landing.</p>
+            <p class="a">The two components are perpendicular, so they combine like the sides of a right triangle:</p>
+            <p class="a"><span class="eq ans"><i>v</i> = √(<i>v</i><sub><i>x</i></sub>² + <i>v</i><sub><i>y</i></sub>²) = √(<i>v</i><sub>0</sub>² + 2<i>g</i><i>h</i>)</span></p>
+            <p class="a">Adding the sizes, <i>v</i><sub>0</sub> + √(2<i>g</i><i>h</i>), is wrong: velocity components add as vectors, not as numbers. The velocity points below the horizontal at an angle θ with tan θ = √(2<i>g</i><i>h</i>) / <i>v</i><sub>0</sub>.</p>
+            <p class="a">Energy gives the same speed: the ball loses potential energy <i>m</i><i>g</i><i>h</i>, so ½<i>m</i><i>v</i>² = ½<i>m</i><i>v</i><sub>0</sub>² + <i>m</i><i>g</i><i>h</i>.</p>
+          </li>
+        </ol>
+      </article>
+    </div>
+  </section>
+</main>
+</body>
+</html>

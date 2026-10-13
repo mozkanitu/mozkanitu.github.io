@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Practice quiz – Physics I: Mechanics</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/site.css?v=13">
+<script src="../../../assets/analytics.js" defer></script>
+<style>
+.lq{max-width:44rem;overflow-wrap:anywhere}
+.ps-links{margin:1.1em 0 0;font-family:var(--sans);font-size:1rem}
+.ps-links a{color:var(--chalk);text-decoration-color:var(--yellow);text-decoration-thickness:1.5px;text-underline-offset:5px}
+.lq-opens{font-size:clamp(1.6rem,1.2rem + 1.6vw,2.2rem);line-height:1.2;margin:0 0 .3em}
+.lq-count{font-family:var(--sans);font-size:1.15rem;font-weight:600;color:var(--link);margin:0 0 1.4em;font-variant-numeric:tabular-nums}
+.lq-box{padding:20px 22px;border:1px solid var(--rule);border-radius:6px}
+.lq-box label{display:block;font-family:var(--sans);font-size:1rem;font-weight:600;color:var(--muted);margin-bottom:10px}
+.lq-row{display:flex;gap:10px;flex-wrap:wrap}
+.lq-row input{flex:1 1 11rem;min-width:0;font:1.2rem var(--sans);letter-spacing:.04em;padding:11px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);color:var(--ink)}
+.lq-btn{font:600 1rem var(--sans);padding:12px 18px;border-radius:6px;border:1px solid var(--board);background:var(--board);color:var(--chalk);cursor:pointer}
+.lq-btn.quiet{background:transparent;color:var(--ink);border-color:var(--rule)}
+.lq-btn:disabled{opacity:.6}
+.lq-note{font-family:var(--sans);font-size:.95rem;color:var(--muted);margin:12px 0 0}
+.lq-msg{margin:10px 0 0;font-family:var(--sans);font-size:.98rem;min-height:1.4em;color:var(--muted)}
+.lq-msg.bad,.lq-verdict.bad{color:#B5503F}
+.lq-bar{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:4px 16px;align-items:baseline;justify-content:space-between;padding:10px 14px;margin:0 0 18px;border-radius:6px;background:var(--board);color:var(--chalk);font-family:var(--sans)}
+.lq-time{font-size:1.15rem;font-weight:600;font-variant-numeric:tabular-nums}
+.lq-time.low{color:var(--yellow)}
+.lq-who{font-size:.9rem;opacity:.8}
+.lq-intro{padding:16px 20px;border:1px solid var(--rule);border-radius:6px;margin:0 0 1.4em}
+.lq-part{margin:0 0 1.8em}
+.lq-part h2{font-size:clamp(1.2rem,1.1rem + .5vw,1.45rem);line-height:1.35;margin:0 0 .7em}
+.lq-label{font-weight:700}
+.pts{font-family:var(--sans);font-size:.82rem;font-weight:500;color:var(--muted);white-space:nowrap}
+.lq-choices{display:grid;grid-template-columns:repeat(auto-fill,minmax(9.5rem,1fr));gap:10px}
+.lq-choice{font:1.1rem var(--serif);text-align:left;padding:13px 14px;border-radius:6px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer;min-height:48px}
+.lq-choice:hover:not(:disabled){border-color:var(--link)}
+.lq-choice:disabled{cursor:default}
+.lq-choice.chosen{box-shadow:inset 0 0 0 2px var(--ink)}
+.lq-choice.right{border-color:var(--link);background:rgba(42,102,80,.12);color:var(--ink)}
+.lq-choice.wrong{border-color:#B5503F;background:rgba(181,80,63,.1)}
+.lq-verdict{font-family:var(--sans);font-weight:600;margin:12px 0 4px;color:var(--muted)}
+.lq-verdict.good{color:var(--link)}
+.lq-answer{margin:0 0 .6em}
+.lq-sol{padding:12px 16px;border-left:3px solid var(--yellow);background:rgba(127,127,127,.07);border-radius:0 6px 6px 0}
+.lq-sol p{margin:0}
+.lq-sol .lq-sol-h{font-family:var(--sans);font-size:.9rem;font-weight:600;color:var(--muted);margin-bottom:.3em}
+.lq-end{padding:18px 20px;border:2px solid var(--link);border-radius:6px}
+.lq-end p{margin:0 0 .4em}.lq-end p:last-child{margin:0}
+.lq-final{font-size:1.3rem}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .lq-msg.bad,:root:not([data-theme="light"]) .lq-verdict.bad{color:#E89A8E}:root:not([data-theme="light"]) .lq-choice.right{background:rgba(143,203,177,.14)}:root:not([data-theme="light"]) .lq-choice.wrong{border-color:#E89A8E;background:rgba(232,154,142,.12)}}
+:root[data-theme="dark"] .lq-msg.bad,:root[data-theme="dark"] .lq-verdict.bad{color:#E89A8E}
+</style>
+</head>
+<body>
+<header class="board">
+  <div class="head wrap page-head">
+    <a class="crumb" href="../">Physics I: Mechanics</a>
+    <h1 tabindex="-1">Practice quiz</h1>
+    <p class="role">FIZ 101, Tuesday 13 October 2026, 14:30 · not graded</p>
+    <p class="ps-links"><a href="practice-solutions.html">Solutions</a></p>
+  </div>
+  <div class="tray" aria-hidden="true"></div>
+</header>
+<main id="content">
+  <section class="section">
+    <div class="wrap">
+      <div class="lq" id="lq" data-id="phys-quiz1" data-name="The practice quiz" data-closes="2026-10-13T12:00:00Z" data-closes-label="15:00" data-endpoint="https://script.google.com/macros/s/AKfycbwjH-On3CaPyhQ1ZQIUZ8bStHuBgOa7ZAtnIoedXnmgd7WaNAOW5qMPNBWO-kpCzUX4/exec" data-opens="2026-10-13T11:30:00Z" data-opens-label="14:30">
+        <div id="lq-pre">
+          <p class="lq-opens" id="lq-opens">The practice quiz opens at 14:30</p>
+          <p class="lq-count" id="lq-count" aria-live="polite"></p>
+          <div class="lq-box">
+            <form id="lq-form" autocomplete="off">
+              <label for="lq-sid">Your student number</label>
+              <div class="lq-row"><input id="lq-sid" inputmode="numeric" autocomplete="off" spellcheck="false" enterkeyhint="go"><button class="lq-btn" type="submit">Start the quiz</button></div>
+            </form>
+            <div id="lq-confirm" hidden>
+              <p style="margin:0 0 12px">Start the quiz as <strong id="lq-confirm-sid"></strong>? Your 10 minutes start now.</p>
+              <div class="lq-row"><button class="lq-btn" id="lq-go" type="button">Yes, start</button><button class="lq-btn quiet" id="lq-change" type="button">Change the number</button></div>
+            </div>
+            <p class="lq-msg" id="lq-msg" aria-live="polite"></p>
+            <p class="lq-note">One question in five parts, 20 points each (100 in total). You have 10 minutes from the moment you start. Answer the parts in order; after each answer you see whether it was right, the correct answer and the solution. Only your first answer to each part counts.</p>
+          </div>
+        </div>
+        <div id="lq-quiz" hidden>
+          <div class="lq-bar"><span class="lq-time" id="lq-time" aria-live="off"></span><span id="lq-score"></span><span class="lq-who" id="lq-who"></span></div>
+          <div class="lq-intro" id="lq-intro"></div>
+          <div id="lq-parts" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="live-quiz.js?v=2"></script>
+</body>
+</html>
