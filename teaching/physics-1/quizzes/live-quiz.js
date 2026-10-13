@@ -7,6 +7,7 @@
 (function(){
   var box=document.getElementById('lq'),EP=box.getAttribute('data-endpoint'),KEY='lq-'+box.getAttribute('data-id');
   var opens=Date.parse(box.getAttribute('data-opens')),at=box.getAttribute('data-opens-label');
+  var closes=Date.parse(box.getAttribute('data-closes')||''),closeAt=box.getAttribute('data-closes-label'),name=box.getAttribute('data-name')||'The quiz';
   var $=function(id){return document.getElementById(id);};
   var pre=$('lq-pre'),cd=$('lq-count'),form=$('lq-form'),sidIn=$('lq-sid'),msg=$('lq-msg'),conf=$('lq-confirm'),quiz=$('lq-quiz');
   var offset=0,state=null,tick=null,busy=false;
@@ -30,8 +31,11 @@
   /* ---------- before the start ---------- */
   function countdown(){
     if(state) return;
-    var left=opens-now();
-    cd.textContent=left>0?'Opens in '+mmss(left):'The quiz is open. Enter your student number to start.';
+    var left=opens-now(),head=$('lq-opens');
+    if(left>0){if(head)head.textContent=name+' opens at '+at;cd.textContent='Opens in '+mmss(left);return;}
+    if(closes&&now()>=closes){if(head)head.textContent=name+' has closed';cd.textContent='It could be started until '+closeAt+'.';form.closest('.lq-box').hidden=true;return;}
+    if(head)head.textContent=name+' is open';
+    cd.textContent='Enter your student number to start'+(closes?' (until '+closeAt+')':'')+'.';
   }
   form.addEventListener('submit',function(e){
     e.preventDefault();
