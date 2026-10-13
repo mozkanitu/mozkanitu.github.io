@@ -33,6 +33,12 @@ The repo is public, so quiz questions are committed only encrypted; a time check
   5. Link it from its week in `GT` (`assets/site.js`) with `quizUrl` and `quizWhen`, raise the asset version, commit, and run the plaintext check above.
 - Turkey is UTC+3 all year: 14:30 Istanbul = 11:30 UTC, 13:30 = 10:30 UTC.
 
+## Physics I live quizzes (graded by the owner's Google Apps Script)
+- Page: `teaching/physics-1/quizzes/quizN.html` plus the shared `live-quiz.js`. The page holds NO questions: `data-endpoint` is the Apps Script web app URL, `data-opens` the opening time (UTC). Students enter their student number, confirm, get 10 minutes from their own Start, answer the parts in order, and see after each part whether they were right, the correct answer and the solution. A reload resumes the same attempt (student number kept in localStorage).
+- Backend: a Google Apps Script bound to the Google Sheet "Physics I quizzes" in the owner's Google account. Its `QUIZ` object holds the questions, choices, answers, solutions, opening time, last start time and length; it grades on the server, allows one answer per part, enforces the times by its own clock, and writes one row per student to the sheet tab named in `QUIZ.sheet`. Student number 000000 is a test number (any time, starts afresh). Never commit that script with real questions to this public repo.
+- After any change to the script: Deploy > Manage deployments > edit (pencil) > Version: New version > Deploy (the URL stays the same). Paste the script into an EMPTY editor: code pasted inside the default `function myFunction() {` hides doGet/doPost.
+- Next quiz: give the owner an updated script (new `QUIZ` block and `sheet: 'Quiz N'`; earlier results stay in their tabs) or a new deployment; copy `quiz1.html` to `quizN.html` and change `data-id`, `data-opens`, `data-opens-label`, `data-endpoint` if it changed, the title, `h1` and date line; link it from its topic in `PHYS` (`assets/site.js`) as the third element of the quiz entry, e.g. `["Quiz 2","Wednesday 21 Oct, 14:30","quizzes/quiz2.html"]`; raise the asset version.
+
 ## Rules from the owner
 - Never write the email address in plain text anywhere. The "Email" link is a `.mail-btn` button that assembles the address in `assets/site.js` when clicked.
 - Do not add an Apps section or mention any apps until the owner asks.
