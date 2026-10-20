@@ -1,0 +1,113 @@
+% fiz101notes.sty -- shared style for the FIZ 101 (Physics I: Mechanics) weekly lecture notes.
+% Use: \documentclass[11pt,a4paper]{article} \usepackage{fiz101notes}
+%      \noteweek{1}{Units, physical quantities and vectors}
+%      \begin{document} \makenotetitle ... \end{document}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{fiz101notes}[2026/10/20 FIZ 101 lecture notes]
+
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{lmodern}
+\RequirePackage[english]{babel}
+\RequirePackage{microtype}
+\RequirePackage[a4paper,top=28mm,bottom=30mm,left=30mm,right=30mm,headheight=14pt]{geometry}
+\RequirePackage{amsmath,amssymb,mathtools}
+\RequirePackage{bm}
+\RequirePackage[per-mode=symbol,detect-weight=true]{siunitx}
+\RequirePackage{graphicx}
+\RequirePackage{xcolor}
+\RequirePackage{tikz}
+\usetikzlibrary{arrows.meta,calc,angles,quotes,decorations.pathmorphing,decorations.markings,patterns,positioning,intersections}
+\RequirePackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\RequirePackage{booktabs}
+\RequirePackage{array}
+\RequirePackage{enumitem}
+\RequirePackage{wrapfig}
+\RequirePackage[font=small,labelfont=bf,labelsep=period]{caption}
+\RequirePackage{titlesec}
+\RequirePackage{fancyhdr}
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{cancel}
+\RequirePackage[colorlinks=true,linkcolor=fzlink,citecolor=fzlink,urlcolor=fzlink,pdfborder={0 0 0}]{hyperref}
+
+% Colours of the course website (chalkboard green).
+\definecolor{fzboard}{HTML}{2C463B}
+\definecolor{fzlink}{HTML}{2A6650}
+\definecolor{fzmuted}{HTML}{56635C}
+\definecolor{fzrule}{HTML}{DCE1DC}
+\definecolor{fzyellow}{HTML}{E9CB6B}
+\definecolor{fzpaper}{HTML}{F4F6F2}
+% Figure colours: one set for every week.
+\definecolor{fzvec}{HTML}{2A6650}   % main vectors, velocities
+\definecolor{fzcomp}{HTML}{B5503F}  % components, forces
+\definecolor{fzaux}{HTML}{3E6FA8}   % accelerations, second object
+\definecolor{fzgray}{HTML}{8A948E}  % construction lines, axes labels
+
+% Numbering: sections are the chapters of the full notes (1, 2, ...), so equation
+% (4.13) is equation 13 of chapter 4 in every weekly file.
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+
+% Headings
+\titleformat{\section}{\normalfont\Large\bfseries\color{fzboard}}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries\color{fzboard}}{\thesubsection}{0.7em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{\thesubsubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{2.2ex plus .5ex minus .2ex}{1.2ex plus .2ex}
+\titlespacing*{\subsection}{0pt}{1.8ex plus .4ex minus .2ex}{.8ex plus .2ex}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em plus 0.15em minus 0.1em}
+\setlist{itemsep=0.2em,topsep=0.3em}
+\linespread{1.08}
+
+% Week data and title
+\newcommand{\fz@week}{}\newcommand{\fz@title}{}
+\newcommand{\noteweek}[2]{\renewcommand{\fz@week}{#1}\renewcommand{\fz@title}{#2}%
+  \hypersetup{pdftitle={FIZ 101 Physics I: Mechanics -- Week #1: #2},pdfauthor={Mehmet \"Ozkan}}}
+\newcommand{\makenotetitle}{%
+  \thispagestyle{plain}%
+  \begin{tcolorbox}[enhanced,colback=fzboard,colframe=fzboard,coltext=white,arc=2mm,boxrule=0pt,
+      left=7mm,right=7mm,top=6mm,bottom=6mm,
+      borderline south={2.5pt}{0pt}{fzyellow}]
+    {\small\sffamily FIZ 101 \textperiodcentered\ Physics I: Mechanics \textperiodcentered\ Fall 2026 \textperiodcentered\ Week \fz@week}\par\vspace{2.5mm}
+    {\sffamily\bfseries\LARGE\raggedright \fz@title\par}\vspace{3mm}
+    {\small\sffamily Lecture notes \textperiodcentered\ Mehmet \"Ozkan, Istanbul Technical University}
+  \end{tcolorbox}\vspace{2mm}}
+
+% Running head
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily\color{fzmuted}FIZ 101 \textperiodcentered\ Week \fz@week}
+\fancyhead[R]{\small\sffamily\color{fzmuted}\nouppercase{\fz@title}}
+\fancyfoot[C]{\small\sffamily\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{{\color{fzrule}\hrule width\headwidth height\headrulewidth}}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\small\sffamily\thepage}\renewcommand{\headrulewidth}{0pt}}
+
+% Boxes: a worked example and a key result.
+\newtcolorbox[auto counter,number within=section]{example}[1][]{enhanced,breakable,
+  colback=fzpaper,colframe=fzpaper,arc=1.5mm,boxrule=0pt,left=4mm,right=4mm,top=2.5mm,bottom=2.5mm,
+  borderline west={2.5pt}{0pt}{fzyellow},
+  title={\sffamily\bfseries Example \thetcbcounter\ifx\relax#1\relax\else: #1\fi},
+  coltitle=fzboard,colbacktitle=fzpaper,attach title to upper,after title={\par\smallskip}}
+\newtcolorbox{keyresult}{enhanced,colback=white,colframe=fzlink,arc=1.5mm,boxrule=0.6pt,
+  left=3mm,right=3mm,top=1.5mm,bottom=1.5mm}
+% A note in the margin of the text (asides, historical remarks, links to videos and simulations).
+\newtcolorbox{aside}{enhanced,breakable,colback=white,colframe=fzrule,arc=1.5mm,boxrule=0.6pt,
+  left=3mm,right=3mm,top=1.5mm,bottom=1.5mm,fontupper=\small}
+
+% Notation (one convention for all weeks)
+% Vectors: the standard arrow, \vec{r}; unit vectors with hats.
+\newcommand{\uvec}[1]{\hat{\bm{#1}}}        % unit vector of a direction, \uvec{n}
+\newcommand{\ihat}{\hat{\imath}}
+\newcommand{\jhat}{\hat{\jmath}}
+\newcommand{\khat}{\hat{k}}
+\newcommand{\dd}{\mathrm{d}}                % upright differential
+\newcommand{\dv}[2]{\frac{\dd #1}{\dd #2}}  % derivative
+\newcommand{\avg}[1]{#1_{\mathrm{av}}}     % average quantity, \avg{v}
+\newcommand{\dimof}[1]{[#1]}                % dimension of a quantity
+\newcommand{\sub}[1]{_{\mathrm{#1}}}       % upright text subscript: v\sub{top}
+
+\endinput

@@ -1,0 +1,1217 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fiz101notes}
+\noteweek{4}{Applying Newton's laws}
+
+% Figures used only in this week: a stick figure standing (feet at the origin)
+% and a stick figure hanging from a rope (hands at (0,2.42)).
+\tikzset{
+  man/.pic={
+    \draw[thick,fill=white] (0,1.95) circle (0.2);
+    \draw[thick] (0,1.75) -- (0,0.95);
+    \draw[thick] (-0.33,1.22) -- (0,1.55) -- (0.33,1.22);
+    \draw[thick] (-0.24,0) -- (0,0.95) -- (0.24,0);
+  },
+  hangman/.pic={
+    \draw[thick,fill=white] (0,1.85) circle (0.18);
+    \draw[thick] (0,1.67) -- (0,0.95);
+    \draw[thick] (0,1.55) -- (-0.38,1.8) -- (-0.05,2.42);
+    \draw[thick] (0,1.55) -- (0.38,1.8) -- (0.05,2.42);
+    \draw[thick] (-0.2,0) -- (0,0.95) -- (0.2,0);
+  },
+  force/.style={->,very thick,fzcomp},
+  accel/.style={->,very thick,fzaux},
+  velo/.style={->,very thick,fzvec},
+  comp/.style={->,thick,dashed,fzcomp!80},
+}
+
+\begin{document}
+\makenotetitle
+
+%======================================================================
+\setcounter{section}{5}
+\section{Applying Newton's laws}\label{sec:applying}
+
+In Chapter~5 we met Newton's three laws of motion. In this chapter we put them to work. We look at
+the push of a floor and the pull of a rope on a body that accelerates, which leads us to the idea
+of \emph{apparent weight} (Section~\ref{sec:apparent}); at friction between dry surfaces
+(Section~\ref{sec:friction}); and at the resistance of a fluid such as air or water to a body
+moving through it (Section~\ref{sec:fluid}). We close with the dynamics of circular motion
+(Section~\ref{sec:circdyn}).
+
+In every problem we follow the recipe of Section~5.4: we isolate each body, draw its free-body
+diagram with only the forces that act \emph{on} it, choose axes, and write $\sum F_x = m a_x$ and
+$\sum F_y = m a_y$ in an inertial frame. Two new ingredients appear in this chapter. The first is
+\emph{constraints}: an unstretchable rope makes the two bodies at its ends move together. The second
+is a family of forces, such as the push of a floor, the tension of a rope or static friction, that
+are not given by a formula: they adjust themselves, within limits, to whatever the motion requires,
+and we find them from Newton's second law. Unless we say otherwise, we take
+$g = \qty{9.8}{m/s^2}$, neglect air resistance (except in Section~\ref{sec:fluid}), and treat ropes
+and strings as massless and unstretchable.
+
+%----------------------------------------------------------------------
+\subsection{Apparent weight}\label{sec:apparent}
+
+Weight is a word we use every day, yet in physics it is one of the most misleading ones, because
+in everyday language it means at least three different things: the mass of a body (``I weigh
+\qty{70}{kg}''), the pull of gravity on it, and the reading of a scale. Recall from Section~5.3
+that the \textbf{weight} of a body is the gravitational force that the Earth (or the Moon, or
+whatever planet we are on) exerts on it, $\vec{w} = m\vec{g}$. Its magnitude $w = mg$ is measured in
+newtons; it depends on where the body is, but not on how the body moves. A bathroom scale, however,
+does not measure this force directly: it measures how hard the body presses on it. To see what
+that means, let us look at the example in Figure~\ref{fig:scale}.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  % (a) on the ground
+  \begin{scope}
+    \fill[pattern=north east lines,pattern color=fzgray] (-1.3,-0.25) rectangle (1.3,0);
+    \draw[thick] (-1.3,0) -- (1.3,0);
+    \draw[thick,fill=fzgray!30] (-0.55,0) rectangle (0.55,0.3);
+    \pic at (0,0.3) {man};
+    \draw[force] (0.5,0.3) -- (0.5,1.5) node[right]{$\vec{n}$};
+    \draw[force] (-0.55,2.0) -- (-0.55,0.8) node[left]{$m\vec{g}$};
+    \node at (0,-0.6) {(a) at rest};
+  \end{scope}
+  % (b) in an elevator accelerating upward
+  \begin{scope}[xshift=4.6cm]
+    \draw[thick] (0,3.2) -- (0,3.9);
+    \draw[thick,fill=fzgray!8] (-1.25,0) rectangle (1.25,3.2);
+    \draw[thick,fill=fzgray!30] (-0.55,0) rectangle (0.55,0.3);
+    \pic at (0,0.3) {man};
+    \draw[force] (0.5,0.3) -- (0.5,2.1) node[right]{$\vec{n}$};
+    \draw[force] (-0.55,2.0) -- (-0.55,0.8) node[left]{$m\vec{g}$};
+    \draw[accel] (-1.75,1.0) -- (-1.75,2.2) node[above]{$\vec{a}$};
+    \node at (0,-0.6) {(b) accelerating upward};
+  \end{scope}
+\end{tikzpicture}
+\caption{Weight is misleading. (a) A man standing on a scale. Two forces act on him: his weight
+$m\vec{g}$ and the upward push $\vec{n}$ of the scale. At rest, $n = mg$. (b) The same man on the
+same scale in an elevator that accelerates upward: now $n = m(g+a) > mg$, and the scale reads more
+than his weight.}\label{fig:scale}
+\end{figure}
+
+On the left of Figure~\ref{fig:scale} a man stands on a scale. Two forces act on him: the pull of
+gravity, $mg$, downward, and the upward push of the scale on his feet, a normal force $\vec{n}$.
+He does not accelerate, so by Newton's first law the net force on him is zero, and $n = mg$. Note
+that $\vec{n}$ and $m\vec{g}$ are \emph{not} an action--reaction pair, even though here they are
+equal and opposite: both act on the same body, the man, and they are equal only because he does
+not accelerate. The third-law partner of $\vec{n}$ is the push of the man's feet on the scale, which
+has the same magnitude $n$. This is the force that compresses the spring inside the scale, so it is
+$n$ that the scale reads. (The partner of his weight is the gravitational pull of the man on the
+Earth.) We call the reading of the scale, that is, the magnitude of the force that the support
+exerts on the body, the body's \textbf{apparent weight}. For a man at rest it is equal to his
+weight, $mg$. If you take the measurement on the surface of the Moon, where the gravitational
+acceleration is about six times smaller (\qty{1.62}{m/s^2}), you find your weight six times smaller,
+although your mass is the same. (A bathroom scale that shows kilograms simply divides the force by
+\qty{9.8}{m/s^2}; on the Moon it would show about a sixth of your mass.)
+
+On the right of Figure~\ref{fig:scale} the same man stands on the same scale in an elevator that
+accelerates upward, in the $+y$ direction, with acceleration $a$. We apply Newton's second law in
+the frame of the building, which we treat as inertial (Section~5.2); the accelerating elevator is
+\emph{not} an inertial frame. The forces on the man are still his weight $mg$, in the $-y$
+direction, and the normal force $n$ of the scale, in the $+y$ direction. Since he accelerates in the
+$+y$ direction together with the elevator, the net force on him must point up, so clearly $n > mg$.
+The second law gives
+\begin{equation}\label{eq:lift-up-1}
+  ma = n - mg ,
+\end{equation}
+so the scale reads
+\begin{equation}\label{eq:lift-up-2}
+  n = m(g + a) .
+\end{equation}
+So if you accelerate in the direction opposite to gravity in an elevator, you look heavier on the
+scale! Your weight $mg$ has not changed; only the scale reading, your apparent weight, has. In an
+elevator accelerating upward at \qty{5}{m/s^2}, the scale reads $(9.8+5)/9.8 \approx 1.5$ times
+what it reads when the elevator is at rest. (Real elevators accelerate at only about
+\qty{1}{m/s^2}; we exaggerate to make the effect clear.)
+
+What matters here is the direction of the \emph{acceleration}, not the direction of the velocity.
+An elevator that is going up and speeding up and one that is going down and slowing down (just
+before it stops at a lower floor) both have an upward acceleration, and in both the scale reads
+more than $mg$. In an elevator moving with constant velocity, up or down, $a = 0$ and the scale
+reads exactly $mg$.
+
+If we solve the same problem for an elevator that accelerates in the $-y$ direction, with an
+acceleration of magnitude $a$, the net force on the man must point down, and the second law (with
+the positive direction now taken downward, along the acceleration) gives the reading of the scale:
+\begin{equation}\label{eq:lift-down}
+  ma = mg - n , \qquad \Rightarrow \qquad n = m(g - a) .
+\end{equation}
+In an elevator accelerating in the $-y$ direction at \qty{5}{m/s^2}, the scale reads about half of
+what it reads at rest. Equations \eqref{eq:lift-up-2} and \eqref{eq:lift-down} are really one
+result: if $a_y$ is the $y$ component of the acceleration (positive up, negative down), then
+$n = m(g + a_y)$.
+
+Now imagine that we cut the cable that moves the elevator (and that the safety brakes fail and air
+resistance is negligible). The elevator, the scale and the man then fall freely with acceleration
+$a = g$: the only force on each of them is gravity. With $a = g$, equation~\eqref{eq:lift-down}
+gives $n = 0$: the scale reads zero, and we feel weightless. But the man's weight has not
+disappeared. Gravity still pulls him with the force $mg$, and it is exactly this force that makes him
+fall. He is weightless only in the sense that nothing pushes on him: his \emph{apparent} weight is
+zero. \textbf{Free fall} means motion under gravity alone, and in free fall the apparent weight is
+always zero.
+
+Finally, $n$ can never be negative: a scale can push on your feet, but it cannot pull them. If the
+elevator were pulled down with an acceleration larger than $g$, equation~\eqref{eq:lift-down}
+would give $n < 0$. What really happens is that the man leaves the scale and drifts toward the
+ceiling of the elevator, until the ceiling pushes him down.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  % (a) hanging from a fixed ceiling
+  \begin{scope}
+    \fill[pattern=north east lines,pattern color=fzgray] (-1.2,3.6) rectangle (1.2,3.85);
+    \draw[thick] (-1.2,3.6) -- (1.2,3.6);
+    \draw[thick,fzgray!70!black] (0,2.42) -- (0,3.6);
+    \pic at (0,0) {hangman};
+    \draw[force] (0.45,2.3) -- (0.45,3.4) node[right]{$\vec{T}$};
+    \draw[force] (-0.5,1.3) -- (-0.5,0.2) node[left]{$m\vec{g}$};
+    \node at (0,-0.75) {(a) at rest};
+  \end{scope}
+  % (b) in the accelerating elevator
+  \begin{scope}[xshift=4.6cm]
+    \draw[thick] (0,4.1) -- (0,4.6);
+    \draw[thick,fill=fzgray!8] (-1.25,-0.2) rectangle (1.25,4.1);
+    \draw[thick,fzgray!70!black] (0,2.42) -- (0,4.1);
+    \pic at (0,0) {hangman};
+    \draw[force] (0.45,2.3) -- (0.45,3.9) node[right]{$\vec{T}$};
+    \draw[force] (-0.5,1.3) -- (-0.5,0.2) node[left]{$m\vec{g}$};
+    \draw[accel] (-1.75,1.2) -- (-1.75,2.4) node[above]{$\vec{a}$};
+    \node at (0,-0.75) {(b) accelerating upward};
+  \end{scope}
+\end{tikzpicture}
+\caption{Weight is misleading, again: a man hanging from a rope. (a) At rest: $T = mg$. (b) The rope
+hangs from the ceiling of an elevator that accelerates upward: $T = m(g+a)$.}
+\label{fig:rope}
+\end{figure}
+
+Now let us solve the same problem for a man who holds on to a rope, as in Figure~\ref{fig:rope}.
+The rope is massless, so it simply passes the pull of the ceiling on to the man. The man in the
+first picture is in equilibrium. Then the tension $T$ in the rope is
+\begin{equation}\label{eq:rope-rest}
+  T = mg ,
+\end{equation}
+in other words, the tension measures the weight of the man who hangs on the rope; a spring scale
+cut into the rope would read $T$. As in the previous example, let the rope hang from the ceiling of
+the elevator, and suppose that the elevator, and with it the man, has an acceleration $a$ in the
+$+y$ direction. Then
+\begin{equation}\label{eq:rope-up}
+  ma = T - mg , \qquad \Rightarrow \qquad T = m(g + a) ,
+\end{equation}
+that is, the tension in the rope increases. When the acceleration points down (with magnitude $a$),
+the tension in the rope, just as in the elevator example, is
+\begin{equation}\label{eq:rope-down}
+  ma = mg - T , \qquad \Rightarrow \qquad T = m(g - a) .
+\end{equation}
+If the rope comes loose from the ceiling, the rope and the man both start to fall freely, and there
+is no tension in the rope at all ($T = 0$). The tension of the rope plays exactly the role of the
+scale reading: it is the apparent weight of the body that hangs from it. And, like $n$, a tension
+can never be negative: a rope can pull, but it cannot push.
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[c]{0.36\textwidth}
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  \fill[pattern=north east lines,pattern color=fzgray] (-1.0,4.0) rectangle (1.0,4.25);
+  \draw[thick] (-1.0,4.0) -- (1.0,4.0);
+  \draw[thick] (0,4.0) -- (0,3.2);
+  \draw[thick,fill=fzgray!15] (0,3.2) circle (0.45);
+  \fill (0,3.2) circle (0.05);
+  \draw[thick] (-0.45,3.2) arc[start angle=180,end angle=0,radius=0.45];
+  \draw[thick] (-0.45,3.2) -- (-0.45,1.75);
+  \draw[thick] (0.45,3.2) -- (0.45,0.75);
+  \draw[thick,fill=fzvec!15] (-0.75,1.15) rectangle (-0.15,1.75);
+  \node at (-0.45,1.45) {$m_1$};
+  \draw[thick,fill=fzaux!15] (0.08,0) rectangle (0.82,0.75);
+  \node at (0.45,0.375) {$m_2$};
+  \draw[accel] (-1.05,1.0) -- (-1.05,1.9) node[above]{$a$};
+  \draw[accel] (1.15,0.75) -- (1.15,-0.15) node[below]{$a$};
+  \draw[->,thick,fzgray!90!black] ($(0,3.2)+(65:0.7)$) arc[start angle=65,end angle=-25,radius=0.7];
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.6\textwidth}
+\caption{Mass and apparent weight: an Atwood machine. Two bodies, $m_2 > m_1$, hang from the ends
+of a massless rope that runs over an ideal pulley. Released from rest, the system turns clockwise:
+$m_1$ accelerates upward and $m_2$ downward, both with acceleration of magnitude $a$.}
+\label{fig:atwood}
+\end{minipage}
+\end{figure}
+
+In the last two examples we saw that the tension in a rope and the reading of a scale tell us the
+same thing. Now consider two bodies hanging from the two ends of a massless rope that runs over a
+pulley, with no friction between the rope and the pulley, as in Figure~\ref{fig:atwood}, and let
+$m_2 > m_1$. (This arrangement is called an \textbf{Atwood machine}.) Released from rest, this system
+turns clockwise with an acceleration $a$: the body $m_1$ accelerates in the $+y$ direction and $m_2$
+in the $-y$ direction. Because the rope does not stretch, whenever $m_1$ rises by some distance,
+$m_2$ goes down by the same distance, so the two bodies always have velocities, and accelerations,
+of the same magnitude.
+
+One point here needs care: \textbf{because the rope is massless} and \textbf{there is no friction
+between the rope and the pulley}, the tension is the same at every point of the rope. To see this,
+suppose for a moment that the two tensions pulling up and down on a short piece of the rope, of mass
+$\Delta m$, are different, say $T_2$ and $T_1$. By Newton's second law this piece then accelerates
+with $a = (T_2 - T_1)/\Delta m$. But the rope is massless, $\Delta m = 0$, so if $T_2 \neq T_1$ this
+acceleration would be infinite. Put the other way round, for any finite acceleration
+$T_2 - T_1 = (\Delta m)\,a = 0$. So the tension must be the same at every point of a massless rope.
+For the piece of rope that wraps around the pulley, the same conclusion needs an \emph{ideal}
+pulley: either the rope slides over it without friction, or the pulley turns freely on a
+frictionless axle and is itself massless. An ideal pulley changes the direction of the tension but
+not its magnitude. (A pulley with mass needs a torque to speed it up, and then the two tensions
+differ; we will meet this case when we study rotation.) So
+\begin{equation}\label{eq:T-equal}
+  T\sub{left} = T\sub{right} ,
+\end{equation}
+or, in other words, since the tension of the rope measures the apparent weight, the apparent
+weights of these two bodies must be the same! These two bodies, with different masses and different
+weights $m_1 g$ and $m_2 g$, have the same apparent weight $T$: a spring scale cut into the rope just
+above either of them would show the same reading.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  \begin{scope}
+    \draw[force] (0,0) -- (0,1.4) node[above]{$\vec{T}$};
+    \draw[force] (0,0) -- (0,-1.0) node[below]{$m_1\vec{g}$};
+    \shade[ball color=fzvec!50] (0,0) circle (0.17);
+    \node[right=3pt] at (0.1,0) {$m_1$};
+    \draw[accel] (-0.6,-0.45) -- (-0.6,0.55) node[above]{$\vec{a}$};
+  \end{scope}
+  \begin{scope}[xshift=4cm]
+    \draw[force] (0,0) -- (0,1.4) node[above]{$\vec{T}$};
+    \draw[force] (0,0) -- (0,-1.8) node[below]{$m_2\vec{g}$};
+    \shade[ball color=fzaux!50] (0,0) circle (0.17);
+    \node[right=3pt] at (0.1,0) {$m_2$};
+    \draw[accel] (-0.6,0.55) -- (-0.6,-0.45) node[below]{$\vec{a}$};
+  \end{scope}
+\end{tikzpicture}
+\caption{Free-body diagrams of the two bodies of the Atwood machine. The same tension $T$ pulls up
+on both. For $m_1$ the acceleration points up, so $T > m_1 g$; for $m_2$ it points down, so
+$T < m_2 g$.}\label{fig:atwood-fbd}
+\end{figure}
+
+If we want to find the acceleration of the system and the tension in the rope, it helps to isolate
+the bodies and study them one at a time. First consider the body $m_1$, as in
+Figure~\ref{fig:atwood-fbd}. The forces on it are its weight $m_1 g$, due to gravity, and the tension
+$T$ of the rope. Since the system turns clockwise, the acceleration of $m_1$ points up, in the same
+direction as $T$; for this body we take this direction as positive. Then Newton's second law for $m_1$
+gives
+\begin{equation}\label{eq:atwood-1}
+  m_1 a = T - m_1 g ,
+\end{equation}
+so the tension is
+\begin{equation}\label{eq:atwood-T1}
+  T = m_1 (a + g) .
+\end{equation}
+This agrees with what we learned from the man hanging on the rope: when the acceleration points
+along the tension, the apparent weight of the body increases ($T > m_1 g$). For $m_2$ the
+acceleration points down, so for this body we take \emph{down} as positive. (We are free to choose a
+different axis for each body, as long as we use each one consistently; choosing each axis along the
+body's own acceleration makes $a$ positive for both.) Then
+\begin{equation}\label{eq:atwood-2}
+  m_2 a = m_2 g - T ,
+\end{equation}
+and
+\begin{equation}\label{eq:atwood-T2}
+  T = m_2 (g - a) .
+\end{equation}
+Equations \eqref{eq:atwood-T1} and \eqref{eq:atwood-T2} give the same tension, so
+$m_1(a + g) = m_2(g - a)$. Collecting the terms with $a$ on one side,
+$(m_1 + m_2)\,a = (m_2 - m_1)\,g$, so the acceleration of the system is
+\begin{equation}\label{eq:atwood-a}
+  a = \left(\frac{m_2 - m_1}{m_2 + m_1}\right) g .
+\end{equation}
+Putting this into \eqref{eq:atwood-T1} (or \eqref{eq:atwood-T2}),
+\[
+  T = m_1 g\left(\frac{m_2 - m_1}{m_1 + m_2} + 1\right) = m_1 g\,\frac{(m_2 - m_1) + (m_1 + m_2)}{m_1 + m_2} ,
+\]
+we find the tension in the rope:
+\begin{equation}\label{eq:atwood-T}
+  T = \frac{2 m_1 m_2}{m_1 + m_2}\, g .
+\end{equation}
+
+Rather than accepting these equations as dumb strings of symbols, it is important to check whether
+they make sense. First, the units: in \eqref{eq:atwood-a} the ratio of masses has no units, so $a$
+has the units of $g$, as an acceleration should; in \eqref{eq:atwood-T} the fraction has the units
+of mass, so $T$ has the units of mass times acceleration, that is, of force. Next, special cases. If
+the two masses $m_1$ and $m_2$ are equal, the system should not accelerate, and then the tension in
+the rope should be equal to the weight of each body. Using the acceleration~\eqref{eq:atwood-a} we
+find, as expected,
+\begin{equation}\label{eq:atwood-lim}
+  \lim_{m_1 \to m_2} \left(\frac{m_2 - m_1}{m_2 + m_1}\right) g = 0 ,
+\end{equation}
+and in this limit the tension \eqref{eq:atwood-T} becomes $T = 2m^2 g/(2m) = mg$, as expected. (Since
+both expressions are continuous, the limit is simply their value at $m_1 = m_2 = m$.) Next, when does
+the tension in the rope vanish, or in other words, when do we have free fall? Looking at the tension
+\eqref{eq:atwood-T}, we see that this happens when either of the masses is zero, which is what we
+expect: a body tied to a massless rope that nothing pulls on falls freely. Indeed, if we let $m_1$ go
+to zero in the acceleration~\eqref{eq:atwood-a}, we find $a = g$: the other body, $m_2$, falls freely,
+as expected. If instead we let $m_2 \to 0$, we find $a = -g$; the minus sign tells us that now $m_1$
+accelerates downward, falling freely. One more case is less obvious: if $m_2$ is much larger than
+$m_1$, then $a \to g$ but $T \to 2m_1 g$, not $m_2 g$. The heavy body falls almost freely, so the rope
+hardly needs to hold it back; and to give the light body an upward acceleration of almost $g$, the
+rope must pull it with almost twice its weight.
+
+Let us now put in some numbers and test what we have learned. As we can see
+in Figure~\ref{fig:atwood-fbd}, the tension must be larger than the weight of $m_1$, $m_1 g$ (otherwise
+$m_1$ could not accelerate upward), and smaller than the weight of $m_2$, $m_2 g$ (otherwise $m_2$
+could not accelerate downward). So the tension in the rope must satisfy $m_1 g < T < m_2 g$. To test
+this, let $m_1 = \qty{1.1}{kg}$ and $m_2 = \qty{1.25}{kg}$. Then equation~\eqref{eq:atwood-a} gives
+the acceleration of the system,
+\begin{equation}\label{eq:atwood-num}
+  a = \frac{\qty{0.15}{kg}}{\qty{2.35}{kg}}\, g \approx 0.064\, g \approx \qty{0.63}{m/s^2} ,
+\end{equation}
+and equation~\eqref{eq:atwood-T} gives the tension, $T = [2(\qty{1.1}{kg})(\qty{1.25}{kg})/
+\qty{2.35}{kg}]\,g \approx (\qty{1.17}{kg})\,g \approx \qty{11.5}{N}$. As expected, this value lies
+between $m_1 g \approx \qty{10.8}{N}$ and $m_2 g \approx \qty{12.25}{N}$. Notice how small the
+acceleration is when the masses are nearly equal. This is exactly why George Atwood invented the
+machine in 1784: it ``dilutes'' gravity, and makes the motion slow enough to be timed with the clocks
+of his day, so that the laws of accelerated motion can be tested.
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[c]{0.46\textwidth}
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  \draw[dashed,fzgray] (0,0) circle (2.3);
+  \draw[dashed,fzgray] (0,0) -- (2.3,0) node[midway,above]{$R$};
+  \fill[fzgray] (0,0) circle (0.04);
+  \draw[thick,fzgray!70!black] (0,0) -- (0,2.3);
+  \draw[thick,fzgray!70!black] (0,0) -- (0,-2.3);
+  % body at S (top)
+  \draw[force] (0.11,2.3) -- (0.11,1.8) node[pos=0.8,right]{$\vec{T}$};
+  \draw[force] (-0.11,2.3) -- (-0.11,1.6) node[pos=0.75,left]{$m\vec{g}$};
+  \draw[accel] (0.9,2.1) -- (0.9,1.55) node[right]{$\vec{a}\sub{rad}$};
+  \draw[velo] (0,2.3) -- (-1.1,2.3) node[above]{$\vec{v}$};
+  \shade[ball color=fzvec!50] (0,2.3) circle (0.15);
+  \node[above right] at (0.08,2.35) {$S$};
+  % body at P (bottom)
+  \draw[force] (0,-2.3) -- (0,-0.25) node[pos=0.6,right]{$\vec{T}$};
+  \draw[force] (0,-2.3) -- (0,-3.0) node[below]{$m\vec{g}$};
+  \draw[accel] (-0.75,-2.25) -- (-0.75,-0.95) node[left]{$\vec{a}\sub{rad}$};
+  \draw[velo] (0,-2.3) -- (1.1,-2.3) node[below]{$\vec{v}$};
+  \shade[ball color=fzvec!50] (0,-2.3) circle (0.15);
+  \node[below left] at (-0.08,-2.35) {$P$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.5\textwidth}
+\caption{A body on a string, whirled counterclockwise in a vertical circle of radius $R$. At the
+lowest point $P$ and the highest point $S$ the only forces on it are the tension $\vec{T}$ of the
+string and its weight $m\vec{g}$ (red). Their sum must produce the centripetal acceleration
+$\vec{a}\sub{rad}$, of magnitude $v^2/R$ (blue), which points toward the center; the
+acceleration is not a force, and is drawn beside the body. The body moves faster at $P$ than at $S$,
+so $a\sub{rad}$ and the tension are larger at $P$ (arrows not to scale).}\label{fig:vcircle}
+\end{minipage}
+\end{figure}
+
+Apparent weight gives interesting results when we study it in circular motion. Consider a small body
+tied to a string and whirled counterclockwise in a vertical circle of radius $R$, as in
+Figure~\ref{fig:vcircle}. Recall from Section~4.2 that a body moving on a circle with speed $v$ has a
+radial (centripetal) acceleration of magnitude $a\sub{rad} = v^2/R = \omega^2 R$, directed toward the
+center. If only gravity and the string act on the body, its speed is \emph{not} constant: it slows
+down on the way up and speeds up on the way down, so this is nonuniform circular motion
+(Section~4.2.2), and the acceleration also has a tangential component. At the lowest point $P$ and
+the highest point $S$, however, both forces are vertical, that is, along the radius. There is no
+tangential force there, so the tangential acceleration is zero and the acceleration is purely
+radial: $a\sub{rad} = v^2/R$, with $v$ the speed at that point.
+
+To solve the problem, at each point we choose the $+y$ axis along the centripetal acceleration,
+toward the center. Which forces act on the body when it is at the point $P$ of
+Figure~\ref{fig:vcircle}? Only two: the tension $T$ of the string, upward, and the force of gravity,
+$mg$, downward. The centripetal acceleration is not a force, and $m a\sub{rad}$ never appears in a
+free-body diagram: it is what the net force must produce (we come back to this in
+Section~\ref{sec:circdyn}). Since the body continues its circular motion, Newton's second law in the
+radial direction (positive upward at $P$) requires
+\begin{equation}\label{eq:circ-P}
+  m a\sub{rad} = T - mg ,
+\end{equation}
+so the tension in the string is
+\begin{equation}\label{eq:circ-P-T}
+  T = m(a\sub{rad} + g) .
+\end{equation}
+This result is just like the one we found for the elevator and for the man hanging on the rope, with
+$a$ replaced by $a\sub{rad}$: at $P$ the acceleration points up, along the tension, and the apparent
+weight increases. If $a\sub{rad} = g$ at $P$, the apparent weight is $2mg$. When the body is at the
+top, at $S$, the center is below it, so we take the positive direction downward. Now both forces
+point toward the center, and the second law reads
+\begin{equation}\label{eq:circ-S}
+  m a\sub{rad} = T + mg ,
+\end{equation}
+so the tension in the string is
+\begin{equation}\label{eq:circ-S-T}
+  T = m(a\sub{rad} - g) ,
+\end{equation}
+that is, the apparent weight decreases. If $a\sub{rad} = g$ at $S$, the tension in the string, and so
+the apparent weight, is zero: at that instant gravity alone supplies exactly the centripetal
+acceleration that the circle requires, and the body is momentarily in free fall. From
+\eqref{eq:circ-S-T} one might think that if $a\sub{rad} < g$ the string would have a negative tension,
+but this is wrong. A tension can never be negative, since a string cannot push, and this result is
+meaningless. It only means that the body can never reach $S$ while moving on the circle with a taut
+string. If the speed it would have at the top is less than $\sqrt{gR}$, gravity alone would pull it
+toward the center more strongly than the circle requires; the string goes slack before the top, and the body
+leaves the circle and follows a projectile path inside it. (A rigid rod is different: it can push,
+and for a body on a rod $T < 0$ simply means that the rod pushes the body outward.) So a body on a
+string goes all the way round only if, at the top, $v^2 \geq gR$. Because the body is faster at the
+bottom, both $a\sub{rad}$ and the tension are always larger at $P$ than at $S$; with the energy
+methods of a later chapter we will find that $T_P - T_S = 6mg$, whatever the speed (as long as the
+string stays taut).
+
+\begin{example}[Water in a bucket]
+\setlength{\parskip}{0.5em plus 0.1em}%
+You swing a bucket of water in a vertical circle of radius $R = \qty{1.0}{m}$. What is the smallest
+speed at the top for which the water stays in the bucket?
+
+At the top, two forces act on the water: its weight $mg$ and the push $n$ of the bottom of the bucket,
+both downward, toward the center. Newton's second law in the radial direction gives
+$m v^2/R = n + mg$, so $n = m(v^2/R - g)$. The water stays in contact with the bucket as long as
+$n \geq 0$, that is, as long as $v^2 \geq gR$:
+\[
+  v\sub{min} = \sqrt{gR} = \sqrt{(\qty{9.8}{m/s^2})(\qty{1.0}{m})} \approx \qty{3.1}{m/s} .
+\]
+At exactly this speed the water is weightless at the top: it is in free fall, and so is the bucket,
+so they move together without pressing on each other. The mass of the water does not appear in the
+answer.
+\end{example}
+
+As we mentioned above, the apparent weight of a body in free fall is zero. Environments with zero
+apparent weight are very important for research centers such as NASA, for example for training
+astronauts. Such ``zero-gravity'' flights are now also flown commercially, for fun, for anyone who
+wants to experience weightlessness. As in Figure~\ref{fig:zerog}, consider an airplane that starts
+its maneuver with speed $v_0 = \qty{680}{km/h}$ at an angle of $45^\circ$ above the horizontal. At
+that moment the pilots throttle back the engines, just enough that their thrust balances the air
+drag, and they fly the airplane so that its wings give no lift. (The engines are not switched off: then
+the drag would no longer be balanced.) Thrust, drag and lift then add up to zero, the net force on the
+airplane is its weight alone, and the airplane is a projectile. The $x$ and $y$ components of
+its initial velocity are
+\begin{equation}\label{eq:zg-v0}
+  v_{0x} = v_{0y} = v_0 \cos 45^\circ \approx \qty{481}{km/h} \approx \qty{134}{m/s} .
+\end{equation}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small,x=1.25cm,y=1.25cm]
+  % path: level flight, pull-up, parabola (y = y_A + x - x^2/6), pull-out, level flight, next pull-up
+  \draw[very thick] (-1.85,0) -- (-0.849,0) arc[start angle=-90,end angle=-45,radius=1.2];
+  \draw[very thick,domain=0:6,samples=80] plot (\x,{0.351+\x-\x*\x/6});
+  \draw[very thick] (6,0.351) arc[start angle=225,end angle=270,radius=1.2] -- (7.9,0)
+     arc[start angle=-90,end angle=-60,radius=1.2];
+  % phase boundaries
+  \foreach \xx/\yy in {-0.849/0,0/0.351,6/0.351,6.849/0}
+    \draw[densely dashed,fzgray] (\xx,-0.4) -- (\xx,\yy-0.06);
+  % start level, maximum height and range
+  \draw[dashed,fzgray] (0,0.351) -- (6,0.351);
+  \draw[dashed,fzgray] (3,0.351) -- (3,1.851);
+  \draw[<->,fzgray!90!black] (3.2,0.37) -- (3.2,1.83) node[midway,right]{$y\sub{max}$};
+  \draw[<->,fzgray!90!black] (0,0.0) -- (6,0.0) node[midway,below]{$R$};
+  % initial velocity and its components
+  \draw[comp] (0,0.351) -- (0.78,0.351) node[below]{$v_{0x}$};
+  \draw[comp] (0,0.351) -- (0,1.13) node[left]{$v_{0y}$};
+  \draw (0.35,0.351) arc[start angle=0,end angle=45,radius=0.35];
+  \node at (0.62,0.5) {\scriptsize $45^\circ$};
+  \draw[velo] (0,0.351) -- (0.78,1.13) node[above left=-1pt]{$\vec{v}_0$};
+  \draw[velo] (3,1.851) -- (3.78,1.851) node[right]{$v_{0x}$};
+  % accelerations
+  \draw[accel] (1.5,1.476) -- (1.5,0.95) node[right]{$\vec{g}$};
+  \draw[accel] (4.5,1.476) -- (4.5,0.95) node[right]{$\vec{g}$};
+  \draw[accel] (-0.39,0.091) -- (-0.6,0.6) node[above]{$\vec{a}$};
+  \draw[accel] (6.39,0.091) -- (6.6,0.6) node[above]{$\vec{a}$};
+  % phase labels
+  \node[font=\footnotesize] at (-1.35,-0.65) {level};
+  \node[font=\footnotesize] at (-0.42,-0.65) {pull-up};
+  \node[font=\footnotesize] at (3,-0.65) {free fall: apparent weight zero};
+  \node[font=\footnotesize] at (6.42,-0.65) {pull-out};
+  \node[font=\footnotesize] at (7.4,-0.65) {level};
+\end{tikzpicture}
+\caption{A zero-gravity flight. From level flight the airplane pulls up to $45^\circ$; then, with the
+thrust just balancing the drag and the wings giving no lift, it follows a parabola in free fall, and
+everything on board floats.
+In the pull-up and the pull-out its path curves upward, its acceleration $\vec{a}$ points up, and the
+apparent weight of everything on board is larger than its weight. The figure is not to
+scale.}\label{fig:zerog}
+\end{figure}
+
+This is exactly the projectile motion we studied in Section~4.1. The airplane starts its motion with
+this initial velocity, rises to a maximum height and comes back down to the level where it started;
+during the whole parabola, on the way up as well as on the way down, it is in free fall. From
+equation~(4.14), with $\theta = 45^\circ$, the maximum height it reaches above the starting level is
+\begin{equation}\label{eq:zg-ymax}
+  y\sub{max} = \frac{(v_0 \sin\theta)^2}{2g} \approx \qty{910}{m} ,
+\end{equation}
+and from (4.13), the time it takes to reach this height and the total time of the parabola are
+\begin{equation}\label{eq:zg-t}
+  t\sub{top} = \frac{v_0 \sin\theta}{g} \approx \qty{13.6}{s} \qquad \Rightarrow \qquad
+  t\sub{tot} = 2t\sub{top} \approx \qty{27}{s} .
+\end{equation}
+During this time the horizontal displacement of the airplane, the range $R$ of Section~4.1 (not to be
+confused with the radius $R$ of the circle above), is
+\begin{equation}\label{eq:zg-R}
+  R = v_{0x}\, t\sub{tot} \approx \qty{3.6}{km} .
+\end{equation}
+During the free fall the apparent weight of the airplane and of the passengers inside it is zero:
+everything on board falls with the same acceleration $g$ as the cabin, so nothing presses on
+anything else, and the passengers float. When the airplane gets back to the level where it started,
+it is diving at $45^\circ$ below the horizontal at \qty{680}{km/h}. The pilots now increase the
+thrust and pull the nose up. The airplane follows a path that curves upward, so its acceleration
+points up, and, as at the lowest point $P$ of the vertical circle above, the apparent weight of the
+airplane and of the passengers increases (in real flights, to about $1.8$ times their weight). The
+airplane then flies level for a while; to begin the next parabola it pulls up again, with the
+apparent weight again larger than the weight, until it reaches the desired initial velocity, and
+then the pilots throttle back once more. (Real parabolic flights give about 20 to 25 seconds of
+weightlessness per parabola.) I recommend watching the video ``Zero Gravity Flight --
+Weightlessness'' about this motion.
+
+\begin{aside}
+\textbf{Weightless astronauts.} Astronauts on the International Space Station float for the same
+reason: the station and everything in it are in free fall around the Earth. At the station's
+altitude, about \qty{400}{km}, the gravitational acceleration is still about \qty{8.7}{m/s^2}, nearly
+\qty{90}{\percent} of its value on the ground, so ``zero gravity'' is a misnomer: it is the
+\emph{apparent} weight that is zero. The station does not hit the ground because it also moves
+sideways, at about \qty{7.7}{km/s}; as it falls, the curved surface of the Earth falls away beneath it.
+\end{aside}
+
+%----------------------------------------------------------------------
+\subsection{Friction forces}\label{sec:friction}
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[b]{0.44\textwidth}
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  \fill[pattern=north east lines,pattern color=fzgray] (-1.8,-0.3) rectangle (2.6,0);
+  \draw[thick] (-1.8,0) -- (2.6,0);
+  \draw[thick,fill=fzaux!15] (0,0) rectangle (1.6,1.0);
+  \node at (1.25,0.75) {$m$};
+  \draw[force] (0.8,0.5) -- (0.8,1.9) node[above]{$\vec{n}$};
+  \draw[force] (0.8,0.5) -- (0.8,-0.9) node[below]{$m\vec{g}$};
+  \draw[force] (-1.5,0.7) -- (0,0.7) node[pos=0.45,above]{$\vec{F}$};
+  \draw[force] (0.5,0.07) -- (-0.9,0.07) node[left]{$\vec{f}$};
+  \draw[->,fzgray!90!black] (1.95,1.3) -- (2.5,1.3) node[right]{$x$};
+  \draw[->,fzgray!90!black] (1.95,1.3) -- (1.95,1.85) node[above]{$y$};
+\end{tikzpicture}\par\smallskip
+(a)
+\end{minipage}\hfill
+\begin{minipage}[b]{0.52\textwidth}
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small,scale=0.92]
+  \draw[->] (0,0) -- (5.6,0) node[below left,align=right]{applied force $F$};
+  \draw[->] (0,0) -- (0,3.3) node[above right=-1pt]{friction force $f$};
+  \draw[dashed,fzgray] (0,2.5) node[left,black]{$\mu\sub{s} n$} -- (2.5,2.5);
+  \draw[dashed,fzgray] (0,1.8) node[left,black]{$\mu\sub{k} n$} -- (2.5,1.8);
+  \draw[dashed,fzgray] (2.5,0) -- (2.5,1.8);
+  \draw[very thick,fzcomp] (0,0) -- (2.5,2.5);
+  \draw[densely dotted,thick,fzcomp] (2.5,2.5) -- (2.5,1.8);
+  \draw[very thick,fzcomp] (2.5,1.8) -- (5.3,1.8);
+  \fill[fzcomp] (2.5,2.5) circle (0.05);
+  \node[align=center,font=\footnotesize] at (1.7,0.8) {at rest:\\ $f\sub{s} = F$};
+  \node[align=center,font=\footnotesize] at (4.1,2.55) {sliding:\\ $f\sub{k} = \mu\sub{k} n$};
+\end{tikzpicture}\par\smallskip
+(b)
+\end{minipage}
+\caption{Friction. (a) A body on a horizontal surface, pushed by a horizontal force $\vec{F}$. The
+surface exerts on it a normal force $\vec{n}$, perpendicular to the surface, and a friction force
+$\vec{f}$, parallel to it. (b) The magnitude of the friction force as $F$ is slowly increased. While
+the body is at rest, static friction is equal to $F$; it can grow only up to $\mu\sub{s} n$. Once
+the body slides, the friction is kinetic and drops to $\mu\sub{k} n$.}\label{fig:friction}
+\end{figure}
+
+Consider a body of mass $m$ resting on a horizontal surface, as in Figure~\ref{fig:friction}(a). To
+study the problem, we choose the $+y$ axis opposite to the direction of gravity, and the $+x$ axis
+along the horizontal force $\vec{F}$ that we apply to the body. Since the body does not accelerate in
+the $y$ direction, the surface must push up on it with a force that is equal in magnitude and
+opposite in direction to its weight. This is the \textbf{normal force} $n$ (``normal'' means
+perpendicular to the surface):
+\begin{equation}\label{eq:n-flat}
+  n = mg .
+\end{equation}
+Two warnings. First, $n = mg$ is \emph{not} a general rule. It holds here only because the surface is
+horizontal, the applied force is horizontal, and $a_y = 0$. If we pushed down on the body at an
+angle, or if the surface were in an accelerating elevator, $n$ would be different, and on an incline
+it is smaller (equation~\eqref{eq:n-incline} below). For instance, if we pull the body with a rope at
+an angle $\phi$ above the horizontal, the $y$ equation becomes $n + F\sin\phi - mg = 0$, so
+$n = mg - F\sin\phi < mg$: the rope carries part of the weight, and, as we will see, the largest
+possible friction becomes smaller too. The normal force is whatever force the surface must exert to
+keep the body from sinking into it. Second, $\vec{n}$ and $m\vec{g}$ are not an
+action--reaction pair: both act on the same body. The third-law partner of $\vec{n}$ is the push of
+the body on the surface.
+
+When we first apply the force $F$, the body does not necessarily start moving at once. The reason is
+the \textbf{friction force} between the body and the surface it rests on, which acts parallel to the
+surface and adjusts itself to the applied force: as long as the body stays at rest, the friction
+force is exactly equal and opposite to $\vec{F}$, so that the net horizontal force is zero. If we keep
+increasing the force, a moment comes when the body starts to move. This means that the friction force
+has reached its largest possible value, and $F$ has exceeded it. The largest value the friction force
+on a body at rest can take is
+\begin{equation}\label{eq:fmax}
+  f\sub{s,max} = \mu\sub{s} n ,
+\end{equation}
+where $\mu\sub{s}$ is the \textbf{coefficient of static friction}. It is a ratio of two forces, so it
+has no units. Note that it is the \emph{largest possible} friction force that is proportional to the
+\emph{normal} force $n$ that presses the surfaces together, not to the weight (the two are equal only
+in simple situations like \eqref{eq:n-flat}); below this limit the friction is whatever the applied
+force requires. (The normal force and the friction force are really the perpendicular and parallel
+components of a single contact force that the surface exerts on the body.) For dry surfaces there are
+two coefficients of friction, static and kinetic:
+\begin{itemize}
+  \item \textbf{Coefficient of static friction $\mu\sub{s}$:} it describes the friction that acts
+    while the two surfaces do not slide on each other, the friction that resists a force trying to set
+    the body in motion. Static friction is not given by an equation but by an \emph{inequality}: its
+    magnitude is whatever is needed to prevent sliding, up to a maximum, $f\sub{s} \leq \mu\sub{s} n$,
+    and its direction is opposite to the direction in which the surfaces would slide if there were no
+    friction.
+  \item \textbf{Coefficient of kinetic friction $\mu\sub{k}$:} it describes the friction that acts once
+    the surfaces slide on each other, the friction that resists the continuing motion. Its magnitude
+    is fixed, $f\sub{k} = \mu\sub{k} n$, and to a good approximation independent of the speed; its
+    direction is opposite to the velocity of the body relative to the surface.
+\end{itemize}
+\begin{keyresult}
+\[
+  f\sub{s} \leq \mu\sub{s}\, n \quad \text{(no sliding)}, \qquad\qquad
+  f\sub{k} = \mu\sub{k}\, n \quad \text{(sliding)}.
+\]
+\end{keyresult}
+For most pairs of surfaces $\mu\sub{k} < \mu\sub{s}$: once a body starts to slide, the friction
+force drops (Figure~\ref{fig:friction}(b)). This is why it is harder to start pushing a heavy box
+than to keep it moving. Some typical values are listed in Table~\ref{tab:mu}. Notice also that
+friction opposes the \emph{relative sliding} of the two surfaces, not motion in general. When you
+walk, or when a box rides on the bed of a truck that speeds up, static friction points forward, and
+it is what makes you, or the box, accelerate.
+
+\begin{table}[ht]
+\centering
+\caption{Approximate coefficients of friction. The values depend strongly on the condition of the
+surfaces (clean or dirty, dry or wet, polished or rough).}\label{tab:mu}
+\begin{tabular}{lcc}
+\toprule
+Surfaces & $\mu\sub{s}$ & $\mu\sub{k}$ \\
+\midrule
+Steel on steel & 0.74 & 0.57 \\
+Glass on glass & 0.94 & 0.40 \\
+Rubber on dry concrete & 1.0 & 0.8 \\
+Rubber on wet concrete & 0.30 & 0.25 \\
+Waxed wood on wet snow & 0.14 & 0.10 \\
+Ice on ice & 0.1 & 0.03 \\
+Teflon on Teflon & 0.04 & 0.04 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  % the incline, theta = 30 degrees
+  \fill[fzgray!10] (0,0) -- (6.4,0) -- (6.4,3.695) -- cycle;
+  \draw[thick] (0,0) -- (6.4,0) -- (6.4,3.695) -- cycle;
+  \draw (6.15,0) -- (6.15,0.25) -- (6.4,0.25);
+  \draw (1.0,0) arc[start angle=0,end angle=30,radius=1.0];
+  \node at (1.3,0.28) {$\theta$};
+  \begin{scope}[rotate=30]
+    \draw[thick,fill=fzaux!15] (4.0,0) rectangle (5.2,0.7);
+    \coordinate (C) at (4.6,0.35);
+  \end{scope}
+  % weight and its components
+  \draw[comp] (C) -- ++(-0.866,-0.5) node[left]{$mg\sin\theta$};
+  \draw[comp] (C) -- ++(0.866,-1.5) node[below right=-2pt]{$mg\cos\theta$};
+  \draw[dashed,fzgray] ($(C)+(-0.866,-0.5)$) -- ($(C)+(0,-2)$) -- ($(C)+(0.866,-1.5)$);
+  \draw[force] (C) -- ++(0,-2) node[below]{$m\vec{g}$};
+  \draw[fzgray!90!black] ($(C)+(0,-0.55)$) arc[start angle=-90,end angle=-60,radius=0.55];
+  \node[fzgray!90!black] at ($(C)+(0.17,-0.78)$) {\scriptsize $\theta$};
+  % normal force and friction
+  \draw[force] (C) -- ++(-0.866,1.5) node[above left=-2pt]{$\vec{n}$};
+  \draw[force] (C) -- ++(0.866,0.5) node[above right=-2pt]{$\vec{f}$};
+  % axes
+  \begin{scope}[shift={(1.0,3.2)},rotate=30]
+    \draw[->,fzgray!90!black] (0,0) -- (-0.7,0) node[left]{$x$};
+    \draw[->,fzgray!90!black] (0,0) -- (0,0.7) node[above]{$y$};
+  \end{scope}
+\end{tikzpicture}
+\caption{A body on an inclined plane. The weight $m\vec{g}$ (red) is resolved into a component
+$mg\sin\theta$ down the slope (the $+x$ direction) and a component $mg\cos\theta$ perpendicular to the
+surface (dashed). The angle between $m\vec{g}$ and the $-y$ direction is $\theta$, the angle of the
+incline. The surface exerts the normal force $\vec{n}$ and the friction force $\vec{f}$, up the
+slope.}\label{fig:incline}
+\end{figure}
+
+There is more than one way to measure the coefficient of friction. First consider the inclined plane
+in Figure~\ref{fig:incline}. We can resolve the gravitational force on the body of mass $m$ on the
+incline into two perpendicular components. (They are not two extra forces: together they \emph{are}
+$m\vec{g}$, so when we add up the forces we use either $m\vec{g}$ or its two components, never both;
+this is why the components are dashed in Figure~\ref{fig:incline}.) If we choose the direction of the normal
+force as $+y$, one of them is $mg\cos\theta$ in the $-y$ direction, and the other is $mg\sin\theta$,
+down the slope, and we choose this direction as $+x$. (The angle between $m\vec{g}$ and the $-y$ axis
+is $\theta$: the $-y$ axis is perpendicular to the incline and $m\vec{g}$ is perpendicular to the
+horizontal, and two angles whose sides are mutually perpendicular are equal.) Since there is no
+acceleration along the $y$ axis, the normal force must be
+\begin{equation}\label{eq:n-incline}
+  n = mg\cos\theta .
+\end{equation}
+The body tends to move in the $+x$ direction, so friction acts in the $-x$ direction, with magnitude
+$f\sub{s}$, to prevent this motion; as long as the body stays at rest, $f\sub{s} = mg\sin\theta$. As the
+slope of the surface increases, that is, as the angle $\theta$ grows, the force that tends to move the
+body in the $+x$ direction, $mg\sin\theta$, grows, and the friction force must grow with it. At the
+same time the normal force $mg\cos\theta$, and with it the largest friction the surface can supply,
+$\mu\sub{s} mg\cos\theta$, gets smaller. So at a certain angle the pull down the slope wins over the
+largest possible friction, and the body starts to move. There is therefore a \textbf{critical angle}
+$\theta\sub{c}$ at which the body is just about to move: if the surface is tilted even slightly beyond
+it, the body slides, and if it is tilted slightly less, the body stays at rest. At the critical angle
+the static friction has just reached its maximum, $f\sub{s,max} = \mu\sub{s} n = \mu\sub{s} mg\cos
+\theta\sub{c}$, and Newton's second law along $x$ tells us
+\begin{equation}\label{eq:crit-angle}
+  mg\sin\theta\sub{c} - f\sub{s,max} = 0 , \qquad \mu\sub{s} = \tan\theta\sub{c} ,
+\end{equation}
+since $mg\sin\theta\sub{c} = \mu\sub{s} mg\cos\theta\sub{c}$. Measuring the angle at which a block
+starts to slide therefore gives $\mu\sub{s}$ directly. Once the block slides, the friction is kinetic
+and smaller, $f\sub{k} = \mu\sub{k} mg\cos\theta$, so the block accelerates down the slope with
+$a = g(\sin\theta - \mu\sub{k}\cos\theta)$. If we then lower the incline until a block that has been
+given a push slides down with constant velocity ($a = 0$), the same argument gives
+$\mu\sub{k} = \tan\theta$ at that angle.
+
+The result \eqref{eq:crit-angle} is quite interesting and far from intuitive:
+\begin{enumerate}
+  \item \textbf{The critical angle does not depend on the mass of the body.} Both the force that
+    pulls the body down the slope and the largest friction force are proportional to $m$, so $m$
+    cancels. As a result, even if you double the mass of the body, it starts to slide at the same
+    critical angle.
+  \item \textbf{The friction force does not depend on the area of contact} between the body and the
+    surface. So whether we try to slide a brick on its broad face or on its narrow side makes no
+    difference. This does not follow from \eqref{eq:crit-angle}; it is an experimental fact, built into
+    the model \eqref{eq:fmax}, in which the maximum friction depends only on $\mu\sub{s}$ and $n$. The
+    microscopic reason is that even surfaces that look smooth touch only at the tips of tiny bumps. The
+    true area of contact is a tiny fraction of the apparent area, and it grows in proportion to the
+    force that presses the surfaces together, not with the apparent area.
+\end{enumerate}
+These two results, together with the fact that the largest static friction force, and the kinetic
+friction force, are proportional to the normal force (for the incline, \eqref{eq:n-incline}), were
+first found by Leonardo da Vinci, around 1500. But since
+Leonardo kept his findings in his notebooks, they were rediscovered by Guillaume Amontons in 1699, and
+are known today as Amontons' laws of friction. Keep in mind that they are approximate, empirical laws
+for dry surfaces: they fail, for example, for very clean and smooth metal surfaces and for lubricated
+surfaces, and they are only rough approximations for soft materials such as rubber.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  % (a) the system
+  \begin{scope}[scale=1.25]
+    \fill[fzaux!8] (0,0) -- (3,0) -- (3,1.732) -- cycle;
+    \draw[thick] (0,0) -- (3,0) -- (3,1.732) -- cycle;
+    \draw (0.7,0) arc[start angle=0,end angle=30,radius=0.7];
+    \node at (0.95,0.2) {$\alpha$};
+    \begin{scope}[rotate=30]
+      \draw[thick,fill=fzgray!35] (1.3,0) rectangle (2.0,0.54);
+      \node at (1.65,0.27) {\footnotesize $m_1$};
+      \coordinate (A) at (2.0,0.27);
+      \coordinate (Tp) at (3.75,0.27);
+      \coordinate (Pc) at (3.75,0.07);
+    \end{scope}
+    \draw[thick,fzcomp!80!black] (A) -- (Tp);
+    \draw[thick,fill=white] (Pc) circle (0.2);
+    \fill (Pc) circle (0.03);
+    \draw[thick] (3,1.732) -- (Pc);
+    \draw[thick,fzcomp!80!black] (Tp) arc[start angle=120,end angle=0,radius=0.2] -- ++(0,-1.1)
+      coordinate (B);
+    \draw[thick,fill=fzgray!35] ($(B)+(-0.25,-0.5)$) rectangle ($(B)+(0.25,0)$);
+    \node at ($(B)+(0,-0.25)$) {\footnotesize $m_2$};
+    \node at (1.6,-0.55) {(a)};
+  \end{scope}
+  % (b) free-body diagram of m1
+  \begin{scope}[xshift=7.0cm,yshift=0.9cm]
+    \begin{scope}[rotate=30]
+      \draw[dashed,fzgray,->] (-1.9,0) -- (2.1,0) node[right]{$+x$};
+      \draw[dashed,fzgray,->] (0,-1.4) -- (0,1.9) node[above]{$+y$};
+      \draw[thick,fill=fzgray!35] (-0.3,-0.25) rectangle (0.3,0.25);
+      \draw[force] (0,0) -- (0,1.35) node[left]{$\vec{n}$};
+      \draw[force] (0,0) -- (1.45,0) node[above left=-1pt]{$\vec{T}$};
+      \draw[force] (0,0) -- (-0.67,0) node[below left=-1pt]{$\vec{f}$};
+    \end{scope}
+    \draw[force] (0,0) -- (0,-1.55) node[below]{$m_1\vec{g}$};
+    \draw[fzgray!90!black] (0,-0.8) arc[start angle=-90,end angle=-60,radius=0.8];
+    \node[fzgray!90!black] at (0.25,-1.05) {\scriptsize $\alpha$};
+    \node at (0,-2.4) {(b)};
+  \end{scope}
+  % (c) free-body diagram of m2
+  \begin{scope}[xshift=10.6cm,yshift=0.9cm]
+    \draw[force] (0,0) -- (0,1.45) node[above]{$\vec{T}$};
+    \draw[force] (0,0) -- (0,-1.45) node[below]{$m_2\vec{g}$};
+    \draw[thick,fill=fzgray!35] (-0.22,-0.22) rectangle (0.22,0.22);
+    \draw[dashed,fzgray,->] (0.7,0.4) -- (0.7,-0.6) node[below]{$+$};
+    \node at (0,-2.4) {(c)};
+  \end{scope}
+\end{tikzpicture}
+\caption{Measuring the coefficient of friction with a pulley system. (a) A body $m_1$ on an incline
+of angle $\alpha$ is tied by a rope, over an ideal pulley, to a hanging body $m_2$. (b) Free-body
+diagram of $m_1$, with the $+x$ axis up the slope; the friction $\vec{f}$ is drawn for a body that
+tends to move in the $+x$ direction (case~1). (c) Free-body diagram of $m_2$, with the positive
+direction downward.}\label{fig:pulley-incline}
+\end{figure}
+
+To measure the coefficient of friction, now consider a pulley system like the one in
+Figure~\ref{fig:pulley-incline}. Let $m_1$ be the mass of the body on the inclined surface and $m_2$ the
+mass of the hanging body. We can resolve the forces on the body on the surface into components as we
+did in the previous problem, but this time we take the $+x$ axis up the slope, along the rope. Here,
+however, the situation is radically different from the previous problem: we do not know in advance
+whether the system will accelerate in the $+x$ direction ($m_1$ up the slope and $m_2$ down), in the
+$-x$ direction, or stay at rest. As we will see shortly, these
+three cases have to be treated separately, and no single equation describes all of them, because
+static friction is given by an inequality and its direction depends on which way the body tends to
+slide.
+
+If we draw the free-body diagrams of the bodies, as on the right of Figure~\ref{fig:pulley-incline},
+we first see that the normal force is again $n = m_1 g\cos\alpha$. The only open question in the
+analysis of the system is which way the friction points: if the body tends to move in the $+x$
+direction, friction acts in the $-x$ direction, but if the body tends to move in the $-x$ direction,
+friction acts in the $+x$ direction. All we know about the static friction force is that its maximum
+value is
+\begin{equation}\label{eq:pi-fmax}
+  f\sub{s,max} = \mu\sub{s} n = \mu\sub{s} m_1 g \cos\alpha .
+\end{equation}
+The last thing we know about the system is that the rope is massless and the pulley frictionless, so
+the tension is the same at every point of the rope (Section~\ref{sec:apparent}). So while the system is
+at rest, Newton's second law for the hanging body (with $a = 0$) gives the tension in the rope:
+\begin{equation}\label{eq:pi-T}
+  T = m_2 g .
+\end{equation}
+With this information we can study the three cases we mentioned, for a system that starts from rest.
+\begin{enumerate}
+  \item \textbf{The system is just about to accelerate in the $+x$ direction.} In this limiting case
+    the friction force has its maximum magnitude and points in the $-x$ direction. So Newton's second
+    law for the body $m_1$, which is still at rest, reads
+    \begin{equation}\label{eq:pi-case1}
+      T - m_1 g\sin\alpha - f\sub{s,max} = 0 , \qquad \Rightarrow \qquad
+      m_2 g = m_1 g(\sin\alpha + \mu\sub{s}\cos\alpha) .
+    \end{equation}
+    This is the critical situation in which the body is held in equilibrium by the largest possible
+    friction force. If $m_2$ becomes even a hair heavier, the system starts to accelerate in the $+x$
+    direction. The condition for this is
+    \begin{equation}\label{eq:pi-cond1}
+      m_2 g > m_1 g(\sin\alpha + \mu\sub{s}\cos\alpha) .
+    \end{equation}
+  \item \textbf{The system is just about to accelerate in the $-x$ direction.} In this limiting case
+    the friction force has its maximum magnitude and points in the $+x$ direction. So Newton's second
+    law for the body $m_1$ reads
+    \begin{equation}\label{eq:pi-case2}
+      T - m_1 g\sin\alpha + f\sub{s,max} = 0 , \qquad \Rightarrow \qquad
+      m_2 g = m_1 g(\sin\alpha - \mu\sub{s}\cos\alpha) .
+    \end{equation}
+    This again is the critical situation in which the body is held in equilibrium by the largest
+    possible friction force. If $m_2$ becomes even a hair lighter, the system starts to accelerate in
+    the $-x$ direction, with $m_1$ sliding down the slope. The condition for this is
+    \begin{equation}\label{eq:pi-cond2}
+      m_2 g < m_1 g(\sin\alpha - \mu\sub{s}\cos\alpha) .
+    \end{equation}
+    If $\tan\alpha \leq \mu\sub{s}$, the right-hand side is zero or negative, and this case can never
+    happen: even with no hanging body at all, $m_1$ would not slide down by itself
+    (compare~\eqref{eq:crit-angle}).
+  \item \textbf{The system stays at rest.} If neither \eqref{eq:pi-cond1} nor \eqref{eq:pi-cond2}
+    holds, that is, if $m_1 g(\sin\alpha - \mu\sub{s}\cos\alpha) \leq m_2 g \leq m_1 g(\sin\alpha +
+    \mu\sub{s}\cos\alpha)$, the acceleration is zero, and the static friction adjusts itself to keep
+    the system in equilibrium. Its $x$ component is then $f_x = m_1 g\sin\alpha - m_2 g$, which may be
+    positive (up the slope) or negative (down the slope), and its magnitude is at most $f\sub{s,max}$.
+\end{enumerate}
+
+\begin{example}[Will it move?]
+\setlength{\parskip}{0.5em plus 0.1em}%
+As a very simple example, take $m_1 = \qty{1}{kg}$, $m_2 = \qty{2}{kg}$, $\alpha = 30^\circ$, a
+coefficient of static friction $\mu\sub{s} = 0.5$ and a coefficient of kinetic friction
+$\mu\sub{k} = 0.4$, and let the system start from rest. To understand how the system behaves, we must
+check the two conditions above. To keep the arithmetic simple, in this example we take
+$g = \qty{10}{m/s^2}$. Then
+\begin{equation}\label{eq:pi-num}
+  m_2 g = \qty{20}{N} , \qquad m_1 g\sin\alpha = \qty{5}{N} , \qquad
+  f\sub{s,max} = \mu\sub{s} m_1 g\cos\alpha \approx \qty{4.33}{N} .
+\end{equation}
+So $m_2 g = \qty{20}{N}$ is larger than $m_1 g\sin\alpha + f\sub{s,max} \approx \qty{9.33}{N}$: the first
+condition holds, and the system accelerates in the $+x$ direction.
+
+Since the first condition holds and the system starts to move, we must now use the coefficient of
+kinetic friction, not the static one, to learn more about it. The body $m_1$, sliding up the slope,
+feels a kinetic friction force down the slope, of magnitude
+\begin{equation}\label{eq:pi-fk}
+  f\sub{k} = \mu\sub{k} n = \mu\sub{k} m_1 g\cos\alpha .
+\end{equation}
+Applying Newton's second law to the body $m_1$ along the $x$ axis, we find
+\begin{equation}\label{eq:pi-m1}
+  T - m_1 g\sin\alpha - \mu\sub{k} m_1 g\cos\alpha = m_1 a .
+\end{equation}
+For the body $m_2$, with the positive direction downward, along its acceleration, Newton's second law
+reads $m_2 a = m_2 g - T$, so
+\begin{equation}\label{eq:pi-m2}
+  T = m_2 (g - a) .
+\end{equation}
+(Note that now $T \neq m_2 g$: equation~\eqref{eq:pi-T} holds only while the system is at rest.)
+Putting this value of $T$ into \eqref{eq:pi-m1} and solving for $a$,
+\[
+  a = \frac{m_2 g - m_1 g\sin\alpha - \mu\sub{k} m_1 g\cos\alpha}{m_1 + m_2}
+    = \frac{\qty{20}{N} - \qty{5}{N} - \qty{3.46}{N}}{\qty{3}{kg}} ,
+\]
+and then using this acceleration in \eqref{eq:pi-m2}, we find the acceleration and the tension in the
+rope:
+\begin{equation}\label{eq:pi-aT}
+  a \approx \qty{3.85}{m/s^2} , \qquad T \approx \qty{12.3}{N} .
+\end{equation}
+The tension $T$, which measures the apparent weight of the body $m_2$, has come out smaller than the
+weight of $m_2$, \qty{20}{N}, as expected, since $m_2$ accelerates downward.
+
+Now let us keep everything else in this example the same, but change the mass $m_2$ to
+$m_2 = \qty{0.4}{kg}$. Then $m_2 g = \qty{4}{N}$, which satisfies neither the first condition
+($\qty{4}{N} > \qty{9.33}{N}$ is false) nor the second ($\qty{4}{N} < \qty{5}{N} - \qty{4.33}{N} =
+\qty{0.67}{N}$ is false). So for $m_2 = \qty{0.4}{kg}$ the acceleration is zero: the friction force
+adjusts itself to keep the system in equilibrium. With $a = 0$ the tension is $T = m_2 g$, and, with
+$f_x$ the $x$ component of the friction force, the second law for $m_1$ along $x$ reads
+\begin{equation}\label{eq:pi-rest}
+  -\underbrace{m_1 g\sin\alpha}_{\qty{5}{N}} + \underbrace{T}_{m_2 g\, =\, \qty{4}{N}} + f_x = 0 ,
+  \qquad f_x = \qty{1}{N} .
+\end{equation}
+The friction force points in the $+x$ direction, up the slope, and has a magnitude of \qty{1}{N}, well
+below its maximum of \qty{4.33}{N}, as it must be. Notice that it is \emph{not} $\mu\sub{s} n$: static
+friction is only as large as it needs to be.
+\end{example}
+
+%----------------------------------------------------------------------
+\subsection{Fluid resistance and terminal speed}\label{sec:fluid}
+
+In the previous section the friction between dry surfaces was, to a good approximation, independent of
+the area of contact and of the speed of the body; its largest static value, and the kinetic friction,
+depended on the body only through the normal force. The \textbf{fluid resistance} we discuss in this section, the force that a fluid (a gas or a
+liquid, such as air or water) exerts on a body moving through it, does depend on these quantities: on
+the speed of the body relative to the fluid, and on the size and shape of the body. A simple model that
+works well in many situations gives the magnitude of this force as
+\begin{equation}\label{eq:drag}
+  f = kv + Dv^2 ,
+\end{equation}
+where $v$ is the speed of the body relative to the fluid, and the force points opposite to the
+velocity of the body relative to the fluid: $\vec{f} = -(k + Dv)\,\vec{v}$. The constants $k$ (units
+\unit{kg/s}) and $D$ (units \unit{kg/m}) depend on the fluid and on the size and shape of the body.
+The first term in equation~\eqref{eq:drag} is the ``viscous'' term, and the second the ``pressure''
+term. \textbf{Viscosity} is a measure of how strongly a fluid resists flowing, that is, resists a shear
+deformation, in which neighboring layers of the fluid slide past each other; in everyday words, it
+describes how ``thick'' or ``sticky'' the fluid is. If we think of water, oil and tar, we see at once
+that these three liquids have different viscosities. If the viscosity of the fluid is very large, $k$
+is very large. (For a sphere of radius $r$ moving slowly through a fluid of viscosity $\eta$,
+$k = 6\pi\eta r$; this is Stokes' law.) Viscosity depends strongly on temperature: if you heat tar, it
+becomes liquid and deforms much more easily, while if you cool it, it becomes solid and very hard to
+deform. The coefficient $D$ of the second term is related to the density $\rho$ of the fluid. A moving
+body has to push the fluid in front of it out of its way, and this takes a force that grows with the
+density of the fluid and with the cross-sectional area $A$ of the body: in each second the body sweeps
+through a volume $Av$ of fluid, of mass $\rho A v$, and sets it moving with a speed of the order of $v$;
+the momentum it gives the fluid each second, which is the force (Section~5.3), is therefore of order
+$\rho A v^2$. This is why the second term grows as $v^2$, and why $D = \tfrac12 C\rho A$, where
+the drag coefficient $C$ depends on the shape of the body (it is about $0.5$ for a sphere).
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[b]{0.3\textwidth}
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  \draw[force] (0,0) -- (0,1.2) node[above]{$\vec{f}$};
+  \draw[force] (0,0) -- (0,-1.5) node[below]{$m\vec{g}$};
+  \shade[ball color=fzgray!40] (0,0) circle (0.22);
+  \draw[velo] (0.75,0.5) -- (0.75,-0.7) node[below]{$\vec{v}$};
+\end{tikzpicture}\par\smallskip
+(a)
+\end{minipage}\hfill
+\begin{minipage}[b]{0.66\textwidth}
+\centering
+\begin{tikzpicture}[font=\small]
+  \begin{axis}[width=8.4cm,height=5.6cm,axis lines=left,xmin=0,xmax=4.2,ymin=0,ymax=1.3,
+      xlabel={time $t$, in units of $v\sub{t}/g$},ylabel={$v/v\sub{t}$},xtick={0,1,2,3,4},
+      ytick={0,0.5,1},
+      every axis y label/.style={at={(ticklabel* cs:1)},anchor=south west},
+      legend pos=south east,legend cell align=left,
+      legend style={font=\footnotesize,draw=fzrule}]
+    \addplot[fzaux,very thick,domain=0:4.2,samples=80] {1-exp(-x)};
+    \addlegendentry{$f = kv$}
+    \addplot[fzcomp,very thick,domain=0:4.2,samples=80] {tanh(x)};
+    \addlegendentry{$f = Dv^2$}
+    \addplot[fzgray!80!black,dashed,thick,domain=0:1.25] {x};
+    \addlegendentry{no drag, $v = gt$}
+    \addplot[fzgray,densely dotted,thick,forget plot] coordinates {(0,1) (4.2,1)};
+  \end{axis}
+\end{tikzpicture}\par\smallskip
+(b)
+\end{minipage}
+\caption{Terminal speed. (a) Free-body diagram of a body falling through a fluid: its weight $m\vec{g}$
+and the fluid resistance $\vec{f}$, opposite to the velocity $\vec{v}$. (b) The speed of a body dropped
+from rest, for a resistance $f = kv$ (blue) and $f = Dv^2$ (red). Both curves start with the slope
+of free fall (dashed) and approach the terminal speed $v\sub{t}$ (dotted) without ever quite reaching
+it.}\label{fig:terminal}
+\end{figure}
+
+Now consider a body dropped from rest in a fluid, as in Figure~\ref{fig:terminal}(a); we take the
+positive direction downward. (This is not free fall, since gravity is not the only force.) At first
+$v = 0$ and there is no fluid resistance, so the body starts with acceleration $g$. As it speeds up,
+the resistance grows, as we see from equation~\eqref{eq:drag}, so the net force $mg - f$, and with it
+the acceleration, decreases. The speed approaches the value at which the two forces would be equal;
+as it does, the net force, and with it the acceleration, approaches zero, and the body moves with an
+almost constant velocity. This speed is called the \textbf{terminal speed} $v\sub{t}$:
+\begin{equation}\label{eq:vt}
+  mg = k v\sub{t} + D v\sub{t}^2 .
+\end{equation}
+(Here we neglect the buoyant force of the fluid, which is a good approximation in air; in a liquid we
+replace $mg$ by the weight minus the buoyant force.) Strictly speaking, the body gets closer and closer
+to $v\sub{t}$ but never quite reaches it; Figure~\ref{fig:terminal}(b) shows how fast it gets close.
+Equation~\eqref{eq:vt} is a quadratic equation, and it gives two solutions for the terminal speed,
+\[
+  v\sub{t} = \frac{-k \pm \sqrt{k^2 + 4Dmg}}{2D} .
+\]
+The product of the two roots is $-mg/D < 0$, so one root is positive and the other negative. Only the
+positive root corresponds to a physical situation; the negative one is not a possible speed, and we
+discard it.
+
+To see which property of the fluid contributes more to the resistance, and how the terminal speed
+changes in these different cases, consider first the speed at which the viscous term and the pressure
+term exert equal forces. We call this speed the \textbf{critical speed} $v\sub{c}$:
+\begin{equation}\label{eq:vc}
+  k v\sub{c} = D v\sub{c}^2 , \qquad \Rightarrow \qquad v\sub{c} = \frac{k}{D} .
+\end{equation}
+Which kind of resistance dominates depends on how the speed of the body compares with the critical
+speed. If we write the magnitude of the resistance as
+\begin{equation}\label{eq:drag-vc}
+  f = k\Bigl(v + \frac{D}{k} v^2\Bigr) = kv\Bigl(1 + \frac{v}{v\sub{c}}\Bigr) ,
+\end{equation}
+we see that there are two cases that we can study easily.
+\begin{enumerate}
+  \item $v \ll v\sub{c}$: the fluid resistance comes mostly from viscosity ($f \approx kv$), and the
+    terminal speed is
+    \begin{equation}\label{eq:vt-visc}
+      mg = k v\sub{t} , \qquad \Rightarrow \qquad v\sub{t} = \frac{mg}{k} .
+    \end{equation}
+    This is the case for very small or slow bodies, or for bodies in very viscous liquids: dust and fog
+    droplets in air, or a steel ball sinking in honey. (The approximation is consistent only if the
+    $v\sub{t}$ we find is indeed much smaller than $v\sub{c}$.)
+  \item $v \gg v\sub{c}$: the resistance comes mostly from the pressure term, whose coefficient is
+    proportional to the density of the fluid ($f \approx Dv^2$), and the terminal speed is
+    \begin{equation}\label{eq:vt-press}
+      mg = D v\sub{t}^2 , \qquad \Rightarrow \qquad v\sub{t} = \sqrt{\frac{mg}{D}} .
+    \end{equation}
+    This is the case for almost everything that moves fast through air: balls, raindrops, skydivers,
+    cars. (Again, the approximation is consistent only if the $v\sub{t}$ we find is much larger than
+    $v\sub{c}$.)
+\end{enumerate}
+
+How quickly is the terminal speed approached? For the viscous law, Newton's second law reads
+$m\,\dd v/\dd t = mg - kv = k(v\sub{t} - v)$. You can check, by differentiating, that the solution that
+starts from rest is
+\[
+  v(t) = v\sub{t}\bigl(1 - e^{-kt/m}\bigr) .
+\]
+After a time $m/k = v\sub{t}/g$ the body has reached \qty{63}{\percent} of its terminal speed, and after
+$4.6\,m/k$ it is within \qty{1}{\percent} of it. For the quadratic law a similar calculation gives
+$v(t) = v\sub{t}\tanh(gt/v\sub{t})$. Both are plotted in Figure~\ref{fig:terminal}(b). Both curves start
+with slope $g$: at the very beginning, when the body hardly moves and the resistance is still negligible, it is falling almost freely.
+
+\begin{example}[A skydiver and a cloud droplet]
+\setlength{\parskip}{0.5em plus 0.1em}%
+For a human body falling through air with arms and legs spread out, $D \approx \qty{0.25}{kg/m}$. A
+skydiver of mass \qty{80}{kg} (with equipment) moves much faster than $v\sub{c}$, so
+\eqref{eq:vt-press} gives
+\[
+  v\sub{t} = \sqrt{\frac{mg}{D}} = \sqrt{\frac{(\qty{80}{kg})(\qty{9.8}{m/s^2})}{\qty{0.25}{kg/m}}}
+  = \qty{56}{m/s} \approx \qty{200}{km/h} .
+\]
+Here $v\sub{t}/g \approx \qty{5.7}{s}$, and since $\tanh 2.65 \approx 0.99$, she is within
+\qty{1}{\percent} of this speed about $2.65 \times \qty{5.7}{s} \approx \qty{15}{s}$ after she jumps.
+Since $v\sub{t} \propto \sqrt{m}$, a heavier body of the same size and shape falls faster through air.
+
+A cloud droplet of radius $r = \qty{10}{\micro m}$ is in the opposite, viscous regime. With Stokes'
+law, $k = 6\pi\eta r$, and the viscosity of air, $\eta \approx \qty{1.8e-5}{kg/(m.s)}$, we find
+$k \approx \qty{3.4e-9}{kg/s}$. The droplet's mass is
+$m = \tfrac43\pi r^3\rho\sub{water} = \tfrac43\pi(\qty{1.0e-5}{m})^3(\qty{1000}{kg/m^3}) \approx
+\qty{4.2e-12}{kg}$, so \eqref{eq:vt-visc} gives $v\sub{t} = mg/k \approx \qty{1.2e-2}{m/s}$, about
+\qty{1}{cm/s}. (Check: with $D = \tfrac12 C\rho A$, $C \approx 0.5$ and $\rho\sub{air} \approx
+\qty{1.2}{kg/m^3}$, the critical speed is $v\sub{c} = k/D \approx \qty{36}{m/s}$, far above $v\sub{t}$,
+so the viscous approximation is consistent.) The slightest updraft keeps such droplets
+up, and this is why clouds float.
+\end{example}
+
+\begin{aside}
+In a vacuum there is no fluid resistance at all, and a feather falls exactly like a bowling ball. Watch
+the experiment in NASA's vacuum chamber:
+\href{https://www.youtube.com/watch?v=E43-CfukEgs}{\emph{feathers and a bowling ball in a vacuum
+chamber}}.\footnote{\url{https://www.youtube.com/watch?v=E43-CfukEgs}}
+\end{aside}
+
+%----------------------------------------------------------------------
+\subsection{Dynamics of circular motion}\label{sec:circdyn}
+
+In Section~4.2.1 we saw that a particle in uniform circular motion, moving with speed $v$ on a circle
+of radius $R$, has an acceleration of magnitude $a\sub{rad} = v^2/R$ that points toward the center. By
+Newton's second law, the net force on the particle must then also point toward the center, with
+magnitude
+\begin{keyresult}
+\[
+  \sum F\sub{rad} = m a\sub{rad} = m\,\frac{v^2}{R} \qquad \text{(net force toward the center)}.
+\]
+\end{keyresult}
+\begin{figure}[b]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  % (a) top view
+  \begin{scope}
+    \fill[fzgray!15] (0,0) ++(20:2.4) arc[start angle=20,end angle=160,radius=2.4]
+      -- ++(160:0.7) arc[start angle=160,end angle=20,radius=3.1] -- cycle;
+    \draw[thick] (20:2.4) arc[start angle=20,end angle=160,radius=2.4];
+    \draw[thick] (20:3.1) arc[start angle=20,end angle=160,radius=3.1];
+    \fill (0,0) circle (0.04) node[below]{center};
+    \draw[dashed,fzgray] (0,0) -- (0,2.75) node[pos=0.4,left]{$R$};
+    \draw[thick,fill=fzaux!25] (-0.3,2.6) rectangle (0.3,2.9);
+    \draw[velo] (-0.3,2.75) -- (-1.4,2.75) node[pos=0.8,below]{$\vec{v}$};
+    \draw[force] (0.12,2.6) -- (0.12,1.6) node[right]{$\vec{f}\sub{s}$};
+    \node at (0,-0.9) {(a) seen from above};
+  \end{scope}
+  % (b) seen from behind
+  \begin{scope}[xshift=6.6cm,yshift=0.2cm]
+    \fill[pattern=north east lines,pattern color=fzgray] (-2.4,-0.3) rectangle (1.8,0);
+    \draw[thick] (-2.4,0) -- (1.8,0);
+    \draw[thick,fill=fzaux!25] (-1.0,0.25) rectangle (1.0,1.05);
+    \draw[thick,fill=fzaux!25] (-0.65,1.05) -- (-0.45,1.5) -- (0.45,1.5) -- (0.65,1.05);
+    \fill[black!70] (-0.8,0) rectangle (-0.5,0.32);
+    \fill[black!70] (0.5,0) rectangle (0.8,0.32);
+    \draw[force] (0,0.7) -- (0,1.85) node[above]{$\vec{n}$};
+    \draw[force] (0,0.7) -- (0,-0.45) node[below right=-2pt,fill=white,inner sep=1pt]{$m\vec{g}$};
+    \draw[force] (-0.65,0.06) -- (-2.2,0.06) node[pos=0.6,above]{$\vec{f}\sub{s}$};
+    \draw[->,fzgray!90!black] (-1.3,1.9) -- (-2.1,1.9) node[left,align=center,font=\footnotesize]{toward\\ the center};
+    \node at (0,-1.1) {(b) seen from behind};
+  \end{scope}
+\end{tikzpicture}
+\caption{A car on a flat curve. The car turns left, so seen from behind the center of the curve is on its
+left. The only horizontal force on the car, the static friction $\vec{f}\sub{s}$
+of the road on the tires, points toward the center of the curve and supplies the centripetal force
+$mv^2/R$.}\label{fig:curve}
+\end{figure}
+This net force is often called the \textbf{centripetal force}, but it is not a new kind of force: it is
+whatever combination of the forces we already know (the tension of a string, gravity, a normal force,
+friction) happens to point toward the center. In a free-body diagram we draw only these real forces,
+and never add an extra ``centripetal force'' $mv^2/R$. Nor do we draw a ``centrifugal force'' pointing
+outward: in an inertial frame there is no such force. When a car turns left and you feel pushed to the
+right, nothing pushes you outward. Your body tends to keep moving in a straight line (Newton's first
+law), and the door has to push you inward to make you turn with the car. If the motion is not uniform,
+the same equation holds for the radial component of the net force, with $v$ the speed at that instant,
+as we used for the vertical circle in Section~\ref{sec:apparent}; the tangential component of the net
+force changes the speed.
+
+\begin{example}[A car on a flat curve]
+\setlength{\parskip}{0.5em plus 0.1em}%
+A car of mass $m$ takes a flat (unbanked) curve of radius $R$ at constant speed $v$
+(Figure~\ref{fig:curve}). What supplies the centripetal force, and how fast can the car go?
+
+Vertically, nothing accelerates, so $n = mg$. Horizontally, the only force toward the center is the
+friction of the road on the tires. It is \emph{static} friction, even though the car is moving: the
+tires roll without slipping, so the part of each tire that touches the road is momentarily at rest
+relative to the road. So $f\sub{s} = mv^2/R$, and since $f\sub{s} \leq \mu\sub{s} n = \mu\sub{s} mg$,
+\[
+  m\,\frac{v^2}{R} \leq \mu\sub{s} mg , \qquad \Rightarrow \qquad v \leq \sqrt{\mu\sub{s} g R} .
+\]
+For $R = \qty{50}{m}$ and rubber on dry concrete ($\mu\sub{s} = 1.0$, Table~\ref{tab:mu}), this gives
+$v\sub{max} \approx \qty{22}{m/s} \approx \qty{80}{km/h}$; on wet concrete ($\mu\sub{s} = 0.30$) it
+drops to about \qty{12}{m/s}, or \qty{44}{km/h}. The mass
+cancels: on the same curve, with the same tires, a heavy truck and a light car have the same maximum
+speed. Above it, the tires slip and the car slides outward: not because something pushes it out, but
+because friction can no longer bend its path into the circle.
+\end{example}
+
+\section*{About these notes}
+These notes are not original. They draw heavily on the books listed in the Week~1 notes, on Walter Lewin's 8.01x Classical Mechanics lectures at MIT, and on the Dynamics and Relativity courses taught at different times by Stephen Siklos and David Tong at the University of Cambridge. They are not official course notes of FIZ~101: they are written only to help the students of Mehmet \"Ozkan's section. Istanbul Technical University and its Department of Physics Engineering bear no responsibility for them.
+
+\end{document}

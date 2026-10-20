@@ -1,0 +1,983 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fiz101notes}
+\noteweek{3}{Newton's laws of motion}
+
+% Notation used only in this week.
+\newcommand{\on}[2]{#1\,\mathrm{on}\,#2}   % force exerted by body #1 on body #2: \vec{F}_{\on{1}{2}}
+
+\begin{document}
+\makenotetitle
+
+%======================================================================
+\setcounter{section}{4}
+\section{Newton's laws of motion}\label{sec:newton}
+
+As we said at the start of Chapter~3, classical mechanics was born with a very ambitious goal: to
+predict the future of the universe we live in and to reconstruct its past, that is, to determine
+the history and the future of every particle in it. In the rest of this course we study the
+foundations of classical mechanics, put into mathematical form by Galileo and Newton, and many of
+their applications. Built on a few basic axioms, this theory is a powerful tool: within the
+expected margins of error it gives correct results for an enormous range of phenomena, from the
+motion of planets and spacecraft down to the collisions of molecules in a gas. To apply classical
+mechanics to a particular problem we need essentially one input: the forces. Once we know the
+forces acting on the bodies and their masses, and where the bodies are and how fast they move at
+one instant (the \emph{initial conditions}), the mathematical machinery of classical mechanics takes
+over, and all that is left for us to do is to turn the crank.
+
+Before we start, one remark. Newton's laws turned out not to be powerful enough to reach this goal
+completely: as we will see in Section~\ref{sec:limits}, they fail for very fast and for very small
+objects, and in very strong gravitational fields. But Newtonian mechanics lit the way for every
+theory that later took up this goal, and those theories (relativity and quantum mechanics) reduce
+to it in everyday conditions. More
+importantly, Newton showed us that the laws of nature can be written in the language of
+mathematics. Galileo had already written that the book of nature ``is written in the language of
+mathematics''; Newton showed that a handful of mathematical laws describe both a falling apple and
+the orbit of the Moon. This is perhaps one of the deepest insights in human history. Thanks to it,
+the job of understanding the future of the universe passed from astrologers to mathematicians and
+physicists. In the rest of this chapter we look at the basic axioms of this great achievement and
+at what they mean.
+
+%----------------------------------------------------------------------
+\subsection{Newton's laws}\label{sec:laws}
+
+Newton's laws are about the motion of bodies. So we must first say what we mean by a body in
+Newtonian mechanics.
+
+\textbf{Definition.} An object whose size can be neglected is called a \textbf{particle}. Since we
+treat it as a single point, we can describe a particle completely at any time by giving its
+position in a coordinate system: we never have to say what it looks like, how it is oriented or
+whether it is spinning.
+
+Whether an object may be treated as a particle depends on the question we ask. The Earth is a
+particle to excellent accuracy when we study its orbit around the Sun, since its radius,
+\qty{6.4e3}{km}, is tiny compared with its distance from the Sun, \qty{1.5e8}{km}; it is not a
+particle when we ask why we have day and night. In most of this course we will treat objects of
+every size, from billiard balls, cats and cows to planets and even galaxies, as particles. This is of course
+not obvious. When we meet the idea of the center of mass in Chapter~9, we will see why it is
+justified: however complicated a body is, its center of mass moves exactly like a particle that
+has the body's total mass and is acted on by the total external force. What the particle model
+leaves out is the rotation of a body and the motion of its parts relative to each other (a spinning
+billiard ball, a cat turning over in mid-air), which we study in Chapters~10 and~11.
+
+Newtonian mechanics is built on three basic axioms. Given the forces acting on a particle, and its
+position and velocity at one instant, they let us find its position $\vec{r}(t)$ at any time~$t$.
+In the words of our textbook, Young \& Freedman's \emph{University Physics}, they are:
+\begin{itemize}
+  \item \textbf{N1:} A body acted on by no net force moves with constant velocity (which may be
+    zero) and zero acceleration.
+  \item \textbf{N2:} If a net external force acts on a body, the body accelerates. The direction
+    of the acceleration is the same as the direction of the net force. The mass of the body times
+    its acceleration equals the net force.
+  \item \textbf{N3:} If body $A$ exerts a force on body $B$ (an ``action''), then body $B$ exerts a
+    force on body $A$ (a ``reaction''). These two forces have the same magnitude but are opposite
+    in direction, and they act on different bodies.
+\end{itemize}
+The first two laws hold only in \emph{inertial frames of reference}, which we define in
+Section~\ref{sec:first}.
+
+Looking at these axioms, a few questions come to mind at once, for example ``can we prove these
+laws?'' or ``how is the first law different from the second?'' (At first sight the first law looks
+like just a special case of the second, with zero net force.) In the rest of this chapter we look
+at Newton's laws closely and try to understand what the basic laws of Newtonian mechanics really
+mean. We answer both questions in Section~\ref{sec:third}, right after the example of the falling
+apple.
+
+\subsubsection{Forces and the net force}\label{sec:forces}
+
+Newton's laws speak of forces, so let us say what a force is before we go on. A \textbf{force} is a
+push or a pull. More precisely, a force is an \emph{interaction} between two bodies, or between a
+body and its environment: there is no force without a second body that exerts it. A force has a
+magnitude and a direction, so it is a vector. Its SI unit, the newton (\unit{N}), is defined in
+Section~\ref{sec:second}. The forces we will meet most often are:
+\begin{itemize}
+  \item the \textbf{weight} $\vec{w}$, the gravitational pull of the Earth on a body. It is a
+    \emph{long-range} force: it acts even when the bodies do not touch;
+  \item the \textbf{normal force} $\vec{n}$: when a body rests on or pushes against a surface, the
+    surface pushes back on it, perpendicular (``normal'') to the surface;
+  \item the \textbf{friction force} $\vec{f}$: a surface can also push on a body parallel to
+    itself, opposing the sliding of the two surfaces over each other, or their tendency to slide
+    (this is how the ground can push a walker forward, Section~\ref{sec:third}); we study it in
+    Section~6.2;
+  \item the \textbf{tension} $\vec{T}$: the pull of a rope or string attached to a body, directed
+    along the string, away from the body. A string can pull, but it cannot push.
+\end{itemize}
+The normal force, friction and tension are \emph{contact} forces: they act only where two bodies
+touch.
+
+Experiment shows that when several forces act on a body at the same time, their effect on its
+motion is the same as that of a single force equal to their vector sum. This is the
+\textbf{principle of superposition} of forces. The vector sum of all the forces acting on a body is
+called the \textbf{net force}, or the resultant:
+\[
+  \vec{R} = \vec{F}_1 + \vec{F}_2 + \vec{F}_3 + \cdots = \sum \vec{F} , \qquad
+  R_x = \sum F_x , \quad R_y = \sum F_y , \quad R_z = \sum F_z .
+\]
+The force in Newton's first and second laws is always this net force. A body may have many forces
+acting on it and still move with constant velocity, as long as they add up to zero.
+
+%----------------------------------------------------------------------
+\subsection{Newton's first law and inertial frames}\label{sec:first}
+
+In the \emph{Principia} (1687), Newton's first law reads\footnote{The quotations from the
+\emph{Principia} are from Andrew Motte's English translation of 1729. A ``right line'' is a
+straight line.}
+\begin{quote}
+``Every body perseveres in its state of rest, or of uniform motion in a right line, unless it is
+compelled to change that state by forces impressed thereon,''
+\end{quote}
+or, going back to the version we gave above,
+\begin{quote}
+``A body acted on by no net force moves with constant velocity (which may be zero) and zero
+acceleration.''
+\end{quote}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=0.85,font=\small]
+  \fill[fzyellow!22] (-3.0,-3.0) rectangle (3.0,2.75);
+  \node[anchor=north east,fzboard] at (2.95,2.7) {aether};
+  \draw[fzgray,dashed] (0,0) circle (2.35);
+  \fill[fzgray!80] (-35:2.35) circle (0.17);
+  \node[fzgray!90!black,anchor=north,font=\footnotesize] at (0,-2.42) {orbit of the Moon};
+  \filldraw[fill=fzcomp!45!fzyellow!60,draw=fzcomp!70] (0,0) circle (1.95);
+  \filldraw[fill=fzaux!10,draw=fzaux!40] (0,0) circle (1.5);
+  \filldraw[fill=fzaux!35,draw=fzaux!60] (0,0) circle (1.08);
+  \filldraw[fill=fzcomp!25!brown!45,draw=brown!70!black] (0,0) circle (0.62);
+  \node at (0,0) {Earth};
+  \node at (0,-0.85) {water};
+  \node at (0,-1.29) {air};
+  \node at (0,-1.72) {fire};
+\end{tikzpicture}
+\caption{Aristotle's universe. The Earth is at the center, surrounded by spheres of water, air and
+fire, each element moving toward its ``natural place''. Beyond the orbit of the Moon the heavens
+are made of a fifth element, the aether, and the heavenly bodies move forever in perfect
+circles.}\label{fig:aristotle}
+\end{figure}
+
+To understand why Newton stressed ``every body'', and why this law comes first, we must look at
+its history. The law was written in this way to stress that a belief going back to Aristotle was
+wrong. According to Aristotle, every body that is set free moves toward its natural place in the
+universe (Figure~\ref{fig:aristotle}): a heavy body such as a rock, dropped from a height, moves
+down toward the Earth, the smoke of a fire rises toward the sky, and the heavenly bodies move in
+circles, the perfect shape, showing the perfection of God and the places of the stars in heaven.
+So different bodies obeyed different laws, and on Earth the natural state of every body was rest: a
+body kept moving only as long as something pushed it. Galileo realized that this assumption was
+wrong. From his experiments with balls rolling on inclined planes he concluded that a ball rolling
+on a perfectly smooth horizontal plane would keep rolling forever: friction, not a natural tendency
+to rest, is what stops it. Descartes and then Newton turned this into a general law: the natural
+state of \emph{every} body, on Earth or in the heavens, is to move with constant velocity, that is,
+in a straight line at constant speed, rest being the special case of zero velocity. This is the
+idea behind the \textbf{principle of inertia}.
+
+But we no longer grow up with the Aristotelian dogma of natural places, so do we still need the
+first law? (In fact our everyday intuition is still rather Aristotelian: a book pushed across a
+table stops as soon as we stop pushing it. It stops because the table exerts a friction force on
+it, not because rest is its natural state.) Yes, we still need the first law, but this time for a
+different reason.
+
+Newton's first law does not hold in every coordinate system in which we can make measurements. In
+particular, it fails for measurements made in a coordinate system that is itself accelerating. A
+simple example shows this. Consider a car that moves in the positive $x$ direction and speeds up,
+with an observer inside, and a passenger waiting at a bus stop (Figure~\ref{fig:car}). The
+passenger at the stop finds that the velocity of the observer in the car is changing and, by the
+first law, concludes that a net force acts on her. This is correct: the back of her seat
+pushes her forward. So the first law works for the passenger at the bus stop. The observer in the
+accelerating car, on the other hand, sees the passenger at the stop moving backward, in the
+negative $x$ direction, faster and faster. If she uses the first law, she concludes that a net
+force acts on the passenger at the stop. This conclusion is wrong: the forces on the passenger, his
+weight and the upward push of the ground, cancel. The first law has not given the correct result
+for the observer in the accelerating frame. (She can also notice it without looking out of the
+window: a cup on the smooth dashboard slides backward, although no horizontal force pushes it.)
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small,scale=0.9]
+  % a stick figure, a bus stop and a car, used in both panels
+  \tikzset{
+    person/.pic={\draw[thick] (0,1.62) circle (0.16); \draw[thick] (0,1.46) -- (0,0.85)
+      (-0.22,1.22) -- (0.22,1.22) (0,0.85) -- (-0.17,0.08) (0,0.85) -- (0.17,0.08);},
+    busstop/.pic={\draw[thick,fzgray] (0,0.05) -- (0,1.95); \filldraw[fill=white,draw=fzgray,thick]
+      (-0.32,1.95) rectangle (0.32,2.4); \node[font=\tiny\sffamily,fzgray!80!black] at (0,2.175) {BUS};},
+    car/.pic={\filldraw[fill=fzvec!15,draw=fzvec,thick,rounded corners=2pt] (0,0.3) -- (0,0.95) --
+      (0.55,1.0) -- (0.95,1.55) -- (2.1,1.55) -- (2.5,1.0) -- (3.1,0.95) -- (3.1,0.3) -- cycle;
+      \filldraw[fill=white,draw=fzvec] (1.05,1.0) -- (1.2,1.42) -- (1.95,1.42) -- (2.2,1.0) -- cycle;
+      \filldraw[fill=fzgray!70,draw=black] (0.7,0.3) circle (0.25) (2.45,0.3) circle (0.25);
+      \fill[fzcomp!70!black] (1.55,1.2) circle (0.12);}
+  }
+  % (a) the frame of the bus stop
+  \begin{scope}
+    \draw[thick] (-0.6,0.05) -- (9.6,0.05);
+    \pic at (2.1,0) {busstop};
+    \pic at (1.3,0) {person};
+    \pic at (4.6,0) {car};
+    \draw[->,very thick,fzaux] (7.9,1.25) -- (9.2,1.25) node[above]{$\vec{a}$};
+    \draw[->,thick,fzcomp] (5.55,1.2) -- (6.03,1.2);
+    \draw[fzcomp,thin] (5.85,1.28) -- (5.85,1.95) node[above,font=\footnotesize,inner sep=1pt]{$\vec{F}\sub{seat}$};
+    \node[anchor=north,align=center,font=\footnotesize] at (1.3,-0.1) {$\sum\vec{F} = \vec{0}$, $\vec{a} = \vec{0}$};
+    \node[anchor=north,align=center,font=\footnotesize] at (6.15,-0.1) {$\sum\vec{F} = \vec{F}\sub{seat}$, $\vec{a} \neq \vec{0}$};
+    \node[anchor=west,font=\footnotesize\bfseries] at (-0.6,3.0) {(a) Seen from the bus stop: an inertial frame};
+  \end{scope}
+  % (b) the frame of the car
+  \begin{scope}[yshift=-4.2cm]
+    \draw[thick] (-0.6,0.05) -- (9.6,0.05);
+    \pic at (2.1,0) {busstop};
+    \pic at (1.3,0) {person};
+    \pic at (4.6,0) {car};
+    \draw[->,very thick,fzaux] (1.0,2.0) -- (-0.3,2.0) node[left]{$-\vec{a}$};
+    \draw[->,thick,fzcomp] (5.55,1.2) -- (6.03,1.2);
+    \draw[fzcomp,thin] (5.85,1.28) -- (5.85,1.95) node[above,font=\footnotesize,inner sep=1pt]{$\vec{F}\sub{seat}$};
+    \node[anchor=north,align=center,font=\footnotesize] at (1.3,-0.1) {$\sum\vec{F} = \vec{0}$, yet $\vec{a} \neq \vec{0}$};
+    \node[anchor=north,align=center,font=\footnotesize] at (6.15,-0.1) {$\sum\vec{F} = \vec{F}\sub{seat}$, yet $\vec{a} = \vec{0}$};
+    \node[anchor=west,font=\footnotesize\bfseries] at (-0.6,3.0) {(b) Seen from the car: not an inertial frame};
+  \end{scope}
+\end{tikzpicture}
+\caption{A car speeds up with acceleration $\vec{a}$. (a) In the frame of the bus stop the first
+law works: the passenger at the stop has no net force on him and does not accelerate, while the
+observer in the car accelerates because her seat pushes her forward. (b) In the frame of the car the
+first law fails: the passenger at the stop accelerates backward with no net force on him, and the
+observer in the car stays at rest although a net force acts on her.}\label{fig:car}
+\end{figure}
+
+So in which frames does the first law hold? To answer this, we need to define an \textbf{inertial
+frame of reference}. An inertial frame of reference is a frame in which a body moves with constant
+velocity when the net force acting on it is zero.\footnote{How do we know that the net force is
+zero? Forces come from interactions with other bodies (Section~\ref{sec:forces}), so we can use a
+body far away from all other bodies, or one for which we have checked that the forces on it
+balance.} In other words, in an inertial frame
+\begin{equation}\label{eq:inertial}
+  \sum \vec{F} = \vec{0} \qquad \Longrightarrow \qquad \vec{a} = \frac{\dd^2\vec{r}}{\dd t^2} = \vec{0} .
+\end{equation}
+It is therefore more useful to state Newton's first law in the following form:
+\begin{center}
+``Inertial frames of reference exist.''
+\end{center}
+
+Being inertial is a property of the \emph{motion of the frame}: an inertial frame is one that does
+not accelerate and does not rotate relative to the distant stars. As we will see in Section~\ref{sec:galilean}, any frame that
+moves with constant velocity relative to an inertial frame is again inertial, while a frame that
+accelerates or rotates relative to an inertial frame, like our car or a merry-go-round, is not.
+But is it possible to find such a frame at all? For example, is the classroom where we have our
+lectures an inertial frame? The Earth spins about its own axis, and the classroom spins with it, so
+the classroom has a centripetal (radial) acceleration. The Earth also goes around the Sun, which
+gives the classroom another centripetal acceleration. We could go on (the Sun goes around the center
+of our galaxy, for example), but it is clear that the classroom is not exactly an inertial frame.
+So how large is the acceleration of the Earth, and with it of our classroom?
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small,scale=1.15]
+  \def\a{2.0} \def\b{1.9}
+  % the Earth (flattening exaggerated)
+  \filldraw[fill=fzaux!12,draw=fzaux!70!black,thick] (0,0) ellipse ({\a} and {\b});
+  % rotation axis and sense of rotation
+  \draw[dashed,fzgray] (0,-2.5) -- (0,2.75);
+  \draw[->,thick,fzvec] (-0.55,2.42) arc[start angle=200,end angle=520,x radius=0.58,y radius=0.17];
+  \node[fzvec,anchor=west] at (0.65,2.62) {$\omega$};
+  % equator
+  \draw[fzgray] (-\a,0) -- (\a,0);
+  \node[fzgray!80!black,anchor=south] at (-0.95,0) {equator};
+  % a point on the equator and its acceleration
+  \fill (\a,0) circle (1.8pt);
+  \draw[->,very thick,fzaux] (\a,0) -- (\a-0.85,0) node[pos=0.45,above]{$\vec{a}\sub{rad}$};
+  % a point at latitude lambda (41 degrees)
+  \coordinate (Q) at ({\a*cos(41)},{\b*sin(41)});
+  \draw[fzgray] (0,0) -- (Q);
+  \draw[fzgray,dashed] (Q) -- (0,{\b*sin(41)});
+  \node[anchor=north,inner sep=1.5pt,font=\scriptsize] at (0.55,{\b*sin(41)}) {$R\sub{E}\cos\lambda$};
+  \draw[->,very thick,fzaux] (Q) -- ($(Q)+(-0.55,0)$);
+  \fill (Q) circle (1.8pt);
+  \draw[fzgray] (0.55,0) arc[start angle=0,end angle=41,radius=0.55];
+  \node[font=\footnotesize] at (20:0.8) {$\lambda$};
+  \node[anchor=west] at ($(Q)+(0.08,0.05)$) {Istanbul};
+  % radius to the equator
+  \draw[|<->|,fzgray!90!black] (0,-0.45) -- (\a,-0.45) node[midway,below,font=\footnotesize]{$R\sub{E}$};
+  % dimensions
+  \draw[|<->|] (-\a,-2.35) -- (\a,-2.35) node[midway,below,font=\footnotesize]{equatorial diameter \qty{12756}{km}};
+  \draw[|<->|] (-2.5,-\b) -- (-2.5,\b) node[midway,left,font=\footnotesize,align=right]{polar\\ diameter\\ \qty{12714}{km}};
+\end{tikzpicture}
+\caption{The Earth turns once a day about its axis. A point on the equator moves around a circle of
+radius $R\sub{E} \approx \qty{6.4e6}{m}$ and has a centripetal acceleration $\vec{a}\sub{rad}$
+toward the axis; a point at latitude $\lambda$, such as Istanbul, moves around a smaller circle,
+of radius $R\sub{E}\cos\lambda$. The Earth is slightly flattened at the poles (the flattening is
+exaggerated in the drawing). Because of this rotation, a frame fixed to the Earth is only
+approximately an inertial frame.}\label{fig:earth}
+\end{figure}
+
+To compute the acceleration due to the Earth's rotation, we need the angular velocity of the Earth
+and the distance of the classroom from the rotation axis. Looking at the shape of the Earth in
+Figure~\ref{fig:earth}, we see that the worst case, the largest acceleration, is at the equator,
+where the distance from the axis is largest, equal to the radius of the Earth $R\sub{E}$. Let us
+take the worst case and put the classroom on the equator. The centripetal acceleration, equation
+(4.25) of the Week~2 notes, is then
+\begin{equation}\label{eq:arad-earth}
+  a\sub{rad} = \omega^2 R\sub{E} ,
+\end{equation}
+where $\omega = 2\pi/T$ by (4.20). The Earth turns once a day, $T = (24\times 60\times
+60)\,\unit{s}$,\footnote{Strictly, the Earth turns once relative to the distant stars in
+\qty{23}{h}~\qty{56}{min}, a \emph{sidereal} day. Using this value changes \eqref{eq:arad-earth-num}
+by less than 1\%.} so at the equator this acceleration is
+\begin{equation}\label{eq:arad-earth-num}
+  a\sub{rad} = \left(\frac{2\pi}{24\times 60\times 60\ \unit{s}}\right)^{\!2} \times
+  \qty{6.4e6}{m} = \qty{0.034}{m/s^2} ,
+\end{equation}
+only 0.35\% of $g$. At a latitude $\lambda$ the classroom moves around a circle of radius
+$R\sub{E}\cos\lambda$, and the acceleration is smaller, $\omega^2R\sub{E}\cos\lambda$; in Istanbul,
+at $\lambda \approx 41^\circ$, it is about \qty{0.026}{m/s^2}. The Earth's motion around the Sun
+gives a smaller acceleration still: with an orbital radius of \qty{1.5e11}{m} and a period of one
+year, \qty{3.16e7}{s}, we find $a\sub{rad} = 4\pi^2 r/T^2 \approx \qty{0.006}{m/s^2}$.\footnote{In
+fact the Sun's gravity gives everything in the classroom, ourselves included, very nearly this same
+acceleration, so its effect on experiments in the room is even smaller than this number suggests.}
+These accelerations are real and measurable: the slow turning of the plane in which a Foucault
+pendulum swings shows the rotation of the Earth, and the rotation is one of the reasons why $g$ is
+smaller at the equator than at the poles. But, as we see, they are very small compared with the
+acceleration due to gravity that we are used to. So, to a very good approximation, we can treat our
+classroom as an inertial frame. When more accuracy is needed, for example for long-range missiles,
+winds, ocean currents or spacecraft, we must either use a frame fixed relative to the distant
+stars, which is inertial to far better accuracy, or take the rotation of the Earth into account.
+
+\subsubsection{Galilean relativity and relative velocity}\label{sec:galilean}
+
+Inertial frames are not unique. Just as our classroom is (to a good approximation) an inertial
+frame, so is the classroom next door, and so is a frame attached to any object that moves with
+constant velocity relative to these classrooms, for example a train moving smoothly along a
+straight track. Let $A$
+and $B$ be two inertial frames with coordinate axes given by the unit vectors $(\ihat, \jhat,
+\khat)$ and $(\ihat', \jhat', \khat')$, respectively. A point $P$ then has the position vector
+$\vec{r}_{P/A}$ in the coordinate system of $A$ and $\vec{r}_{P/B}$ in that of $B$. Let $P$ be a
+particle on which no net force acts. If both frames are inertial, then by the definition
+\eqref{eq:inertial} we expect $P$ to have zero acceleration in both:
+\begin{equation}\label{eq:both-inertial}
+  \frac{\dd^2\vec{r}_{P/A}}{\dd t^2} = \frac{\dd^2\vec{r}_{P/B}}{\dd t^2} = \vec{0} .
+\end{equation}
+As in Section~4.3, the two position vectors are related by
+\begin{equation}\label{eq:r-PAB}
+  \vec{r}_{P/A} = \vec{r}_{B/A} + \vec{r}_{P/B} ,
+\end{equation}
+where $\vec{r}_{B/A}$ is the position of the origin of $B$ relative to $A$
+(Figure~\ref{fig:frames}). Here we assume, as Newton did, that both frames use the same time $t$,
+and that the axes of $B$ do not rotate relative to those of $A$ (they may point in other
+directions, but those directions do not change with time). Differentiating \eqref{eq:r-PAB} twice
+with respect to time gives
+\[
+  \frac{\dd^2\vec{r}_{P/A}}{\dd t^2} = \frac{\dd^2\vec{r}_{B/A}}{\dd t^2} + \frac{\dd^2\vec{r}_{P/B}}{\dd t^2} .
+\]
+If both $A$ and $B$ are inertial frames, that is, if \eqref{eq:both-inertial} holds, the left-hand
+side and the last term vanish, so the vector $\vec{r}_{B/A}$ must satisfy
+\begin{equation}\label{eq:aBA}
+  \frac{\dd^2\vec{r}_{B/A}}{\dd t^2} = \frac{\dd\vec{v}_{B/A}}{\dd t} = \vec{0} .
+\end{equation}
+This means that the origin of $B$ moves relative to $A$ with a \emph{constant velocity}
+$\vec{v}_{B/A}$: $\vec{r}_{B/A}(t) = \vec{r}_{B/A}(0) + \vec{v}_{B/A}\,t$. Either the two frames
+are at rest relative to each other ($\vec{v}_{B/A} = \vec{0}$), or one moves relative to the other
+in a straight line at constant speed ($\vec{v}_{B/A}$ constant). Conversely, if $B$ moves with
+constant velocity relative to an inertial frame $A$, then $B$ is inertial too, while a frame that
+accelerates relative to $A$ cannot be inertial.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small,scale=0.95]
+  % frame A
+  \draw[->,thick] (0,0) -- (2.2,0) node[below]{$x_A$};
+  \draw[->,thick] (0,0) -- (0,2.0) node[left]{$y_A$};
+  \node[below left] at (0,0) {$O_A$};
+  % frame B
+  \begin{scope}[shift={(4.4,0.9)}]
+    \draw[->,thick,fzaux] (0,0) -- (2.0,0) node[below]{$x_B$};
+    \draw[->,thick,fzaux] (0,0) -- (0,1.8) node[left]{$y_B$};
+    \node[below,fzaux] at (0,-0.05) {$O_B$};
+    \draw[->,very thick,fzaux] (0.25,-0.75) -- (1.45,-0.75) node[right]{$\vec{v}_{B/A}$};
+  \end{scope}
+  % the point P
+  \coordinate (P) at (5.7,3.2);
+  \fill (P) circle (2pt) node[above]{$P$};
+  \draw[->,very thick,fzvec] (0,0) -- (P) node[pos=0.5,above left]{$\vec{r}_{P/A}$};
+  \draw[->,very thick,fzcomp] (0,0) -- (4.4,0.9) node[pos=0.55,below right=-1pt]{$\vec{r}_{B/A}$};
+  \draw[->,very thick,fzcomp] (4.4,0.9) -- (P) node[pos=0.55,right]{$\vec{r}_{P/B}$};
+\end{tikzpicture}
+\caption{The position of a point $P$ in two frames $A$ and $B$: $\vec{r}_{P/A} = \vec{r}_{B/A} +
+\vec{r}_{P/B}$. If $A$ is inertial, $B$ is inertial if and only if it moves relative to $A$ with
+constant velocity $\vec{v}_{B/A}$, without rotating.}\label{fig:frames}
+\end{figure}
+
+If the two coordinate systems are at rest relative to each other, the velocity of $P$ measured in
+frame $A$ is equal to the velocity measured in frame $B$. To see this, we go back to
+\eqref{eq:r-PAB} and use the fact that the vector $\vec{r}_{B/A}$ is constant:
+\begin{equation}\label{eq:same-v}
+  \frac{\dd\vec{r}_{P/A}}{\dd t} = \frac{\dd\vec{r}_{P/B}}{\dd t} , \qquad \Rightarrow \qquad
+  \vec{v}_{P/A} = \vec{v}_{P/B} .
+\end{equation}
+You can think of this as the velocities measured by two observers who are a distance
+$|\vec{r}_{B/A}|$ apart and do not move relative to each other. If, on the other hand, frame $B$
+moves relative to frame $A$ with a constant velocity $\vec{v}_{B/A}$, then differentiating
+\eqref{eq:r-PAB} once gives
+\begin{equation}\label{eq:galileo-v}
+  \vec{v}_{P/A} = \vec{v}_{P/B} + \vec{v}_{B/A} .
+\end{equation}
+As we saw in the previous chapter, in equation~(4.33), this is the \textbf{Galilean velocity
+transformation}. For example, the velocities measured by an observer waiting at a bus stop and by
+an observer in a car moving at constant velocity are related in this way. Differentiating once
+more, with
+$\vec{v}_{B/A}$ constant, we find
+\[
+  \vec{a}_{P/A} = \vec{a}_{P/B} .
+\]
+Observers in different inertial frames measure \emph{different} velocities for the same particle,
+but the \emph{same} acceleration. Since they also agree on the forces (a push or a pull exerted by
+one body on another does not depend on who is watching) and on the mass of the particle, Newton's
+second law $\sum\vec{F} = m\vec{a}$ has exactly the same form in every inertial frame.
+
+\begin{example}[Dropping a ball in a train]
+A train moves along a straight, level track at a constant \qty{20}{m/s} relative to the ground. A
+passenger holds a ball \qty{1.2}{m} above the floor and lets it go. In the frame of the train ($B$)
+the ball starts from rest and falls straight down, with $a_y = -g$, landing at the passenger's feet
+after $\sqrt{2(\qty{1.2}{m})/(\qty{9.8}{m/s^2})} = \qty{0.49}{s}$, just as it would at home. In the
+frame of the ground ($A$), by \eqref{eq:galileo-v} the ball starts with the horizontal velocity of
+the train, $v_{0x} = \qty{20}{m/s}$: it is a projectile, and moves \qty{9.9}{m} forward while it
+falls, together with the passenger and the floor. The two observers describe different paths, a
+straight line and a parabola, but they agree on the acceleration, $\vec{a} = -g\jhat$, and on the
+force that causes it, the weight of the ball. No experiment of this kind can tell the passenger
+whether the train is moving: this is the point Galileo made in 1632 with a ship sailing on a calm
+sea.
+\end{example}
+
+What does it mean that inertial frames are not unique? First of all, starting from one inertial
+frame such as $A$ we can produce other inertial frames in four ways (the first two we have just
+met):
+\begin{itemize}
+  \item \textbf{Translations:} by shifting the inertial frame $A$ by a constant vector
+    $\vec{r}_{B/A}$ we obtain another inertial frame $B$.
+  \item \textbf{Boosts:} by setting the inertial frame $A$ in motion with a constant velocity
+    $\vec{v}_{B/A}$ we obtain another inertial frame $B$.
+  \item \textbf{Rotations:} by rotating the inertial frame $A$ through a fixed angle $\alpha$ we
+    obtain another inertial frame $B$. (A frame that \emph{keeps} rotating is not inertial.)
+  \item \textbf{Time translations:} by starting the clocks of $A$ at a different instant, that is,
+    by measuring time as $t' = t - t_0$ with a constant $t_0$, we obtain another inertial frame.
+\end{itemize}
+Newton's laws of motion hold in inertial frames, and it makes no difference which inertial frame we
+use. \textbf{The laws of physics are the same in every inertial frame.} This is called the
+\emph{principle of relativity}.
+
+When we combine the principle of relativity with these Galilean transformations, we learn important
+facts about our universe.
+\begin{itemize}
+  \item \textbf{Translations:} if we can obtain other inertial frames by shifting an inertial
+    frame, and the same laws of physics hold in all of them, then \emph{there is no special point
+    in space}.
+  \item \textbf{Rotations:} if we can obtain other inertial frames by rotating an inertial frame
+    through a fixed angle, and the same laws of physics hold in all of them, then \emph{there is
+    no special direction in space}.
+  \item \textbf{Time translations:} if we can obtain other inertial frames by starting the clocks
+    at a different instant, and the same laws of physics hold in all of them, then \emph{there is
+    no special instant in time}.
+  \item \textbf{Boosts:} if we can obtain other inertial frames by setting an inertial frame in
+    motion with a constant velocity, and the same laws of physics hold in all of them, then
+    \emph{there is no special velocity}.
+\end{itemize}
+
+\begin{figure}[ht]
+\centering
+% The map is a random pattern made by make-cmb.py (data in cmb-map.dat), not real data.
+\begin{tikzpicture}
+\begin{axis}[width=9.5cm,scale only axis,axis equal image,hide axis,view={0}{90},
+  colormap={cmb}{rgb255=(10,20,120) rgb255=(20,100,210) rgb255=(70,180,215) rgb255=(150,215,150)
+    rgb255=(245,225,90) rgb255=(240,140,50) rgb255=(190,35,30)},
+  point meta min=-2.6,point meta max=2.6,xmin=-2.85,xmax=2.85,ymin=-1.43,ymax=1.43]
+  \addplot3[surf,shader=interp,z buffer=none] table {cmb-map.dat};
+  \draw[thick,fzgray] (axis cs:0,0) ellipse [x radius=2.8284,y radius=1.4142];
+\end{axis}
+\end{tikzpicture}
+\caption{A schematic map of the cosmic microwave background, the radiation left over from the hot
+early universe, over the whole sky, in the style of the maps made by the WMAP and Planck
+satellites (the pattern drawn here is random, not real data). The colors show tiny differences in
+its temperature, after the effect of our own motion has been removed: red and yellow patches are slightly warmer than average, dark blue patches
+slightly cooler, by only about one part in 100\,000 of its mean temperature of \qty{2.7}{K}. On the
+largest scales the universe looks the same in every direction.}\label{fig:cmb}
+\end{figure}
+
+The first two results say that empty space has no special point and no special direction: we say
+that \emph{space is homogeneous and isotropic}. This expectation agrees with experiment: the light
+of distant galaxies, for example, shows the same patterns of spectral lines as atoms in our
+laboratories (shifted to longer wavelengths by the expansion of the universe), so the same laws of
+physics hold there. But be careful: these are statements about the \emph{laws} of physics, not
+about the matter in the universe. Near the Earth, ``down'' is clearly a special direction, but it is
+made special by the Earth, not by space itself; in a spaceship far from all stars and planets there
+is no up or down. As for the matter in the universe, observations show that on the very largest
+scales it, too, is spread out homogeneously and isotropically. The most striking evidence is the
+cosmic microwave background. Once we remove a small Doppler effect of our own motion through it (it
+is about one part in 1000 warmer in the direction in which the Sun moves, and as much cooler in the
+opposite direction), it has the same temperature in every direction of the sky to about one part in
+100\,000 (Figure~\ref{fig:cmb}). This is a fact about the contents of the universe, which the
+symmetry of the laws allows but does not demand.
+
+The third result says that time, too, is homogeneous: there is no special instant, so an experiment
+repeated tomorrow under the same conditions gives the same result as today. In Section~7.1 we will
+see that each of these symmetries goes together with a conservation law; this one goes with the
+conservation of energy.
+
+The last result needs some explanation. First, it says that no inertial frame is \textbf{at
+absolute rest}: an inertial frame can be at rest only relative to another inertial frame.\footnote{The
+cosmic microwave background itself does single out one frame, the one in which it looks the same in
+every direction; the Sun moves at about \qty{370}{km/s} relative to it, which causes the small
+difference between the two directions mentioned above. Like ``down'' near the Earth, this is a
+property of the contents of the universe, not of the laws of physics.} Second, it
+says that there is no special velocity: when we go over to a frame moving with constant velocity,
+every measured velocity changes according to the relative velocity formula \eqref{eq:galileo-v}.
+This second statement is true in Newtonian mechanics, but we now know that it is not exactly true in
+nature: the speed of light in vacuum, $c = \qty{3.00e8}{m/s}$, is special and is measured to be the
+same in every inertial frame. Einstein kept the principle of relativity (there is still no absolute
+rest), but replaced the Galilean transformations, and Newton's single universal time, by the
+Lorentz transformations. This is the basis of the special theory of relativity. For speeds small
+compared with $c$, the two agree, and \eqref{eq:galileo-v} is an excellent approximation.
+
+%----------------------------------------------------------------------
+\subsection{Newton's second law}\label{sec:second}
+
+Newton's second law is the basis of Newtonian mechanics. In the \emph{Principia} it reads
+\begin{quote}\interlinepenalty=10000
+``The alteration of motion is ever proportional to the motive force impressed; and is made in the
+direction of the right line in which that force is impressed.''
+\end{quote}
+By ``motion'' Newton means the \emph{quantity of motion}, the mass of a body times its velocity, and
+by the ``motive force impressed'', roughly, the total push that a force gives during the time it
+acts (what we will call the impulse in Chapter~9). Newton himself never wrote the law as a
+differential equation; the form we use today goes back to Euler, around 1750. In modern
+mathematical notation, the rate of change of this quantity of motion is equal to the net force
+acting on the body:
+\begin{equation}\label{eq:newton2-p}
+  \frac{\dd}{\dd t}(m\vec{v}) = \sum \vec{F} .
+\end{equation}
+This equation is called the \emph{equation of motion}. The sum on the right is the net force, the
+vector sum of all the forces that other bodies exert on our body (Section~\ref{sec:forces}). The
+quantity in parentheses is called the \emph{momentum}:
+\begin{equation}\label{eq:p}
+  \vec{p} \equiv m\vec{v} .
+\end{equation}
+Here $m$ is the \textbf{mass} of the body or, more precisely, its \emph{inertial mass}: a measure of
+its inertia, that is, of how strongly it resists a change in its velocity. The same net force gives
+a \qty{2}{kg} body half the acceleration that it gives a \qty{1}{kg} body. This is also how mass is
+measured: if the same net force gives two bodies the accelerations $a_1$ and $a_2$, then
+\[
+  \frac{m_1}{m_2} = \frac{a_2}{a_1} ,
+\]
+so we can find any mass by comparing it with a body whose mass is known, such as a calibrated
+\qty{1}{kg} standard. If the mass of the body does not
+change with time, \eqref{eq:newton2-p} reduces to the more familiar
+\begin{equation}\label{eq:newton2}
+  \sum \vec{F} = m\vec{a} .
+\end{equation}
+(For a body that gains or loses mass, such as a rocket, \eqref{eq:newton2-p} must be used with care,
+by keeping track of the momentum carried by the mass that enters or leaves; we do this in
+Section~9.4.) Three remarks on \eqref{eq:newton2}. First, it is a vector equation, equivalent to
+three equations for the components,
+\[
+  \sum F_x = m a_x , \qquad \sum F_y = m a_y , \qquad \sum F_z = m a_z ,
+\]
+one for each axis. Second, it holds only in inertial frames. Third, $m\vec{a}$ is not a force: it
+is the \emph{effect} of the net force, and it never appears among the forces in a sum
+$\sum\vec{F}$.
+
+Since a force equals a mass times an acceleration, the SI unit of force is
+\unit{\kilogram\metre\per\second\squared}; in honor of Newton,
+\qty{1}{\kilogram\metre\per\second\squared} is called one newton:
+\begin{equation}\label{eq:newton-unit}
+  1\ \unit{\kilogram\metre\per\second\squared} \equiv 1\ \text{newton}\ (\unit{N}) .
+\end{equation}
+A force of \qty{1}{N} gives a mass of \qty{1}{kg} an acceleration of \qty{1}{m/s^2}; it is roughly
+the weight of a small apple (about \qty{100}{g}).
+
+Everything in this classroom, and indeed everything near the surface of the Earth, falls with the
+same acceleration $\vec{g}$ when we let it go, as long as air resistance can be neglected
+(Section~3.4). In free fall the only force acting on a body is the gravitational pull of the Earth,
+so by \eqref{eq:newton2} this force must be
+\begin{equation}\label{eq:weight}
+  \vec{w} = m\vec{g} .
+\end{equation}
+The gravitational force of the Earth on a body is called its \textbf{weight} and is denoted by
+$\vec{w}$. The vector $\vec{g}$ points down, toward the center of the Earth, and its magnitude near
+the surface is $g = \qty{9.8}{m/s^2}$. The weight acts on a body whether it is falling or not: a
+ball resting in your hand has the same weight as a falling one.
+
+\textbf{Mass and weight are different quantities.} The mass $m$, measured in kilograms, is a
+property of the body: it measures its inertia, and it is the same everywhere. The weight $w = mg$,
+measured in newtons, is a force, the pull of the Earth (or of the Moon, or of whatever planet we are
+on), and it depends on where the body is. In everyday language ``weight'' often means mass (``I
+weigh \qty{70}{kg}''); in physics we must keep the two apart. (What a bathroom scale shows is not
+always your weight either; we will see this in Section~6.1.)
+
+\begin{example}[Mass and weight on the Moon]
+An astronaut has a mass of \qty{70}{kg}. On the Earth her weight is $w = mg =
+(\qty{70}{kg})(\qty{9.8}{m/s^2}) = \qty{686}{N}$. On the Moon, where $g\sub{Moon} =
+\qty{1.62}{m/s^2}$, it is only \qty{113}{N}, so she can easily jump much higher. But her mass is
+still \qty{70}{kg}: to give her a horizontal acceleration of \qty{1}{m/s^2} takes a net horizontal
+force of \qty{70}{N}, on the Moon as on the Earth, and if she runs into you at \qty{3}{m/s} it hurts
+just as much.
+\end{example}
+
+\begin{aside}
+\textbf{Why do all bodies fall with the same acceleration?} The mass in \eqref{eq:weight}, which
+tells how strongly the Earth pulls on a body (its \emph{gravitational} mass), and the mass in
+\eqref{eq:newton2}, which tells how strongly the body resists acceleration (its \emph{inertial}
+mass), could in principle have been different properties. Experiment shows that they are
+proportional to each other, with the same ratio for every material to better than one part in
+$10^{14}$; choosing units that make this ratio 1, the two masses are equal. Then $a = w/m = g$ for
+every body, which is exactly Galileo's discovery (recall the
+\href{https://www.youtube.com/watch?v=E43-CfukEgs}{feathers and the bowling ball} that fall side by
+side in NASA's vacuum chamber, Section~3.4). Einstein took this equality as the starting point of his general theory of
+relativity.
+\end{aside}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  % (a) the ball in the hand
+  \begin{scope}
+    % forearm and cupped hand (schematic)
+    \filldraw[fill=fzyellow!35!white,draw=black!70,thick,rounded corners=5pt]
+      (0.35,-1.0) -- (0.95,-0.75) -- (2.0,-2.45) -- (1.4,-2.75) -- cycle;
+    \filldraw[fill=fzyellow!35!white,draw=black!70,thick]
+      (195:0.85) arc[start angle=195,end angle=345,radius=0.85]
+      -- (345:1.25) arc[start angle=345,end angle=195,radius=1.25] -- cycle;
+    \filldraw[fill=fzyellow!35!white,draw=black!70,thick] (195:1.05) circle (0.2);
+    \filldraw[fill=fzyellow!35!white,draw=black!70,thick] (345:1.05) circle (0.2);
+    % the ball
+    \shade[ball color=fzgray!30] (0,0) circle (0.85);
+    \draw[thick] (0,0) circle (0.85);
+    % forces on the ball
+    \draw[->,very thick,fzcomp] (0,0) -- (0,1.75) node[above]{$\vec{F}\sub{MO}$};
+    \draw[->,very thick,fzcomp] (0,0) -- (0,-1.75);
+    \node[fzcomp,anchor=east] at (-0.1,-1.85) {$\vec{w} = m\vec{g}$};
+    \fill (0,0) circle (1.5pt);
+    \node[anchor=west,font=\footnotesize] at (1.4,-0.35) {hand};
+    \node[font=\footnotesize\bfseries] at (0,-3.3) {(a)};
+  \end{scope}
+  % (b) free-body diagram
+  \begin{scope}[xshift=5cm]
+    \fill (0,0) circle (3pt);
+    \node[anchor=west,font=\footnotesize] at (0.12,0.15) {ball};
+    \draw[->,very thick,fzcomp] (0,0) -- (0,1.75) node[above]{$\vec{F}\sub{MO}$};
+    \draw[->,very thick,fzcomp] (0,0) -- (0,-1.75) node[below]{$\vec{w} = m\vec{g}$};
+    \draw[->,fzgray] (-1.3,-0.6) -- (-1.3,0.3) node[above]{$y$};
+    \node[font=\footnotesize\bfseries] at (0,-3.3) {(b)};
+  \end{scope}
+\end{tikzpicture}
+\caption{(a) A ball of mass \qty{0.5}{kg} held at rest in the hand. (b) Its free-body diagram: the
+ball alone, with the forces that act on it, the upward push $\vec{F}\sub{MO}$ of the hand and the
+weight $\vec{w} = m\vec{g}$. Both forces act on the same body, the ball, and they add up to
+zero.}\label{fig:ball}
+\end{figure}
+
+Now, as an example, imagine that, in a place we take to be an inertial frame, we hold a ball in our
+hand, as in Figure~\ref{fig:ball}. The ball is at rest and stays at rest, so it does not accelerate,
+and by \eqref{eq:newton2} the net force on it must be zero. If the mass of the ball is $m =
+\qty{0.5}{kg}$, the magnitude of the gravitational force on it is $|\vec{w}| = mg =
+(\qty{0.5}{kg})(\qty{9.8}{m/s^2}) = \qty{4.9}{N} \approx \qty{5}{N}$. Since the net force on the
+ball is zero, the hand must be pushing the ball upward. So the sum of the force exerted on the ball
+by Mehmet \"Ozkan's hand, $\vec{F}\sub{MO}$, and the gravitational force must be zero, and this tells
+us that $\vec{F}\sub{MO}$ and $\vec{w}$ are opposite in direction and equal in magnitude:
+\begin{equation}\label{eq:hand}
+  \vec{F}\sub{MO} + \vec{w} = \vec{0} , \qquad \Rightarrow \qquad
+  \vec{F}\sub{MO} = -\vec{w} , \qquad \Rightarrow \qquad |\vec{F}\sub{MO}| \approx \qty{5}{N} .
+\end{equation}
+Figure~\ref{fig:ball}(b) is our first \textbf{free-body diagram}: a sketch of one body on its own,
+with every force that \emph{other} bodies exert on it. Note that $\vec{F}\sub{MO}$ and $\vec{w}$ are
+equal and opposite only because the ball does not accelerate. If the hand moved the ball upward
+with increasing speed, $\vec{F}\sub{MO}$ would have to be larger than \qty{4.9}{N}. In particular,
+these two forces are \emph{not} an action--reaction pair of Newton's third law, since both of them
+act on the same body; we come back to this in the next section.
+
+%----------------------------------------------------------------------
+\subsection{Newton's third law}\label{sec:third}
+
+In the \emph{Principia}, Newton's third law reads
+\begin{quote}
+``To every action there is always opposed an equal reaction: or, the mutual actions of two bodies
+upon each other are always equal, and directed to contrary parts,''
+\end{quote}
+or, going back to the version given in our textbook,
+\begin{quote}
+``If body $A$ exerts a force on body $B$ (an `action'), then body $B$ exerts a force on body $A$ (a
+`reaction'). These two forces have the same magnitude but are opposite in direction, and they act on
+different bodies.''
+\end{quote}
+In short, we can state the third law as
+\begin{center}
+``Action $=$ $-$Reaction.''
+\end{center}
+The names should not mislead us: neither force comes first, and neither is the cause of the other.
+The two forces of a pair act at the same time, they are of the same kind (both gravitational, or
+both contact forces), and, most importantly, \emph{they act on different bodies}. In the example of
+the previous section, the ball presses down on our hand, and our hand pushes the ball up with a
+force of the same magnitude in the opposite direction: these two contact forces are an
+action--reaction pair. The third-law partner of the weight of the ball, the pull of the Earth on the
+ball, is the pull of the ball on the Earth, which acts on the Earth and points up. If you push on a
+wall, the wall pushes you back with the same force; if you fire a gun, the gun pushes the bullet
+forward and the bullet pushes the gun back, and you feel the recoil. To walk, you push the ground
+backward with your foot, the ground pushes you forward (by friction), and this is how you move
+forward. If you try to walk on very slippery ice, you fail: you can still press down on the ice, but
+you cannot push it backward, because there is almost no friction, and so the ice cannot push you
+forward.
+
+A puzzle: if every force comes with an equal and opposite partner, how can anything ever
+accelerate? The answer is that the two forces of a pair act on different bodies, so they never
+cancel each other. Whether a body accelerates depends only on the forces that act \emph{on it}, and
+we must always sum the forces on one body at a time. This is why free-body diagrams are so useful.
+
+\begin{keyresult}
+\textbf{How to apply Newton's laws.}
+\begin{enumerate}[leftmargin=*]
+  \item Choose the body whose motion you want to study, and imagine it isolated from everything
+    around it.
+  \item Draw its free-body diagram: the body alone, with an arrow for every force that another body
+    exerts on it (its weight, and a force from every surface, string or hand that touches it).
+    Do not include the forces that the body exerts on other bodies, and do not include $m\vec{a}$.
+  \item Choose axes, and write $\sum F_x = m a_x$, $\sum F_y = m a_y$ (in an inertial frame).
+  \item If several bodies interact, draw a separate diagram for each, and use the third law to
+    relate the forces they exert on each other.
+\end{enumerate}
+\end{keyresult}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  \fill[pattern=north east lines,pattern color=fzgray] (-1.6,-0.35) rectangle (5.0,0);
+  \draw[thick] (-1.6,0) -- (5.0,0);
+  \draw[thick,fill=fzvec!12] (1.0,0) rectangle (2.0,1.0);
+  \node at (1.5,0.5) {1};
+  \draw[thick,fill=fzaux!12] (2.0,0) rectangle (4.0,2.0);
+  \node at (3.0,1.0) {2};
+  \draw[->,very thick,fzcomp] (-1.2,0.5) -- (1.0,0.5) node[pos=0.45,above]{$\vec{F}$};
+\end{tikzpicture}
+\caption{A force $\vec{F}$ applied to block~1, of mass $m_1 = \qty{5}{kg}$, pushes block~1 and
+block~2, of mass $m_2 = \qty{15}{kg}$, along a horizontal frictionless surface.}\label{fig:blocks}
+\end{figure}
+
+Let us look at the example of Figure~\ref{fig:blocks}. Two blocks, labeled 1 and 2, have masses
+$m_1 = \qty{5}{kg}$ and $m_2 = \qty{15}{kg}$ and stand on a horizontal surface, which we take to be
+frictionless. A force of magnitude $F = \qty{20}{N}$ is applied to block~1, and it accelerates both
+blocks. Since the blocks move together, we can treat them as a single body of mass $m_1+m_2$. The
+forces that the two blocks exert on each other are \emph{internal} to this body: by the third law
+they are equal and opposite, so they cancel in the sum of the forces on the system. In the vertical
+direction, the weight of each block is balanced by the normal force of the floor, since nothing
+accelerates vertically. So the only horizontal external force is $\vec{F}$, and \eqref{eq:newton2}
+gives the acceleration of the system:
+\begin{equation}\label{eq:blocks-a}
+  \vec{F} = (m_1 + m_2)\,\vec{a} , \qquad \Rightarrow \qquad
+  a = \frac{F}{m_1 + m_2} = \frac{\qty{20}{N}}{\qty{20}{kg}} = \qty{1}{m/s^2} .
+\end{equation}
+The direction of the acceleration is the direction of the force. Now let us isolate blocks~1 and~2
+and study each one on its own, as in Figure~\ref{fig:blocks-fbd}. We take the $+x$ axis to the
+right, and from now on $F$, $a$ and the forces between the blocks stand for $x$ components, so that
+a negative value means a force to the left.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  % block 2 alone
+  \begin{scope}
+    \draw[thick,fill=fzaux!12] (0,0) rectangle (2.0,2.0);
+    \node at (0.35,1.65) {2};
+    \draw[->,very thick,fzcomp] (-1.2,0.5) -- (0,0.5) node[pos=0.4,above]{$\vec{F}_{\on{1}{2}}$};
+    \draw[->,thick,fzgray] (1.0,1.0) -- (1.0,2.75) node[above]{$\vec{n}_2$};
+    \draw[->,thick,fzgray] (1.0,1.0) -- (1.0,-0.75) node[below]{$m_2\vec{g}$};
+  \end{scope}
+  % block 1 alone
+  \begin{scope}[xshift=6.0cm]
+    \draw[thick,fill=fzvec!12] (0,0) rectangle (1.0,1.0);
+    \node[font=\footnotesize] at (0.2,0.8) {1};
+    \draw[->,very thick,fzcomp] (-1.6,0.5) -- (0,0.5) node[pos=0.4,above]{$\vec{F}$};
+    \draw[->,very thick,fzcomp] (2.2,0.5) -- (1.0,0.5) node[pos=0.35,above]{$\vec{F}_{\on{2}{1}}$};
+    \draw[->,thick,fzgray] (0.5,0.5) -- (0.5,1.75) node[above]{$\vec{n}_1$};
+    \draw[->,thick,fzgray] (0.5,0.5) -- (0.5,-0.75) node[below]{$m_1\vec{g}$};
+  \end{scope}
+\end{tikzpicture}
+\caption{Free-body diagrams of the two blocks of Figure~\ref{fig:blocks}, each isolated from the
+other and from the floor. Block~1 pushes block~2 with $\vec{F}_{\on{1}{2}}$, and block~2 pushes
+back on block~1 with $\vec{F}_{\on{2}{1}} = -\vec{F}_{\on{1}{2}}$. The vertical forces, the
+weights and the normal forces $\vec{n}_1$, $\vec{n}_2$ of the floor, balance.}\label{fig:blocks-fbd}
+\end{figure}
+
+When we look at block~2, the first thing we notice is that block~1 must push it: otherwise block~2
+would have no reason to move. Let us call the force that block~1 exerts on block~2
+$\vec{F}_{\on{1}{2}}$ (``the force of 1 on 2''). Since block~2 moves with an acceleration of
+\qty{1}{m/s^2} and its mass is \qty{15}{kg}, the second law \eqref{eq:newton2} gives
+\begin{equation}\label{eq:F12}
+  F_{\on{1}{2}} = m_2 a = (\qty{15}{kg})(\qty{1}{m/s^2}) = \qty{15}{N} .
+\end{equation}
+When we look at block~1, as in Figure~\ref{fig:blocks-fbd}, we see that two horizontal forces act
+on it: the applied force $F = \qty{20}{N}$ and the reaction to the force that block~1 exerts on
+block~2, that is, the force $\vec{F}_{\on{2}{1}}$ that block~2 exerts on block~1. Block~1 also moves
+with an acceleration of \qty{1}{m/s^2}, so
+\begin{equation}\label{eq:F21}
+  F + F_{\on{2}{1}} = m_1 a , \qquad \Rightarrow \qquad
+  F_{\on{2}{1}} = m_1 a - F = \qty{5}{N} - \qty{20}{N} = \qty{-15}{N} .
+\end{equation}
+The minus sign tells us that this force points to the left. Just as the third law says,
+$F_{\on{1}{2}} = -F_{\on{2}{1}}$. Notice that block~2 is pushed with \qty{15}{N}, not with the full
+\qty{20}{N} that we apply: a net force of \qty{5}{N} is needed to accelerate block~1 itself. (If we
+pushed block~2 from the right instead, with the same \qty{20}{N}, the force between the blocks would
+be only $m_1 a = \qty{5}{N}$. Check it!)
+
+A lovely early application of action and reaction is the \emph{aeolipile} (``Heron's engine''),
+described by Heron of Alexandria in the first century AD and often called the first steam engine.
+Steam escapes from a hollow sphere through two bent nozzles that point in opposite directions: the
+sphere pushes the jets of steam out backward, the jets push the nozzles forward, and the sphere
+spins. I recommend that you watch a video of how one is built. (Do not confuse it with another of Heron's
+inventions, Heron's fountain, which is driven by water and air pressure.)
+
+As another example, consider an apple of mass \qty{0.5}{kg} that is let go from rest at a height of
+\qty{100}{m} above the ground, and let us neglect air resistance. The gravitational force on the
+apple has magnitude $F = mg = \qty{4.9}{N} \approx \qty{5}{N}$. From (3.18), which we found for free
+fall, the apple reaches the ground after
+\begin{equation}\label{eq:apple-t}
+  t_h = \sqrt{\frac{2h}{g}} = \sqrt{\frac{2\times\qty{100}{m}}{\qty{9.8}{m/s^2}}} =
+  \sqrt{\qty{20.4}{s^2}} \approx \qty{4.5}{s} .
+\end{equation}
+So the apple hits the ground 4.5 seconds later. On the other hand, by Newton's third law the apple
+pulls the Earth with a force of the same magnitude as the force on the apple, but in the opposite
+direction, upward toward the apple. So what does the Earth do? Since $\sum\vec{F} = m\vec{a}$, the
+Earth has no choice but to fall toward the apple. With the mass of the Earth $M\sub{E} =
+\qty{6.0e24}{kg}$, the acceleration of the Earth toward the apple is
+\begin{equation}\label{eq:aE}
+  a\sub{E} = \frac{F}{M\sub{E}} = \frac{\qty{4.9}{N}}{\qty{6.0e24}{kg}} \approx \qty{8e-25}{m/s^2} .
+\end{equation}
+As we found above, the apple and the Earth meet about \qty{4.5}{s} after the apple starts to fall.
+During this time the Earth, starting from rest, falls toward the apple through a distance
+\begin{equation}\label{eq:hE}
+  h\sub{E} = \frac{1}{2} a\sub{E} t_h^2 \approx \frac{1}{2}\left(\qty{8e-25}{m/s^2}\right)\left(\qty{20.4}{s^2}\right)
+  \approx \qty{8e-24}{m} .
+\end{equation}
+Of course, this distance is impossible to measure: it is about a hundred million times smaller than
+a proton. The two forces are equal, but the effects are not, because the masses are so different.
+Still, it is a nice feeling to know that every time you let go of an apple, the Earth falls up
+toward it. And when you throw an apple up and catch it, you first push the Earth (through your
+feet) a tiny bit away from the apple, the apple's pull then brings it back, and when you catch the
+apple you stop the Earth too.
+
+We must not forget, however, that the examples we have solved are not proofs of Newton's laws. We cannot prove Newton's laws: they are axioms, and like every law of
+physics they are tested by experiment. All the experiments we have made and all the measurements we
+have taken so far have agreed with them, within their margins of error, as long as we stay within
+the limits of Newtonian mechanics, which we discuss in the next section. This answers the first
+question of Section~\ref{sec:laws}. The answer to the second is that the first law is not just a
+special case of the second: it tells us that inertial frames exist, and these are the only frames
+in which the second law may be used.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small,scale=1.05]
+  \coordinate (O) at (0,0);
+  \coordinate (L) at (-2.3,2.3);   % 45 degrees
+  \coordinate (R) at ({2.3/tan(60)},2.3); % 60 degrees
+  % ceiling
+  \fill[pattern=north east lines,pattern color=fzgray] (-2.9,2.3) rectangle (2.0,2.6);
+  \draw[thick] (-2.9,2.3) -- (2.0,2.3);
+  % strings
+  \draw[thick] (O) -- (L);
+  \draw[thick] (O) -- (R);
+  % axes
+  \draw[dashed,fzgray] (-2.6,0) -- (2.4,0) node[right,fzgray!90!black]{$x$};
+  \draw[dashed,fzgray] (0,-0.2) -- (0,1.7) node[above,fzgray!90!black]{$y$};
+  % angles
+  \coordinate (Xp) at (1,0); \coordinate (Xm) at (-1,0);
+  \pic[draw,fzgray!90!black,angle radius=0.7cm,"$60^\circ$",angle eccentricity=1.45] {angle=Xp--O--R};
+  \pic[draw,fzgray!90!black,angle radius=0.7cm,"$45^\circ$",angle eccentricity=1.45] {angle=L--O--Xm};
+  % tensions
+  % the three forces are drawn to scale, 0.06 units per newton:
+  % T2 = 20.3 N (1.22 units), T1 = 28.7 N (1.72 units), w = 39.2 N (2.35 units)
+  \draw[->,very thick,fzcomp] (O) -- ($(O)!0.375!(L)$) node[above right=-1pt]{$\vec{T}_2$};
+  \draw[->,very thick,fzcomp] (O) -- ($(O)!0.65!(R)$) node[right=2pt,pos=0.85]{$\vec{T}_1$};
+  % weight
+  \draw[->,very thick,fzcomp] (O) -- (0,-2.35) node[right]{$\vec{w} = m\vec{g}$};
+  % the ball
+  \shade[ball color=fzgray!40] (O) circle (0.17);
+\end{tikzpicture}
+\caption{A ball hanging at rest from two massless strings. The string with tension $T_1$ makes an
+angle of $60^\circ$ with the $x$-axis, the string with tension $T_2$ an angle of $45^\circ$. The
+three forces on the ball, $\vec{T}_1$, $\vec{T}_2$ and the weight $\vec{w}$, add up to
+zero.}\label{fig:hanging}
+\end{figure}
+
+As a last example, let us look at a ball hanging at rest from two massless strings, as in
+Figure~\ref{fig:hanging}. The string with tension $T_1$ makes an angle of $60^\circ$ with the
+$x$-axis, and the string with tension $T_2$ an angle of $45^\circ$. We treat the ball as a particle,
+and since the strings are massless, each string pulls on the ball with a force of magnitude equal to
+its tension, along the string, away from the ball. Since the ball is in equilibrium, that is, it
+does not accelerate, the net force acting on it must be zero.
+
+When we look at the forces acting on the ball, we first see the force due to gravity, its weight
+$\vec{w} = m\vec{g}$. For the ball not to accelerate, that is, to stay in equilibrium, this force
+must be balanced by the tension forces, which pull the ball upward (their $y$ components are
+positive), so that the total force on the ball is zero. By Newton's second law, if the ball does not accelerate, then
+$\sum\vec{F} = m\vec{a} = \vec{0}$. Adding up the forces acting on the ball, we see that we must
+have
+\begin{equation}\label{eq:hang-sum}
+  \vec{w} + \vec{T}_1 + \vec{T}_2 = \vec{0} .
+\end{equation}
+The easiest way to solve the problem is to split these forces into components. Then the sum of the
+$x$ components and the sum of the $y$ components of the forces must each be zero:
+\begin{equation}\label{eq:hang-components}
+  \sum F_x = 0 , \qquad \sum F_y = 0 .
+\end{equation}
+Writing the forces acting on the ball in terms of their components, we have
+\begin{equation}\label{eq:hang-forces}
+  \begin{aligned}
+    \vec{w} &= -mg\,\jhat , \\
+    \vec{T}_1 &= T_1\cos 60^\circ\,\ihat + T_1\sin 60^\circ\,\jhat
+      = \frac{1}{2}T_1\,\ihat + \frac{\sqrt{3}}{2}T_1\,\jhat , \\
+    \vec{T}_2 &= -T_2\cos 45^\circ\,\ihat + T_2\sin 45^\circ\,\jhat
+      = -\frac{\sqrt{2}}{2}T_2\,\ihat + \frac{\sqrt{2}}{2}T_2\,\jhat .
+  \end{aligned}
+\end{equation}
+Then the conditions that the sums of the forces along the $x$ and $y$ axes vanish give the equations
+\begin{equation}\label{eq:hang-eqs}
+  \begin{aligned}
+    0 &= \frac{1}{2}T_1 - \frac{\sqrt{2}}{2}T_2 , \\
+    0 &= \frac{\sqrt{3}}{2}T_1 + \frac{\sqrt{2}}{2}T_2 - mg .
+  \end{aligned}
+\end{equation}
+The first equation gives $\frac{\sqrt{2}}{2}T_2 = \frac{1}{2}T_1$. Putting this into the second, we
+get $\bigl(\frac{\sqrt{3}}{2} + \frac{1}{2}\bigr)T_1 = mg$, so the tensions in the strings are
+\begin{equation}\label{eq:hang-T}
+  T_2 = \frac{1}{\sqrt{2}}\,T_1 , \qquad T_1 = \frac{2mg}{1 + \sqrt{3}} .
+\end{equation}
+So once we know the mass, we know everything else about the problem. For example, if we choose $m =
+\qty{4}{kg}$, so that $mg = \qty{39.2}{N}$, we find
+\begin{equation}\label{eq:hang-num}
+  T_1 = \qty{28.7}{N} , \qquad T_2 = \qty{20.3}{N} .
+\end{equation}
+Two checks: the steeper string carries the larger share of the weight, as we would expect, and the
+vertical components, $\frac{\sqrt{3}}{2}T_1 + \frac{\sqrt{2}}{2}T_2 = \qty{24.9}{N} +
+\qty{14.3}{N} = \qty{39.2}{N}$, add up to the weight. The two tensions together, \qty{49}{N}, are
+more than the weight: the horizontal components cancel each other and do not help to hold the ball
+up.
+
+%----------------------------------------------------------------------
+\subsection{The limits of Newtonian mechanics}\label{sec:limits}
+
+Although Newton's equations of motion give correct results in everyday life, many natural
+phenomena cannot be explained by Newtonian mechanics alone. Without straying too
+far from the topics of this course, we can simply mention the situations in which Newtonian
+mechanics stops being valid.
+\begin{itemize}
+  \item At speeds close to the speed of light, $c = \qty{3.00e8}{m/s}$, Newton's laws stop being
+    valid and must be corrected by Einstein's special theory of relativity. The corrections are of
+    the order of $(v/c)^2$: about $10^{-12}$ for an airliner flying at \qty{250}{m/s}, but
+    already about one percent at one tenth of the speed of light. So whenever we talk about
+    Newtonian mechanics, we will be talking about bodies that move much more slowly than light.
+  \item At very small scales, such as the scale of atoms (about \qty{e-10}{m}), Newtonian mechanics
+    stops being valid: an electron in an atom, for example, does not follow a definite path. To
+    understand the physics at these scales we need quantum mechanics.
+  \item In very strong gravitational fields, such as near neutron stars and black holes, and in very
+    precise measurements even in the weak fields of the Sun and the Earth, Newton's theory of
+    gravity must be replaced by Einstein's general theory of relativity. Examples of the second kind
+    are a tiny extra turning of the orbit of Mercury, 43~seconds of arc per century, which the pull
+    of the other planets cannot explain, and the rates of the clocks on the GPS satellites.
+\end{itemize}
+In all these cases the newer theories reduce to Newtonian mechanics for slow, large bodies in weak
+gravitational fields, which is why Newtonian mechanics remains the right tool for everything we
+study in this course.
+
+%======================================================================
+\section*{About these notes}
+These notes are not original. They draw heavily on the books listed in the Week~1 notes, on Walter Lewin's 8.01x Classical Mechanics lectures at MIT, and on the Dynamics and Relativity courses taught at different times by Stephen Siklos and David Tong at the University of Cambridge. They are not official course notes of FIZ~101: they are written only to help the students of Mehmet \"Ozkan's section. Istanbul Technical University and its Department of Physics Engineering bear no responsibility for them.
+
+\end{document}

@@ -1,0 +1,1069 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fiz101notes}
+\noteweek{1}{Units, physical quantities and vectors}
+\sisetup{uncertainty-mode=separate}
+\usepackage{needspace}
+
+\begin{document}
+\makenotetitle
+
+%======================================================================
+\section*{Books}
+
+\begin{itemize}
+  \item H.~D. Young and R.~A. Freedman, \emph{University Physics}.
+\end{itemize}
+This is the textbook we follow in the lectures, and one of the best introductory books on the
+market. It is widely used for introductory physics courses at good universities, MIT among them.
+Its explanations are very detailed, and it contains many interesting problems. This week's notes
+cover the material of its Chapter~1. (Elsewhere, when these notes refer to a chapter or section,
+such as Chapter~3 or Section~3.4, they mean the chapters of these notes, which are numbered as in
+the full course notes, not the chapters of the textbook.)
+
+\begin{itemize}
+  \item R.~A. Serway and R.~J. Beichner, \emph{Physics for Scientists and Engineers}.
+  \item D. Halliday, R. Resnick and J. Walker, \emph{Fundamentals of Physics}.
+\end{itemize}
+Alongside the textbook of the course, these two books can be used as supplementary reading or as
+an extra source of problems. They are at the same level as the textbook.
+
+\begin{itemize}
+  \item C. Kittel, W.~D. Knight, M.~A. Ruderman, A.~C. Helmholz and B.~J. Moyer,
+    \emph{Mechanics}, Berkeley Physics Course, Vol.~1.
+\end{itemize}
+This book is more advanced than the others, both in its explanations and in its problems.
+
+%======================================================================
+\setcounter{section}{0}
+\section{Units and physical quantities}
+
+\subsection{Dimensional analysis and units}
+
+Dimensions are very important in physics. If I ask you, ``What is the temperature outside?'' you
+will not answer, ``It is five past two.'' When we talk to each other about physical quantities, we
+must make sure that our dimensions and units match. The \textbf{dimension} of a quantity tells us
+what kind of quantity it is: a length, a mass, a time, and so on. A \textbf{unit} is an agreed
+amount of that kind of quantity, which we use to measure it: a length can be measured in meters
+or in inches, but it is a length either way.
+
+In this course we will talk about three basic dimensions that will be useful to us: length
+($L$), mass ($M$) and time ($T$). All the other quantities we meet in mechanics can be expressed
+in terms of these three. The dimension of a quantity $Y$ is written $[Y]$. Some basic examples
+are
+\begin{equation}\label{eq:dims}
+\begin{aligned}
+  [\text{Area}] &= [L]^2 , \\
+  [\text{Velocity}] &= [L]\,[T]^{-1} , \\
+  [\text{Acceleration}] &= [L]\,[T]^{-2} , \\
+  [\text{Force}] &= [M]\,[L]\,[T]^{-2} , \\
+  [\text{Energy}] &= [M]\,[L]^2\,[T]^{-2} .
+\end{aligned}
+\end{equation}
+The first three examples should be obvious: an area is a length times a length, a velocity is a
+displacement divided by a time interval, and an acceleration is a change of velocity divided by a
+time interval. For the last two, we can take any equation we like for a force or for an energy
+and use the fact that the dimensions of its two sides must agree. (We will study the equations used below
+later in the course; here we need only their dimensions.) For example, Newton's second
+law, $F = ma$, immediately tells us that the dimension of force is that of a mass times an
+acceleration. In the same way, the kinetic energy $E = \frac{1}{2}mv^2$ tells us what the
+dimension of energy must be; the factor $\frac{1}{2}$ is a pure number and has no dimension. You
+can find the dimensions of many quantities by this method. For example, Newton's law of
+gravitation says that two point masses $m$ and $M$ a distance $r$ apart attract each other with
+a force of magnitude $F = GmM/r^2$. (You may also see it written as $F_r = -GmM/r^2$. This is the
+radial component of the force, not its magnitude: the minus sign says that the force points toward
+the other mass, that is, that it is attractive. A sign does not change dimensions.) Solving for
+$G$,
+\[
+  [G] = \frac{[F]\,[L]^2}{[M]^2} = \frac{[M]\,[L]\,[T]^{-2}\,[L]^2}{[M]^2} ,
+\]
+so the dimension of the gravitational constant (Newton's constant) is
+\begin{equation}\label{eq:G}
+  [G] = [M]^{-1}\,[L]^3\,[T]^{-2} .
+\end{equation}
+In this course we will mostly use these three dimensions, but of course it would be wrong to think
+that they are the only basic ones. Problems outside mechanics also need, for example, temperature
+or electric current (and with it electric charge). The SI system described below has seven base
+quantities: besides length, mass and time, they are electric current, temperature, amount of
+substance and luminous intensity.
+
+The second step we need in order to communicate with each other is to set up a standard system of
+units for the quantities whose dimensions we have just discussed, and to know how different
+systems of units convert into one another. In this course we will use the \textbf{metric
+system}, known as \textbf{SI} (from the French \emph{Système international d'unités}). In this
+system length is measured in \textbf{meters} (\unit{m}), mass in \textbf{kilograms} (\unit{kg})
+and time in \textbf{seconds} (\unit{s}). The metric system is very systematic, and it is a decimal
+system: once the base units are defined, smaller and larger units are made from them with
+prefixes that stand for powers of ten (Table~\ref{tab:prefixes}). For example,
+\begin{itemize}
+  \item Length: 1 kilometer (\unit{km}) $= 10^{3}$ meters (\unit{m}),\quad 1 centimeter (\unit{cm})
+    $= 10^{-2}$~\unit{m},
+  \item Mass: 1 gram (\unit{g}) $= 10^{-3}$ kilogram (\unit{kg}),\quad 1 milligram (\unit{mg})
+    $= 10^{-6}$~\unit{kg},
+  \item Time: 1 millisecond (\unit{ms}) $= 10^{-3}$ second (\unit{s}),\quad 1 nanosecond
+    (\unit{ns}) $= 10^{-9}$~\unit{s}.
+\end{itemize}
+
+\begin{table}[htb]
+\centering
+\caption{The most common SI prefixes.}\label{tab:prefixes}
+\begin{tabular}{@{}lccc@{\qquad}lccc@{}}
+\toprule
+Prefix & Symbol & Factor & & Prefix & Symbol & Factor \\
+\midrule
+pico  & p & $10^{-12}$ & & kilo & k & $10^{3}$ \\
+nano  & n & $10^{-9}$  & & mega & M & $10^{6}$ \\
+micro & \textmu & $10^{-6}$ & & giga & G & $10^{9}$ \\
+milli & m & $10^{-3}$  & & tera & T & $10^{12}$ \\
+centi & c & $10^{-2}$  & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{aside}
+\textbf{How the SI units are defined.} Since 2019 the SI units have been defined by fixing the
+exact values of seven \emph{defining constants}, among them the speed of light and Planck's
+constant. The second is the duration of exactly
+\num{9192631770} oscillations of the radiation emitted in a particular transition of the
+cesium-133 atom. The meter is the distance light travels in vacuum in $1/\num{299792458}$ of a
+second, so the speed of light is exactly $c = \qty{299792458}{m/s}$. The kilogram is fixed by
+giving Planck's constant the exact value $h = \qty{6.62607015e-34}{J.s}$.
+\end{aside}
+
+To see the universe one power of ten at a time, from \qty{e24}{m} down to \qty{e-16}{m}, you can
+watch the short film \href{https://www.youtube.com/watch?v=0fKBhvDjuy0}{\emph{Powers of
+Ten}}\footnote{\url{https://www.youtube.com/watch?v=0fKBhvDjuy0}} by Charles and Ray Eames
+(1977). It starts from a picnic one meter across, zooms out by a factor of ten every ten seconds,
+and then zooms back in, down into a carbon nucleus.
+
+A system of units that we will hardly ever use in this course, but which is still widely used in
+the United States, is the \textbf{British system}. In this system length is measured in
+\textbf{feet} and \textbf{inches} ($\qty{1}{ft} = \qty{12}{in}$), force in \textbf{pounds}
+($\qty{1}{lb} = \qty{4.448}{N}$), and time in seconds, just as in SI. The familiar pound is
+therefore a unit of force, not of mass. The unit of mass, the \textbf{slug}, is derived from
+these: $\qty{1}{slug} = \qty{1}{lb.s^2/ft}$. These units convert to SI units as
+\begin{itemize}
+  \item Length: \qty{1}{in} $=$ \qty{2.54}{cm} $=$ \qty{0.0254}{m} (exactly),\quad or\quad
+    \qty{1}{m} $=$ \qty{39.37}{in},
+  \item Mass: \qty{1}{slug} $=$ \qty{14.59}{kg},\quad or\quad \qty{1}{kg} $=$ \qty{0.0685}{slug}.
+\end{itemize}
+
+Every equation must be dimensionally consistent: we can add, subtract or equate only quantities
+with the same dimensions. As we will soon see, this simple observation is a surprisingly powerful
+tool. First of all, dimensional consistency lets you check quickly whether a result you have found
+has any chance of being right, and it gives you a hint about where in your calculation you made a
+mistake. For example, in the equation $x = x_0 + v_{0x}t + \frac{1}{2}a_xt^2$ for motion with
+constant acceleration, which we will meet in Chapter~3, every term is a length:
+$[v_{0x}t] = [L]\,[T]^{-1}[T] = [L]$ and $[a_xt^2] = [L]\,[T]^{-2}[T]^2 = [L]$. Had you written
+$a_xt$ instead of $a_xt^2$, this check would tell you at once that something is wrong. (For a
+similar reason, the argument of a function such as $\sin$, $\cos$ or $\exp$ must be dimensionless:
+$e^x = 1 + x + x^2/2 + \cdots$ adds $x$ to $x^2$, which makes sense only if $x$ has no dimension.)
+The check has its limits: it cannot tell a pure number such as $\frac{1}{2}$ from $2$ or $2\pi$,
+so a dimensionally consistent equation can still be wrong. Better still, some questions can be answered
+by dimensional analysis alone, without a detailed calculation. Suppose we have a quantity $Y$, and
+let us write its dimension in terms of our basic dimensions as
+\begin{equation}\label{eq:Ydim}
+  [Y] = [M]^{\alpha}\,[L]^{\beta}\,[T]^{\gamma} ,
+\end{equation}
+where $\alpha$, $\beta$ and $\gamma$ are some numbers. In the examples below we will see two
+surprising results that we can reach without any real calculation: the first by dimensional
+analysis alone, using this formula, and the second by a simple scaling argument in the same spirit.
+
+\subsubsection{Free fall}
+
+The question we want to ask in the first example is this: if we release an object from rest at a
+height $h$ and let it fall freely, how does the time it takes to reach the ground depend on the
+height from which it was dropped?
+
+``Falling freely'' means that the only force acting on the object is gravity. So we neglect air
+resistance, and we take $h$ to be small compared with the radius of the Earth, so that the
+acceleration due to gravity is the same all along the fall. Under these assumptions, the time of
+the fall can depend only on the height $h$, on the mass $m$ of the object and on the acceleration
+due to gravity. (The object starts from rest, so no initial velocity enters.) Let us see how.
+
+First, we expect the time the object takes to reach the ground to depend on the height from which
+it was dropped: an object dropped from higher up takes longer to fall. So, for some number
+$\alpha$ (from here on, $\alpha$, $\beta$ and $\gamma$ are the powers of $h$, $m$ and $g$; they
+are not the exponents of \eqref{eq:Ydim}),
+\begin{equation}\label{eq:t-h}
+  t \propto h^{\alpha} .
+\end{equation}
+Second, the mass of the object might play a role in this problem. In that case, for some number
+$\beta$, we can write
+\begin{equation}\label{eq:t-hm}
+  t \propto h^{\alpha} m^{\beta} .
+\end{equation}
+Finally, since the object falls under gravity, the time it takes to reach the ground may depend on
+the magnitude $g$ of the acceleration due to gravity ($g \approx \qty{9.8}{m/s^2}$ near the
+surface of the Earth). Then, for some number $\gamma$, we can write
+\begin{equation}\label{eq:t-hmg}
+  t \propto h^{\alpha} m^{\beta} g^{\gamma} .
+\end{equation}
+The constant of proportionality hidden in the sign $\propto$ is a pure number, with no
+dimensions, so both sides must have the same dimensions. The dimensions of our equation are
+\begin{equation}\label{eq:ff-dims}
+  [T]^1 = [L]^{\alpha}\,[M]^{\beta}\left(\frac{[L]}{[T]^2}\right)^{\gamma} .
+\end{equation}
+Collecting the powers on the right-hand side, $[T]^1 = [L]^{\alpha+\gamma}\,[M]^{\beta}\,
+[T]^{-2\gamma}$. Comparing the powers of $M$, $L$ and $T$ on the two sides, we find
+\begin{equation}\label{eq:ff-exps}
+  \beta = 0 , \qquad \alpha + \gamma = 0 , \qquad -2\gamma = 1 ,
+\end{equation}
+so $\gamma = -\frac{1}{2}$ and $\alpha = \frac{1}{2}$. Therefore, if $C$ is some dimensionless
+constant, the time it takes an object dropped from rest from a height $h$ to reach the ground is
+\begin{equation}\label{eq:ff-t}
+  t = C\sqrt{\frac{h}{g}} .
+\end{equation}
+Dimensional analysis cannot tell us the number $C$. In Section~3.4 we will solve the equations of
+motion and find $C = \sqrt{2}$, that is, $t = \sqrt{2h/g}$.
+
+This analysis teaches us two lessons. The first, and the most surprising, is that the time an
+object takes to fall does not depend on its mass. The reason is simple: $m$ is the only quantity in
+our list that contains the dimension $M$, so nothing else can cancel its kilograms, and its power
+must be zero. Behind this lies a physical fact that we put in at the start, when we listed $g$:
+the acceleration due to gravity is the same for every object, light or heavy. This is an
+experimental result, first established by Galileo. Had we listed the weight $w = mg$ of the object
+instead of $g$, dimensional analysis would have given $t \propto \sqrt{hm/w}$, and only the fact
+that $w$ is proportional to $m$ makes the mass drop out. Notice, too, that this conclusion is only
+as good as our list of quantities. In
+air, the drag force depends on the size and shape of the object and on the density of the air;
+once these quantities enter the list, the mass can appear in the answer, and indeed a feather falls
+much more slowly than a bowling ball. In a vacuum there is no air resistance, and the two fall
+together. To see this with your own eyes, you can watch a bowling ball and feathers being dropped
+together in \href{https://www.youtube.com/watch?v=E43-CfukEgs}{NASA's vacuum
+chamber},\footnote{\url{https://www.youtube.com/watch?v=E43-CfukEgs}} the largest vacuum chamber
+in the world, in a clip from the BBC series \emph{Human Universe} presented by Brian Cox.
+
+The second thing we learn from this analysis is that the time to fall is proportional to the square
+root of the height. So if an object is dropped first from a height of \qty{2}{m} and then from
+\qty{8}{m}, it takes only twice as long to reach the ground the second time, even though the second
+height is four times the first. (With $C = \sqrt{2}$ and $g = \qty{9.8}{m/s^2}$, the two times are
+\qty{0.64}{s} and \qty{1.28}{s}.)
+
+\subsubsection{The physics of giants and dwarfs}
+
+A long time ago Galileo Galilei asked himself why animals cannot be of arbitrary size, and in 1638,
+in his book \emph{Discourses and Mathematical Demonstrations Relating to
+\href{https://en.wikipedia.org/wiki/Two_New_Sciences}{Two New
+Sciences}},\footnote{\url{https://en.wikipedia.org/wiki/Two_New_Sciences}} he explained it by
+saying that ``the ratio of two volumes is greater than the ratio of their surfaces''. He meant the
+following. If we make a body $k$ times larger in every direction, its surface area, and also the
+area of any of its cross sections, grows by a factor $k^2$, but its volume, and with it its mass
+and its weight, grows by a factor $k^3$. So the weight grows faster than the areas that must carry
+it. If you took, say, an elephant and tried to make an animal 100 times bigger, the bones of this
+animal would have to be so thick that its whole body would be made of bone. Let us now see this
+together, using nothing but proportionalities.
+
+In land mammals, the weight of the body is carried by the leg bones; one of the main ones is the
+thigh bone, or \emph{femur}. Figure~\ref{fig:femur} shows it schematically as a cylinder. Now
+consider a mammal of size $S$ (by ``size'' we mean any typical length of its body, such as its
+height) and mass $m$. Let the length of its femur be $l$ and the thickness (diameter) of the bone
+be $d$. The cross-sectional area of the bone is $A = \pi d^2/4$, so $A \propto d^2$. Doubling the
+thickness of the femur therefore makes its cross-sectional area four times larger.
+
+\begin{figure}[htb]
+\centering
+\begin{tikzpicture}[>=Stealth,line join=round]
+  % (a) a femur of length l and diameter d
+  \def\br{0.42}\def\bry{0.13}\def\bL{3.0}
+  \fill[fzpaper] (-\br,0) -- (-\br,\bL) arc[start angle=180,end angle=360,x radius=\br,y radius=\bry]
+     -- (\br,0) arc[start angle=0,end angle=-180,x radius=\br,y radius=\bry] -- cycle;
+  \draw[fzboard,thick] (-\br,\bL) -- (-\br,0) arc[start angle=180,end angle=360,x radius=\br,y radius=\bry]
+     -- (\br,\bL);
+  \draw[fzboard,thick,fill=fzvec!30] (0,\bL) ellipse[x radius=\br,y radius=\bry];
+  \draw[->,very thick,fzcomp] (0,\bL+1.05) -- (0,\bL+0.2) node[pos=0.25,right]{weight $\propto m$};
+  \draw[fzgray,|<->|] (\br+0.35,0) -- node[right,text=black]{$l$} (\br+0.35,\bL);
+  \draw[fzgray,|<->|] (-\br,-0.45) -- node[below,text=black]{$d$} (\br,-0.45);
+  \draw[fzgray] (-0.15,\bL+0.05) -- (-1.05,\bL+0.45) node[left,text=black,align=right]{area\\ $A\propto d^2$};
+  \node[font=\small] at (0,-1.25) {(a)};
+  % (b) the femur of an animal twice as large
+  \begin{scope}[xshift=5.6cm]
+  \def\br{1.19}\def\bry{0.32}\def\bL{6.0}
+  \begin{scope}[scale=0.62]
+  \fill[fzpaper] (-\br,0) -- (-\br,\bL) arc[start angle=180,end angle=360,x radius=\br,y radius=\bry]
+     -- (\br,0) arc[start angle=0,end angle=-180,x radius=\br,y radius=\bry] -- cycle;
+  \draw[fzboard,thick] (-\br,\bL) -- (-\br,0) arc[start angle=180,end angle=360,x radius=\br,y radius=\bry]
+     -- (\br,\bL);
+  \draw[fzboard,thick,fill=fzvec!30] (0,\bL) ellipse[x radius=\br,y radius=\bry];
+  \draw[fzgray,|<->|] (\br+0.55,0) -- node[right,text=black]{$2l$} (\br+0.55,\bL);
+  \draw[fzgray,|<->|] (-\br,-0.72) -- node[below,text=black]{$2^{3/2}d\approx 2.8\,d$} (\br,-0.72);
+  \end{scope}
+  \draw[->,very thick,fzcomp] (0,0.62*6.0+1.05) -- (0,0.62*6.0+0.2) node[pos=0.25,right]{weight $\propto 8m$};
+  \node[font=\small] at (0,-1.25) {(b)};
+  \end{scope}
+\end{tikzpicture}
+\caption{(a) The femur, drawn as a cylinder of length $l$ and diameter $d$. It carries the weight
+of the animal over its cross-sectional area $A \propto d^2$. (b) If the animal is twice as large,
+its mass and weight are $2^3 = 8$ times larger and its femur is twice as long; by
+\eqref{eq:square-cube} the femur must then be $2^{3/2}\approx 2.8$ times thicker, not just twice
+as thick as a photographic enlargement would make it. (Drawn at a smaller scale than (a).)}
+\label{fig:femur}
+\end{figure}
+
+Now let us assume that, as we make a mammal bigger, the overall shape of its body stays the same,
+so that all its lengths, the length $l$ of its femur among them, grow in the same proportion: if
+we double the size of an animal, the length of its femur doubles too. We do \emph{not} assume this
+for the thickness $d$ of the bone: how thick the bone has to be is exactly what we want to find
+out. The second assumption we make is about the mass of the animal: let us assume
+that it is proportional to the cube of its size. The mass is the density times the volume; the
+volume is proportional to the cube of the size, and the density of animal tissue is about the same
+for small and large animals (close to that of water), so this is a reasonable assumption. The
+mathematical relations we have are
+\begin{equation}\label{eq:scaling}
+  l \propto S , \qquad m \propto S^3 \propto l^3 .
+\end{equation}
+The weight $mg$ of the animal pushes on its femur. The force per unit area on the bone, which
+engineers call the \emph{stress} (it has the same units as pressure, $\unit{N/m^2} = \unit{Pa}$),
+is the weight of the animal divided by the cross-sectional area of the bone. Since $g$ is the same
+for all animals, the weight is proportional to the mass, and the cross-sectional area of the bone,
+as we said, is proportional to~$d^2$. So for the stress, which we write $\sigma$, we have
+\begin{equation}\label{eq:stress}
+  \sigma \propto \frac{m}{A} \propto \frac{m}{d^2} .
+\end{equation}
+If the stress on the bone is too large, the bone breaks. The largest stress a bone can bear is a
+property of bone tissue, and it is about the same for a mouse and for an elephant. Notice what
+would happen if the femur were scaled like a photograph, $d \propto S$: then \eqref{eq:stress}
+gives $\sigma \propto S^3/S^2 = S$, so an animal ten times bigger than another, but of exactly the
+same shape, would load its bones ten times more heavily. This is Galileo's point. For a large
+animal to be as safe as a small one, the stress must not grow as we scale the animal up: $m/d^2$
+must stay the same. In other words, as the mass increases, the square of the thickness of the bone,
+$d^2$, must increase in the same proportion:
+\begin{equation}\label{eq:m-d}
+  m \propto d^2 .
+\end{equation}
+Comparing equations \eqref{eq:scaling} and \eqref{eq:m-d}, $l^3 \propto m \propto d^2$, we find a
+relation between the thickness and the length of the femur,
+\begin{equation}\label{eq:square-cube}
+  d^2 \propto l^3 , \qquad\text{that is,}\qquad d \propto l^{3/2} .
+\end{equation}
+This relation is a consequence of the \textbf{square--cube law}, Galileo's observation that areas
+grow as the square of the size and volumes as its cube. The square--cube law has a wide range of
+applications, from engineering to biomechanics. So what does \eqref{eq:square-cube} tell us about
+mammals of arbitrary size? If one animal is 10 times bigger than another, its femur is 10 times
+longer but about 32 times thicker, since $10^{3/2}\approx 32$. The ratio $d/l$, which tells us how
+stocky the bone is, grows as $l^{1/2}$: the bigger the animal, the stockier its bones must be. So as
+animals get bigger, the thickness of the femur grows faster than the animal itself, and for a large
+enough animal the legs would have to be thicker than they are long, leaving room for little but
+bone: mammals of arbitrary size are biologically impossible.
+
+How well does this agree with reality? An elephant is about 100 times bigger than a mouse, so its
+femur should be about $100^{3/2} = 1000$ times thicker than the femur of a mouse, while only 100
+times longer. Real elephant bones are much more slender than that. Galileo's argument assumes that
+the bones only have to carry the weight of an animal standing still, and that animals of all sizes
+move in the same way. In fact, bones are loaded most when an animal runs or jumps, and large
+animals behave differently: they move less vigorously and more carefully (an elephant never gallops
+or jumps), and they stand on straighter, more upright, column-like legs, so that the load runs
+along their bones instead of bending them. These effects change the assumptions we made above. The
+argument does, however, explain why the largest animals live in the sea. In water, buoyancy carries
+almost all of an animal's weight, so its skeleton does not have to, and the argument above, which
+compares the weight with the strength of the bones, no longer limits its size. This is how the blue
+whale, the heaviest animal alive today, can be far heavier than any land animal. Its body, however,
+is not built to carry its own weight: when a whale is stranded on a beach, its weight presses on its
+chest and internal organs and makes breathing difficult, which is one reason why stranded whales
+die.
+
+\subsection{Uncertainty and significant figures}
+
+We have agreed on dimensions and on a common system of units for measuring physical quantities.
+Another thing we need to know before we start taking measurements is the \emph{accuracy} of a
+measurement, that is, how close it is to the true value. (Accuracy is not the same as
+\emph{precision}. A precise instrument gives nearly the same value every time we repeat the
+measurement, but if it is badly calibrated, its readings can be precise and still inaccurate.)
+
+When we make a measurement, the result is valid only within the uncertainty limits of the
+experiment. These uncertainties come from things such as the quality of the experimental equipment,
+the skill of the person making the measurement, or the number of times the measurement is repeated.
+Unless the uncertainty of the measured value is stated, the result of your measurement means
+nothing. Always keep this in mind; it is worth saying it again: \textbf{unless the uncertainty of
+the measured value is stated, the result of your measurement means nothing}. (The uncertainty can
+be stated explicitly, or implied by the number of significant figures, as we will see below.) The
+accuracy of a measurement is shown with the symbol $\pm$ followed by a second number, the
+uncertainty. For example, if the diameter of a steel rod is given as \qty{56.47 \pm 0.02}{mm}, this
+means that the true value is unlikely to be less than \qty{56.45}{mm} or more than \qty{56.49}{mm}.
+
+When we calculate with measured values that carry uncertainties, it is very easy to get results
+that do not match the accuracy of our equipment. For example, suppose that with a ruler accurate to
+$\pm\qty{0.1}{cm}$ we measure the length of a rectangular plate as \qty{5.5}{cm} and its width as
+\qty{6.4}{cm}. If we then give the area of the plate as
+\begin{equation}\label{eq:plate}
+  A = (\qty{5.5}{cm}) \times (\qty{6.4}{cm}) = \qty{35.20}{cm^2} ,
+\end{equation}
+we claim a much more accurate result than our equipment can give. To avoid this confusion we
+define \textbf{significant figures}.
+
+In many cases, instead of stating the uncertainty of a number explicitly, we indicate it by the
+number of significant figures. For example, if the thickness of the cover of a book is given as
+\qty{2.91}{mm}, this means that the first two digits are certain and the third digit is uncertain.
+Since the last digit is in the hundredths place, the uncertainty is about \qty{0.01}{mm}. This
+measurement has 3 significant figures. To find the number of significant figures in a number, we
+can follow these rules:
+\begin{itemize}
+  \item All nonzero digits are significant. For example, 91 has 2 significant figures, and 123.45
+    has 5.
+  \item Zeros between nonzero digits are significant. For example, 101.1203 has 7 significant
+    figures.
+  \item Leading zeros are not significant. For example, 0.00052 has 2 significant figures, the 5
+    and the 2.
+  \item In a number with a decimal point, zeros to the right of the last nonzero digit are
+    significant. For example, 12.2300 has 6 significant figures.
+  \item In a number without a decimal point, it is not clear whether trailing zeros are
+    significant. For example, the uncertainty of \qty{1300}{g} is not clear, while the uncertainty
+    of \qty{1.3}{kg} is. In such cases we make the number of significant figures clear by writing
+    the number in scientific notation: as \qty{1.300e3}{g} if it has 4 significant figures, or as
+    \qty{1.3e3}{g} if it has 2.
+\end{itemize}
+
+With these rules, let us go back to our example. When we multiply or divide, the result should
+have no more significant figures than the factor with the fewest. The measured length and width of
+the plate each have two significant figures, so our result should not have more than two
+significant figures either, and we give the area of the plate as $A = \qty{35}{cm^2}$. To see how
+meaningful this result is, let us look at the problem again. If the length of the plate is measured
+as \qty{5.5}{cm}, its true length lies somewhere between \qty{5.4}{cm} and \qty{5.6}{cm}.
+Similarly, if its width is measured as \qty{6.4}{cm}, its true width lies somewhere between
+\qty{6.3}{cm} and \qty{6.5}{cm}. So the area of the plate is at most
+$A\sub{max} = (\qty{5.6}{cm}) \times (\qty{6.5}{cm}) = \qty{36.40}{cm^2}$, and at least
+$A\sub{min} = (\qty{5.4}{cm}) \times (\qty{6.3}{cm}) = \qty{34.02}{cm^2}$. The area lies in this
+range, whose middle is \qty{35.2}{cm^2} and whose half-width is \qty{1.2}{cm^2}: the area is
+\qty{35.2 \pm 1.2}{cm^2}, or about \qty{35 \pm 1}{cm^2}. Already the units digit of the area is
+uncertain, so the result \qty{35}{cm^2} is meaningful, while the last two digits of
+\qty{35.20}{cm^2} are not. (This range is the worst case, in which both measurements are off as
+much as possible in the same direction; a statistical treatment, which you will meet in the
+laboratory, gives a somewhat smaller uncertainty.)
+
+A similar argument applies to addition and subtraction, but the rule is different: what matters is
+the decimal place of the last significant digit, not the number of significant figures. For
+example, the answer to $123 + 5.35$ is 128, not 128.35. The number 123 is uncertain already in its
+units place, so the answer 128.35 would claim a more accurate result than our measurements allow.
+
+%======================================================================
+\section{Vectors}
+
+Some quantities in physics, such as mass, temperature or the distance between two points, are
+described by a single number (with its unit). Such quantities are called \textbf{scalar
+quantities}. A \textbf{vector} is a quantity that has both a \emph{magnitude} and a
+\emph{direction}, and that adds according to the rules we give below. Displacement (the change of
+position from one point to another, as opposed to the distance between them), velocity,
+acceleration and force are all vectors, and we will meet them in the coming weeks. The word
+``vector'' comes from the Latin \emph{vehere}, ``to carry, to move from one place to another''.
+We will give a more mathematical definition of a vector later in this chapter.
+
+Before we start studying vectors, it is useful to say why we need them and why they are useful,
+and to fix the notation we will use in this course.
+\begin{enumerate}
+  \item Physical laws written in terms of vectors do not depend on the coordinate system. Vector
+    notation makes it possible to do physics without choosing a coordinate system, and the law
+    then holds in every coordinate system we may choose later.
+  \item Vector notation makes the statement of physical laws compact. This makes obvious those
+    properties of a physical system that are hidden when we write the law in a particular
+    coordinate system.
+\end{enumerate}
+The vector notation we will use in this course is the following.
+\begin{enumerate}
+  \item In these notes we write a vector quantity as a letter with an arrow over it, such as
+    $\vec{A}$. In books, vectors are usually printed in \textbf{bold}; our textbook uses a bold
+    \emph{italic} symbol with an arrow over it, such as $\vec{\bm{A}}$. When you write by hand, always draw the arrow.
+  \item We write the magnitude of a vector with the same letter as the vector without the arrow,
+    or with vertical bars on both sides of the vector symbol, such as $A = |\vec{A}|$. The
+    magnitude is a scalar, and it is never negative.
+  \item Unit vectors (dimensionless vectors of magnitude 1) are written with a hat
+    ($\hat{\ }$) over them, such as $\ihat$, $\jhat$, $\khat$.
+\end{enumerate}
+
+\subsection{Vector addition}
+
+Geometrically, a vector is represented by a directed line segment, an arrow. The length of the
+arrow represents the magnitude of the vector (on some chosen scale), and the arrow points in the
+direction of the vector. Two vectors are \emph{equal} if they have the same magnitude and the same
+direction, no matter where they are drawn; so we may slide a vector parallel to itself without
+changing it. Only vectors of the same kind, with the same units, can be added: a displacement can
+be added to a displacement, but not to a velocity (this is dimensional consistency again). There
+are two ways to find the sum of two vectors such as $\vec{A}$ and $\vec{B}$
+(Figure~\ref{fig:addition}).
+\begin{enumerate}
+  \item \textbf{Parallelogram method:} we draw both vectors from the same point and complete the
+    parallelogram; the sum is its diagonal that starts from that point.
+  \item \textbf{Tip-to-tail method:} we place the tail of the second vector at the tip of the first;
+    the sum goes from the tail of the first vector to the tip of the second.
+\end{enumerate}
+
+\begin{figure}[htb]
+\centering
+\begin{tikzpicture}[>={Stealth[length=2.6mm]},scale=1.0]
+  \tikzset{vec/.style={->,very thick,fzvec},sum/.style={->,very thick,fzcomp}}
+  % (a) two vectors
+  \draw[vec] (0,0) -- (2.4,0) node[midway,below]{$\vec{A}$};
+  \draw[vec] (0.2,0.45) -- (1.2,1.9) node[midway,left]{$\vec{B}$};
+  \node[font=\small] at (1.2,-1.0) {(a)};
+  % (b) tip to tail
+  \begin{scope}[xshift=3.6cm]
+    \draw[vec] (0,0) -- (2.4,0) node[midway,below]{$\vec{A}$};
+    \draw[vec] (2.4,0) -- (3.4,1.45) node[midway,right]{$\vec{B}$};
+    \draw[sum] (0,0) -- (3.4,1.45) node[pos=0.45,above left=-1pt]{$\vec{A}+\vec{B}$};
+    \node[font=\small] at (1.7,-1.0) {(b)};
+  \end{scope}
+  % (c) parallelogram
+  \begin{scope}[xshift=8.6cm]
+    \draw[vec] (0,0) -- (2.4,0) node[midway,below]{$\vec{A}$};
+    \draw[vec] (0,0) -- (1.0,1.45) node[midway,left]{$\vec{B}$};
+    \draw[vec,fzvec!55] (1.0,1.45) -- (3.4,1.45) node[midway,above]{$\vec{A}$};
+    \draw[vec,fzvec!55] (2.4,0) -- (3.4,1.45) node[midway,right]{$\vec{B}$};
+    \draw[sum] (0,0) -- (3.4,1.45)
+      node[pos=0.5,sloped,above,font=\small]{$\vec{B}+\vec{A}$}
+      node[pos=0.5,sloped,below,font=\small]{$\vec{A}+\vec{B}$};
+    \node[font=\small] at (1.7,-1.0) {(c)};
+  \end{scope}
+\end{tikzpicture}
+\caption{Vector addition. (a) Two vectors $\vec{A}$ and $\vec{B}$. (b) The tip-to-tail method.
+(c) The parallelogram method: going along $\vec{A}$ and then $\vec{B}$, or along $\vec{B}$ and
+then $\vec{A}$, ends at the same point, so the diagonal is both $\vec{A}+\vec{B}$ and
+$\vec{B}+\vec{A}$.}
+\label{fig:addition}
+\end{figure}
+
+We can also multiply a vector by a scalar $k$: the vector $k\vec{A}$ has magnitude $|k|A$, and it
+points in the direction of $\vec{A}$ if $k>0$ and in the opposite direction if $k<0$. For two
+scalars $a$ and $b$, $a\vec{A} + b\vec{A} = (a+b)\vec{A}$. The properties of vector addition are as
+follows.
+\begin{enumerate}
+  \item Vector addition is \textbf{commutative}:
+    \begin{equation}\label{eq:comm}
+      \vec{A} + \vec{B} = \vec{B} + \vec{A} .
+    \end{equation}
+  \item The identity element of vector addition is the \textbf{zero vector} $\vec{0}$, the vector
+    of zero magnitude, which has no definite direction: $\vec{A} + \vec{0} = \vec{A}$. (Do not
+    confuse it with the unit vectors of Section~\ref{sec:unitvectors}, which have magnitude 1.) Using the zero vector, the \textbf{negative of
+    a vector} $\vec{A}$, written $-\vec{A}$, is defined by
+    \begin{equation}\label{eq:neg}
+      \vec{A} + (-\vec{A}) = \vec{0} .
+    \end{equation}
+    The negative of a vector has the same magnitude as the original vector but points in the
+    opposite direction: $-\vec{A} = (-1)\vec{A}$. Subtracting a vector means adding its negative:
+    $\vec{A} - \vec{B} = \vec{A} + (-\vec{B})$.
+  \item Vector addition is \textbf{associative}: when we add three vectors, it does not matter
+    which two we add first,
+    \begin{equation}\label{eq:assoc}
+      (\vec{A} + \vec{B}) + \vec{C} = \vec{A} + (\vec{B} + \vec{C}) .
+    \end{equation}
+  \item Multiplication by a scalar is distributive over vector addition: if $k$ is a scalar,
+    \begin{equation}\label{eq:distr}
+      k(\vec{A} + \vec{B}) = k\vec{A} + k\vec{B} .
+    \end{equation}
+\end{enumerate}
+With these definitions we can now give a more mathematical definition of a vector. For a quantity
+with a magnitude and a direction to be a vector, it must satisfy the following two conditions:
+\begin{enumerate}
+  \item It must obey the parallelogram rule of addition.
+  \item Its magnitude and its direction in space must not depend on the choice of coordinate
+    system. (Its \emph{components}, which we define in the next section, do change when we rotate
+    the axes, but in such a way that the vector itself, and its magnitude, stay the same; see
+    Section~3.1.)
+\end{enumerate}
+As these two conditions show, not every quantity that has a direction and a magnitude is a vector.
+Finite rotations are an example.
+
+Consider the book in Figure~\ref{fig:rotations}. A rotation can be described by an
+arrow along its axis whose length gives the angle of rotation, so it has a magnitude and a
+direction. Let us rotate the book first by $\pi/2$ about axis~1, and then by $\pi/2$ about
+axis~2. If we do the same in the opposite order, that is, if we first rotate by $\pi/2$ about
+axis~2 and then by $\pi/2$ about axis~1, the book ends up in a different position. (Try it with a
+book of your own.) So finite rotations are not commutative, which means that they do not add
+according to the parallelogram rule. Therefore, although they have a magnitude and a direction,
+finite rotations are not vectors. Very small (infinitesimal) rotations, on the other hand, do
+commute (to first order in the angles); this is why the angular velocity of a rotating body can be treated as a vector, as we
+will do in Chapter~10.
+
+\begin{figure}[htb]
+\centering
+\begin{tikzpicture}[scale=1.0]
+\node[font=\small] at (-1.55,-0.000) {(a)};
+\filldraw[fill=fzvec!55,draw=fzboard,line join=round] (-0.493,-0.589) -- (0.314,-0.801) -- (0.314,0.467) -- (-0.493,0.679) -- cycle;
+\draw[-{Stealth[length=2.2mm]},very thick,white] (-0.090,-0.347) -- (-0.090,0.224);
+\filldraw[fill=white,draw=fzboard,line join=round] (0.493,-0.679) -- (0.493,0.589) -- (0.314,0.467) -- (0.314,-0.801) -- cycle;
+\draw[fzgray,very thin] (0.448,-0.646) -- (0.448,0.495);
+\draw[fzgray,very thin] (0.404,-0.677) -- (0.404,0.465);
+\draw[fzgray,very thin] (0.359,-0.707) -- (0.359,0.434);
+\filldraw[fill=white,draw=fzboard,line join=round] (-0.314,0.801) -- (0.493,0.589) -- (0.314,0.467) -- (-0.493,0.679) -- cycle;
+\draw[fzgray,very thin] (-0.278,0.750) -- (0.408,0.569);
+\draw[fzgray,very thin] (-0.323,0.719) -- (0.363,0.539);
+\draw[fzgray,very thin] (-0.368,0.688) -- (0.319,0.508);
+\draw[-{Stealth[length=1.8mm]},fzgray!70!black] (0.000,0.634) -- (0.000,1.132) node[above,font=\scriptsize,text=black]{1};
+\draw[fzgray,thin] (0.000,-0.634) -- (0.000,-0.963);
+\draw[-{Stealth[length=1.8mm]},fzgray!70!black] (0.404,-0.106) -- (1.105,-0.290) node[right,font=\scriptsize,text=black]{2};
+\draw[fzgray,thin] (-0.404,0.106) -- (-0.939,0.247);
+\filldraw[fill=fzvec!55,draw=fzboard,line join=round] (3.494,-0.843) -- (3.995,-0.501) -- (3.995,0.767) -- (3.494,0.425) -- cycle;
+\draw[-{Stealth[length=2.2mm]},very thick,white] (3.744,-0.323) -- (3.744,0.247);
+\filldraw[fill=fzcomp!80,draw=fzboard,line join=round] (3.205,-0.767) -- (3.205,0.501) -- (3.494,0.425) -- (3.494,-0.843) -- cycle;
+\filldraw[fill=white,draw=fzboard,line join=round] (3.205,0.501) -- (3.706,0.843) -- (3.995,0.767) -- (3.494,0.425) -- cycle;
+\draw[fzgray,very thin] (3.328,0.516) -- (3.753,0.807);
+\draw[fzgray,very thin] (3.400,0.497) -- (3.825,0.788);
+\draw[fzgray,very thin] (3.472,0.478) -- (3.898,0.769);
+\draw[-{Stealth[length=1.8mm]},fzgray!70!black] (3.600,0.634) -- (3.600,1.132) node[above,font=\scriptsize,text=black]{1};
+\draw[fzgray,thin] (3.600,-0.634) -- (3.600,-0.963);
+\draw[-{Stealth[length=1.8mm]},fzgray!70!black] (3.744,-0.038) -- (4.705,-0.290) node[right,font=\scriptsize,text=black]{2};
+\draw[fzgray,thin] (3.456,0.038) -- (2.661,0.247);
+\filldraw[fill=fzvec!55,draw=fzboard,line join=round] (7.713,-0.216) -- (7.713,0.644) -- (6.976,0.140) -- (6.976,-0.720) -- cycle;
+\draw[-{Stealth[length=2.2mm]},very thick,white] (7.510,0.075) -- (7.178,-0.151);
+\filldraw[fill=white,draw=fzboard,line join=round] (7.424,0.720) -- (6.687,0.216) -- (6.976,0.140) -- (7.713,0.644) -- cycle;
+\draw[fzgray,very thin] (7.460,0.676) -- (6.796,0.223);
+\draw[fzgray,very thin] (7.532,0.657) -- (6.868,0.204);
+\draw[fzgray,very thin] (7.604,0.638) -- (6.940,0.185);
+\filldraw[fill=white,draw=fzboard,line join=round] (6.687,-0.644) -- (6.687,0.216) -- (6.976,0.140) -- (6.976,-0.720) -- cycle;
+\draw[fzgray,very thin] (6.759,-0.577) -- (6.759,0.154);
+\draw[fzgray,very thin] (6.831,-0.596) -- (6.831,0.135);
+\draw[fzgray,very thin] (6.903,-0.615) -- (6.903,0.116);
+\draw[-{Stealth[length=1.8mm]},fzgray!70!black] (7.200,0.430) -- (7.200,1.132) node[above,font=\scriptsize,text=black]{1};
+\draw[fzgray,thin] (7.200,-0.430) -- (7.200,-0.963);
+\draw[-{Stealth[length=1.8mm]},fzgray!70!black] (7.344,-0.038) -- (8.305,-0.290) node[right,font=\scriptsize,text=black]{2};
+\draw[fzgray,thin] (7.056,0.038) -- (6.261,0.247);
+\draw[-{Stealth[length=2mm]},thick,fzaux] (1.050,0.150) to[bend left=25] node[above=1pt,font=\footnotesize,text=black]{$\pi/2$ about 1} (2.550,0.150);
+\draw[-{Stealth[length=2mm]},thick,fzaux] (4.650,0.150) to[bend left=25] node[above=1pt,font=\footnotesize,text=black]{$\pi/2$ about 2} (6.150,0.150);
+\node[font=\small] at (-1.55,-3.400) {(b)};
+\filldraw[fill=fzvec!55,draw=fzboard,line join=round] (-0.493,-3.989) -- (0.314,-4.201) -- (0.314,-2.933) -- (-0.493,-2.721) -- cycle;
+\draw[-{Stealth[length=2.2mm]},very thick,white] (-0.090,-3.747) -- (-0.090,-3.176);
+\filldraw[fill=white,draw=fzboard,line join=round] (0.493,-4.079) -- (0.493,-2.811) -- (0.314,-2.933) -- (0.314,-4.201) -- cycle;
+\draw[fzgray,very thin] (0.448,-4.046) -- (0.448,-2.905);
+\draw[fzgray,very thin] (0.404,-4.077) -- (0.404,-2.935);
+\draw[fzgray,very thin] (0.359,-4.107) -- (0.359,-2.966);
+\filldraw[fill=white,draw=fzboard,line join=round] (-0.314,-2.599) -- (0.493,-2.811) -- (0.314,-2.933) -- (-0.493,-2.721) -- cycle;
+\draw[fzgray,very thin] (-0.278,-2.650) -- (0.408,-2.831);
+\draw[fzgray,very thin] (-0.323,-2.681) -- (0.363,-2.861);
+\draw[fzgray,very thin] (-0.368,-2.712) -- (0.319,-2.892);
+\draw[-{Stealth[length=1.8mm]},fzgray!70!black] (0.000,-2.766) -- (0.000,-2.268) node[above,font=\scriptsize,text=black]{1};
+\draw[fzgray,thin] (0.000,-4.034) -- (0.000,-4.363);
+\draw[-{Stealth[length=1.8mm]},fzgray!70!black] (0.404,-3.506) -- (1.105,-3.690) node[right,font=\scriptsize,text=black]{2};
+\draw[fzgray,thin] (-0.404,-3.294) -- (-0.939,-3.153);
+\filldraw[fill=fzaux!22,draw=fzboard,line join=round] (3.565,-2.888) -- (4.373,-3.100) -- (3.635,-3.604) -- (2.827,-3.392) -- cycle;
+\filldraw[fill=white,draw=fzboard,line join=round] (4.373,-3.100) -- (3.635,-3.604) -- (3.635,-3.912) -- (4.373,-3.408) -- cycle;
+\draw[fzgray,very thin] (4.336,-3.202) -- (3.672,-3.656);
+\draw[fzgray,very thin] (4.336,-3.279) -- (3.672,-3.733);
+\draw[fzgray,very thin] (4.336,-3.356) -- (3.672,-3.810);
+\filldraw[fill=white,draw=fzboard,line join=round] (2.827,-3.392) -- (3.635,-3.604) -- (3.635,-3.912) -- (2.827,-3.700) -- cycle;
+\draw[fzgray,very thin] (2.908,-3.490) -- (3.594,-3.670);
+\draw[fzgray,very thin] (2.908,-3.567) -- (3.594,-3.747);
+\draw[fzgray,very thin] (2.908,-3.644) -- (3.594,-3.824);
+\draw[-{Stealth[length=1.8mm]},fzgray!70!black] (3.600,-3.246) -- (3.600,-2.268) node[above,font=\scriptsize,text=black]{1};
+\draw[fzgray,thin] (3.600,-3.554) -- (3.600,-4.363);
+\draw[-{Stealth[length=1.8mm]},fzgray!70!black] (4.004,-3.506) -- (4.705,-3.690) node[right,font=\scriptsize,text=black]{2};
+\draw[fzgray,thin] (3.196,-3.294) -- (2.661,-3.153);
+\filldraw[fill=fzaux!22,draw=fzboard,line join=round] (6.355,-3.261) -- (6.855,-2.919) -- (8.045,-3.231) -- (7.545,-3.573) -- cycle;
+\filldraw[fill=fzcomp!80,draw=fzboard,line join=round] (6.355,-3.261) -- (7.545,-3.573) -- (7.545,-3.881) -- (6.355,-3.569) -- cycle;
+\filldraw[fill=white,draw=fzboard,line join=round] (7.545,-3.573) -- (8.045,-3.231) -- (8.045,-3.539) -- (7.545,-3.881) -- cycle;
+\draw[fzgray,very thin] (7.595,-3.616) -- (8.020,-3.325);
+\draw[fzgray,very thin] (7.595,-3.693) -- (8.020,-3.402);
+\draw[fzgray,very thin] (7.595,-3.770) -- (8.020,-3.479);
+\draw[-{Stealth[length=1.8mm]},fzgray!70!black] (7.200,-3.246) -- (7.200,-2.268) node[above,font=\scriptsize,text=black]{1};
+\draw[fzgray,thin] (7.200,-3.554) -- (7.200,-4.363);
+\draw[-{Stealth[length=1.8mm]},fzgray!70!black] (7.795,-3.556) -- (8.305,-3.690) node[right,font=\scriptsize,text=black]{2};
+\draw[fzgray,thin] (6.605,-3.244) -- (6.261,-3.153);
+\draw[-{Stealth[length=2mm]},thick,fzaux] (1.050,-3.250) to[bend left=25] node[above=1pt,font=\footnotesize,text=black]{$\pi/2$ about 2} (2.550,-3.250);
+\draw[-{Stealth[length=2mm]},thick,fzaux] (4.650,-3.250) to[bend left=25] node[above=1pt,font=\footnotesize,text=black]{$\pi/2$ about 1} (6.150,-3.250);
+\end{tikzpicture}
+\caption{Finite rotations are not vectors. Axis~1 is vertical and axis~2 horizontal; both stay
+fixed in space while the book turns. The front cover of the book is green with a white arrow on
+it, its back cover is light blue, its spine is red and its page edges are white. Each rotation
+turns the book counterclockwise as seen from the tip of the axis. (a) A rotation by $\pi/2$ about
+axis~1 followed by a rotation by $\pi/2$ about axis~2: the book ends up standing on its spine.
+(b) The same two rotations in the opposite order: the book ends up lying on its front cover.}
+\label{fig:rotations}
+\end{figure}
+
+\subsection{Unit vectors and components of vectors}\label{sec:unitvectors}
+
+\textbf{Unit vectors} are vectors of magnitude 1 that we use to specify directions. Using unit
+vectors, we can split vectors into components. To tell unit vectors apart from other vectors, in
+this course we write them with a hat ($\hat{\ }$).
+
+For any $xyz$ coordinate system, as shown in Figure~\ref{fig:unitvectors}, $\ihat$ points in the
+positive $x$ direction, $\jhat$ in the positive $y$ direction and $\khat$ in the positive $z$
+direction. Using unit vectors, we can split a vector such as $\vec{A}$ into its components:
+\begin{equation}\label{eq:components}
+  \vec{A} = A_x\ihat + A_y\jhat + A_z\khat .
+\end{equation}
+Here $A_x$ is the $x$ component, $A_y$ the $y$ component and $A_z$ the $z$ component of the
+vector. The components are numbers with units, and they can be positive, negative or zero. They
+are not vectors, but they are not true scalars like a mass or a temperature either: they change
+when we rotate the coordinate axes, while the vector itself does not (Section~3.1). The vectors
+$A_x\ihat$, $A_y\jhat$ and $A_z\khat$ are called the \emph{component vectors}.
+The sum of the three component vectors is equal to the vector $\vec{A}$.
+
+\begin{figure}[htb]
+\centering
+\begin{tikzpicture}[x={(-0.62cm,-0.40cm)},y={(0.95cm,-0.16cm)},z={(0cm,1cm)},scale=1.3,
+    >={Stealth[length=2.4mm]}]
+  \def\Ax{2.2}\def\Ay{3.2}\def\Az{2.4}
+  % axes
+  \draw[->,fzgray] (0,0,0) -- (3.4,0,0) node[below left=-1pt,text=black]{$x$};
+  \draw[->,fzgray] (0,0,0) -- (0,4.3,0) node[right,text=black]{$y$};
+  \draw[->,fzgray] (0,0,0) -- (0,0,3.3) node[above,text=black]{$z$};
+  % components
+  \draw[->,thick,fzcomp] (0,0,0) -- (\Ax,0,0) node[pos=0.78,above left=-1pt]{$A_x\ihat$};
+  \draw[->,thick,fzcomp] (\Ax,0,0) -- (\Ax,\Ay,0) node[midway,below=1pt]{$A_y\jhat$};
+  \draw[->,thick,fzcomp] (\Ax,\Ay,0) -- (\Ax,\Ay,\Az) node[pos=0.72,right]{$A_z\khat$};
+  % the vector
+  \draw[->,very thick,fzvec] (0,0,0) -- (\Ax,\Ay,\Az) node[above]{$\vec{A}$};
+  % unit vectors
+  \draw[->,ultra thick,fzaux] (0,0,0) -- (1,0,0) node[pos=0.55,below right=-1pt]{$\ihat$};
+  \draw[->,ultra thick,fzaux] (0,0,0) -- (0,1,0) node[pos=0.8,below=1pt]{$\jhat$};
+  \draw[->,ultra thick,fzaux] (0,0,0) -- (0,0,1) node[pos=0.7,left]{$\khat$};
+\end{tikzpicture}
+\caption{The unit vectors $\ihat$, $\jhat$, $\khat$ point along the positive $x$, $y$ and $z$
+axes. A vector $\vec{A}$ is the sum of its component vectors $A_x\ihat$, $A_y\jhat$ and
+$A_z\khat$. This right-handed choice of axes is the one we use throughout the course.}
+\label{fig:unitvectors}
+\end{figure}
+
+When vectors are split into components, we add them by adding their components:
+\begin{equation}\label{eq:addcomp}
+\begin{aligned}
+  \vec{A} + \vec{B} &= (A_x\ihat + A_y\jhat + A_z\khat) + (B_x\ihat + B_y\jhat + B_z\khat) \\
+  &= (A_x + B_x)\ihat + (A_y + B_y)\jhat + (A_z + B_z)\khat .
+\end{aligned}
+\end{equation}
+(Here we used the commutative and associative laws \eqref{eq:comm} and \eqref{eq:assoc} to
+regroup the six terms, and the rule $a\vec{A} + b\vec{A} = (a+b)\vec{A}$ for two scalars $a$ and
+$b$ to collect the terms along each unit vector.) So if the sum of these two vectors is another vector, say $\vec{C}$, the
+components of $\vec{C}$ are given in terms of the components of $\vec{A}$ and $\vec{B}$ by
+\begin{equation}\label{eq:Ccomp}
+  C_x = A_x + B_x , \qquad C_y = A_y + B_y , \qquad C_z = A_z + B_z .
+\end{equation}
+Using the components of a vector and the Pythagorean theorem, we find the magnitude of the vector.
+In Figure~\ref{fig:unitvectors}, the component vectors $A_x\ihat$ and $A_y\jhat$ are perpendicular
+and their sum, which lies in the $xy$ plane, has length $\sqrt{A_x^2 + A_y^2}$; this sum is in turn
+perpendicular to $A_z\khat$, so a second use of the Pythagorean theorem gives
+\begin{equation}\label{eq:magnitude}
+  |\vec{A}| = \sqrt{A_x^2 + A_y^2 + A_z^2} .
+\end{equation}
+
+In the same way, we can find the components of a vector from its length and direction. For this,
+consider a two-dimensional vector $\vec{A}$, as in Figure~\ref{fig:2d}. If $\theta$ is the angle
+the vector makes with the positive $x$ axis, the components of the vector are
+\begin{equation}\label{eq:polar}
+  A_x = A\cos\theta , \qquad A_y = A\sin\theta .
+\end{equation}
+
+\begin{figure}[htb]
+\centering
+\begin{tikzpicture}[>={Stealth[length=2.6mm]},scale=1.1]
+  \draw[->,fzgray] (-0.3,0) -- (3.5,0) node[right,text=black]{$x$};
+  \draw[->,fzgray] (0,-0.3) -- (0,2.3) node[above,text=black]{$y$};
+  \draw[dashed,fzgray] (2.8,0) -- (2.8,1.6) -- (0,1.6);
+  \draw[->,very thick,fzcomp] (0,0) -- (2.8,0) node[midway,below]{$A_x$};
+  \draw[->,very thick,fzcomp] (0,0) -- (0,1.6) node[midway,left]{$A_y$};
+  \draw[->,very thick,fzvec] (0,0) -- (2.8,1.6) node[above right=-1pt]{$\vec{A}$};
+  \draw[fzgray] (0.9,0) arc[start angle=0,end angle=29.7,radius=0.9];
+  \node at (14.8:1.2) {$\theta$};
+\end{tikzpicture}
+\caption{A two-dimensional vector $\vec{A}$, its components $A_x$ and $A_y$, and the angle
+$\theta$ it makes with the positive $x$ axis.}
+\label{fig:2d}
+\end{figure}
+
+\textbf{Note:} the angle $\theta$ must always be measured from the positive $x$ axis, turning
+towards the positive $y$ axis (counterclockwise in Figure~\ref{fig:2d}). With this convention,
+equations~\eqref{eq:polar} give the components with the correct signs in all four quadrants.
+
+Using these components, we can also write the vector $\vec{A}$ as
+\begin{equation}\label{eq:polarvec}
+  \vec{A} = A\cos\theta\,\ihat + A\sin\theta\,\jhat .
+\end{equation}
+Conversely, if we know the components, we find the magnitude from \eqref{eq:magnitude} and the
+direction from $\tan\theta = A_y/A_x$. Be careful with the last step: a calculator gives
+$\arctan$ only between $-90^\circ$ and $90^\circ$, and $\tan\theta$ does not change if both
+components change sign, so always check in which quadrant the vector lies.
+
+\begin{example}[Magnitude and direction from components]
+Consider the vector $\vec{A} = 3\ihat + 4\jhat$. The magnitude of this vector
+is $|\vec{A}| = \sqrt{3^2 + 4^2} = 5$. Then equation~\eqref{eq:polar} gives $\cos\theta = 3/5$ and
+$\sin\theta = 4/5$, so $\theta \approx 53.1^\circ$.
+
+The vector $\vec{B} = -3\ihat - 4\jhat = -\vec{A}$ has the same magnitude, 5, and the same
+$\tan\theta = (-4)/(-3) = 4/3$, but it lies in the third quadrant: $\cos\theta = -3/5$,
+$\sin\theta = -4/5$, so $\theta \approx 53.1^\circ + 180^\circ = 233.1^\circ$, not $53.1^\circ$.
+\end{example}
+
+\subsection{Multiplying vectors}
+
+When we added vectors, it seemed natural that the sum of two vectors is again a vector. But, as we
+saw, adding vectors is more complicated than adding ordinary numbers. For example, if we add two
+vectors that both have magnitude $A$, the magnitude of the sum can be anything between $0$ and
+$2A$, depending on the angle between them: it is $2A$ if they point the same way and $0$ if they
+point in opposite directions.
+
+Things are no different when we want to multiply: multiplying two vectors is more complicated than
+multiplying ordinary numbers. (We have already met the product of a vector and a scalar; here we
+mean the product of two vectors.) When we multiply two vectors, there are two kinds of product,
+depending on whether the result is a scalar or a vector. The product whose result is a scalar is
+called the \textbf{scalar product}, and the product whose result is a vector is called the
+\textbf{vector product}. Below we study both in detail.
+
+\subsubsection{The scalar product}
+
+The scalar product of two vectors $\vec{A}$ and $\vec{B}$ is defined as the product of the
+magnitudes of the vectors and the cosine of the angle between them. This gives a scalar. We write
+the scalar product of two vectors with a dot (this is why it is also called the \emph{dot
+product}). So, if $\theta$ is the angle between the vectors $\vec{A}$ and $\vec{B}$ (drawn from the
+same point), their scalar product is
+\begin{keyresult}
+\begin{equation}\label{eq:dot}
+  \vec{A}\cdot\vec{B} \equiv |\vec{A}|\,|\vec{B}|\cos\theta = AB\cos\theta .
+\end{equation}
+\end{keyresult}
+The angle between two vectors is always taken between $0$ and $\pi$. Figure~\ref{fig:dot} shows
+the meaning of this product: $|\vec{A}|\cos\theta$ is the component (projection) of $\vec{A}$
+along the direction of $\vec{B}$, so $\vec{A}\cdot\vec{B}$ is this component times $B$. (Equally,
+it is $A$ times the component of $\vec{B}$ along $\vec{A}$.) In Chapter~7 we will use the scalar
+product to define the work done by a force. Now let us look at the consequences of this
+definition.
+
+\begin{figure}[htb]
+\centering
+\begin{tikzpicture}[>={Stealth[length=2.6mm]},scale=1.1]
+  \begin{scope}[rotate=10]
+    \draw[->,very thick,fzaux] (0,0) -- (3.6,0) node[right]{$\vec{B}$};
+    \draw[->,very thick,fzvec] (0,0) -- (60:2.4) node[above]{$\vec{A}$};
+    \draw[densely dotted,thick,fzgray] (60:2.4) -- (1.2,0);
+    \draw[fzgray] (1.2,0) -- (1.0,0) -- (1.0,0.2) -- (1.2,0.2);
+    \draw[fzgray] (0.55,0) arc[start angle=0,end angle=60,radius=0.55];
+    \node at (30:0.8) {$\theta$};
+    \draw[decorate,decoration={brace,mirror,amplitude=5pt},thick,fzcomp] (0,-0.12) -- (1.2,-0.12)
+      node[midway,below=6pt,text=black,rotate=10]{$|\vec{A}|\cos\theta$};
+  \end{scope}
+\end{tikzpicture}
+\caption{The scalar product. The projection of $\vec{A}$ onto the direction of $\vec{B}$ is
+$|\vec{A}|\cos\theta$, so $\vec{A}\cdot\vec{B} = (|\vec{A}|\cos\theta)\,|\vec{B}|$.}
+\label{fig:dot}
+\end{figure}
+
+\begin{enumerate}
+  \item The scalar product is commutative: $\vec{A}\cdot\vec{B} = \vec{B}\cdot\vec{A}$.
+  \item The scalar product can be negative. It is positive if $0 \le \theta < \pi/2$, zero if
+    $\theta = \pi/2$, and negative if $\pi/2 < \theta \le \pi$.
+  \item The scalar product of a vector with itself is $\vec{A}\cdot\vec{A} = |\vec{A}|^2$, since
+    $\theta = 0$. So the length of a vector can be defined as the square root of its scalar
+    product with itself, $A = \sqrt{\vec{A}\cdot\vec{A}}$.
+  \item If the scalar product of two nonzero vectors $\vec{A}$ and $\vec{B}$ is zero, the two
+    vectors are perpendicular to each other, and vice versa. (If one of the vectors is $\vec{0}$,
+    the product is zero whatever the other one is.)
+  \item The scalar product is distributive:
+    $\vec{A}\cdot(\vec{B}+\vec{C}) = \vec{A}\cdot\vec{B} + \vec{A}\cdot\vec{C}$.
+\end{enumerate}
+So the scalar products of the unit vectors with each other are simply
+\begin{equation}\label{eq:unitdots}
+\begin{aligned}
+  &\ihat\cdot\ihat = \jhat\cdot\jhat = \khat\cdot\khat = 1 , \\
+  &\ihat\cdot\jhat = \ihat\cdot\khat = \jhat\cdot\khat = 0 .
+\end{aligned}
+\end{equation}
+If we take the scalar product of $\ihat$ with \eqref{eq:components} and use the distributive
+property, we find $\ihat\cdot\vec{A} = A_x(\ihat\cdot\ihat) + A_y(\ihat\cdot\jhat) +
+A_z(\ihat\cdot\khat) = A_x$. The components of a vector can therefore be found with the scalar
+product,
+\begin{equation}\label{eq:compdot}
+  A_x = \ihat\cdot\vec{A} , \qquad A_y = \jhat\cdot\vec{A} , \qquad A_z = \khat\cdot\vec{A} .
+\end{equation}
+So we can write a vector $\vec{A}$ in terms of its components as
+\begin{equation}\label{eq:Aexpand}
+  \vec{A} = \ihat\,(\ihat\cdot\vec{A}) + \jhat\,(\jhat\cdot\vec{A}) + \khat\,(\khat\cdot\vec{A}) ,
+\end{equation}
+and a unit vector in the direction of a nonzero vector $\vec{A}$ as
+\begin{equation}\label{eq:Ahat}
+\begin{aligned}
+  \hat{A} = \frac{\vec{A}}{A} &= \ihat\,\frac{\ihat\cdot\vec{A}}{A} + \jhat\,\frac{\jhat\cdot\vec{A}}{A}
+     + \khat\,\frac{\khat\cdot\vec{A}}{A} \\
+  &= \ihat\,\frac{A_x}{A} + \jhat\,\frac{A_y}{A} + \khat\,\frac{A_z}{A} .
+\end{aligned}
+\end{equation}
+Finally, if we write both vectors in components and multiply out, we get nine terms such as
+$A_xB_x\,(\ihat\cdot\ihat)$ and $A_xB_y\,(\ihat\cdot\jhat)$. By \eqref{eq:unitdots}, the six terms
+with two different unit vectors vanish, and the three others have the factor 1. So the scalar
+product of two vectors can be written as
+\begin{keyresult}
+\begin{equation}\label{eq:dotcomp}
+  \vec{A}\cdot\vec{B} = A_xB_x + A_yB_y + A_zB_z ,
+\end{equation}
+\end{keyresult}
+and, from the definition of the scalar product \eqref{eq:dot} and its form in components
+\eqref{eq:dotcomp}, the angle between two nonzero vectors $\vec{A}$ and $\vec{B}$ is given by
+\begin{equation}\label{eq:cosangle}
+  \cos\theta = \frac{A_xB_x + A_yB_y + A_zB_z}{AB} .
+\end{equation}
+
+\begin{example}[The angle between two vectors]
+Let $\vec{A} = \ihat + 2\jhat + 2\khat$ and $\vec{B} = 2\ihat - \jhat + 2\khat$. Their magnitudes
+are $A = \sqrt{1+4+4} = 3$ and $B = \sqrt{4+1+4} = 3$, and by \eqref{eq:dotcomp}
+\[
+  \vec{A}\cdot\vec{B} = (1)(2) + (2)(-1) + (2)(2) = 4 .
+\]
+So $\cos\theta = 4/(3\times 3) = 4/9$ and $\theta \approx 63.6^\circ$. The product is positive,
+so the angle is less than $90^\circ$, as it should be.
+\end{example}
+
+\subsubsection{The vector product}
+
+The second kind of product of vectors that is widely used in physics is the \textbf{vector
+product}. The vector product of two vectors $\vec{A}$ and $\vec{B}$ is written
+$\vec{A}\times\vec{B}$ (this is why it is also called the \emph{cross product}). The result of the
+vector product is a vector perpendicular to the plane that contains $\vec{A}$ and $\vec{B}$, with
+magnitude $AB\sin\theta$:
+\begin{keyresult}
+\begin{equation}\label{eq:cross}
+  \vec{C} = \vec{A}\times\vec{B} = \hat{C}\,|\vec{A}|\,|\vec{B}|\sin\theta ,
+\end{equation}
+\end{keyresult}
+where $\hat{C}$ is a unit vector perpendicular to that plane, whose direction we fix below, and
+$\theta$ is the angle between $\vec{A}$ and $\vec{B}$. Since $0 \le \theta \le \pi$, $\sin\theta$ is
+never negative, so the magnitude $AB\sin\theta$ is never negative either; it is zero when the two
+vectors are parallel or antiparallel. Geometrically, $AB\sin\theta$ is the area of the
+parallelogram with sides $\vec{A}$ and $\vec{B}$. In Chapter~11 we will use the vector product to
+define the torque of a force.
+
+\begin{figure}[htb]
+\centering
+\begin{minipage}[b]{0.44\textwidth}
+\centering
+\begin{tikzpicture}[x={(1cm,0cm)},y={(0.55cm,0.4cm)},z={(0cm,1cm)},>={Stealth[length=2.6mm]},
+    scale=0.95]
+  % B x A points down, below the plane (drawn first, partly hidden by the plane)
+  \draw[->,very thick,fzaux] (0,0,0) -- (0,0,-2.0) node[below]{$\vec{B}\times\vec{A}$};
+  \filldraw[fill=fzgray!30,draw=fzgray,fill opacity=0.85]
+    (-2.0,-1.4,0) -- (2.2,-1.4,0) -- (2.2,1.8,0) -- (-2.0,1.8,0) -- cycle;
+  \draw[->,very thick,fzvec] (0,0,0) -- (1.6,-0.6,0) node[right]{$\vec{A}$};
+  \draw[->,very thick,fzvec] (0,0,0) -- (-1.3,1.2,0) node[left]{$\vec{B}$};
+  \draw[->,very thick,fzcomp] (0,0,0) -- (0,0,2.0) node[above]{$\vec{A}\times\vec{B}$};
+\end{tikzpicture}
+\caption{The two directions perpendicular to the plane of $\vec{A}$ and $\vec{B}$:
+$\vec{A}\times\vec{B}$ and $\vec{B}\times\vec{A}$.}
+\label{fig:crossdirs}
+\end{minipage}\hfill
+\begin{minipage}[b]{0.52\textwidth}
+\centering
+\begin{tikzpicture}[x={(1cm,0cm)},y={(0.55cm,0.4cm)},z={(0cm,1cm)},>={Stealth[length=2.6mm]},
+    scale=0.95]
+  \filldraw[fill=fzgray!30,draw=fzgray]
+    (-2.3,-1.9,0) -- (1.9,-1.9,0) -- (1.9,1.5,0) -- (-2.3,1.5,0) -- cycle;
+  \draw[->,very thick,fzvec] (0,0,0) -- (-1.8,0.3,0) node[left]{$\vec{A}$};
+  \draw[->,very thick,fzvec] (0,0,0) -- (1.6,-1.4,0) node[right]{$\vec{B}$};
+  % rotation from A to B through theta, in the plane
+  \draw[->,thick,fzaux,domain=173:314,samples=40,variable=\t]
+    plot ({0.75*cos(\t)},{0.75*sin(\t)},0);
+  \node[fzaux] at ({1.05*cos(245)},{1.05*sin(245)},0) {$\theta$};
+  \draw[->,very thick,fzcomp] (0,0,0) -- (0,0,2.4)
+    node[above]{$\vec{C}=\vec{A}\times\vec{B}$};
+  % fingers curling around C
+  \draw[->,thick,fzboard,domain=30:330,samples=60,variable=\t]
+    plot ({0.42*cos(\t)},{0.42*sin(\t)},1.25);
+  \node[font=\footnotesize,align=left,anchor=west] at (0.62,0,1.2) {fingers curl\\from $\vec{A}$ to $\vec{B}$};
+  \node[font=\footnotesize,anchor=east] at (-0.1,0,2.0) {thumb};
+\end{tikzpicture}
+\caption{The right-hand rule. When the fingers of the right hand curl from $\vec{A}$ towards
+$\vec{B}$ through the angle $\theta$, the thumb points along $\vec{A}\times\vec{B}$.}
+\label{fig:righthand}
+\end{minipage}
+\end{figure}
+
+As Figure~\ref{fig:crossdirs} shows, there are two opposite directions perpendicular to a plane. So
+we have to agree on which direction the vector product gives. In this course we use the
+\textbf{right-hand rule}. Draw $\vec{A}$ and $\vec{B}$ from the same point, and imagine turning
+$\vec{A}$, about an axis perpendicular to their plane, through the smaller of the two angles between
+them, until it lines up with $\vec{B}$. Wrap the fingers of your right hand around this
+perpendicular axis so that your fingertips point in the direction of the rotation. The thumb of
+your right hand then shows you the direction of $\vec{A}\times\vec{B}$. Figure~\ref{fig:righthand}
+shows how the right-hand rule works.
+
+It is clear from the right-hand rule that the vector product is not commutative; it depends on the
+order of the vectors. Turning $\vec{B}$ towards $\vec{A}$ is a rotation in the opposite sense, so
+the thumb points the other way:
+\begin{equation}\label{eq:anticomm}
+  \vec{A}\times\vec{B} = -\vec{B}\times\vec{A} .
+\end{equation}
+One consequence of this is that if we write $\vec{A}$ in place of $\vec{B}$, we get
+$\vec{A}\times\vec{A} = -\vec{A}\times\vec{A}$. The only vector that is equal to its own negative
+is the zero vector, so this product must be zero. This agrees with the definition
+\eqref{eq:cross} of the vector product, since the angle between $\vec{A}$ and itself is zero:
+\begin{equation}\label{eq:AxA}
+  \vec{A}\times\vec{A} = \vec{0} .
+\end{equation}
+The vector product is distributive over addition:
+\begin{equation}\label{eq:crossdistr}
+  \vec{A}\times(\vec{B}+\vec{C}) = \vec{A}\times\vec{B} + \vec{A}\times\vec{C} ,
+\end{equation}
+and a scalar factor can be taken out of it, $(k\vec{A})\times\vec{B} = k(\vec{A}\times\vec{B})$.
+When you distribute, keep the order of the factors: $(\vec{B}+\vec{C})\times\vec{A} =
+\vec{B}\times\vec{A} + \vec{C}\times\vec{A}$, which by \eqref{eq:anticomm} is
+$-\vec{A}\times\vec{B} - \vec{A}\times\vec{C}$.
+
+In the previous section we wrote the scalar product of two vectors in terms of their components. If
+we want to do the same for the vector product, we multiply out the product of the two sums with
+\eqref{eq:crossdistr}, which gives nine terms. The three terms with the same unit vector twice,
+such as $A_xB_x\,(\ihat\times\ihat)$, vanish by \eqref{eq:AxA}, and the remaining six combine in
+pairs because, by \eqref{eq:anticomm}, $\jhat\times\ihat = -\ihat\times\jhat$, and so on. We find
+\begin{equation}\label{eq:crossexpand}
+\begin{aligned}
+  \vec{A}\times\vec{B} &= (A_x\ihat + A_y\jhat + A_z\khat)\times(B_x\ihat + B_y\jhat + B_z\khat) \\
+  &= (\ihat\times\jhat)(A_xB_y - A_yB_x) + (\ihat\times\khat)(A_xB_z - A_zB_x) \\
+  &\quad + (\jhat\times\khat)(A_yB_z - A_zB_y) .
+\end{aligned}
+\end{equation}
+So, to find the vector product, we need the vector products of the unit vectors. In this course we
+will always use the unit vectors as drawn in Figure~\ref{fig:unitvectors}, which form a
+\emph{right-handed} coordinate system: if you curl the fingers of your right hand from the positive
+$x$ axis towards the positive $y$ axis, your thumb points along the positive $z$ axis. You may turn
+the whole figure in any way you like, but you may not, for example, swap the $x$ and $y$ axes while
+keeping $z$: that would give a \emph{left-handed} system, in which every vector product of unit
+vectors, and so every vector product calculated from components, comes out with the opposite sign.
+You would then find a result with the wrong sign for the problem you are trying to solve. So it is
+worth repeating: \textbf{in this course we always use the unit vectors as drawn in
+Figure~\ref{fig:unitvectors}}. With this choice, the right-hand rule gives the vector products of
+the unit vectors as
+\begin{equation}\label{eq:unitcross}
+  \ihat\times\jhat = \khat , \qquad \jhat\times\khat = \ihat , \qquad \khat\times\ihat = \jhat .
+\end{equation}
+(The order $\ihat \to \jhat \to \khat \to \ihat$ gives a plus sign; the reverse order gives a minus
+sign, for example $\ihat\times\khat = -\jhat$.) These products also show that, unlike the
+product of numbers, the vector product is not associative: $\ihat\times(\ihat\times\jhat) =
+\ihat\times\khat = -\jhat$, but $(\ihat\times\ihat)\times\jhat = \vec{0}\times\jhat =
+\vec{0}$. So with three vectors the brackets matter. Then the vector product of two vectors, in terms of
+their components, is
+\begin{keyresult}
+\begin{equation}\label{eq:crosscomp}
+  \vec{A}\times\vec{B} = \ihat(A_yB_z - A_zB_y) - \jhat(A_xB_z - A_zB_x) + \khat(A_xB_y - A_yB_x) .
+\end{equation}
+\end{keyresult}
+In other words, if $\vec{A}\times\vec{B} = \vec{C}$, the components of $\vec{C}$ are
+\begin{equation}\label{eq:crossC}
+  C_x = A_yB_z - A_zB_y , \qquad C_y = A_zB_x - A_xB_z , \qquad C_z = A_xB_y - A_yB_x .
+\end{equation}
+Written this way, the indices follow a pattern that is easy to remember: in the first term of
+each component they follow the cyclic order $x \to y \to z \to x$ ($yz$ in $C_x$, $zx$ in $C_y$,
+$xy$ in $C_z$), and in the second term they are swapped.
+Another way to calculate the vector product, if you are familiar with determinants, is
+\begin{equation}\label{eq:det}
+  \vec{A}\times\vec{B} =
+  \begin{vmatrix}
+    \ihat & \jhat & \khat \\
+    A_x & A_y & A_z \\
+    B_x & B_y & B_z
+  \end{vmatrix} .
+\end{equation}
+Expanding this determinant along its first row gives the same result as the component form
+\eqref{eq:crosscomp} of the vector product.
+
+\Needspace{9\baselineskip}
+\begin{example}[A vector product]
+Take again $\vec{A} = \ihat + 2\jhat + 2\khat$ and $\vec{B} = 2\ihat - \jhat + 2\khat$. By
+\eqref{eq:crossC},
+\begin{gather*}
+  C_x = (2)(2) - (2)(-1) = 6 , \qquad C_y = (2)(2) - (1)(2) = 2 , \\
+  C_z = (1)(-1) - (2)(2) = -5 ,
+\end{gather*}
+so $\vec{A}\times\vec{B} = 6\ihat + 2\jhat - 5\khat$. Two checks: this vector is perpendicular
+to both $\vec{A}$ and $\vec{B}$, since $(6)(1) + (2)(2) + (-5)(2) = 0$ and
+$(6)(2) + (2)(-1) + (-5)(2) = 0$; and its magnitude, $\sqrt{36+4+25} = \sqrt{65} \approx 8.06$, is
+equal to $AB\sin\theta = 9\sqrt{1 - (4/9)^2} = \sqrt{65}$, with the angle found in the previous
+example.
+\end{example}
+
+%======================================================================
+\section*{About these notes}
+These notes are not original. They draw heavily on the books listed in the Week~1 notes, on Walter Lewin's 8.01x Classical Mechanics lectures at MIT, and on the Dynamics and Relativity courses taught at different times by Stephen Siklos and David Tong at the University of Cambridge. They are not official course notes of FIZ~101: they are written only to help the students of Mehmet \"Ozkan's section. Istanbul Technical University and its Department of Physics Engineering bear no responsibility for them.
+
+\end{document}

@@ -146,11 +146,11 @@
 
   var PHET='https://phet.colorado.edu/en/simulations/';
   var PHYS=[
-    {title:"Units, physical quantities and vectors",read:"Young & Freedman, Ch. 1",
+    {title:"Units, physical quantities and vectors",read:"Young & Freedman, Ch. 1",notes:"notes/FIZ101_W1.pdf",
       videos:[["Powers of Ten (Eames, 1977)","https://www.youtube.com/watch?v=0fKBhvDjuy0"],["Feathers and a bowling ball in a vacuum chamber","https://www.youtube.com/watch?v=E43-CfukEgs"]],sims:[["PhET: Vector Addition","vector-addition"]]},
-    {title:"Kinematics: motion in one, two and three dimensions",read:"Young & Freedman, Ch. 2–3",videos:[],sims:[]},
-    {title:"Newton's laws of motion",read:"Young & Freedman, Ch. 4",quizzes:[["Practice quiz","Tuesday 13 Oct, not graded","quizzes/practice.html"]],solUrl:"quizzes/practice-solutions.html",videos:[],sims:[]},
-    {title:"Applying Newton's laws",read:"Young & Freedman, Ch. 5",quizzes:[["Quiz 1","Tuesday 20 Oct, 14:30","quizzes/quiz1.html"]],videos:[],sims:[]},
+    {title:"Kinematics: motion in one, two and three dimensions",read:"Young & Freedman, Ch. 2–3",notes:"notes/FIZ101_W2.pdf",videos:[],sims:[]},
+    {title:"Newton's laws of motion",read:"Young & Freedman, Ch. 4",notes:"notes/FIZ101_W3.pdf",quizzes:[["Practice quiz","Tuesday 13 Oct, not graded","quizzes/practice.html"]],solUrl:"quizzes/practice-solutions.html",videos:[],sims:[]},
+    {title:"Applying Newton's laws",read:"Young & Freedman, Ch. 5",notes:"notes/FIZ101_W4.pdf",quizzes:[["Quiz 1","Tuesday 20 Oct, 14:30","quizzes/quiz1.html"]],videos:[],sims:[]},
     {title:"Work and kinetic energy",read:"Young & Freedman, Ch. 6",videos:[],sims:[]},
     {title:"Potential energy and energy conservation",read:"Young & Freedman, Ch. 7",quizzes:[["Quiz 2","2–6 Nov"]],videos:[],sims:[]},
     {title:"Momentum, impulse and collisions",read:"Young & Freedman, Ch. 8",quizzes:[["Quiz 3","23–27 Nov"]],videos:[],sims:[]},
@@ -163,7 +163,8 @@
   if(phEl){
     phEl.innerHTML=PHYS.map(function(p,i){
       p.label='Topic '+(i+1);
-      var r=[{t:'reading',label:p.read}];
+      var r=p.notes?[{t:'notes',label:'Lecture notes (PDF)',url:p.notes,ext:1}]:[];
+      r.push({t:'reading',label:p.read});
       p.videos.forEach(function(v){r.push({t:'video',label:v[0],url:v[1],ext:1});});
       p.sims.forEach(function(v){r.push({t:'simulation',label:v[0],url:PHET+v[1],ext:1});});
       if(p.quizzes){ p.quizzes.forEach(function(q){r.push(q[2]?{t:'quiz',label:q[0]+', '+q[1],url:q[2]}:{t:'quiz',label:q[0]+', '+q[1],soon:1});}); r.push(p.solUrl?{t:'solutions',label:'Solutions',url:p.solUrl}:{t:'solutions',label:'Solutions',soon:1}); }
@@ -173,7 +174,7 @@
   }
 
   var FILTERS={'gt-sched':[['','All'],['notes','Lecture notes'],['reading','Readings'],['simulation','Simulations'],['homework','Problem sets'],['quiz','Quizzes'],['solutions','Solutions']],
-               'phys-sched':[['','All'],['reading','Readings'],['video','Videos'],['simulation','Simulations'],['quiz','Quizzes'],['solutions','Solutions']]};
+               'phys-sched':[['','All'],['notes','Lecture notes'],['reading','Readings'],['video','Videos'],['simulation','Simulations'],['quiz','Quizzes'],['solutions','Solutions']]};
   [].forEach.call(document.querySelectorAll('.filters[data-for]'),function(bar){
     var id=bar.getAttribute('data-for'), sched=document.getElementById(id);
     bar.innerHTML=FILTERS[id].map(function(f,i){return '<button type="button" data-f="'+f[0]+'" aria-pressed="'+(i===0)+'">'+f[1]+'</button>';}).join('');
