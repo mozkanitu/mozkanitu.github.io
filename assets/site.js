@@ -150,7 +150,7 @@
       videos:[["Powers of Ten (Eames, 1977)","https://www.youtube.com/watch?v=0fKBhvDjuy0"],["Feathers and a bowling ball in a vacuum chamber","https://www.youtube.com/watch?v=E43-CfukEgs"]],sims:[["PhET: Vector Addition","vector-addition"]]},
     {title:"Kinematics: motion in one, two and three dimensions",read:"Young & Freedman, Ch. 2–3",videos:[],sims:[]},
     {title:"Newton's laws of motion",read:"Young & Freedman, Ch. 4",quizzes:[["Practice quiz","Tuesday 13 Oct, not graded","quizzes/practice.html"]],solUrl:"quizzes/practice-solutions.html",videos:[],sims:[]},
-    {title:"Applying Newton's laws",read:"Young & Freedman, Ch. 5",quizzes:[["Quiz 1","19–23 Oct"]],videos:[],sims:[]},
+    {title:"Applying Newton's laws",read:"Young & Freedman, Ch. 5",quizzes:[["Quiz 1","Tuesday 20 Oct, 14:30","quizzes/quiz1.html"]],videos:[],sims:[]},
     {title:"Work and kinetic energy",read:"Young & Freedman, Ch. 6",videos:[],sims:[]},
     {title:"Potential energy and energy conservation",read:"Young & Freedman, Ch. 7",quizzes:[["Quiz 2","2–6 Nov"]],videos:[],sims:[]},
     {title:"Momentum, impulse and collisions",read:"Young & Freedman, Ch. 8",quizzes:[["Quiz 3","23–27 Nov"]],videos:[],sims:[]},
