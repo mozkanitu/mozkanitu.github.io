@@ -571,6 +571,17 @@ finite rotations are not vectors. Very small (infinitesimal) rotations, on the o
 commute (to first order in the angles); this is why the angular velocity of a rotating body can be treated as a vector, as we
 will do in Chapter~10.
 
+\begin{aside}
+\textbf{Video:}
+\href{https://www.youtube.com/watch?v=fNk_zzaMoSs}{\emph{Vectors}}\footnote{\url{https://www.youtube.com/watch?v=fNk_zzaMoSs}}
+(3Blue1Brown, \emph{Essence of linear algebra}, Chapter~1, 2016, 10~min). An animated
+introduction to a vector as an arrow and as a list of components. Watch for the tip-to-tail
+addition of Figure~\ref{fig:addition} and why it gives $\vec{A}+\vec{B} = \vec{B}+\vec{A}$, for
+multiplication by a negative number, which reverses the arrow, and for addition component by
+component, as in equation~\eqref{eq:Ccomp} of the next section. (The sum shown on the screen at
+6:52 has a typo, corrected in the video's description: it should be $[x_1+x_2,\ y_1+y_2]$.)
+\end{aside}
+
 \begin{figure}[htb]
 \centering
 \begin{tikzpicture}[scale=1.0]
@@ -1047,6 +1058,17 @@ Another way to calculate the vector product, if you are familiar with determinan
 Expanding this determinant along its first row gives the same result as the component form
 \eqref{eq:crosscomp} of the vector product.
 
+\begin{aside}
+\textbf{Video:}
+\href{https://www.youtube.com/watch?v=eu6i7WJeinw}{\emph{Cross products}}\footnote{\url{https://www.youtube.com/watch?v=eu6i7WJeinw}}
+(3Blue1Brown, \emph{Essence of linear algebra}, Chapter~10, 2016, 9~min). The animation shows the
+magnitude $AB\sin\theta$ as the area of the parallelogram, the direction from the right-hand rule
+of Figure~\ref{fig:righthand}, and the determinant~\eqref{eq:det}. Two differences from these
+notes: his two-dimensional ``cross product'' is a single number, the signed area, which is the $z$
+component $A_xB_y - A_yB_x$ of our vector product; and he writes the vectors as the columns of the
+determinant instead of its rows, which does not change its value.
+\end{aside}
+
 \Needspace{9\baselineskip}
 \begin{example}[A vector product]
 Take again $\vec{A} = \ihat + 2\jhat + 2\khat$ and $\vec{B} = 2\ihat - \jhat + 2\khat$. By
@@ -1061,6 +1083,21 @@ $(6)(2) + (2)(-1) + (-5)(2) = 0$; and its magnitude, $\sqrt{36+4+25} = \sqrt{65}
 equal to $AB\sin\theta = 9\sqrt{1 - (4/9)^2} = \sqrt{65}$, with the angle found in the previous
 example.
 \end{example}
+
+%======================================================================
+\section*{Videos and simulations for this week}
+
+\begin{itemize}[nosep]
+  \item \href{https://www.youtube.com/watch?v=0fKBhvDjuy0}{\emph{Powers of Ten}} (Charles and Ray
+    Eames, 1977): Section~1.1, units and powers of ten.
+  \item \href{https://www.youtube.com/watch?v=E43-CfukEgs}{\emph{Feathers and a bowling ball in
+    NASA's vacuum chamber}} (BBC, \emph{Human Universe}, Brian Cox): Section~1.1.1, free fall.
+  \item \href{https://www.youtube.com/watch?v=fNk_zzaMoSs}{\emph{Vectors}} (3Blue1Brown,
+    \emph{Essence of linear algebra}, Chapter~1): Sections~2.1 and~2.2, vector addition and
+    components.
+  \item \href{https://www.youtube.com/watch?v=eu6i7WJeinw}{\emph{Cross products}} (3Blue1Brown,
+    \emph{Essence of linear algebra}, Chapter~10): Section~2.3.2, the vector product.
+\end{itemize}
 
 %======================================================================
 \section*{About these notes}
