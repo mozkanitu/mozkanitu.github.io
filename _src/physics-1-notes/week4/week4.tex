@@ -1,5 +1,6 @@
 \documentclass[11pt,a4paper]{article}
 \usepackage{fiz101notes}
+\usepackage{needspace}
 \noteweek{4}{Applying Newton's laws}
 
 % Figures used only in this week: a stick figure standing (feet at the origin)
@@ -559,8 +560,7 @@ airplane and of the passengers increases (in real flights, to about $1.8$ times 
 airplane then flies level for a while; to begin the next parabola it pulls up again, with the
 apparent weight again larger than the weight, until it reaches the desired initial velocity, and
 then the pilots throttle back once more. (Real parabolic flights give about 20 to 25 seconds of
-weightlessness per parabola.) I recommend watching the video ``Zero Gravity Flight --
-Weightlessness'' about this motion.
+weightlessness per parabola.) The ESA videos in the box below show such flights.
 
 \begin{aside}
 \textbf{Weightless astronauts.} Astronauts on the International Space Station float for the same
@@ -569,6 +569,30 @@ altitude, about \qty{400}{km}, the gravitational acceleration is still about \qt
 \qty{90}{\percent} of its value on the ground, so ``zero gravity'' is a misnomer: it is the
 \emph{apparent} weight that is zero. The station does not hit the ground because it also moves
 sideways, at about \qty{7.7}{km/s}; as it falls, the curved surface of the Earth falls away beneath it.
+\par\smallskip
+\textbf{Video:}
+\href{https://www.youtube.com/watch?v=iQOHRKKNNLQ}{\emph{Why Are Astronauts
+Weightless?}}\footnote{\url{https://www.youtube.com/watch?v=iQOHRKKNNLQ}} (Veritasium, Derek
+Muller, 2012, a short segment). The common answer, that there is no gravity in space, is wrong: the
+station is only about \qty{400}{km} up. The astronauts and the station fall together, and their
+sideways motion keeps them from hitting the Earth.
+\par\smallskip
+\textbf{Video:}
+\href{https://www.esa.int/ESA_Multimedia/Videos/2024/09/Parabolic_Flight_Campaign_instructions}{\emph{Parabolic
+Flight Campaign instructions}}\footnote{\url{https://www.esa.int/ESA_Multimedia/Videos/2024/09/Parabolic_Flight_Campaign_instructions}}
+(European Space Agency, ESA/Novespace, 2024, 10~min). ESA's flight coordinator briefs the
+researchers whose experiments will fly, with a tour of the Novespace base in Bordeaux. Each
+parabola is flown as in Figure~\ref{fig:zerog}: a pull-up (apparent weight about 1.8 times the
+weight), about \qty{22}{s} of free fall (the ideal parabola of~\eqref{eq:zg-t} gives \qty{27}{s}),
+and a pull-out.
+\par\smallskip
+\textbf{Video:}
+\href{https://www.esa.int/ESA_Multimedia/Videos/2002/05/The_History_of_Parabolic_Flights}{\emph{The
+History of Parabolic
+Flights}}\footnote{\url{https://www.esa.int/ESA_Multimedia/Videos/2002/05/The_History_of_Parabolic_Flights}}
+(ESA, 2002, 6--7~min). Airplanes flying parabolas since the 1950s, for astronaut training and
+research. Watch the people on board float only during the free-fall arc, and be pressed into the
+floor in the pull-up and the pull-out.
 \end{aside}
 
 %----------------------------------------------------------------------
@@ -968,6 +992,17 @@ below its maximum of \qty{4.33}{N}, as it must be. Notice that it is \emph{not} 
 friction is only as large as it needs to be.
 \end{example}
 
+\begin{aside}
+\textbf{Video:}
+\href{https://oyc.yale.edu/physics/phys-200/lecture-4}{\emph{Lecture~4 -- Newton's Laws (cont.)\
+and Inclined Planes}}\footnote{\url{https://oyc.yale.edu/physics/phys-200/lecture-4}} (Open Yale
+Courses, Ramamurti Shankar, 2006, about 67~min; an optional full lecture, with a transcript).
+Friction, a block on an incline, pulleys (Section~\ref{sec:apparent}) and friction in circular
+motion (Section~\ref{sec:circdyn}). Watch for static friction as an inequality,
+$f\sub{s} \leq \mu\sub{s} n$, as in ``Will it move?'', and compare his incline
+with~\eqref{eq:crit-angle}.
+\end{aside}
+
 %----------------------------------------------------------------------
 \subsection{Fluid resistance and terminal speed}\label{sec:fluid}
 
@@ -1210,6 +1245,38 @@ cancels: on the same curve, with the same tires, a heavy truck and a light car h
 speed. Above it, the tires slip and the car slides outward: not because something pushes it out, but
 because friction can no longer bend its path into the circle.
 \end{example}
+
+\needspace{9\baselineskip}
+\begin{aside}
+\textbf{Video:}
+\href{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-3-circular-motion/11-2-worked-example-car-on-a-banked-turn/}{\emph{11.2
+Worked Example -- Car on a Banked
+Turn}}\footnote{\url{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-3-circular-motion/11-2-worked-example-car-on-a-banked-turn/}}
+(MIT OpenCourseWare, 8.01SC, 2016, short). The same car on an icy, frictionless road banked at an
+angle $\phi$: the normal force supplies the centripetal force, and $n\cos\phi = mg$,
+$n\sin\phi = mv^2/R$ give $v = \sqrt{gR\tan\phi}$, the only speed at which the car can take the
+curve. As on the flat road, the mass cancels.
+\end{aside}
+
+%======================================================================
+\section*{Videos and simulations for this week}
+\begin{itemize}[nosep]
+\item \href{https://www.youtube.com/watch?v=iQOHRKKNNLQ}{\emph{Why Are Astronauts Weightless?}}
+  (Veritasium): Section~\ref{sec:apparent}, weightless astronauts.
+\item \href{https://www.esa.int/ESA_Multimedia/Videos/2024/09/Parabolic_Flight_Campaign_instructions}{\emph{Parabolic
+  Flight Campaign instructions}} (ESA): Section~\ref{sec:apparent}, zero-gravity flights.
+\item \href{https://www.esa.int/ESA_Multimedia/Videos/2002/05/The_History_of_Parabolic_Flights}{\emph{The
+  History of Parabolic Flights}} (ESA): Section~\ref{sec:apparent}, zero-gravity flights.
+\item \href{https://oyc.yale.edu/physics/phys-200/lecture-4}{\emph{Lecture~4 -- Newton's Laws
+  (cont.)\ and Inclined Planes}} (Open Yale Courses, Ramamurti Shankar; optional full lecture):
+  Section~\ref{sec:friction}, friction and inclines.
+\item \href{https://www.youtube.com/watch?v=E43-CfukEgs}{\emph{Feathers and a bowling ball in
+  NASA's vacuum chamber}} (BBC, \emph{Human Universe}, Brian Cox): Section~\ref{sec:fluid}, falling
+  with no air resistance.
+\item \href{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-3-circular-motion/11-2-worked-example-car-on-a-banked-turn/}{\emph{11.2
+  Worked Example -- Car on a Banked Turn}} (MIT OpenCourseWare, 8.01SC): Section~\ref{sec:circdyn},
+  the banked curve.
+\end{itemize}
 
 \section*{About these notes}
 These notes are not original. They draw heavily on the books listed in the Week~1 notes, on Walter Lewin's 8.01x Classical Mechanics lectures at MIT, and on the Dynamics and Relativity courses taught at different times by Stephen Siklos and David Tong at the University of Cambridge. They are not official course notes of FIZ~101: they are written only to help the students of Mehmet \"Ozkan's section. Istanbul Technical University and its Department of Physics Engineering bear no responsibility for them.

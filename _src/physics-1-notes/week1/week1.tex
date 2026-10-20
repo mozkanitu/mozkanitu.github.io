@@ -127,6 +127,16 @@ constant. The second is the duration of exactly
 cesium-133 atom. The meter is the distance light travels in vacuum in $1/\num{299792458}$ of a
 second, so the speed of light is exactly $c = \qty{299792458}{m/s}$. The kilogram is fixed by
 giving Planck's constant the exact value $h = \qty{6.62607015e-34}{J.s}$.
+
+\smallskip
+\textbf{Video:}
+\href{https://www.youtube.com/watch?v=c_e1wITe_ig}{\emph{The kg is dead, long live the
+kg}}\footnote{\url{https://www.youtube.com/watch?v=c_e1wITe_ig}} (Veritasium, 2018, 10~min).
+Watch for why the platinum--iridium cylinder that defined the kilogram until 2019 was retired (its
+mass drifted relative to its official copies), and how the kilogram, the kelvin, the mole and the
+ampere were tied to fixed values of constants of nature, the defining constants above. The video
+was made just before the vote of November 2018, so when it says the definitions ``will'' change,
+it means the ones in force since 20~May 2019.
 \end{aside}
 
 To see the universe one power of ten at a time, from \qty{e24}{m} down to \qty{e-16}{m}, you can
@@ -571,6 +581,26 @@ finite rotations are not vectors. Very small (infinitesimal) rotations, on the o
 commute (to first order in the angles); this is why the angular velocity of a rotating body can be treated as a vector, as we
 will do in Chapter~10.
 
+\begin{aside}
+\textbf{Video:}
+\href{https://www.youtube.com/watch?v=fNk_zzaMoSs}{\emph{Vectors}}\footnote{\url{https://www.youtube.com/watch?v=fNk_zzaMoSs}}
+(3Blue1Brown, \emph{Essence of linear algebra}, Chapter~1, 2016, 10~min). An animated
+introduction to a vector as an arrow and as a list of components. Watch for the tip-to-tail
+addition of Figure~\ref{fig:addition} and why it gives $\vec{A}+\vec{B} = \vec{B}+\vec{A}$, for
+multiplication by a negative number, which reverses the arrow, and for addition component by
+component, as in equation~\eqref{eq:Ccomp} of the next section. (The sum shown on the screen at
+6:52 has a typo, corrected in the video's description: it should be $[x_1+x_2,\ y_1+y_2]$.)
+
+\smallskip
+\textbf{Simulation:}
+\href{https://phet.colorado.edu/en/simulations/vector-addition}{\emph{Vector
+Addition}}\footnote{\url{https://phet.colorado.edu/en/simulations/vector-addition}} (PhET
+Interactive Simulations, University of Colorado Boulder). Drag vectors onto a grid, change their
+length and direction, and add them; the simulation can show the magnitude, angle and components of
+each vector. Put the tail of one arrow at the tip of the other, as in
+Figure~\ref{fig:addition}(b), and compare with the sum it draws.
+\end{aside}
+
 \begin{figure}[htb]
 \centering
 \begin{tikzpicture}[scale=1.0]
@@ -780,6 +810,18 @@ $\tan\theta = (-4)/(-3) = 4/3$, but it lies in the third quadrant: $\cos\theta =
 $\sin\theta = -4/5$, so $\theta \approx 53.1^\circ + 180^\circ = 233.1^\circ$, not $53.1^\circ$.
 \end{example}
 
+\begin{aside}
+\textbf{Video:}
+\href{https://oyc.yale.edu/physics/phys-200/lecture-2}{\emph{Lecture~2 -- Vectors in Multiple
+Dimensions}}\footnote{\url{https://oyc.yale.edu/physics/phys-200/lecture-2}} (Open Yale Courses,
+PHYS~200 \emph{Fundamentals of Physics~I}, Ramamurti Shankar, recorded 2006, 67~min; an optional
+full lecture, with a transcript on the same page). After a short review of motion in one
+dimension, Shankar draws vectors as arrows, adds them, writes them with the unit vectors $\ihat$
+and $\jhat$ and their components, and shows that rotating the axes changes the components but not
+the vector, which is why laws written with vectors do not depend on the coordinate system. The
+last part, velocity vectors and projectile motion, is a preview of Week~2.
+\end{aside}
+
 \subsection{Multiplying vectors}
 
 When we added vectors, it seemed natural that the sum of two vectors is again a vector. But, as we
@@ -896,6 +938,18 @@ are $A = \sqrt{1+4+4} = 3$ and $B = \sqrt{4+1+4} = 3$, and by \eqref{eq:dotcomp}
 So $\cos\theta = 4/(3\times 3) = 4/9$ and $\theta \approx 63.6^\circ$. The product is positive,
 so the angle is less than $90^\circ$, as it should be.
 \end{example}
+
+\begin{aside}
+\textbf{Video:}
+\href{https://www.ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/resources/21}{\emph{21.1
+Scalar Product Properties}}\footnote{\url{https://www.ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/resources/21}}
+(MIT OpenCourseWare, 8.01SC \emph{Classical Mechanics}, Peter Dourmashkin, 2016, a few minutes).
+A short lesson that defines $\vec{A}\cdot\vec{B} = AB\cos\theta$ with $\theta$ between $0$ and
+$\pi$, reads it as one magnitude times the projection of the other vector, as in
+Figure~\ref{fig:dot}, and lists two of the properties above: the product is commutative, and it is
+positive, zero or negative depending on $\theta$. It starts from the work done by a force in
+more than one dimension, which is where we will use the scalar product in Chapter~7.
+\end{aside}
 
 \subsubsection{The vector product}
 
@@ -1047,6 +1101,17 @@ Another way to calculate the vector product, if you are familiar with determinan
 Expanding this determinant along its first row gives the same result as the component form
 \eqref{eq:crosscomp} of the vector product.
 
+\begin{aside}
+\textbf{Video:}
+\href{https://www.youtube.com/watch?v=eu6i7WJeinw}{\emph{Cross products}}\footnote{\url{https://www.youtube.com/watch?v=eu6i7WJeinw}}
+(3Blue1Brown, \emph{Essence of linear algebra}, Chapter~10, 2016, 9~min). The animation shows the
+magnitude $AB\sin\theta$ as the area of the parallelogram, the direction from the right-hand rule
+of Figure~\ref{fig:righthand}, and the determinant~\eqref{eq:det}. Two differences from these
+notes: his two-dimensional ``cross product'' is a single number, the signed area, which is the $z$
+component $A_xB_y - A_yB_x$ of our vector product; and he writes the vectors as the columns of the
+determinant instead of its rows, which does not change its value.
+\end{aside}
+
 \Needspace{9\baselineskip}
 \begin{example}[A vector product]
 Take again $\vec{A} = \ihat + 2\jhat + 2\khat$ and $\vec{B} = 2\ihat - \jhat + 2\khat$. By
@@ -1061,6 +1126,30 @@ $(6)(2) + (2)(-1) + (-5)(2) = 0$; and its magnitude, $\sqrt{36+4+25} = \sqrt{65}
 equal to $AB\sin\theta = 9\sqrt{1 - (4/9)^2} = \sqrt{65}$, with the angle found in the previous
 example.
 \end{example}
+
+%======================================================================
+\section*{Videos and simulations for this week}
+
+\begin{itemize}[nosep]
+  \item \href{https://www.youtube.com/watch?v=c_e1wITe_ig}{\emph{The kg is dead, long live the
+    kg}} (Veritasium): Section~1.1, how the SI units are defined.
+  \item \href{https://www.youtube.com/watch?v=0fKBhvDjuy0}{\emph{Powers of Ten}} (Charles and Ray
+    Eames, 1977): Section~1.1, units and powers of ten.
+  \item \href{https://www.youtube.com/watch?v=E43-CfukEgs}{\emph{Feathers and a bowling ball in
+    NASA's vacuum chamber}} (BBC, \emph{Human Universe}, Brian Cox): Section~1.1.1, free fall.
+  \item \href{https://www.youtube.com/watch?v=fNk_zzaMoSs}{\emph{Vectors}} (3Blue1Brown,
+    \emph{Essence of linear algebra}, Chapter~1): Sections~2.1 and~2.2, vector addition and
+    components.
+  \item \href{https://phet.colorado.edu/en/simulations/vector-addition}{\emph{Vector Addition}}
+    (PhET simulation, University of Colorado): Section~2.1, vector addition.
+  \item \href{https://oyc.yale.edu/physics/phys-200/lecture-2}{\emph{Lecture~2 -- Vectors in
+    Multiple Dimensions}} (Open Yale Courses, Ramamurti Shankar; optional full lecture):
+    Sections~2.1 and~2.2, vectors and components.
+  \item \href{https://www.ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/resources/21}{\emph{21.1
+    Scalar Product Properties}} (MIT OpenCourseWare, 8.01SC): Section~2.3.1, the scalar product.
+  \item \href{https://www.youtube.com/watch?v=eu6i7WJeinw}{\emph{Cross products}} (3Blue1Brown,
+    \emph{Essence of linear algebra}, Chapter~10): Section~2.3.2, the vector product.
+\end{itemize}
 
 %======================================================================
 \section*{About these notes}
