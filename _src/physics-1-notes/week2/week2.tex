@@ -1,0 +1,1345 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fiz101notes}
+\usepackage{needspace}
+\sisetup{retain-explicit-plus=true}
+\noteweek{2}{Kinematics: motion in one, two and three dimensions}
+
+% Notation used only in this week (Young & Freedman style).
+\newcommand{\vavx}{v_{\mathrm{av}\text{-}x}}   % average velocity, x component
+\newcommand{\aavx}{a_{\mathrm{av}\text{-}x}}   % average acceleration, x component
+\newcommand{\relx}[2]{#1_{#2\text{-}x}}        % relative quantity, x component: \relx{v}{P/A}
+
+\begin{document}
+\makenotetitle
+
+%======================================================================
+\setcounter{section}{2}
+\section{Motion along a straight line}\label{sec:line}
+
+Classical mechanics was born from the wish to describe and predict how bodies move, from falling
+stones to the planets. The laws found by Galileo and Newton worked so well that a century later
+the goal became very ambitious indeed: in 1814 Pierre-Simon Laplace argued that an intellect that
+knew the forces of nature and the present positions and velocities of all the particles in the
+universe could predict the future of the universe we live in and reconstruct its past, that is,
+determine the history and the future of every particle in it. (We now know that this dream has
+limits: quantum mechanics rules the world of atoms, Einstein's relativity takes over at speeds
+close to the speed of light, and even within classical mechanics, in many systems tiny
+uncertainties in the starting conditions grow so fast that long-term prediction is impossible in
+practice. But for everyday objects moving at everyday speeds, the laws of classical mechanics are
+extremely accurate.)
+
+In Chapter~2 we introduced vectors, the basic language of classical mechanics. In this chapter we
+take our last step before we start studying the dynamics of classical mechanics developed by
+Galileo and Newton: we turn to \textbf{kinematics}, the description of motion, that is, of how the
+positions of objects change with time. Kinematics asks \emph{how} things move; the question of
+\emph{why} they move as they do, the forces, belongs to dynamics, which starts in Chapter~5. In
+this chapter and the next we treat every moving object as a \textbf{particle}: an object so
+small, compared with the distances involved, that its position at any time is a single point in
+space. When we meet the center of mass in a later
+chapter, we will see why this model works so well even for cars, cats and planets.
+
+%----------------------------------------------------------------------
+\subsection{Invariants}\label{sec:invariants}
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[c]{0.58\textwidth}
+\centering
+\begin{tikzpicture}[x={(-0.62cm,-0.40cm)},y={(1.05cm,-0.10cm)},z={(0cm,1cm)},scale=1.5,
+    >=Stealth,line cap=round]
+  \coordinate (O) at (0,0,0);
+  \coordinate (xp) at (0.866,-0.5,0);
+  \coordinate (yp) at (0.441,0.765,-0.469);
+  \coordinate (zp) at (0.235,0.407,0.883);
+  % the xy plane
+  \filldraw[fill=fzgray!12,draw=fzgray!70] (-0.9,-1.0,0) -- (1.25,-1.0,0) -- (1.25,1.25,0)
+     -- (-0.9,1.25,0) -- cycle;
+  % the x'y' plane
+  \filldraw[fill=fzaux!10,draw=fzaux!60,opacity=0.85] ($(O)-0.9*(xp)-1.0*(yp)$)
+     -- ($(O)+1.25*(xp)-1.0*(yp)$) -- ($(O)+1.25*(xp)+1.25*(yp)$) -- ($(O)-0.9*(xp)+1.25*(yp)$) -- cycle;
+  % unprimed axes
+  \draw[->,thick] (O) -- (1.55,0,0) node[below]{$x$};
+  \draw[->,thick] (O) -- (0,1.6,0) node[right]{$y$};
+  \draw[->,thick] (O) -- (0,0,1.45) node[above]{$z$};
+  % primed axes
+  \draw[->,thick,fzaux] (O) -- ($(O)+1.55*(xp)$) node[above left=-1pt]{$x'$};
+  \draw[->,thick,fzaux] (O) -- ($(O)+1.6*(yp)$) node[right]{$y'$};
+  \draw[->,thick,fzaux] (O) -- ($(O)+1.45*(zp)$) node[above]{$z'$};
+  % the vector
+  \draw[->,very thick,fzvec] (O) -- (0.35,0.95,1.05) node[above right=-1pt]{$\vec{A}$};
+  % plane labels
+  \node[circle,inner sep=0pt,pin={[fzgray,pin distance=6mm,pin edge={fzgray}]20:{$xy$ plane}}]
+    at (-0.8,1.15,0) {};
+  \node[circle,inner sep=0pt,pin={[fzaux,pin distance=6mm,pin edge={fzaux}]200:{$x'y'$ plane}}]
+    at ($(O)+1.1*(xp)+1.1*(yp)$) {};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.38\textwidth}
+\caption{Two coordinate systems, $xyz$ and $x'y'z'$, with a common origin; one is rotated with
+respect to the other. The vector $\vec{A}$ is the same arrow in both, but its components are
+different.}\label{fig:rotated}
+\end{minipage}
+\end{figure}
+
+Before we start studying the kinematics of physical systems, it is worth stressing again a
+property of vectors that we mentioned before: the laws of physics do not depend on how we choose
+the coordinate axes. This also explains why we use vectors to describe motion. Let us look at the
+length of a vector in two different coordinate systems. Let these two systems have the same
+origin, but let one of them be rotated with respect to the other (Figure~\ref{fig:rotated}). In
+these two coordinate systems, a vector $\vec{A}$ is written as
+\begin{equation}\label{eq:A-two-systems}
+  \vec{A} = A_x\ihat + A_y\jhat + A_z\khat , \qquad
+  \vec{A} = A'_x\ihat' + A'_y\jhat' + A'_z\khat' .
+\end{equation}
+The components of $\vec{A}$ are different in the two coordinate systems: the same arrow is
+described by different numbers. But $\vec{A}$ itself has not changed, it is the same arrow in
+space, so its magnitude, the length of the arrow, must read the same in both coordinate systems:
+\begin{equation}\label{eq:invariant-length}
+  A_x^2 + A_y^2 + A_z^2 = A'^2_x + A'^2_y + A'^2_z .
+\end{equation}
+In other words, the magnitude of a vector is the same in every coordinate system; quantities of
+this kind are called \emph{invariant} quantities. The components of a vector, on the other hand,
+are not invariant: they change when we rotate the axes. Yet if two vectors are equal,
+$\vec{A} = \vec{B}$, their components are equal in every coordinate system. So a law of physics
+written as an equation between vectors holds in the same form whatever axes we choose, and this is
+exactly why we write the laws of physics with vectors.
+
+\begin{example}[Components change, the length does not]
+Take $\vec{A} = 3\ihat + 4\jhat$ in the $xy$ plane, so $A = \sqrt{3^2+4^2} = 5$. Now rotate the
+axes counterclockwise by an angle $\varphi$ about the $z$-axis. The new unit vectors are
+$\ihat' = \cos\varphi\,\ihat + \sin\varphi\,\jhat$ and $\jhat' = -\sin\varphi\,\ihat +
+\cos\varphi\,\jhat$, and the new components are the scalar products
+\[
+  A'_x = \vec{A}\cdot\ihat' = A_x\cos\varphi + A_y\sin\varphi , \qquad
+  A'_y = \vec{A}\cdot\jhat' = -A_x\sin\varphi + A_y\cos\varphi .
+\]
+Squaring and adding, the cross terms $\pm 2A_xA_y\sin\varphi\cos\varphi$ cancel and
+$\cos^2\varphi + \sin^2\varphi = 1$, so $A'^2_x + A'^2_y = A_x^2 + A_y^2$, as
+\eqref{eq:invariant-length} says. For $\varphi = 30^\circ$: $A'_x = 3(0.866) + 4(0.500) = 4.60$
+and $A'_y = -3(0.500) + 4(0.866) = 1.96$. The components have changed completely, but
+$4.60^2 + 1.96^2 = 25.0 = 5^2$. (The scalar product $\vec{A}\cdot\vec{B} = AB\cos\theta$ of Week~1
+is another invariant: it involves only the two lengths and the angle $\theta$ between the two
+arrows.)
+\end{example}
+
+%----------------------------------------------------------------------
+\subsection{Average and instantaneous velocity}\label{sec:velocity}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth]
+  \begin{scope}[rotate=15]
+    \draw[thick] (0,0) -- (9,0);
+    \foreach \p/\t/\x in {1.2/{t_1,\,t_5}/{x_1 = x_5}, 3.2/t_4/x_4, 5.1/t_2/x_2, 7.0/t_3/x_3}{
+      \fill (\p,0) circle (1.6pt);
+      \node at (\p,0.42) {$\t$};
+      \node at (\p,-0.42) {$\x$};
+    }
+    \draw[->,thick,fzcomp] (0.2,0.85) -- (1.9,0.85) node[midway,above]{$x$};
+  \end{scope}
+\end{tikzpicture}
+\caption{Motion in one dimension. The object moves along a straight line; the labels below the
+line are its positions $x_1,\dots,x_5$ at the instants $t_1,\dots,t_5$ written above them. (It
+passes some of these points more than once; for example, it also passes $x_4$ on the way out,
+between $t_1$ and $t_2$.) The arrow marks the positive $x$ direction.}\label{fig:line}
+\end{figure}
+
+To study the kinematics of physical systems in one dimension, let us first look at the simple
+example of Figure~\ref{fig:line}. An object moves along a straight line: it starts at position
+$x_1$ at time $t_1$, passes $x_2$ at $t_2$ and $x_3$ at $t_3$, turns around a little beyond $x_3$,
+passes $x_4$ at $t_4$, and at $t_5$ it is back at the position where it started. Motion of this
+kind, along a single straight line, is called \textbf{one-dimensional motion}. Once we have chosen
+an origin on the line and a positive direction (the arrow labeled $x$ in the figure), the position
+of the object is given completely by one number, its coordinate $x$, which can be positive or
+negative.
+
+The \textbf{average velocity} of the object over any time interval is defined as
+\begin{equation}\label{eq:vav}
+  \vavx = \frac{x_2 - x_1}{t_2 - t_1} = \frac{\Delta x}{\Delta t} .
+\end{equation}
+The meaning of this definition is simple: the change of position between the time $t_1$ and the
+time $t_2$, that is, the \emph{displacement} $\Delta x = x_2 - x_1$, divided by the time that has
+passed, $\Delta t = t_2 - t_1$. Only the starting and the end points matter: what the object did
+in between plays no role. (The subscript $x$ reminds us that this is the $x$ component of a
+vector.) Returning to our example, we notice that the average velocity can be positive, negative
+or zero. For example, between $t_1$ and $t_2$ the displacement $\Delta x$ is positive, so the
+average velocity over this interval is positive; between $t_1$ and $t_5$ the displacement is zero,
+so the average velocity is zero; and between $t_2$ and $t_4$ the displacement is negative, so the
+average velocity is negative.
+
+\begin{aside}
+\textbf{Note: the choice of origin and of the $x$ direction.} From our example, you might conclude
+intuitively that ``towards $x_3$'' is always the direction of positive average velocity. But what
+decides in which intervals the average velocity is positive is the direction \emph{we} chose for
+the $x$-axis. Had we chosen the $x$ direction the other way round, the displacement between $t_2$
+and $t_4$ would be positive, and so would the average velocity over this interval. So keep in mind
+that the direction of $x$ in the coordinate system you use to solve a problem determines the sign
+of the average velocity. Remember this! Signs are very important in physics: a single minus sign
+decides whether you owe me money or I owe you. Notice also that we have not chosen an origin at
+all. The choice of origin plays no role in the average velocity: moving the origin adds the same
+number to $x_1$ and to $x_2$, and this number cancels in the difference $x_2 - x_1$.
+\end{aside}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[x={(1.25cm,0cm)},y={(0cm,0.78cm)},>=Stealth]
+  % axes
+  \draw[->,very thick] (0,0) -- (6.0,0) node[right]{$t$};
+  \draw[->,very thick] (0,0) -- (0,6.3) node[above]{$x$};
+  % guide lines
+  \foreach \t/\x in {1/1, 2/3.1, 3/4.3, 4/2, 5/1}{
+    \draw[dashed,fzgray] (\t,0) -- (\t,\x);
+  }
+  \draw[dashed,fzgray] (0,1) -- (5,1);
+  \draw[dashed,fzgray] (0,3.1) -- (2,3.1);
+  \draw[dashed,fzgray] (0,4.3) -- (3,4.3);
+  \draw[dashed,fzgray] (0,2) -- (4,2);
+  \foreach \t/\l in {1/t_1, 2/t_2, 3/t_3, 4/t_4, 5/t_5}{
+    \node[below] at (\t,0) {$\l$};
+  }
+  \node[left] at (0,1) {$x_1 = x_5$};
+  \node[left] at (0,2) {$x_4$};
+  \node[left] at (0,3.1) {$x_2$};
+  \node[left] at (0,4.3) {$x_3$};
+  % the x-t curve (piecewise cubic, see changes.md)
+  \draw[thick,fzvec] (0,1) .. controls (0.3333,1) and (0.6667,1) .. (1,1)
+    .. controls (1.2,1) and (1.4,1.3) .. (1.6,1.9)
+    .. controls (1.7333,2.3) and (1.8667,2.7) .. (2,3.1)
+    .. controls (2.3333,4.1) and (2.6667,4.1667) .. (3,4.3)
+    .. controls (3.1333,4.3533) and (3.2667,5.3) .. (3.4,5.3)
+    .. controls (3.6,5.3) and (3.8,3.7) .. (4,2)
+    .. controls (4.04,1.66) and (4.08,1.53) .. (4.12,1.45)
+    .. controls (4.2467,1.1967) and (4.3733,1.238) .. (4.5,1.2)
+    .. controls (4.6667,1.15) and (4.8333,1.1167) .. (5,1)
+    .. controls (5.1333,0.9067) and (5.2667,0.76) .. (5.4,0.6);
+  % chord b-c with its triangle
+  \draw[very thick,fzcomp] (2,3.1) -- (3,3.1) -- (3,4.3);
+  \draw[very thick,fzcomp] (2,3.1) -- (3,4.3);
+  \draw[fzcomp] (2.42,3.1) arc[start angle=0,end angle=36,x radius=0.42,y radius=0.54];
+  \node[fzcomp] at (2.6,3.42) {$\alpha$};
+  \node[below,fzcomp] at (2.5,3.1) {$\Delta t$};
+  \node[right,fzcomp] at (3,3.7) {$\Delta x$};
+  % chord d-e
+  \draw[dashed,thick,fzcomp] (4,2) -- (5.2,2);
+  \draw[dashed,thick,fzcomp] (4,2) -- (5,1);
+  \draw[->,fzcomp] (4.55,2) arc[start angle=0,end angle=-44,x radius=0.55,y radius=0.7];
+  \node[fzcomp] at (4.78,1.66) {$\beta$};
+  % points
+  \foreach \t/\x/\n/\pos in {1/1/a/above, 2/3.1/b/above left, 3/4.3/c/below right, 4/2/d/below left, 5/1/e/above right}{
+    \fill (\t,\x) circle (1.5pt);
+    \node[\pos] at (\t,\x) {$\n$};
+  }
+\end{tikzpicture}
+\caption{Position--time graph for the motion of Figure~\ref{fig:line}. The average velocity
+between two instants is the slope of the chord joining the two points of the curve: positive for
+the rising chord $bc$ (angle $\alpha > 0$), negative for the falling chord $de$ (angle
+$\beta < 0$).}\label{fig:xt}
+\end{figure}
+
+The position--time ($x$--$t$) graph in Figure~\ref{fig:xt} shows where the object of
+Figure~\ref{fig:line} is at any time $t$. First, on this graph we have put the origin below $x_1$
+(on the line of Figure~\ref{fig:line}, somewhere to the left of $x_1$). As we said, this choice makes no difference,
+and any other point would do. Looking at this graph, if we take for example the change of position
+between $t_2$ and $t_3$, the definition~\eqref{eq:vav} tells us that the average velocity is
+positive. Geometrically, $\vavx$ is the \emph{slope} $\Delta x/\Delta t$ of the straight line, or
+chord, that joins the points $b$ and $c$ of the curve. A positive average velocity means that the
+chord rises, so the angle $\alpha$ it makes with the $t$ direction is positive. Similarly, between
+$t_4$ and $t_5$ the average velocity is negative: the chord from $d$ to $e$ falls, and the
+corresponding angle $\beta$, measured clockwise, is negative. On a given graph, the steeper the
+chord, the larger the magnitude of the average velocity. (Strictly, $\tan\alpha$ is proportional
+to the slope $\Delta x/\Delta t$, with a factor that depends on the scales we chose for the two
+axes; the slope has units of \unit{m/s}, while an angle has none. So the angle is a picture of the
+velocity, not the velocity itself.)
+
+In everyday language we use the words \textbf{velocity} and \textbf{speed} as if they meant the
+same thing. In physics, however, these two quantities are quite different, and to understand the
+difference we need what we know about vectors and scalars. Over a time interval, the average speed
+and the average velocity are defined as
+\[
+  \text{average speed} = \frac{\text{total distance traveled}}{\text{elapsed time}} , \qquad
+  \text{average velocity} = \frac{\text{displacement}}{\text{elapsed time}} .
+\]
+There is a very important difference between distance traveled and displacement. The distance
+traveled is a scalar and is never negative (if it is zero, you stood still the whole time). For
+example, when you drive from one place to another, the distance traveled is the increase in the
+reading of your car's odometer. The displacement is a vector, and like all vectors it has a
+magnitude and a direction. The tail of the displacement vector is at the point where you started
+and its tip at the point where you stopped; if you come back to your starting point, the
+displacement is the zero vector $\vec{0}$, whatever path you took. In one dimension the
+displacement vector is $\Delta x\,\ihat$, and the sign of its component $\Delta x$ gives its
+direction. So for the interval from $t_1$ to $t_5$ in our example, the average velocity is zero,
+but the average speed is not. In general, the average speed is \emph{not} the magnitude of the
+average velocity.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth]
+  % axes (t2 at x=1, t3 at x=6; x2 at y=0.78, x3 at y=3.9)
+  \draw[->,very thick] (0,0) -- (7,0) node[right]{$t$};
+  \draw[->,very thick] (0,0) -- (0,4.6) node[above]{$x$};
+  \draw[dashed,fzgray] (0,0.78) -- (1,0.78);
+  \draw[dashed,fzgray] (0,3.9) -- (6,3.9);
+  \node[left] at (0,0.78) {$x_2$};
+  \node[left] at (0,3.9) {$x_3$};
+  \draw[dashed,fzgray] (1,0) -- (1,0.78);
+  \draw[dashed,fzgray] (2.25,0) -- (2.25,2.316);
+  \draw[dashed,fzgray] (3.5,0) -- (3.5,3.185);
+  \draw[dashed,fzgray] (4.75,0) -- (4.75,3.632);
+  \draw[dashed,fzgray] (6,0) -- (6,3.9);
+  \node[below] at (1,0) {$t_2$};
+  \node[below] at (6,0) {$t_3$};
+  % chords from b
+  \draw[thick,fzcomp] (1,0.78) -- (6,0.78) -- (6,3.9);
+  \draw[very thick,fzcomp] (1,0.78) -- (6,3.9);
+  \draw[dashed,fzcomp] (1,0.78) -- (4.75,3.632);
+  \draw[dashed,fzcomp] (1,0.78) -- (3.5,3.185);
+  \draw[dashed,fzcomp] (1,0.78) -- (2.25,2.316);
+  % tangent at b
+  \draw[thick,fzaux] (0.55,0.078) -- (2.6,3.276) node[above,font=\small]{tangent at $b$};
+  % the curve
+  \draw[thick,fzvec] (1,0.78) .. controls (2.667,3.38) and (4.333,3.553) .. (6,3.9);
+  \draw[fzcomp] (1.75,0.78) arc[start angle=0,end angle=32,radius=0.75];
+  \node[fzcomp] at (2.05,1.02) {$\alpha$};
+  \draw[->,thick] (5.4,0.35) -- (4.2,0.35);
+  \fill (1,0.78) circle (1.5pt) node[above left]{$b$};
+  \fill (6,3.9) circle (1.5pt) node[above right]{$c$};
+\end{tikzpicture}
+\caption{Instantaneous velocity. As $t_3$ moves towards $t_2$ (arrow), the chord from $b$ to the
+curve (dashed lines) turns and approaches the tangent to the curve at $b$. The slope of this
+tangent is the instantaneous velocity at $t_2$.}\label{fig:tangent}
+\end{figure}
+
+Now let us look at Figure~\ref{fig:tangent} to study how the position changes between $t_2$ and
+$t_3$ in more detail. As the figure shows, if we move $t_3$ closer and closer to $t_2$, the chord
+from $b$ turns and, for this curve, the angle $\alpha$ grows. In the limit as $t_3$ approaches
+$t_2$ ($\Delta t \to 0$), the chord approaches the \emph{tangent} to the $x$--$t$ curve at $b$, and
+its slope approaches the slope of this tangent. (We cannot simply set $t_3 = t_2$: then
+$\Delta x = 0$ and $\Delta t = 0$, and $0/0$ has no meaning; only the limit does.) This gives us the definition of the \textbf{instantaneous velocity} at a
+time $t$:
+\begin{equation}\label{eq:vinst-limit}
+  v_x = \lim_{\Delta t\to 0}\frac{x(t+\Delta t) - x(t)}{\Delta t} = \dv{x}{t} .
+\end{equation}
+This formula, which you should keep in mind for this course and for the rest of your life, is
+worth writing once more:
+\begin{equation}\label{eq:vinst}
+  \boxed{\,v_x = \dv{x}{t}\,} .
+\end{equation}
+In words: the instantaneous velocity is the rate of change of position with time, and on an
+$x$--$t$ graph it is the slope of the tangent to the curve at that instant. From now on,
+``velocity'' without an adjective means the instantaneous velocity.
+
+This quantity can be negative, zero or positive, according to whether the tangent falls, is
+horizontal or rises (that is, whether its angle with the $t$ direction is negative, zero or
+positive). So, as we can see in Figure~\ref{fig:xt}, the velocity of the object is zero between
+$0$ and $t_1$, where the object is at rest, and at the turning point between $t_3$ and $t_4$ (the
+top of the curve); it is positive from $t_1$ until this turning point, and negative from the
+turning point until $t_5$ and after. The \textbf{instantaneous speed} is the magnitude of the
+instantaneous velocity. Like the average speed, it does not depend on our choice of direction, and
+it is never negative. For example, if the velocity of the object is \qty{30}{m/s} at $t_2$ and
+\qty{-100}{m/s} at $t_4$, then $v_x$ at $t_2$ is the larger of the two as a signed number
+($+30 > -100$), but the speed at $t_2$ (\qty{30}{m/s}) is smaller than the speed at $t_4$
+(\qty{100}{m/s}). (Velocities themselves are vectors, and vectors cannot be ordered as larger or
+smaller; only their components and their magnitudes can.)
+
+%----------------------------------------------------------------------
+\subsection{Average and instantaneous acceleration}\label{sec:acceleration}
+
+Just as velocity gives the change of position per unit time, \textbf{acceleration} gives the change
+of velocity per unit time. The average acceleration over a time interval is defined as
+\begin{equation}\label{eq:aav}
+  \aavx = \frac{v_{2x} - v_{1x}}{t_2 - t_1} = \frac{\Delta v_x}{\Delta t} .
+\end{equation}
+Like the average velocity, the average acceleration can be negative, zero or positive. For
+example, in the motion of Figure~\ref{fig:xt} the velocity is zero between $0$ and $t_1$, and at
+$t_1$ the object starts to move: the slope of the curve starts to grow. Between $t_1$ and $t_2$
+the velocity increases from zero to a positive value, so the average acceleration over this
+interval is positive. But if we look at the average acceleration over the interval
+from $t_1$ to $t_5$, it is negative, because the velocity is zero at $t_1$ and negative at $t_5$.
+As these examples show, both the average velocity and the average acceleration depend on how we
+choose the direction of increasing $x$: if we reverse it, the signs of both change. (On a graph of
+$v_x$ against $t$, the average acceleration is the slope of the chord between the two points, just
+as the average velocity is the slope of a chord on the $x$--$t$ graph.)
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[c]{0.46\textwidth}
+\centering
+\begin{tikzpicture}[>=Stealth]
+  \fill[pattern=north east lines,pattern color=fzgray] (-1.5,-0.3) rectangle (1.5,0);
+  \draw[thick] (-1.5,0) -- (1.5,0);
+  \draw[dashed,fzgray] (-1.1,2.2) -- (1.1,2.2);
+  \draw[->,very thick,fzvec] (-0.6,2.2) -- (-0.6,0.05);
+  \draw[->,very thick,fzvec] (0.6,0.05) -- (0.6,2.2);
+  \node[above,font=\small] at (-0.6,2.2) {before};
+  \node[above,font=\small] at (0.6,2.2) {after};
+  \node[left,fzvec] at (-0.6,1.1) {$v_x = \qty{-5}{m/s}$};
+  \node[right,fzvec] at (0.6,1.1) {$v_x = \qty{+5}{m/s}$};
+  \draw[->,thick,fzcomp] (-3.4,0.5) -- (-3.4,1.7) node[above]{$+x$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.44\textwidth}
+\caption{The velocity of a tennis ball just before and just after it bounces off the ground;
+upward is the positive $x$ direction.}\label{fig:bounce}
+\end{minipage}
+\end{figure}
+
+Now consider a tennis ball that hits the ground with velocity \qty{-5}{m/s} and bounces back up with
+velocity \qty{+5}{m/s}, as in Figure~\ref{fig:bounce}; here we take upward as the positive $x$
+direction. To know the average acceleration we need to know over how much time this change in
+velocity happens. If we assume that the ball is in contact with the ground for
+$\Delta t = \qty{e-2}{s}$, the average acceleration is
+\begin{equation}\label{eq:tennis}
+  \aavx = \frac{\qty{5}{m/s} - (\qty{-5}{m/s})}{\qty{e-2}{s}} = \qty{1000}{m/s^2} ,
+\end{equation}
+about a hundred times the acceleration of a falling body. If we reverse the $x$ direction (and
+take downward as positive), the sign of the average acceleration reverses too, and
+$\aavx = \qty{-1000}{m/s^2}$. You can also try this experiment with a tomato or an egg, but then
+the objects thrown at the ground with \qty{-5}{m/s} will not bounce back: their velocity just drops
+to zero. The change in velocity is then \qty{5}{m/s}, not \qty{10}{m/s}. If the squashing lasts,
+say, \qty{0.02}{s}, the average acceleration is $\aavx = (\qty{5}{m/s})/(\qty{0.02}{s}) =
+\qty{250}{m/s^2}$. (Is \qty{0.02}{s} reasonable? While it stops, the tomato moves on average at
+about \qty{2.5}{m/s}, so in \qty{0.02}{s} it squashes by about \qty{5}{cm}, which is about right.
+A stop lasting \qty{0.25}{s} would need some \qty{60}{cm}.) Here again the direction of $x$ decides the sign of the average acceleration.
+But remember that the egg or the tomato does not care which direction you chose as the $x$-axis.
+In every one of these cases the acceleration \emph{vector} during the impact points upward (the
+ground pushes the ball up); only the sign of its component depends on our axis. Physics does not
+depend on such choices; the choices you make are only tools that help you describe physical
+phenomena.
+
+Just as we went from the average velocity to the velocity at an instant, we can go from the
+average acceleration to the \textbf{instantaneous acceleration}:
+\begin{equation}\label{eq:ainst-limit}
+  a_x = \lim_{\Delta t\to 0}\frac{v_x(t+\Delta t) - v_x(t)}{\Delta t} = \dv{v_x}{t}
+      = \frac{\dd^2 x}{\dd t^2} .
+\end{equation}
+The last form says that acceleration is the \emph{second derivative} of position: we differentiate
+$x(t)$ once to get $v_x$, and once more to get $a_x$. This second formula, which should also stay
+with you for the rest of this course and of your life, is worth writing again:
+\begin{equation}\label{eq:ainst}
+  \boxed{\,a_x = \dv{v_x}{t} = \frac{\dd^2 x}{\dd t^2}\,} .
+\end{equation}
+Just as $v_x$ is the slope of the tangent to the $x$--$t$ curve, $a_x$ is the slope of the tangent
+to the $v_x$--$t$ curve.
+
+Now let us return to our example in Figure~\ref{fig:xt} to find the instantaneous acceleration at
+various times. For the velocity we had a good intuitive tool: whether the tangent rises or falls
+told us the sign of the velocity. For the acceleration we must look not at the angle of the
+tangent itself but at how this angle \emph{changes}, since $a_x$ is the rate at which the slope of
+the $x$--$t$ curve changes. Where the slope increases, the curve bends upward (it is concave up)
+and $a_x > 0$; where the slope decreases, the curve bends downward (concave down) and $a_x < 0$;
+where the graph is a straight line, $a_x = 0$. Between $0$ and $t_1$ the velocity, that is the
+slope, does not change, so the acceleration is zero in this interval. Between $t_1$ and $t_2$ the
+velocity first increases and then stays constant (the curve becomes a straight line just before
+$t_2$), so the object first has a positive acceleration and then zero acceleration. Between $t_3$
+and $t_4$ the acceleration is first positive (just after $c$ the curve bends upward) and then
+negative (the curve bends downward over the top and on the way down to $d$).
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{axis}[name=xt,width=0.48\textwidth,height=0.42\textwidth,axis lines=left,
+    xmin=0,xmax=6.6,ymin=-2,ymax=10.5,xlabel={$t$ (s)},ylabel={$x$ (m)},
+    xtick={0,1,2,3,4,5,6},ytick={-1,0,2,4,6,8,10},tick label style={font=\footnotesize},
+    label style={font=\small},title={(a)},title style={font=\small}]
+  \addplot[fzgray,domain=0:6.6,samples=2] {0};
+  \addplot[thick,fzvec,domain=0:6.3,samples=80] {8-6*x+x^2};
+  \addplot[dashed,fzgray] coordinates {(0,-1) (3,-1) (3,-2)};
+  \addplot[only marks,mark=*,mark size=1.4pt] coordinates {(0,8) (2,0) (3,-1) (4,0)};
+\end{axis}
+\begin{axis}[at={(xt.east)},anchor=west,xshift=0.6cm,width=0.48\textwidth,height=0.42\textwidth,
+    axis lines=left,xmin=0,xmax=6.6,ymin=-7,ymax=7.5,xlabel={$t$ (s)},ylabel={$v_x$ (m/s)},
+    xtick={0,1,2,3,4,5,6},ytick={-6,-4,-2,0,2,4,6},tick label style={font=\footnotesize},
+    label style={font=\small},title={(b)},title style={font=\small}]
+  \addplot[fzgray,domain=0:6.6,samples=2] {0};
+  \addplot[thick,fzvec,domain=0:6.3,samples=2] {-6+2*x};
+  \addplot[only marks,mark=*,mark size=1.4pt] coordinates {(0,-6) (3,0) (4,2)};
+\end{axis}
+\end{tikzpicture}
+\caption{The object with position $x = (8 - 6t + t^2)\,\unit{m}$. (a) Position--time graph: the slope of
+the curve is the velocity. (b) Velocity--time graph, $v_x = (-6 + 2t)\,\unit{m/s}$: its constant slope
+is the acceleration $a_x = \qty{2}{m/s^2}$.}\label{fig:parabola}
+\end{figure}
+
+As an example, consider an object whose position is $x = (8 - 6t + t^2)\,\unit{m}$, with $t$ in seconds.
+(More carefully, $x = \qty{8}{m} - (\qty{6}{m/s})\,t + (\qty{1}{m/s^2})\,t^2$, so that every term
+is in meters.) Recall that if $x = t^n$, then $\dd x/\dd t = nt^{n-1}$, and that the derivative of
+a constant is zero. Then the velocity of the object at any time $t$ is
+\begin{equation}\label{eq:ex-v}
+  v_x = (-6 + 2t)\,\unit{m/s} ,
+\end{equation}
+and its acceleration at any time $t$ is
+\begin{equation}\label{eq:ex-a}
+  a_x = \qty{2}{m/s^2} .
+\end{equation}
+So in this case the acceleration does not change with time: it is constant. With these results, at
+$t = 0$ we have
+\begin{equation}\label{eq:ex-t0}
+  t = 0 , \qquad x = \qty{+8}{m} , \qquad v_x = \qty{-6}{m/s} , \qquad a_x = \qty{2}{m/s^2} .
+\end{equation}
+The object passes through the origin $x = 0$ twice, at the two roots of
+$8 - 6t + t^2 = (t-2)(t-4) = 0$: once at $t = \qty{2}{s}$ and once at $t = \qty{4}{s}$. To find
+where the object stops and turns around, we need to find when its velocity is zero. From
+$-6 + 2t = 0$, the velocity is zero at $t = \qty{3}{s}$. Substituting $t = \qty{3}{s}$ into the
+position equation, the turning point is at $x = 8 - 18 + 9 = \qty{-1}{m}$.
+
+The motion is now clear. As Figure~\ref{fig:parabola} shows, the object starts at $x = \qty{8}{m}$
+with velocity $v_x = \qty{-6}{m/s}$ and acceleration $a_x = \qty{2}{m/s^2}$, then passes $x = 0$,
+reaches $x = \qty{-1}{m}$, where its velocity is zero, turns around, and passes $x = 0$ again at
+$t = \qty{4}{s}$. These results agree with the graph. For example, between $t = 0$ and
+\qty{3}{s} the slope is negative and, as expected, so is the velocity. But since the acceleration
+is positive, we expect the velocity to become zero at some point and then positive. In line with
+this expectation, at $t = \qty{3}{s}$ the slope is zero and so is the velocity. After
+$t = \qty{3}{s}$ the slope, and so the velocity, is positive. For example, at $t = \qty{4}{s}$ we
+expect a positive velocity, and the velocity equation~\eqref{eq:ex-v} tells us that
+$v_x = \qty{+2}{m/s}$ at this instant.
+
+Two points are worth stressing. First, at $t = \qty{3}{s}$ the velocity is zero but the
+acceleration is not: it is \qty{2}{m/s^2} at all times. An object can be at rest for an instant and
+still be accelerating; that is precisely why it does not stay at rest. Second, the parabola in
+Figure~\ref{fig:parabola}(a) is a graph of $x$ against $t$, not the path of the object: the object
+moves back and forth along the straight $x$-axis. To see this example in a simulation, I recommend
+\href{https://phet.colorado.edu/en/simulations/moving-man}{\emph{The Moving Man}},\footnote{\url{https://phet.colorado.edu/en/simulations/moving-man}}
+a PhET simulation developed at the University of Colorado.
+
+\begin{keyresult}
+\textbf{Speeding up or slowing down?} The sign of $a_x$ alone does not tell. An object speeds up
+when $v_x$ and $a_x$ have the \emph{same} sign and slows down when they have \emph{opposite} signs.
+In the example above, for $0 < t < \qty{3}{s}$ we have $v_x < 0$ and $a_x > 0$: the object slows
+down although its acceleration is positive. For $t > \qty{3}{s}$ both are positive, and it speeds
+up.
+\end{keyresult}
+
+For an object moving in one dimension with \emph{constant} acceleration, the most general position,
+velocity and acceleration are, with $c_1$, $c_2$ and $c_3$ any constants,
+\begin{equation}\label{eq:general-const-a}
+\begin{aligned}
+  x   &= c_1 + c_2 t + c_3 t^2 , \\
+  v_x &= c_2 + 2c_3 t , \\
+  a_x &= 2c_3 .
+\end{aligned}
+\end{equation}
+Why is this the most general form? The velocity is a function whose derivative is the constant
+$a_x$, so it must be a straight line in $t$; the position is a function whose derivative is this
+straight line, so it must be a quadratic in $t$. (In the language of calculus: we integrate $a_x$
+once to get $v_x$ and once more to get $x$, and each integration brings in one constant.) If we
+write $x_0$ and $v_{0x}$ for the position and the velocity at $t = 0$, putting $t = 0$ into
+\eqref{eq:general-const-a} gives $c_1 = x_0$ and $c_2 = v_{0x}$, and the last line gives
+$c_3 = \tfrac12 a_x$. Therefore, for motion with constant acceleration the most general position
+and velocity equations are
+\begin{equation}\label{eq:const-a}
+  x = x_0 + v_{0x}t + \tfrac12 a_x t^2 , \qquad v_x = v_{0x} + a_x t .
+\end{equation}
+By playing with these equations we can obtain various results that are useful for straight-line
+motion with constant acceleration. For example, using $a_x t = v_x - v_{0x}$ from the second
+equation, we can write the first one as
+\begin{equation}\label{eq:const-a-avg}
+  x - x_0 = v_{0x}t + \tfrac12 a_x t^2 = v_{0x}t + \tfrac12 (v_x - v_{0x})t
+          = \tfrac12 (v_{0x} + v_x)\,t .
+\end{equation}
+This says that when the acceleration is constant, the average velocity $(x - x_0)/t$ is simply the
+mean of the initial and final velocities; this is not true for a general motion. Or we can square
+the velocity equation and use $x - x_0 = v_{0x}t + \tfrac12 a_x t^2$ from the first one:
+\begin{equation}\label{eq:const-a-v2}
+\begin{split}
+  v_x^2 &= (v_{0x} + a_x t)^2 = v_{0x}^2 + 2v_{0x}a_x t + a_x^2 t^2 \\
+        &= v_{0x}^2 + 2a_x\bigl(v_{0x}t + \tfrac12 a_x t^2\bigr) = v_{0x}^2 + 2a_x (x - x_0) .
+\end{split}
+\end{equation}
+This last equation does not contain the time: it is the one to use when the time is neither given
+nor asked for.
+
+\begin{keyresult}
+\textbf{Straight-line motion with constant acceleration} (valid \emph{only} if $a_x$ is constant):
+\[
+\begin{aligned}
+  v_x &= v_{0x} + a_x t , &\qquad x &= x_0 + v_{0x}t + \tfrac12 a_x t^2 , \\
+  v_x^2 &= v_{0x}^2 + 2a_x(x - x_0) , &\qquad x - x_0 &= \tfrac12(v_{0x} + v_x)\,t .
+\end{aligned}
+\]
+If the acceleration changes with time, these equations are wrong, and we must go back to the
+definitions \eqref{eq:vinst} and \eqref{eq:ainst}.
+\end{keyresult}
+
+\needspace{8\baselineskip}
+\begin{example}[Stopping distance]
+A car moving at $v_{0x} = \qty{20}{m/s}$ (\qty{72}{km/h}) brakes with constant acceleration
+$a_x = \qty{-5.0}{m/s^2}$. How far does it go before it stops? The time is not asked, so we use
+\eqref{eq:const-a-v2} with $v_x = 0$:
+\[
+  0 = v_{0x}^2 + 2a_x(x - x_0) \quad\Rightarrow\quad
+  x - x_0 = -\frac{v_{0x}^2}{2a_x} = \frac{(\qty{20}{m/s})^2}{2(\qty{5.0}{m/s^2})} = \qty{40}{m} .
+\]
+At twice the speed, \qty{40}{m/s}, the stopping distance is four times as long, \qty{160}{m}: the
+stopping distance grows as the \emph{square} of the speed. (Real stopping distances are longer
+still, because the driver needs some reaction time before the brakes are applied.)
+\end{example}
+
+%----------------------------------------------------------------------
+\subsection{Free fall}\label{sec:freefall}
+
+Now that we have learned the basics of straight-line motion, we can come back to bodies falling
+freely under gravity, which we studied by dimensional analysis in Section~1.1.1 (Week~1).
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[c]{0.40\textwidth}
+\centering
+\begin{tikzpicture}[>=Stealth]
+  \fill[pattern=north east lines,pattern color=fzgray] (-1.4,-0.3) rectangle (1.4,0);
+  \draw[thick] (-1.4,0) -- (1.4,0);
+  \draw[dashed,fzgray] (-1.2,3) -- (1.2,3) node[right,black]{$x = 0$};
+  \fill[fzvec] (0,3.18) circle (0.18);
+  \draw[->,fzgray] (0,2.95) -- (0,0.05);
+  \draw[<->] (-1.0,3) -- (-1.0,0) node[midway,left]{$h$};
+  \draw[->,very thick,fzaux] (0.45,2.2) -- (0.45,1.3) node[right]{$\vec{a}$};
+  \draw[->,thick,fzcomp] (2.2,2.4) -- (2.2,1.2) node[below]{$+x$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.50\textwidth}
+\caption{Free fall from rest from a height $h$. Here the positive $x$ direction is downward, so
+$a_x = +g$.}\label{fig:freefall}
+\end{minipage}
+\end{figure}
+
+The best-known example of motion with constant acceleration is the motion of bodies falling
+freely under the Earth's gravity. In Section~1.1.1 dimensional analysis showed that the time of
+fall cannot depend on the mass of the body, and we saw that this rests on an experimental fact
+first established by Galileo: in a vacuum, where there is no air resistance, all bodies at the
+same place fall with the same acceleration, whatever their mass, chemical composition or shape. (In
+air, the shape and the size matter, through air resistance; that is why a feather falls slowly.)
+We call \textbf{free fall} any motion under the influence of gravity alone, with air resistance
+neglected: a body dropped from rest, a body thrown downward and a body thrown upward are all in
+free fall, on the way up as well as on the way down. The magnitude of the acceleration due to
+gravity, a positive number, is denoted by $g$ and, to two significant figures, is
+\begin{equation}\label{eq:g}
+  g = \qty{9.8}{m/s^2} .
+\end{equation}
+The acceleration vector of a freely falling body always points vertically downward (very nearly
+towards the center of the Earth); whether its component is $+g$ or $-g$ depends on which direction we call positive. (The
+value of $g$ varies slightly from place to place, from about \qty{9.78}{m/s^2} at the equator to
+about \qty{9.83}{m/s^2} at the poles, and it decreases with altitude. Treating it as a constant is a
+good model as long as the heights involved are small compared with the radius of the Earth,
+\qty{6370}{km}, and air resistance is negligible.)
+
+\begin{aside}
+To see that a feather and a bowling ball really fall together when there is no air, watch
+\href{https://www.youtube.com/watch?v=E43-CfukEgs}{feathers and a bowling ball dropped in NASA's
+vacuum chamber}: \url{https://www.youtube.com/watch?v=E43-CfukEgs}.
+\end{aside}
+
+Consider a body that is at position $x_0 = 0$ with velocity $v_{0x} = 0$ at time $t = 0$, as in
+Figure~\ref{fig:freefall}. If we choose the direction towards the ground (downward) as positive,
+then $a_x = +g$, and the first equation of \eqref{eq:const-a} gives $x = \frac12 gt^2$. The body
+reaches the ground when $x = h$, so the time it takes to fall is
+\begin{equation}\label{eq:fall-time}
+  t_h = \sqrt{\frac{2h}{g}} .
+\end{equation}
+So the constant $C$ in equation~(1.9) that dimensional analysis could not determine in
+Section~1.1.1 is $C = \sqrt{2}$.
+
+\begin{example}[Dropping a ball, and throwing it up]
+(a) A ball is dropped from rest from a height of \qty{2.0}{m}, and then from \qty{8.0}{m}. From
+\eqref{eq:fall-time}, $t_h = \sqrt{2(\qty{2.0}{m})/(\qty{9.8}{m/s^2})} = \qty{0.64}{s}$ and
+$\sqrt{2(\qty{8.0}{m})/(\qty{9.8}{m/s^2})} = \qty{1.28}{s}$: four times the height, but only twice
+the time, as Week~1 promised. From \eqref{eq:const-a-v2} with $v_{0x} = 0$ and $a_x = g$, the ball
+reaches the ground with speed $v = \sqrt{2gh}$, that is \qty{6.3}{m/s} and \qty{12.5}{m/s}.
+
+(b) Now throw the ball straight up at \qty{9.8}{m/s}. This time let us call the vertical axis $y$
+and take \emph{upward} as positive, so $v_{0y} = \qty{+9.8}{m/s}$ and $a_y = -g =
+\qty{-9.8}{m/s^2}$. The velocity $v_y = v_{0y} - gt$ is zero at $t = \qty{1.0}{s}$, when the ball
+is at its highest point, $v_{0y}^2/(2g) = \qty{4.9}{m}$ above the hand (from
+\eqref{eq:const-a-v2} with $v_y = 0$). At that instant the velocity is zero but the acceleration
+is still \qty{-9.8}{m/s^2}: the ball is in free fall all the time, on its way up, at the top and on
+its way down. (If its acceleration were zero at the top, it would simply stay there.) By symmetry
+it is back in the hand at $t = \qty{2.0}{s}$, moving downward at \qty{9.8}{m/s}.
+\end{example}
+
+%======================================================================
+\setcounter{section}{3}
+\section{Motion in two and three dimensions}\label{sec:3d}
+
+The aim of this chapter is to combine vectors, which we studied in Chapter~2, with motion in one
+dimension, which we studied in Chapter~3, to describe motion in two and three dimensions. For this
+we first need to be able to give the position of the object whose motion we want to study. We
+describe the position of an object at a point $P = (x, y, z)$ of three-dimensional space by
+its \textbf{position vector}, the vector from the origin to that point:
+\begin{equation}\label{eq:r}
+  \vec{r} = x\ihat + y\jhat + z\khat .
+\end{equation}
+As the object moves, its coordinates change with time: they are functions $x(t)$, $y(t)$ and
+$z(t)$.
+
+To study the kinematics of this object, we can follow the procedure of the previous chapter. First,
+if the object has moved from the point $P_1 = (x_1, y_1, z_1)$ to the point $P_2 = (x_2, y_2, z_2)$
+in a time interval $\Delta t$, its average velocity is
+\begin{equation}\label{eq:vav3}
+  \avg{\vec{v}} = \frac{\Delta\vec{r}}{\Delta t} ,
+\end{equation}
+where
+\begin{equation}\label{eq:dr}
+  \Delta\vec{r} = \vec{r}_2 - \vec{r}_1 = (x_2 - x_1)\ihat + (y_2 - y_1)\jhat + (z_2 - z_1)\khat
+\end{equation}
+is the displacement vector. As in one dimension, the average velocity depends only on the
+displacement, not on the path between $P_1$ and $P_2$. The instantaneous velocity is again defined
+by the limit $\Delta t\to 0$:
+\begin{equation}\label{eq:v3}
+  \vec{v} = \lim_{\Delta t\to 0}\frac{\Delta\vec{r}}{\Delta t} = \dv{\vec{r}}{t} .
+\end{equation}
+As $\Delta t \to 0$, the displacement $\Delta\vec{r}$ points more and more along the path, so the
+instantaneous velocity is always \emph{tangent to the path}; its magnitude $v = |\vec{v}|$ is the
+speed. Similarly, we define the average acceleration for motion in three dimensions as
+\begin{equation}\label{eq:aav3}
+  \avg{\vec{a}} = \frac{\Delta\vec{v}}{\Delta t} ,
+\end{equation}
+and the instantaneous acceleration as
+\begin{equation}\label{eq:a3}
+  \vec{a} = \lim_{\Delta t\to 0}\frac{\Delta\vec{v}}{\Delta t} = \dv{\vec{v}}{t}
+          = \frac{\dd^2\vec{r}}{\dd t^2} .
+\end{equation}
+Here $\Delta\vec{v} = \vec{v}_2 - \vec{v}_1$ is a vector difference: the velocity changes when its
+magnitude changes, when its direction changes, or both. So an object moving along a curved path
+always has an acceleration, even if its speed is constant. We will meet the most important example,
+uniform circular motion, in Section~\ref{sec:circular}.
+
+If we use the components of $\vec{r}$ as in \eqref{eq:r}, we can write the velocity and
+acceleration vectors in components as follows:
+\begin{equation}\label{eq:components3}
+  \vec{r} = x\ihat + y\jhat + z\khat , \qquad
+  \vec{v} = \dv{x}{t}\ihat + \dv{y}{t}\jhat + \dv{z}{t}\khat , \qquad
+  \vec{a} = \frac{\dd^2x}{\dd t^2}\ihat + \frac{\dd^2y}{\dd t^2}\jhat + \frac{\dd^2z}{\dd t^2}\khat .
+\end{equation}
+Here we used the fact that the unit vectors $\ihat$, $\jhat$, $\khat$ point along fixed axes and do
+not change with time, so only the components need to be differentiated. In other words,
+$v_x = \dd x/\dd t$, $v_y = \dd y/\dd t$, $v_z = \dd z/\dd t$, and $a_x = \dd v_x/\dd t$, and so on.
+
+These equations show us a very simple but very important result. Each component of the velocity
+and of the acceleration involves only the coordinate along the same axis: $v_x$ and $a_x$ come from
+$x(t)$ alone, $v_y$ and $a_y$ from $y(t)$ alone, and so on. So, as long as each component of the
+acceleration is known as a function of time alone (for example, when the acceleration is
+constant), a three-dimensional problem reduces to \emph{three independent one-dimensional
+problems}, one along each axis; the only thing they share is the time $t$. (In later chapters the
+components can be tied together through the forces: the air resistance on a fast ball, for
+example, grows roughly as the square of its total speed, so its horizontal deceleration depends on
+how fast it is also moving vertically. For the constant accelerations of this chapter the
+components are completely independent.) If the acceleration is constant, we can use the
+one-dimensional equations \eqref{eq:const-a} for each axis, and the position and velocity along each
+axis are
+\begin{equation}\label{eq:const-a3}
+\begin{aligned}
+  x &= x_0 + v_{0x}t + \tfrac12 a_x t^2 , &\qquad v_x &= v_{0x} + a_x t , \\
+  y &= y_0 + v_{0y}t + \tfrac12 a_y t^2 , &\qquad v_y &= v_{0y} + a_y t , \\
+  z &= z_0 + v_{0z}t + \tfrac12 a_z t^2 , &\qquad v_z &= v_{0z} + a_z t .
+\end{aligned}
+\end{equation}
+Here $a_x$, $a_y$ and $a_z$ are the (constant) components of the acceleration along $x$, $y$ and
+$z$, and $x_0$, $v_{0x}$ and so on are the components of the position and velocity at $t = 0$.
+
+%----------------------------------------------------------------------
+\subsection{Projectile motion}\label{sec:projectile}
+
+A good example of how motion in more than one dimension reduces to a sum of one-dimensional motions
+is projectile motion.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[x={(1.12cm,0cm)},y={(0cm,1.12cm)},>=Stealth]
+  % axes
+  \draw[->,thick] (0,0) -- (10.9,0) node[right]{$x$};
+  \draw[->,thick] (0,0) -- (0,4.3) node[above]{$y$};
+  \node[below left] at (0,0) {$O$};
+  % trajectory
+  \draw[dashed,fzgray,thick,domain=0:9,samples=60] plot (\x,{1.5*\x-0.16667*\x*\x});
+  % launch: v0 = (1.28,1.92)
+  \draw[dashed,fzgray] (1.28,0) -- (1.28,1.92) -- (0,1.92);
+  \draw[->,thick,dashed,fzcomp] (0,0) -- (1.28,0) node[below]{$v_{0x}$};
+  \draw[->,thick,dashed,fzcomp] (0,0) -- (0,1.92) node[left]{$v_{0y}$};
+  \draw[->,very thick,fzvec] (0,0) -- (1.28,1.92) node[above left]{$\vec{v}_0$};
+  \draw (0.75,0) arc[start angle=0,end angle=56.3,radius=0.75];
+  \node at (0.95,0.5) {$\theta$};
+  % rising point (2.25, 2.531), v = (1.28, 0.96)
+  \draw[->,thick,dashed,fzcomp] (2.25,2.531) -- (3.53,2.531) node[right]{$v_x$};
+  \draw[->,thick,dashed,fzcomp] (2.25,2.531) -- (2.25,3.491) node[above]{$v_y$};
+  \draw[->,very thick,fzvec] (2.25,2.531) -- (3.53,3.491) node[above]{$\vec{v}$};
+  % top (4.5, 3.375), v = (1.28, 0)
+  \draw[->,very thick,fzvec] (4.5,3.375) -- (5.78,3.375) node[above]{$\vec{v} = v_x\ihat$};
+  % falling point (6.75, 2.531), v = (1.28,-0.96)
+  \draw[->,thick,dashed,fzcomp] (6.75,2.531) -- (8.03,2.531) node[right]{$v_x$};
+  \draw[->,thick,dashed,fzcomp] (6.75,2.531) -- (6.75,1.571) node[below]{$v_y$};
+  \draw[->,very thick,fzvec] (6.75,2.531) -- (8.03,1.571) node[right]{$\vec{v}$};
+  % landing (9,0), v = (1.28,-1.92)
+  \draw[->,thick,dashed,fzcomp] (9,0) -- (10.28,0) node[above]{$v_x$};
+  \draw[->,thick,dashed,fzcomp] (9,0) -- (9,-1.92) node[left]{$v_y$};
+  \draw[->,very thick,fzvec] (9,0) -- (10.28,-1.92) node[right]{$\vec{v}$};
+  \foreach \p in {(0,0),(2.25,2.531),(4.5,3.375),(6.75,2.531),(9,0)} \fill \p circle (1.5pt);
+  % acceleration
+  \draw[->,very thick,fzaux] (4.5,1.5) -- (4.5,0.6) node[right]{$\vec{a} = -g\jhat$};
+\end{tikzpicture}
+\caption{Projectile motion. The horizontal velocity component $v_x$ is the same everywhere; the
+vertical component $v_y$ decreases at the steady rate $g$, is zero at the highest point and
+negative on the way down. The acceleration is $-g\jhat$ at every point of the path.}
+\label{fig:projectile}
+\end{figure}
+
+A \textbf{projectile} is a body that is given an initial velocity and then moves under the effect
+of gravity alone, like the ball in Figure~\ref{fig:projectile}. In this model we neglect air
+resistance and treat $g$ as constant; we also ignore the curvature and the rotation of the Earth,
+which is fine for heights and distances that are small compared with the size of the Earth. Since
+the acceleration is vertical and nothing accelerates the body sideways, the motion stays in the
+vertical plane that contains the initial velocity: a three-dimensional problem has become a
+two-dimensional one, and we put the $x$ and $y$ axes in this plane. Let us orient the axes as in
+Figure~\ref{fig:projectile} ($x$ horizontal, positive in the direction of the motion, and $y$
+vertically upward), and consider a body that starts its motion with initial speed $v_0$ at an
+angle $\theta$ above the horizontal. The components of its initial velocity along $x$ and $y$ are
+\begin{equation}\label{eq:v0-components}
+  v_{0x} = v_0\cos\theta , \qquad v_{0y} = v_0\sin\theta .
+\end{equation}
+Let us list what we need to know to find the position of the body in the $xy$ plane at any time
+$t$. As \eqref{eq:const-a3} shows, we need the position and the velocity along $x$ and along $y$
+at $t = 0$, and the (constant) acceleration along each axis. The initial velocities are given
+by \eqref{eq:v0-components}. Nothing makes the body accelerate along the $x$-axis, so $a_x = 0$;
+but along the $y$-axis there is the acceleration due to gravity. So the acceleration of the body
+along $y$ is
+\begin{equation}\label{eq:ay}
+  a_y = -g .
+\end{equation}
+The minus sign comes from the positive direction we chose for the $y$-axis: the acceleration points
+down, and we chose up as positive ($g$ itself is the positive number \qty{9.8}{m/s^2}). If we
+choose the starting point as $x_0 = 0$ and $y_0 = 0$, the position and the velocity of the body
+along these axes at any time $t$ are given in Table~\ref{tab:projectile}.
+
+\begin{table}[ht]
+\centering
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{lcc}
+\toprule
+ & $x$-axis & $y$-axis \\
+\midrule
+At $t = 0$ & $x_0 = 0$ & $y_0 = 0$ \\
+ & $v_{0x} = v_0\cos\theta$ & $v_{0y} = v_0\sin\theta$ \\
+\midrule
+At all times & $a_x = 0$ & $a_y = -g$ \\
+\midrule
+At any time $t$ & $x = (v_0\cos\theta)\,t$ & $y = (v_0\sin\theta)\,t - \frac12 gt^2$ \\
+ & $v_x = v_0\cos\theta$ & $v_y = v_0\sin\theta - gt$ \\
+\bottomrule
+\end{tabular}
+\caption{Position and velocity of a projectile at any time $t$ (launched from the origin with speed
+$v_0$ at angle $\theta$; the acceleration is constant).}\label{tab:projectile}
+\end{table}
+
+As this table shows, during projectile motion the velocity along $x$ never changes. The reason, as
+we said, is that the acceleration has only a $y$ component, and the motion along $y$ is completely
+independent of the motion along $x$. So if you throw a ball with speed $v_0$ at an angle $\theta$
+and run along the $x$ direction yourself with speed $v_0\cos\theta$, you stay exactly under the
+ball and you are sure to catch it (as long as air resistance is negligible). Seen from you, the
+ball simply goes straight up and comes straight back down: a first glimpse of relative motion,
+which we study in Section~\ref{sec:relative}.
+
+What is the path, or \emph{trajectory}, of this body, which starts at $x_0 = 0$, $y_0 = 0$ with
+speed $v_0$ at angle $\theta$ and moves with the gravitational acceleration in the $-\jhat$
+direction? To find the trajectory, that is $y$ as a function of $x$, we eliminate $t$. First, from
+$x = (v_0\cos\theta)t$ we find
+\begin{equation}\label{eq:t-of-x}
+  t = \frac{x}{v_0\cos\theta}
+\end{equation}
+(we assume $\theta \neq 90^\circ$; otherwise the motion is purely vertical). Using this value of
+$t$ in the equation $y = (v_0\sin\theta)t - \frac12 gt^2$ of the table, we find
+\[
+  y = v_0\sin\theta\,\frac{x}{v_0\cos\theta} - \frac12 g\,\frac{x^2}{(v_0\cos\theta)^2} ,
+\]
+that is,
+\begin{equation}\label{eq:trajectory}
+  y = (\tan\theta)\,x - \frac12\,\frac{g}{(v_0\cos\theta)^2}\,x^2 .
+\end{equation}
+This equation has the form $y = bx - cx^2$ with constants $b$ and $c > 0$: as expected, it is the
+downward-opening parabola of Figure~\ref{fig:projectile}.
+
+Now let us go a bit further and ask ourselves how high the body can get. The easiest way to answer
+this question is to find when the $y$ component of the velocity is zero: if $v_y$ is not zero but
+positive, the body is still moving upward, and its present height is not yet the maximum height.
+Using $v_y = v_0\sin\theta - gt$, we find the time $t\sub{top}$ at which the body reaches its
+highest point:
+\begin{equation}\label{eq:t-top}
+  0 = v_0\sin\theta - gt , \qquad \Rightarrow \qquad t\sub{top} = \frac{v_0\sin\theta}{g} .
+\end{equation}
+Putting this value of $t$ into $y = (v_0\sin\theta)t - \frac12 gt^2$, we find
+\[
+  y\sub{max} = (v_0\sin\theta)\,\frac{v_0\sin\theta}{g} - \frac12 g\Bigl(\frac{v_0\sin\theta}{g}\Bigr)^2
+            = \frac{(v_0\sin\theta)^2}{g} - \frac{(v_0\sin\theta)^2}{2g} ,
+\]
+so the maximum height is
+\begin{equation}\label{eq:ymax}
+  y\sub{max} = \frac{(v_0\sin\theta)^2}{2g} .
+\end{equation}
+This result agrees with our expectations: if we increase the initial speed, or throw the body
+upward at a steeper angle, we expect it to go higher. Only the vertical component
+$v_{0y} = v_0\sin\theta$ appears: the body rises exactly as high as a ball thrown straight up with
+speed $v_0\sin\theta$. Notice also that at the highest point the velocity is \emph{not} zero: its
+$y$ component is zero, but its $x$ component is still $v_0\cos\theta$, so the body is moving
+horizontally. And the acceleration there is still $-g\jhat$, as it is everywhere along the path.
+
+When does the body land? There are two ways to find the answer. First, setting $y = 0$ in
+$y = (v_0\sin\theta)t - \frac12 gt^2$, we find the time at which the body is back on the ground:
+\begin{equation}\label{eq:t-flight}
+  0 = (v_0\sin\theta)\,t - \tfrac12 gt^2 = t\bigl(v_0\sin\theta - \tfrac12 gt\bigr) ,
+  \qquad \Rightarrow \qquad t = 0 \quad\text{or}\quad t\sub{tot} = \frac{2v_0\sin\theta}{g} .
+\end{equation}
+The first solution tells us that the body is at $y = 0$ at $t = 0$, where it started; the second,
+that it is again at $y = 0$ at $t = 2v_0\sin\theta/g$, so this is when it lands. An easier way to
+find the landing time is to use the symmetry of the parabola: the time it takes the body to rise
+from the ground to the highest point must equal the time it takes to come down from the highest
+point to the ground. So, using \eqref{eq:t-top}, we find $t\sub{tot} = 2t\sub{top} =
+2v_0\sin\theta/g$. (This symmetry argument, like \eqref{eq:t-flight}, holds only if the body lands
+at the same height from which it was launched. For any other landing height we must solve the
+quadratic equation $y(t) = y\sub{landing}$.)
+
+Finally, let us see where on the $x$-axis the body lands. Using $x = (v_0\cos\theta)t$ and the
+landing time $t\sub{tot} = 2v_0\sin\theta/g$, we find the horizontal distance the body travels
+before it lands, its \textbf{horizontal range} $R$:
+\begin{equation}\label{eq:range}
+  R = x\sub{max} = \frac{2v_0^2\cos\theta\sin\theta}{g} = \frac{v_0^2\sin 2\theta}{g} ,
+\end{equation}
+where we used the identity $2\sin\theta\cos\theta = \sin 2\theta$. Like \eqref{eq:t-flight}, this
+formula holds only if the body lands at the height from which it was launched, for example a ball
+kicked along level ground. For a stone thrown from a balcony, or a ball that lands on a roof, it
+does not apply. Since $\sin 2\theta$ is
+largest, equal to $1$, when $2\theta = 90^\circ$, the range is largest for $\theta = 45^\circ$,
+where $R = v_0^2/g$. And since $\sin 2\theta = \sin(180^\circ - 2\theta)$, the two angles $\theta$
+and $90^\circ - \theta$ give the same range. In real life air resistance makes the range
+considerably shorter, especially for fast, light balls, and the best launch angle is then smaller
+than $45^\circ$.
+
+How should we interpret these results? Why are both the maximum height and the range proportional
+to $v_0^2$? A simple argument goes like this. For a given launch angle $\theta$, the total time the
+body spends in the air is proportional to its initial speed: from \eqref{eq:t-flight},
+$t\sub{tot} = 2v_0\sin\theta/g \propto v_0$. On the other hand, at any given stage
+of the flight (say, half way through it) the $x$ and $y$ components of the velocity are also
+proportional to the initial speed. Since a distance is a velocity times a time, it is natural that
+both the maximum height and the range are proportional to $v_0^2$. Dimensional analysis (Week~1)
+gives the same answer even faster: the only quantities in the problem are $v_0$, $g$ and the
+dimensionless angle $\theta$, and the only length we can build from $v_0$ and $g$ is $v_0^2/g$. So
+every length in the problem must be $v_0^2/g$ times some function of $\theta$, exactly as in
+\eqref{eq:ymax} and \eqref{eq:range}. To test these formulas with various numbers, I recommend the
+\href{https://phet.colorado.edu/en/simulations/projectile-motion}{\emph{Projectile
+Motion}}\footnote{\url{https://phet.colorado.edu/en/simulations/projectile-motion}} simulation of
+PhET, developed at the University of Colorado.
+
+\begin{example}[Same range, two angles]
+A ball is launched from level ground at $v_0 = \qty{20}{m/s}$, once at $\theta = 30^\circ$ and once
+at $\theta = 60^\circ$. From \eqref{eq:range}, both shots have the same range,
+$R = (\qty{20}{m/s})^2\sin 60^\circ/(\qty{9.8}{m/s^2}) = \qty{35}{m}$. From \eqref{eq:ymax} the
+maximum heights are $(\qty{10}{m/s})^2/(2\times\qty{9.8}{m/s^2}) = \qty{5.1}{m}$ and
+$(\qty{17.3}{m/s})^2/(2\times\qty{9.8}{m/s^2}) = \qty{15}{m}$, and from \eqref{eq:t-flight} the
+times of flight are \qty{2.0}{s} and \qty{3.5}{s}. The steeper shot goes three times higher
+($\sin^2 60^\circ/\sin^2 30^\circ = 3$) and stays longer in the air, but lands at the same place.
+\end{example}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,scale=0.95]
+  % ground and tree
+  \fill[pattern=north east lines,pattern color=fzgray] (-0.4,-0.3) rectangle (10.6,0);
+  \draw[thick] (-0.4,0) -- (10.6,0);
+  \draw[line width=3pt,fzgray] (8.1,0) -- (8.1,6.0);
+  \draw[line width=1.5pt,fzgray] (8.1,5.35) -- (7.3,5.52);
+  % zookeeper (stick figure) with dart gun
+  \draw[thick,fzgray] (0.15,1.42) circle (0.12);
+  \draw[thick,fzgray] (0.15,1.30) -- (0.15,0.55) (0.0,0) -- (0.15,0.55) -- (0.3,0)
+    (0.15,1.12) -- (0.42,0.96);
+  \draw[line width=2pt] (0.2,0.84) -- (0.5,1);
+  \node[below,font=\small] at (0.2,-0.3) {zookeeper};
+  % reference line at gun height
+  \draw[fzgray] (0.5,1) -- (10.0,1);
+  % line of aim and the dart's parabola
+  \draw[dashed,thick] (0.5,1) -- (7.7,5);
+  \draw[dashed,thick,fzcomp,domain=0:7.2,samples=40] plot ({0.5+\x},{1+0.55556*\x-0.034722*\x*\x});
+  \draw[->,thick,fzcomp] (5.4,2.910) -- (5.6,2.952);
+  % initial velocity
+  \draw[dashed,fzgray] (1.898,1) -- (1.898,1.777) -- (0.5,1.777);
+  \draw[->,very thick,fzvec] (0.5,1) -- (1.898,1.777) node[above]{$\vec{v}_0$};
+  \draw[->,thick,fzcomp] (0.5,1) -- (1.898,1) node[below]{$v_{0x}$};
+  \draw[->,thick,fzcomp] (0.5,1) -- (0.5,1.777) node[left]{$v_{0y}$};
+  % monkey: at t = 0 (hanging from the branch) and at time t
+  \draw[thick,fzaux] (7.7,5.17) -- (7.7,5.43);
+  \draw[thick,fzaux,fill=white] (7.7,5) circle (0.17);
+  \fill[fzaux] (7.7,3.2) circle (0.17);
+  \draw[->,fzaux] (7.7,4.75) -- (7.7,3.45);
+  \node[anchor=east,font=\small,fzaux] at (7.4,5.3) {monkey at $t=0$};
+  \node[anchor=north east,font=\small,fzaux] at (7.55,2.75) {monkey at $t$};
+  % dimensions
+  \draw[fzgray] (7.9,5) -- (10.2,5);
+  \draw[fzgray] (7.9,3.2) -- (9.1,3.2);
+  \draw[<->] (8.9,5) -- (8.9,3.2) node[midway,right]{$\frac12 gt^2$};
+  \draw[<->] (8.9,3.2) -- (8.9,1) node[midway,right]{$y$};
+  \draw[<->] (10.0,5) -- (10.0,1) node[midway,right]{$h = v_{0y}t$};
+  \draw[<->] (0.5,0.45) -- (7.7,0.45) node[midway,fill=white,inner sep=1pt]{$x$};
+\end{tikzpicture}
+\caption{The hunter and the monkey. In a time $t$ the dart reaches the tree, a horizontal distance
+$x$ away. Without gravity it would be at height $h = v_{0y}t$ on the line of aim; with gravity it is
+$\frac12 gt^2$ lower, at $y = v_{0y}t - \frac12 gt^2 = h - \frac12 gt^2$. In the same time the
+monkey, released at $t = 0$, has fallen exactly $\frac12 gt^2$.}\label{fig:monkey}
+\end{figure}
+
+\textbf{The hunter and the monkey.} Our last example on this topic is about a monkey that has
+escaped from the zoo and climbed a tree, and a zookeeper who tries to hit it with a tranquilizer
+dart. The zookeeper aims directly at the monkey. If the monkey stayed where it is, the dart would
+miss it: as we have just seen, gravity bends the dart's path below the straight line of aim. But
+the monkey has not taken FIZ~101. The moment it sees the dart leave the gun, it lets go of the
+branch and starts to fall. Is the monkey safe now? Or will the zookeeper put the poor monkey to
+sleep and catch it?
+
+After the zookeeper aims at the monkey and fires, at any time $t$ the dart would be on the straight
+line of aim if there were no gravity, while with gravity it is on the parabola below it
+(Figure~\ref{fig:monkey}). But here we can use an important fact that we learned when we studied
+projectile motion: the motion of the dart along $x$ is not affected by gravity. So, with or without
+gravity, at a given time the dart is at the same $x$. Gravity affects only the dart's $y$ position.
+By how much does gravity change it? To find out, we look at
+\begin{equation}\label{eq:dy-def}
+  \Delta y = y_{g=0} - y ,
+\end{equation}
+the difference between the height the dart would have without gravity and its actual height. From
+Table~\ref{tab:projectile}, $y_{g=0} = (v_0\sin\theta)t$ and $y = (v_0\sin\theta)t - \frac12 gt^2$,
+so this difference is
+\begin{equation}\label{eq:dy}
+  \Delta y = \frac12 gt^2 .
+\end{equation}
+So when the dart reaches the vertical line along which the monkey falls, the monkey, to escape,
+would have to have fallen more or less than $\frac12 gt^2$ below its starting point. But the monkey
+let itself fall from rest at the very instant the dart was fired, so in the same time $t$ it has
+fallen exactly $\frac12 gt^2$ (the $y$ equation of \eqref{eq:const-a3} with $v_{0y} = 0$ and
+$a_y = -g$ gives $y - y_0 = -\frac12 gt^2$): exactly as far as
+the dart has dropped below the line of aim. The dart and the monkey arrive at the same point at the
+same time. The poor monkey, not knowing FIZ~101, becomes the victim of the dart.
+
+Notice that the answer depends neither on the speed of the dart nor on the value of $g$: it would
+be the same on the Moon. The only condition is that the dart be fast enough to reach the tree
+before the monkey reaches the ground. There is an even quicker way to see the result. Seen from the
+falling monkey, the monkey and the dart have the same downward acceleration $g$, so relative to the
+monkey the dart has no acceleration at all: it flies along the straight line along which it was
+aimed, straight at the monkey.
+
+%----------------------------------------------------------------------
+\subsection{Circular motion}\label{sec:circular}
+
+As we saw in Section~\ref{sec:invariants}, rotating the coordinate system does not change the length
+of a vector: the length is invariant. This is a statement about describing the \emph{same} vector
+with different axes. Something different happens when the vector itself turns: if the velocity
+vector of a body turns through some angle while keeping its length, the speed, which is the
+magnitude of the velocity, does not change. But, as we stressed at the start of this chapter, the
+velocity itself \emph{has} changed, since its direction is different; and a change of velocity is
+possible only when there is an acceleration. In this section our aim is to get an idea of how to
+study such motions and to calculate the acceleration in them.
+
+\subsubsection{Uniform circular motion}\label{sec:ucm}
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[c]{0.50\textwidth}
+\centering
+\begin{tikzpicture}[>=Stealth,scale=0.95]
+  \draw[thick] (0,0) circle (2);
+  \draw[->] (-2.4,0) -- (2.7,0) node[right]{$x$};
+  \draw[->] (0,-2.4) -- (0,2.7) node[above]{$y$};
+  % position vector at 35 degrees: P = (1.638,1.147)
+  \draw[->,very thick] (0,0) -- (1.638,1.147);
+  \node[right] at (1.9,0.95) {$\vec{r} = r\hat{r}$};
+  \draw (0.6,0) arc[start angle=0,end angle=35,radius=0.6];
+  \node at (0.95,0.24) {$\omega t$};
+  % velocity, tangent
+  \draw[->,very thick,fzvec] (1.638,1.147) -- (0.892,2.212) node[above left=-2pt]{$\vec{v}$};
+  % acceleration, towards the center (drawn just beside r, on its upper side)
+  \draw[->,very thick,fzaux] (1.523,1.311) -- (0.622,0.680);
+  \draw[fzaux] (0.95,0.93) -- (-0.9,2.45) node[left,font=\small]{$\vec{a} = -\omega^2 r\,\hat{r}$};
+  \fill (1.638,1.147) circle (1.8pt);
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\textwidth}
+\caption{Uniform circular motion. At time $t$ the position vector makes an angle $\omega t$ with
+the $x$-axis. The velocity is tangent to the circle, and the acceleration points towards the
+center.}\label{fig:ucm}
+\end{minipage}
+\end{figure}
+
+The motion of a body around a circle with constant speed is called \textbf{uniform circular
+motion}. Before we start studying it, it is useful to make some definitions.
+\begin{itemize}
+  \item \textbf{Period ($T$):} the time it takes the body to go once around the circle.
+  \item \textbf{Frequency ($f$):} the number of revolutions the body makes per second. The unit of
+    frequency is $\unit{s^{-1}}$, more commonly called the hertz (\unit{Hz}). The frequency is
+    \begin{equation}\label{eq:f}
+      f = \frac{1}{T} .
+    \end{equation}
+  \item \textbf{Angular velocity ($\omega$):} the angle, in radians, that the body turns through
+    per second; its unit is \unit{rad/s}. Since one full turn is $2\pi$ radians, the angular
+    velocity is
+    \begin{equation}\label{eq:omega}
+      \boxed{\,\omega = \frac{2\pi}{T}\,} \;=\; 2\pi f .
+    \end{equation}
+    (Here $\omega$ is a positive number, strictly the angular \emph{speed}; when we study rotation
+    in Chapter~10 we will see that angular velocity also has a direction.)
+\end{itemize}
+With these definitions, if the body moves around a circle of radius $r$ as in Figure~\ref{fig:ucm},
+its speed $v$ is
+\begin{equation}\label{eq:v-omega-r}
+  \boxed{\,v = \frac{2\pi r}{T} = \omega r\,} ,
+\end{equation}
+since in one period it travels once around the circumference, $2\pi r$. Although the speed of the
+body does not change during the motion, its velocity does, so there must be an acceleration. Let
+the angular velocity of the body be $\omega$, and let us choose the axes so that the body is on the
+positive $x$-axis (on the line $y = 0$) at $t = 0$ and moves counterclockwise. Then at time $t$ its
+position vector makes an angle $\omega t$ with the $x$-axis, as in Figure~\ref{fig:ucm}, and the
+position of the body is
+\begin{equation}\label{eq:ucm-r}
+  \vec{r} = \ihat\, r\cos(\omega t) + \jhat\, r\sin(\omega t) .
+\end{equation}
+It is convenient to write this as $\vec{r} = r\hat{r}$, where
+$\hat{r} = \ihat\cos(\omega t) + \jhat\sin(\omega t)$ is the unit vector that points from the center
+towards the body. Unlike $\ihat$ and $\jhat$, the unit vector $\hat{r}$ turns as the body moves.
+We differentiate \eqref{eq:ucm-r} with respect to time, with $r$ and $\omega$ constant, using the
+chain rule: $\dd\cos(\omega t)/\dd t = -\omega\sin(\omega t)$ and
+$\dd\sin(\omega t)/\dd t = \omega\cos(\omega t)$. The velocity of the body is then
+\begin{equation}\label{eq:ucm-v}
+  \vec{v} = -\ihat\, \omega r\sin(\omega t) + \jhat\, \omega r\cos(\omega t) ,
+\end{equation}
+and, differentiating once more, its acceleration is
+\begin{equation}\label{eq:ucm-a}
+  \vec{a} = -\ihat\, \omega^2 r\cos(\omega t) - \jhat\, \omega^2 r\sin(\omega t) = -\hat{r}\,\omega^2 r
+          = -\omega^2\vec{r} .
+\end{equation}
+From \eqref{eq:ucm-v}, the speed is $v = |\vec{v}| = \omega r\sqrt{\sin^2(\omega t) +
+\cos^2(\omega t)} = \omega r$, as we expected, and $\vec{v}\cdot\vec{r} = 0$: the velocity is
+perpendicular to the radius, that is, tangent to the circle. The acceleration \eqref{eq:ucm-a}
+points along $-\hat{r}$, from the body towards the center of the circle; it is called
+\textbf{centripetal} (``center-seeking'') acceleration. Its magnitude is
+\begin{equation}\label{eq:arad}
+  a\sub{rad} = \omega^2 r = \frac{v^2}{r} ,
+\end{equation}
+where we used $\omega = v/r$ from \eqref{eq:v-omega-r}. We use the subscript ``rad'' because, as
+\eqref{eq:ucm-a} shows, the acceleration at every point is along the radius, in the radial
+direction, pointing inward. Using $v = 2\pi r/T$, we can also write it as
+$a\sub{rad} = 4\pi^2 r/T^2$.
+
+Two warnings. First, the magnitude $a\sub{rad}$ is constant, but the acceleration \emph{vector} is
+not: its direction turns with the body. So the constant-acceleration equations \eqref{eq:const-a3}
+do not apply to circular motion. Second, the acceleration is not along the velocity: in uniform
+circular motion it is perpendicular to it, and this is exactly why it changes only the direction of
+the velocity and not the speed. Kinematics only tells us that this inward acceleration must be
+present; something must provide it: the tension in a string for a stone whirled around, friction
+on the tires for a car taking a curve, gravity for the Moon. When we study Newton's laws we will
+see that a body in uniform circular motion needs a net force of magnitude $mv^2/r$ pointing towards
+the center.
+
+\begin{example}[Standing on the equator]
+Because the Earth spins, a person standing on the equator moves around a circle of radius
+$r = \qty{6.37e6}{m}$ once every $T = \qty{23}{h}\,\qty{56}{min} = \qty{8.62e4}{s}$ (one rotation
+of the Earth with respect to the stars). The person's speed is
+\[
+  v = \frac{2\pi r}{T} = \frac{2\pi(\qty{6.37e6}{m})}{\qty{8.62e4}{s}} = \qty{464}{m/s} ,
+\]
+about \qty{1670}{km/h}, and the centripetal acceleration is $a\sub{rad} = v^2/r = \qty{0.034}{m/s^2}$,
+only about \qty{0.35}{\percent} of $g$. This is one of the reasons why the measured value of $g$ is
+slightly smaller at the equator than at the poles.
+\end{example}
+
+\subsubsection{Nonuniform circular motion}\label{sec:nucm}
+
+In the previous section we discussed circular motion in which the speed of the body does not
+change. If the speed of the body changes during the motion, as for a car speeding up around a curve
+or a stone whirled on a string in a vertical circle, we call it \textbf{nonuniform circular
+motion}. In nonuniform circular motion the acceleration has both a radial component and a tangential
+component. Since the radial direction and the direction tangent to the circle are perpendicular to
+each other, any acceleration in the plane of the circle can be written in terms of vectors along
+these two directions (Figure~\ref{fig:nucm}).
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[c]{0.46\textwidth}
+\centering
+\begin{tikzpicture}[>=Stealth,scale=1.0]
+  \draw[thick] (0,0) circle (2);
+  \fill (0,0) circle (1.2pt);
+  % point at 35 degrees: P = (1.638,1.147)
+  \draw[fzgray] (0,0) -- (1.638,1.147);
+  % velocity, along the counterclockwise tangent (drawn first, under a_tan)
+  \draw[->,thick,fzvec] (1.638,1.147) -- (0.720,2.457) node[above left=-1pt]{$\vec{v}$};
+  % a_rad: towards the center, length 1.1
+  \draw[->,very thick,fzaux] (1.638,1.147) -- (0.737,0.516) node[below right=-1pt]{$\vec{a}\sub{rad}$};
+  % a_tan: along v (speeding up), length 0.8
+  \draw[->,very thick,fzaux] (1.638,1.147) -- (1.179,1.802);
+  \node[fzaux,anchor=west] at (1.5,1.68) {$\vec{a}\sub{tan}$};
+  % total
+  \draw[dashed,fzgray] (0.737,0.516) -- (0.278,1.171) -- (1.179,1.802);
+  \draw[->,very thick,fzcomp] (1.638,1.147) -- (0.278,1.171) node[left]{$\vec{a}$};
+  % direction of motion
+  \draw[->,thick,fzvec] (2.25,-0.55) arc[start angle=-14,end angle=14,radius=2.3];
+  \fill (1.638,1.147) circle (1.8pt);
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\textwidth}
+\caption{Nonuniform circular motion of a body that is speeding up (moving counterclockwise). The
+radial component of the acceleration points towards the center, the tangential component points
+along the velocity $\vec{v}$, and their sum $\vec{a}$ no longer points towards the
+center.}\label{fig:nucm}
+\end{minipage}
+\end{figure}
+
+To see where the two components come from, let $\phi(t)$ be the angle the position vector makes
+with the $x$-axis, so that $\vec{r} = r(\ihat\cos\phi + \jhat\sin\phi)$ with $r$ constant, and let
+$\omega = \dd\phi/\dd t$, which now changes with time (we take the body to move counterclockwise,
+so $\omega > 0$). By the chain rule, $\vec{v} = \omega r(-\ihat\sin\phi + \jhat\cos\phi)$: the
+velocity is still tangent to the circle, with speed $v = \omega r$. Differentiating once more, now
+with the product rule because $\omega$ depends on $t$,
+\[
+  \vec{a} = r\dv{\omega}{t}\,(-\ihat\sin\phi + \jhat\cos\phi) - \omega^2 r\,(\ihat\cos\phi + \jhat\sin\phi) .
+\]
+The second term points towards the center and is exactly the centripetal acceleration of
+\eqref{eq:ucm-a}. The first points along the tangent, and its component
+$r\,\dd\omega/\dd t = \dd v/\dd t$ is the rate of change of the speed. (For uniform motion
+$\dd\omega/\dd t = 0$ and $\phi = \omega t$, and we are back to \eqref{eq:ucm-a}.)
+
+The radial component, as we discussed in the previous section, changes the direction of the
+velocity; it points towards the center and its magnitude is
+\begin{equation}\label{eq:arad2}
+  a\sub{rad} = \omega^2 r = \frac{v^2}{r} ,
+\end{equation}
+where now $\omega$ and $v$ are the values at that instant, which change with time. The tangential
+component changes the speed of the body, and is given by
+\begin{equation}\label{eq:atan}
+  a\sub{tan} = \frac{\dd|\vec{v}|}{\dd t} .
+\end{equation}
+We use the subscript ``tan'' to stress that this component of the acceleration is tangent to the
+circle, that is, along the line of the velocity. It is positive (in the direction of $\vec{v}$) when the body
+speeds up, and negative (opposite to $\vec{v}$) when it slows down. The total acceleration is the
+vector sum of the two components, $\vec{a} = \vec{a}\sub{rad} + \vec{a}\sub{tan}$, with magnitude
+$a = \sqrt{a\sub{rad}^2 + a\sub{tan}^2}$; unlike in uniform circular motion, it no longer points
+towards the center. (In uniform circular motion $a\sub{tan} = 0$, and we are back to
+Section~\ref{sec:ucm}.)
+
+%----------------------------------------------------------------------
+\subsection{Relative velocity}\label{sec:relative}
+
+In principle, every observer who has a meter stick and a stopwatch, that is, who can make
+measurements, defines a \textbf{frame of reference}: a frame of reference consists of a coordinate
+system (an origin and axes, attached to some body such as the ground, a car or a train) together
+with a clock that measures time.
+
+The values of the physical quantities we studied in the last few sections (position, velocity and
+acceleration) depend on the frame in which we give them. For example, if you are traveling in a car
+with a friend, you measure the velocity of your friend sitting next to you as $\vec{0}$, while an
+observer outside the car, waiting at a bus stop for example, measures your friend's velocity to be
+the velocity of the car. It is therefore important to know how different frames agree with each
+other, that is, how a measurement made in one frame is converted into another frame. Throughout, we
+assume, as Newton did, that all observers use the same time: a clock in the car and a clock at the
+bus stop tick at the same rate. This is true to excellent accuracy when all speeds are small
+compared with the speed of light; near the speed of light we would need Einstein's special theory
+of relativity.
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[c]{0.52\textwidth}
+\centering
+\begin{tikzpicture}[>=Stealth,scale=0.95]
+  % frame A
+  \draw[thick] (0,-0.3) -- (0,2.4) node[above]{$y_A$};
+  \draw[->,thick] (-0.4,0) -- (5.8,0) node[right]{$x_A$};
+  \node[below left] at (0,0) {$O_A$};
+  % frame B
+  \draw[thick,fzaux] (2.4,-0.3) -- (2.4,2.4) node[above]{$y_B$};
+  \draw[very thick,fzaux] (2.0,0) -- (5.5,0);
+  \node[above left,fzaux] at (2.4,0) {$O_B$};
+  \draw[->,very thick,fzvec] (2.4,1.6) -- (3.6,1.6) node[right]{$\vec{v}_{B/A}$};
+  % point P
+  \fill (4.9,0) circle (2pt) node[above]{$P$};
+  % dimensions
+  \draw[|<->|] (0,-0.75) -- (2.4,-0.75) node[midway,fill=white,inner sep=1pt]{$x_{B/A}$};
+  \draw[|<->|,fzaux] (2.4,-0.75) -- (4.9,-0.75) node[midway,fill=white,inner sep=1pt]{$x_{P/B}$};
+  \draw[|<->|] (0,-1.35) -- (4.9,-1.35) node[midway,fill=white,inner sep=1pt]{$x_{P/A}$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.42\textwidth}
+\caption{Frame $B$ moves along the common $x$-axis relative to frame $A$ with velocity
+$\vec{v}_{B/A}$. The position of the point $P$ is measured in both frames.}\label{fig:relative}
+\end{minipage}
+\end{figure}
+
+Let us first study the simpler problem in one dimension. As in Figure~\ref{fig:relative}, let
+$x_{P/A}$ be the position of a point $P$ in frame $A$ (read: ``the position of $P$ relative to
+$A$''), and let $x_{P/B}$ be its position in a frame $B$ whose $x$-axis lies along the same line and
+points in the same direction. The position of the origin of frame $B$ relative to frame $A$ is
+$x_{B/A}$. Then, as the figure shows, the position $x_{P/A}$ is
+\begin{equation}\label{eq:x-rel}
+  x_{P/A} = x_{P/B} + x_{B/A} .
+\end{equation}
+If we write $\relx{v}{P/A}$ for the velocity of $P$ relative to frame $A$ (and similarly for the
+other subscripts), we find the relation between the velocities by taking the time derivative of
+\eqref{eq:x-rel}:
+\begin{equation}\label{eq:v-rel}
+  \dv{x_{P/A}}{t} = \dv{x_{P/B}}{t} + \dv{x_{B/A}}{t} , \qquad \Rightarrow \qquad
+  \relx{v}{P/A} = \relx{v}{P/B} + \relx{v}{B/A} .
+\end{equation}
+(A handy way to remember it: the ``inner'' subscripts $B$ cancel, so that $P/B$ followed by $B/A$
+gives $P/A$.) A simple consequence of these equations is the following. Suppose the point $P$ is
+the origin $O_A$ of frame $A$ itself, so that the observer in $B$ is looking at the origin of $A$.
+Then $x_{P/A} = 0$ (the origin of $A$ is at zero in its own frame) and $x_{P/B} = x_{A/B}$ (the
+position of $O_A$ measured in $B$), and \eqref{eq:x-rel} gives $0 = x_{A/B} + x_{B/A}$, that is,
+\begin{equation}\label{eq:x-AB}
+  x_{A/B} = -x_{B/A} .
+\end{equation}
+Taking the derivative of this equation, we find
+\begin{equation}\label{eq:v-AB}
+  \relx{v}{A/B} = -\relx{v}{B/A} .
+\end{equation}
+This result agrees with what we expect. If, waiting at a bus stop, we measure the velocity of a
+vehicle as $v$ in the $+x$ direction, an observer inside the vehicle sees us, waiting at the stop,
+move with velocity $-v$, in the other direction.
+
+\begin{example}[Overtaking and oncoming cars]
+You ($B$) drive along a straight road at $\relx{v}{B/E} = \qty{+25}{m/s}$ relative to the Earth
+($E$). A car $P$ ahead of you moves at $\relx{v}{P/E} = \qty{+30}{m/s}$. From \eqref{eq:v-rel},
+$\relx{v}{P/B} = \relx{v}{P/E} - \relx{v}{B/E} = \qty{+5}{m/s}$: you see it pull slowly away. An
+oncoming car with $\relx{v}{P/E} = \qty{-30}{m/s}$ has $\relx{v}{P/B} = -30 - 25 = \qty{-55}{m/s}$
+relative to you, which is why oncoming traffic seems to rush past. And by \eqref{eq:v-AB}, the road
+moves backward relative to you: $\relx{v}{E/B} = \qty{-25}{m/s}$.
+\end{example}
+
+We can generalize the idea of relative velocity to motion in three dimensions, just as we
+generalized straight-line motion to three dimensions using vectors. Now we speak of the position
+vector $\vec{r}_{P/A}$ of the point $P$ relative to frame $A$. We take the axes of $A$ and $B$
+parallel to each other, so that $B$ moves relative to $A$ without rotating. Generalizing
+\eqref{eq:x-rel} to three dimensions, the position $\vec{r}_{P/A}$ is
+\begin{equation}\label{eq:r-rel}
+  \vec{r}_{P/A} = \vec{r}_{P/B} + \vec{r}_{B/A} .
+\end{equation}
+Similarly, by differentiating, we find the relation between the velocities:
+\begin{equation}\label{eq:galileo}
+  \vec{v}_{P/A} = \vec{v}_{P/B} + \vec{v}_{B/A} .
+\end{equation}
+This transformation is called the \textbf{Galilean velocity transformation}. As in straight-line
+motion, if we take $P$ to be the origin of frame $A$, we find, as expected,
+\begin{equation}\label{eq:v-AB3}
+  \vec{v}_{A/B} = -\vec{v}_{B/A} .
+\end{equation}
+If $B$ moves relative to $A$ with constant velocity, $\vec{v}_{B/A}$ does not change, and
+differentiating \eqref{eq:galileo} once more gives $\vec{a}_{P/A} = \vec{a}_{P/B}$: observers in
+the two frames measure \emph{different} velocities for $P$, but the \emph{same} acceleration. This
+simple fact will be the key to Newton's laws and to inertial frames of reference in Chapter~5,
+where we come back to Galilean relativity.
+
+\begin{example}[Crossing a river]
+A boat ($B$) heads straight across a river, in the $+y$ direction, at \qty{4.0}{m/s} relative to the
+water ($W$), and the river flows in the $+x$ direction at \qty{3.0}{m/s} relative to the Earth
+($E$). From \eqref{eq:galileo}, the velocity of the boat relative to the Earth is
+\[
+  \vec{v}_{B/E} = \vec{v}_{B/W} + \vec{v}_{W/E} = (\qty{3.0}{m/s})\,\ihat + (\qty{4.0}{m/s})\,\jhat ,
+\]
+with magnitude $\sqrt{3.0^2 + 4.0^2}\,\unit{m/s} = \qty{5.0}{m/s}$, at an angle
+$\arctan(3.0/4.0) = 37^\circ$ downstream from the straight-across direction. The boat still crosses
+in the same time as it would in still water, because the current changes only the $x$ component of
+its velocity: once again, the components are independent.
+\end{example}
+
+%======================================================================
+\section*{About these notes}
+These notes are not original. They draw heavily on the books listed in the Week~1 notes, on Walter Lewin's 8.01x Classical Mechanics lectures at MIT, and on the Dynamics and Relativity courses taught at different times by Stephen Siklos and David Tong at the University of Cambridge. They are not official course notes of FIZ~101: they are written only to help the students of Mehmet \"Ozkan's section. Istanbul Technical University and its Department of Physics Engineering bear no responsibility for them.
+
+\end{document}
