@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quiz 1 solutions – Physics I: Mechanics</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/site.css?v=17">
+<script src="../../../assets/analytics.js" defer></script>
+<style>
+.sol{max-width:44rem;overflow-wrap:anywhere}
+.sol .qmeta{font-family:var(--sans);font-weight:600;color:var(--muted);margin:0 0 1em}
+.sol .qbox{padding:16px 20px;border:1px solid var(--rule);border-radius:6px;margin-bottom:1.6em}
+.sol .qbox p{margin:0 0 .6em}.sol .qbox p:last-child{margin:0}
+.sol h2{font-size:clamp(1.35rem,1.15rem + .8vw,1.7rem);margin:1.6em 0 .5em}
+.sol ol.parts{list-style:none;counter-reset:part;padding-left:2.2em;margin:0}
+.sol ol.parts>li{counter-increment:part;position:relative;margin:0 0 1.2em}
+.sol ol.parts>li::before{content:"(" counter(part,lower-alpha) ")";position:absolute;left:-2.2em;font-weight:700}
+.sol .q{color:var(--muted);margin:0 0 .35em}
+.sol .a{margin:0 0 .35em}
+.sol .a:last-child{margin-bottom:0}
+.sol .eq{display:block;margin:.5em 0 .6em 1.2em;font-size:1.12em}
+.sol .ans{font-weight:600}
+.ps-links{margin:1.1em 0 0;font-family:var(--sans);font-size:1rem}
+.ps-links a{color:var(--chalk);text-decoration-color:var(--yellow);text-decoration-thickness:1.5px;text-underline-offset:5px}
+</style>
+</head>
+<body>
+<header class="board">
+  <div class="head wrap page-head">
+    <a class="crumb" href="../">Physics I: Mechanics</a>
+    <h1 tabindex="-1">Quiz 1 solutions</h1>
+    <p class="role">FIZ 101, Tuesday 20 October 2026 · not counted</p>
+    <p class="ps-links"><a href="quiz1.html">The quiz</a></p>
+  </div>
+  <div class="tray" aria-hidden="true"></div>
+</header>
+<main id="content">
+  <section class="section">
+    <div class="wrap">
+      <article class="sol">
+        <p class="qmeta">Projectile motion · five parts, 20 points each</p>
+        <div class="qbox">
+          <p>A ball is kicked from level ground with speed <i>v</i><sub>0</sub> = 50 m/s at an angle θ above the horizontal, where sin θ = 0.6 and cos θ = 0.8 (θ ≈ 37°). It lands back on the same level ground. Take <i>g</i> = 10 m/s² and ignore air resistance.</p>
+          <p>Put the origin at the point where the ball is kicked, with the <i>x</i>-axis horizontal, in the direction of the kick, and the <i>y</i>-axis vertical, upward. The acceleration is then <i>a</i><sub><i>x</i></sub> = 0, <i>a</i><sub><i>y</i></sub> = −<i>g</i>.</p>
+        </div>
+
+        <h2>The motion</h2>
+        <p>The two directions are independent. Horizontally nothing acts, so the horizontal velocity stays constant; vertically the ball has the constant acceleration −<i>g</i>:</p>
+        <p><span class="eq"><i>x</i>(<i>t</i>) = (<i>v</i><sub>0</sub> cos θ) <i>t</i>,  <i>v</i><sub><i>x</i></sub> = <i>v</i><sub>0</sub> cos θ</span><span class="eq"><i>y</i>(<i>t</i>) = (<i>v</i><sub>0</sub> sin θ) <i>t</i> − ½<i>g</i><i>t</i>²,  <i>v</i><sub><i>y</i></sub>(<i>t</i>) = <i>v</i><sub>0</sub> sin θ − <i>g</i><i>t</i></span></p>
+
+        <h2>The parts</h2>
+        <ol class="parts">
+          <li>
+            <p class="q">The horizontal and vertical components of the initial velocity.</p>
+            <p class="a">θ is measured from the horizontal, so the horizontal component goes with cos θ and the vertical one with sin θ:</p>
+            <p class="a"><span class="eq"><i>v</i><sub>0<i>x</i></sub> = <i>v</i><sub>0</sub> cos θ = (50 m/s)(0.8) = <span class="ans">40 m/s</span>,  <i>v</i><sub>0<i>y</i></sub> = <i>v</i><sub>0</sub> sin θ = (50 m/s)(0.6) = <span class="ans">30 m/s</span></span></p>
+            <p class="a">Check: √(40² + 30²) = √2500 = 50 m/s. The choice “30 m/s and 40 m/s” swaps sine and cosine.</p>
+          </li>
+          <li>
+            <p class="q">The time to reach the highest point.</p>
+            <p class="a">At the highest point the ball stops rising: the vertical component of the velocity is zero (the horizontal component is not). From <i>v</i><sub><i>y</i></sub> = <i>v</i><sub>0</sub> sin θ − <i>g</i><i>t</i> = 0:</p>
+            <p class="a"><span class="eq"><i>t</i><sub>top</sub> = <i>v</i><sub>0</sub> sin θ / <i>g</i> = (30 m/s) / (10 m/s²) = <span class="ans">3 s</span></span></p>
+          </li>
+          <li>
+            <p class="q">The maximum height.</p>
+            <p class="a">Put <i>t</i><sub>top</sub> into <i>y</i>(<i>t</i>):</p>
+            <p class="a"><span class="eq"><i>H</i> = (<i>v</i><sub>0</sub> sin θ) <i>t</i><sub>top</sub> − ½<i>g</i><i>t</i><sub>top</sub>² = (<i>v</i><sub>0</sub> sin θ)² / (2<i>g</i>) = (30 m/s)² / (2 · 10 m/s²) = <span class="ans">45 m</span></span></p>
+            <p class="a">The same follows without the time from <i>v</i><sub><i>y</i></sub>² = <i>v</i><sub>0<i>y</i></sub>² − 2<i>g</i><i>y</i>, with <i>v</i><sub><i>y</i></sub> = 0 at the top: 0 = 900 m²/s² − (20 m/s²) <i>H</i>. Forgetting the 2 gives 90 m; using the horizontal component 40 m/s gives 80 m.</p>
+          </li>
+          <li>
+            <p class="q">The total time in the air.</p>
+            <p class="a">The ball is back on the ground when <i>y</i> = 0, that is <i>t</i> (<i>v</i><sub>0</sub> sin θ − ½<i>g</i><i>t</i>) = 0. One solution, <i>t</i> = 0, is the kick; the other is the landing:</p>
+            <p class="a"><span class="eq"><i>T</i> = 2<i>v</i><sub>0</sub> sin θ / <i>g</i> = 2 · (30 m/s) / (10 m/s²) = <span class="ans">6 s</span></span></p>
+            <p class="a">On level ground the way down takes as long as the way up, so <i>T</i> = 2<i>t</i><sub>top</sub>.</p>
+          </li>
+          <li>
+            <p class="q">How far from the kicking point the ball lands.</p>
+            <p class="a">The horizontal velocity stays <i>v</i><sub>0</sub> cos θ for the whole flight:</p>
+            <p class="a"><span class="eq"><i>R</i> = (<i>v</i><sub>0</sub> cos θ) <i>T</i> = (40 m/s)(6 s) = <span class="ans">240 m</span></span></p>
+            <p class="a">In symbols, <i>R</i> = 2<i>v</i><sub>0</sub>² sin θ cos θ / <i>g</i> = <i>v</i><sub>0</sub>² sin 2θ / <i>g</i>; here sin 2θ = 2(0.6)(0.8) = 0.96 and (2500 m²/s²)(0.96) / (10 m/s²) = 240 m. Using the time to the top instead of the whole flight gives 120 m; using the vertical component gives 180 m; using the full speed 50 m/s gives 300 m.</p>
+          </li>
+        </ol>
+      </article>
+    </div>
+  </section>
+</main>
+</body>
+</html>
