@@ -1,9 +1,10 @@
 /* Live quiz for Physics I. The questions, answers and records live in a
    Google Apps Script web app in the instructor's Google account (endpoint in
    data-endpoint); this page holds no questions. Students enter their student
-   number, get 10 minutes from their own Start, answer the parts in order and
-   see after each part whether they were right, the correct answer and the
-   solution. The page sends one request at a time and keeps trying a busy or
+   number, get 10 minutes from their own Start and answer the parts in order:
+   tapping a choice only selects it; Submit and then "Yes, submit" send it, and
+   only then does the page show whether it was right, the correct answer and
+   the solution. A choice selected but not submitted at 0:00 does not count. The page sends one request at a time and keeps trying a busy or
    unreachable server for up to 2 minutes (Google runs at most 30 requests of
    the script at once). Countdown and timer follow the server's clock, not the
    device's. See CLAUDE.md, "Physics I live quizzes". */
@@ -13,7 +14,7 @@
   var closes=Date.parse(box.getAttribute('data-closes')||''),closeAt=box.getAttribute('data-closes-label'),name=box.getAttribute('data-name')||'The quiz';
   var $=function(id){return document.getElementById(id);};
   var pre=$('lq-pre'),cd=$('lq-count'),form=$('lq-form'),sidIn=$('lq-sid'),msg=$('lq-msg'),conf=$('lq-confirm'),quiz=$('lq-quiz');
-  var offset=0,rtt=Infinity,state=null,tick=null,inflight=false,starting=false,ended=false,unsent=false;
+  var offset=0,rtt=Infinity,state=null,tick=null,inflight=false,starting=false,ended=false,unsent=false,picked=null;   // picked: {part, choice} selected, not yet submitted
   var TRY_FOR=120000,START_GRACE=120000;   // START_GRACE: the server still takes a Start this long after data-closes
   function now(){return Date.now()+offset;}
   function two(n){return (n<10?'0':'')+n;}
@@ -113,6 +114,8 @@
     if(timeUp(s)){t.textContent='Time is up';t.className='lq-time low';if(!ended&&!inflight)render();return;}
     t.textContent='Time left '+mmss(left);
     t.className='lq-time'+(left<60000?' low':'');
+    var w=document.querySelector('.lq-part.current .lq-warn');   // last minute: a choice is selected but not submitted
+    if(w) w.hidden=!(left<60000&&picked&&!inflight);
   }
   function render(){
     var s=state,k=answered(s),n=total(s),over=k===n||timeUp(s),h='';
@@ -120,13 +123,20 @@
     s.parts.forEach(function(p,i){
       var done=p.chosen!==undefined,current=!done&&i===k&&!over;
       if(!done&&!current) return;
-      h+='<section class="lq-part'+(current?' current':'')+'"><h2><span class="lq-label">('+'abcdefghij'[i]+')</span> '+p.q+' <span class="pts">'+p.points+' points</span></h2><div class="lq-choices">';
+      var pk=current&&picked&&picked.part===i?picked.choice:-1;
+      h+='<section class="lq-part'+(current?' current':'')+'" data-part="'+i+'"><h2><span class="lq-label">('+'abcdefghij'[i]+')</span> '+p.q+' <span class="pts">'+p.points+' points</span></h2><div class="lq-choices">';
       p.choices.forEach(function(c,j){
         var cls='lq-choice';
         if(done){if(j===p.answer)cls+=' right';else if(j===p.chosen)cls+=' wrong';if(j===p.chosen)cls+=' chosen';}
-        h+='<button type="button" class="'+cls+'" data-part="'+i+'" data-choice="'+j+'"'+(done||over?' disabled':'')+'>'+c+'</button>';
+        if(j===pk)cls+=' picked';
+        h+='<button type="button" class="'+cls+'" data-choice="'+j+'"'+(current?' aria-pressed="'+(j===pk)+'"':'')+(done||over?' disabled':'')+'>'+c+'</button>';
       });
       h+='</div>';
+      if(current){
+        h+='<div class="lq-act"><button type="button" class="lq-btn lq-submit"'+(pk<0?' disabled':'')+'>Submit answer</button>'+
+           '<span class="lq-hint">'+(pk<0?'Tap a choice, then submit it.':'You can change your choice until you submit it.')+'</span></div>'+
+           '<div class="lq-ask" hidden></div><p class="lq-warn" hidden>You have a selected answer that is not submitted.</p>';
+      }
       if(done){
         h+='<p class="lq-verdict '+(p.correct?'good':'bad')+'">'+(p.correct?'Correct: +'+p.points+' points.':'Not correct: 0 points.')+'</p>'+
            '<p class="lq-answer">The correct answer is <strong>'+p.choices[p.answer]+'</strong>.</p>'+
@@ -138,22 +148,51 @@
     if(over){
       h+='<section class="lq-end"><p class="lq-final">'+(k===n?'Finished.':'Time is up.')+' Your score: <strong>'+s.score+' / '+s.max+'</strong></p>'+
          (unsent&&k<n?'<p class="lq-msg bad">Your last answer could not be sent, so it does not count.</p>':'')+
+         (!unsent&&picked&&picked.part===k&&k<n?'<p class="lq-msg bad">Your selected answer to ('+'abcdefghij'[k]+') was not submitted, so it does not count.</p>':'')+
          '<p>Your answers have been recorded'+(s.test?' (test number: this run is not counted)':'')+'.</p></section>';
     }
     $('lq-parts').innerHTML=h;
     timer();
   }
-  $('lq-parts').addEventListener('click',function(e){
-    var b=e.target.closest('.lq-choice');if(!b||b.disabled||inflight||!state)return;
-    if(timeUp(state)){timer();return;}               // 0:00: no more answers
-    var card=b.closest('.lq-part');[].forEach.call(card.querySelectorAll('.lq-choice'),function(x){x.disabled=true;});
-    b.classList.add('chosen');
-    var note=document.createElement('p');note.className='lq-verdict';note.textContent='Checking…';card.appendChild(note);
-    call({action:'answer',sid:state.sid,part:+b.getAttribute('data-part'),choice:+b.getAttribute('data-choice')},function(t){note.textContent=t;}).then(function(res){
-      if(res.ok){state=res;unsent=false;render();var c=document.querySelectorAll('.lq-part');var last=c[c.length-1];if(last&&last.previousElementSibling)last.previousElementSibling.querySelector('.lq-verdict').scrollIntoView({block:'start',behavior:'smooth'});}
+  /* Answering a part: a tap only selects a choice (it can be changed); Submit
+     asks "Submit … as your answer?"; only "Yes, submit" sends it. */
+  function els(card){return {choices:card.querySelectorAll('.lq-choice'),act:card.querySelector('.lq-act'),sub:card.querySelector('.lq-submit'),
+    hint:card.querySelector('.lq-hint'),ask:card.querySelector('.lq-ask'),warn:card.querySelector('.lq-warn')};}
+  function pick(card,j){
+    var e=els(card);picked={part:+card.getAttribute('data-part'),choice:j};
+    [].forEach.call(e.choices,function(x){var on=+x.getAttribute('data-choice')===j;x.classList.toggle('picked',on);x.setAttribute('aria-pressed',on);});
+    e.sub.disabled=false;e.hint.textContent='You can change your choice until you submit it.';
+    back(card);timer();
+  }
+  function back(card){var e=els(card);e.ask.hidden=true;e.ask.innerHTML='';e.act.hidden=false;}
+  function ask(card){
+    var e=els(card),ch=card.querySelector('.lq-choice.picked');if(!ch)return;
+    e.ask.innerHTML='<p>Submit <strong>'+ch.innerHTML+'</strong> as your answer to ('+'abcdefghij'[picked.part]+')? You cannot change it afterwards.</p>'+
+      '<div class="lq-row"><button type="button" class="lq-btn lq-yes">Yes, submit</button><button type="button" class="lq-btn quiet lq-back">Go back</button></div><p class="lq-verdict lq-sending" hidden></p>';
+    e.act.hidden=true;e.ask.hidden=false;e.ask.querySelector('.lq-yes').focus();
+  }
+  function send(card){
+    var e=els(card),ch=card.querySelector('.lq-choice.picked'),yes=e.ask.querySelector('.lq-yes'),no=e.ask.querySelector('.lq-back'),note=e.ask.querySelector('.lq-sending');
+    if(!ch)return;
+    var p=call({action:'answer',sid:state.sid,part:picked.part,choice:picked.choice},function(t){note.textContent=t;});
+    if(!p)return;                                    // one request at a time
+    [].forEach.call(e.choices,function(x){x.disabled=true;});yes.disabled=no.disabled=true;e.warn.hidden=true;
+    ch.classList.add('chosen');note.hidden=false;note.className='lq-verdict lq-sending';note.textContent='Checking…';
+    p.then(function(res){
+      if(res.ok){state=res;picked=null;unsent=false;render();var c=document.querySelectorAll('.lq-part');var last=c[c.length-1];if(last&&last.previousElementSibling)last.previousElementSibling.querySelector('.lq-verdict').scrollIntoView({block:'start',behavior:'smooth'});}
       else if(timeUp(state)){unsent=true;render();}
-      else{note.textContent=(res.message||'Could not send your answer.')+' Tap your answer again.';note.className='lq-verdict bad';[].forEach.call(card.querySelectorAll('.lq-choice'),function(x){x.disabled=false;x.classList.remove('chosen');});}
+      else{note.textContent=(res.message||'Could not send your answer.')+' Press "Yes, submit" to try again.';note.className='lq-verdict lq-sending bad';
+        [].forEach.call(e.choices,function(x){x.disabled=false;});ch.classList.remove('chosen');yes.disabled=no.disabled=false;}
     });
+  }
+  $('lq-parts').addEventListener('click',function(e){
+    var t=e.target,card=t.closest('.lq-part.current');if(!card||!state||inflight)return;
+    if(timeUp(state)){timer();return;}               // 0:00: no more answers
+    var b=t.closest('.lq-choice');
+    if(b){if(!b.disabled)pick(card,+b.getAttribute('data-choice'));return;}
+    if(t.closest('.lq-submit')){if(picked&&picked.part===+card.getAttribute('data-part'))ask(card);return;}
+    if(t.closest('.lq-back')){back(card);card.querySelector('.lq-submit').focus();return;}
+    if(t.closest('.lq-yes'))send(card);
   });
   /* ---------- start up ---------- */
   if(!EP){cd.textContent='This quiz is not ready yet.';form.hidden=true;return;}
