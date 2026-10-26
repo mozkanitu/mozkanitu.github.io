@@ -9,7 +9,7 @@ Static site on GitHub Pages. No build step: edit the HTML, CSS and JS files dire
 - Shared files: `assets/site.css`, `assets/site.js`, `assets/analytics.js` (GoatCounter), `assets/img/`.
 - Every page links `site.css?v=N` and `site.js?v=N`. After changing either file, raise N by one in every page so browsers load the new version instead of a cached copy.
 - In `assets/site.js`: `PAPERS` (publication list, newest first; also feeds the home page and the research page), `GT` (group theory weekly schedule), `PHYS` (Physics I: Mechanics topics). Resources marked `soon:1` render as dashed "soon" buttons; give them a `url` when the file exists.
-- Group theory lecture notes live in `teaching/group-theory/notes/`.
+- Group theory lecture notes live in `teaching/group-theory/notes/`: `GT_WN.pdf`, the owner's Beamer slides (Weeks 1–4 posted), linked from their week in `GT` with `notes`.
 - Physics I lecture notes (English, corrected and translated in October 2026 from the owner's 2016 Turkish notes): `teaching/physics-1/notes/FIZ101_WN.pdf`, Weeks 1–4 = the first four topics in `PHYS` (field `notes`). LaTeX sources in `_src/physics-1-notes/` (not published; shared style `fiz101notes.sty`, all figures in TikZ, no raster images). Rebuild with `sh _src/physics-1-notes/build.sh [N]`, which copies the PDFs into place. Equation numbers follow the chapters of the original notes (Week 1 = Ch. 1–2, Week 2 = Ch. 3–4, Week 3 = Ch. 5, Week 4 = Ch. 6).
 - Group theory simulations, one `.html` file each in `teaching/group-theory/` with inline style and script (plus the shared scripts below):
   - Week 1: `symmetry-explorer.html`, `table-builder.html` (has a "Rows as permutations" Cayley switch), `same-group.html`.
