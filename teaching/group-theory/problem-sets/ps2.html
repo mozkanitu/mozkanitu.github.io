@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Problem Set 2 – Theory of Groups in Physics</title>
+<meta name="description" content="FZT 203E Theory of Groups in Physics, Fall 2026: Problem Set 2, due Wednesday 4 November 2026.">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/site.css?v=20">
+<link rel="stylesheet" href="../../../assets/katex/katex.min.css">
+<script src="../../../assets/analytics.js" defer></script>
+<style>
+.ps-links{margin:1.1em 0 0;display:flex;flex-wrap:wrap;gap:10px 28px;font-family:var(--sans);font-size:1rem}
+.ps-links a{color:var(--chalk);text-decoration-color:var(--yellow);text-decoration-thickness:1.5px;text-underline-offset:5px}
+.ps{max-width:46rem}
+.ps .facts{margin-bottom:2.2em}
+.ps h2{margin-top:1.6em}
+.ps h3{font-size:1.3rem;font-weight:600;line-height:1.3;margin:1.9em 0 .5em}
+.ps p{margin:0 0 .9em}
+.ps ul,.ps ol{margin:0 0 1em;padding-left:1.6em}
+.ps li{margin:0 0 .55em}
+.ps ul li::marker{color:var(--muted)}
+.ps ol.parts{list-style:none;counter-reset:part;padding-left:2.4em}
+.ps ol.parts>li{counter-increment:part;position:relative}
+.ps ol.parts>li::before{content:"(" counter(part,lower-alpha) ")";position:absolute;left:-2.4em;font-weight:700}
+.ps ol.items{margin:.5em 0 .6em;padding-left:1.8em}
+.ps ol.items>li{margin-bottom:.3em}
+.ps .note{color:var(--muted)}
+.ps .katex{font-size:1.08em}
+.ps .katex-display{margin:.8em 0;overflow-x:auto;overflow-y:hidden;padding:2px 0}
+.ps .eqs{display:flex;flex-wrap:wrap;align-items:center;column-gap:2.5em}
+.ps .eqs .katex-display{margin:.5em 0}
+.ps-end{margin-top:3em;padding-top:1.4em;border-top:1px solid var(--rule);font-family:var(--sans);font-size:1rem}
+@media (max-width:600px){.ps ol.parts{padding-left:2.1em}.ps ol.parts>li::before{left:-2.1em}}
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+
+<header class="board">
+  <div class="head wrap page-head">
+    <a class="crumb" href="../">Theory of Groups in Physics</a>
+    <h1 tabindex="-1">Problem Set 2</h1>
+    <p class="role">FZT 203E, Fall 2026. Due Wednesday 4 November, at the start of the lecture.</p>
+    <p class="ps-links"><a href="GT_PS2.pdf">Download the PDF</a></p>
+  </div>
+  <div class="tray" aria-hidden="true"></div>
+</header>
+
+<main id="content">
+  <section class="section">
+    <div class="wrap">
+      <article class="ps">
+        <dl class="facts">
+          <dt>Covers</dt><dd>Lectures 4–6: direct products, conjugacy classes, normal subgroups, quotient groups and the first isomorphism theorem, cycle notation, parity and the alternating group. Everything from Problem Set 1 may be used. No linear algebra is needed.</dd>
+          <dt>Due</dt><dd>Wednesday, 4 November 2026, at the start of the lecture</dd>
+          <dt>Reading</dt><dd>Zee I.1, pp. 44–45, and I.2, pp. 55–65; Bünemann §§2.2–2.3; lecture notes for Weeks 2 and 3</dd>
+        </dl>
+
+        <p>Justify every answer; a correct answer without reasoning earns partial credit.</p>
+
+        <h2>Conventions</h2>
+        <p>These are the conventions of the lectures and the course simulations.</p>
+        <ul>
+          <li>The vertices of a regular $n$-gon are labelled $1, 2, \dots, n$ counterclockwise. $r$ is the counterclockwise rotation by $2\pi/n$, and $s$ is the reflection in the axis through vertex 1 and the centre. $D_n$ has the relations $r^n = s^2 = e$ and $srs = r^{-1}$, so $s r^k = r^{-k} s$, and every element has a unique normal form $r^k s^m$ with $0 \le k &lt; n$ and $m \in \{0, 1\}$.</li>
+          <li>Products are read right to left: in $gh$, the element $h$ acts first. A symmetry is written as a permutation of positions: $i \to j$ when the object at position $i$ is carried to position $j$. Permutations compose the same way: $(12)(23)$ means first $(23)$, then $(12)$.</li>
+          <li>As in Zee and the lectures, $a$ and $b$ are conjugate if $b = g^{-1} a g$ for some $g \in G$, and $\Cl(a) = \{g^{-1} a g : g \in G\}$ is the class of $a$. A normal subgroup is written $N \trianglelefteq G$ (Zee: invariant subgroup), and $G/N$ is the quotient group of the cosets $gN$ (Bünemann: factor group).</li>
+          <li>$\sgn(p) = \pm 1$ is the sign of $p \in S_n$, and $A_n = \ker(\sgn)$. The cycle type of $p$ lists the lengths of its disjoint cycles.</li>
+          <li>$\Z_n = \{0, 1, \dots, n-1\}$ under addition mod $n$. $D_2 \cong \Z_2 \times \Z_2$ is the four-element group of half-turns of a box (Zee's $V$). For a real number $c > 0$, $c\Z = \{ck : k \in \Z\}$ is a subgroup of $(\R, +)$.</li>
+        </ul>
+        <p>The <a href="../symmetry-explorer.html">Symmetry Explorer</a> on the course page has a hexagon. Use it to check your $D_6$ products in Problem 2, not to replace your algebra.</p>
+
+        <h2>Problems</h2>
+
+        <h3>1. Direct products, lattices, parity and time reversal</h3>
+        <ol class="parts">
+          <li>Let $g \in G$ and $k \in K$ have finite orders. Show that the order of $(g, k)$ in $G \times K$ is $\lcm\bigl(\ord(g), \ord(k)\bigr)$. You may use that $g^m = e$ exactly when $\ord(g)$ divides $m$.</li>
+          <li>Deduce that $\Z_m \times \Z_n \cong \Z_{mn}$ when $\gcd(m, n) = 1$, and that $\Z_m \times \Z_n$ is not cyclic when $\gcd(m, n) > 1$. Here $\gcd(m, n)$ is the greatest common divisor of $m$ and $n$, the largest positive integer that divides both. This generalizes $\Z_2 \times \Z_3 \cong \Z_6$ from Lecture 4.</li>
+          <li>A particle hops on a $6 \times 9$ lattice with periodic boundary conditions in both directions, so its position $(i, j)$ is an element of $\Z_6 \times \Z_9$. At every time step it is translated by the same $(a, b) \in \Z_6 \times \Z_9$. Starting from $(0, 0)$, how many different sites does it visit for $(a, b) = (1, 1)$, $(2, 3)$ and $(3, 1)$? What is the largest possible number, and can the particle ever visit all 54 sites? Answer the last question also for a $4 \times 9$ lattice.</li>
+          <li>A particle on a line obeys $m\ddot x = F(x, \dot x)$. Acting on trajectories $t \mapsto x(t)$, define parity and time reversal by
+            \[(Px)(t) = -x(t), \qquad (Tx)(t) = x(-t).\]
+            Show that $P^2 = T^2 = e$ and $PT = TP$, so that $\{e, P, T, PT\}$ is a group isomorphic to $\Z_2 \times \Z_2$, not to $\Z_4$.</li>
+          <li>Call one of these four transformations a symmetry if it maps every solution of the equation of motion to a solution. Explain why the symmetries among $e, P, T, PT$ form a subgroup. Find this subgroup for a spring, $F = -kx$; a spring with friction, $F = -kx - \gamma\dot x$; a falling ball, $F = -mg$; and a falling ball with air drag, $F = -mg - \gamma\dot x$ (all constants positive). Which physical feature destroys $P$, and which destroys $T$? (Hint: first find the condition on $F$ for each of $P$, $T$ and $PT$ to be a symmetry.)</li>
+        </ol>
+
+        <h3>2. The symmetries of benzene</h3>
+        <p>The six carbon atoms of a benzene molecule sit at the vertices of a regular hexagon, labelled $1, \dots, 6$ counterclockwise. Its symmetries in the plane of the ring form $D_6$, with $r = (123456)$ and $s = (26)(35)$. (In Bünemann's realization of $D_n$ by rotations of a prism, the reflections become half-turns; nothing below changes.)</p>
+        <ol class="parts">
+          <li>Show that $r^{-j}(r^k s)\, r^j = r^{k - 2j} s$ and $s^{-1}(r^k s)\, s = r^{-k} s$. Find all conjugacy classes of $D_6$, and check that their sizes add up to 12.</li>
+          <li>Write each of the six reflections as a permutation, and say whether its mirror passes through two atoms or through the midpoints of two C–C bonds. How do the two classes of reflections differ geometrically? (This distinction returns with the point groups of Week 7.)</li>
+          <li>Let $Z = \{e, r^3\}$, $N = \{e, r^2, r^4\}$ and $H = \{e, r^2, r^4, s, r^2 s, r^4 s\}$. Show that $Z$, $N$ and $H$ are normal subgroups of $D_6$ and that $\{e, s\}$ is not. Show that $r^3$ commutes with every element of $D_6$. What does $r^3$ do to a point of the plane?</li>
+          <li>Show that $H$ consists of the symmetries of the hexagon that map the triangle of atoms $1, 3, 5$ to itself, and that $H \cong D_3$. Show that every $g \in D_6$ can be written in exactly one way as $g = hz$ with $h \in H$ and $z \in Z$, and that $(h, z) \mapsto hz$ is an isomorphism $H \times Z \to D_6$. Conclude that $D_6 \cong D_3 \times \Z_2$ and that $D_6 / Z \cong D_3$.</li>
+          <li>List the cosets of $N$, compute the square of each coset, and decide which group of order four $D_6/N$ is. Two symmetries lie in the same coset of $N$ exactly when they give the same answers to two yes-or-no questions. What are the questions?</li>
+        </ol>
+
+        <h3>3. Angles, spokes and the wagon-wheel effect</h3>
+        <p>Since $(\R, +)$ is Abelian, every $c\Z$ is a normal subgroup and $\R/c\Z$ is a group: the continuous counterpart of $\Z/N\Z \cong \Z_N$ from Lecture 5.</p>
+        <ol class="parts">
+          <li>Show that $E(\theta) = e^{i\theta}$ is a homomorphism from $(\R, +)$ onto $U(1) = \{z \in \C : |z| = 1\}$ with kernel $2\pi\Z$, and conclude that $\R/2\pi\Z \cong U(1)$. Show that every coset $\theta + 2\pi\Z$ contains exactly one number in $(-\pi, \pi]$. This is the precise sense in which an angle is defined modulo $2\pi$.</li>
+          <li>A wheel has $n$ identical, equally spaced spokes, so turning it by $\theta$ and by $\theta + 2\pi/n$ gives the same picture. Show that $\theta \mapsto e^{in\theta}$ is a homomorphism from $\R$ onto $U(1)$ with kernel $(2\pi/n)\Z$. Thus the pictures of the wheel are labelled by $\R/(2\pi/n)\Z \cong U(1)$, and each coset has exactly one representative in $(-\pi/n, \pi/n]$.</li>
+          <li>A film camera takes 24 frames per second, so a wheel turning at angular velocity $\omega$ turns by $\omega/24$ between frames, and the film records only the coset $\omega/24 + (2\pi/n)\Z$. Assume that at each frame the audience sees the spokes turn by the representative of this coset in $(-\pi/n, \pi/n]$, the smallest turn consistent with the pictures. A stagecoach wheel of radius $0.5\,\mathrm{m}$ with 12 spokes rolls without slipping, so $\omega = v/(0.5\,\mathrm{m})$ at speed $v$. Up to what speed does the film show the true rotation? At which speeds does the wheel seem to stand still? At $v = 5\,\mathrm{m/s}$ and at $v = 7\,\mathrm{m/s}$, how fast and in which direction does the wheel seem to turn?</li>
+          <li>The same quotient labels waves on a crystal. The atoms of a one-dimensional crystal sit at $x_j = ja$, $j \in \Z$, and a wave with wave number $k$ has the phase $e^{ikx_j}$ at atom $j$. Show that wave numbers $k$ and $k'$ give the same phase at every atom if and only if $k - k' \in (2\pi/a)\Z$. Lattice waves are therefore labelled by $\R/(2\pi/a)\Z$, with one representative of each coset in $(-\pi/a, \pi/a]$, the first Brillouin zone of solid-state physics. Which wave number in this interval describes the same lattice wave as $k = 7\pi/(2a)$?</li>
+        </ol>
+
+        <h3>4. Shuffles, recurrence and the 15 puzzle</h3>
+        <ol class="parts">
+          <li>A deck of 8 cards fills positions $1, \dots, 8$ from the top. A perfect out-shuffle cuts the deck into halves, positions 1–4 and 5–8, and interleaves them with the top card staying on top: the new deck holds, from the top, the cards formerly at positions $1, 5, 2, 6, 3, 7, 4, 8$. An in-shuffle interleaves the other way: $5, 1, 6, 2, 7, 3, 8, 4$. Write each shuffle as a permutation of positions in disjoint-cycle notation. How many out-shuffles, and how many in-shuffles, restore the original order? Find the sign of each shuffle.</li>
+          <li>$N$ labelled particles occupy $N$ sites, and a deterministic, reversible rule moves them in the same way at every time step, so one step is a permutation $p \in S_N$. Explain why the starting configuration recurs, and why it first recurs after $\ord(p)$ steps: a finite version of Poincaré recurrence in mechanics. When does a single particle first return to its starting site? Show that the recurrence time can exceed $N$: find the largest order of an element of $S_7$, and write down an element of $S_{10}$ of order 30.</li>
+          <li>In the 15 puzzle, fifteen tiles numbered 1–15 and one empty square fill a $4 \times 4$ frame; a move slides a tile next to the empty square into it. Number the squares 1–16 row by row from the top left, and treat the empty square as a sixteenth tile. Start with tile $i$ on square $i$, so the empty square is square 16, in the bottom right corner. Show that each move is a transposition. By colouring the squares like a chessboard, show that the empty square can return to square 16 only after an even number of moves. Deduce that every arrangement reachable with the empty square back at square 16 is an even permutation of the tiles $1, \dots, 15$.</li>
+          <li>Can the puzzle reach the arrangement in which only tiles 14 and 15 are exchanged? Can it reach the arrangement in which the tiles read $15, 14, \dots, 1$ along the rows, with the empty square still at square 16?</li>
+        </ol>
+
+        <h3>5. Rotations of a cube</h3>
+        <p>Place a cube with its vertices at $(\pm1, \pm1, \pm1)$, so that the coordinate axes pass through the centres of opposite faces. Let $G$ be the group of rotations that map the cube to itself; reflections are not included. $G$ is the rotational symmetry group of a cubic crystal such as rock salt (in the Schoenflies notation of Week 7 it is called $O$). A rotation is given by its effect on points: for example, $(x, y, z) \mapsto (-y, x, z)$ is the counterclockwise quarter-turn about the $z$-axis. The four body diagonals join opposite vertices: $d_1$ passes through $(1, 1, 1)$, $d_2$ through $(-1, 1, 1)$, $d_3$ through $(-1, -1, 1)$ and $d_4$ through $(1, -1, 1)$.</p>
+        <ol class="parts">
+          <li>Every rotation axis of the cube passes through the centres of two opposite faces, through two opposite vertices, or through the midpoints of two opposite edges. For each kind, give the number of axes and the angles of the rotations about each one that map the cube to itself. Check that, together with $e$, there are 24 rotations. Why can there be no others? (Hint: a rotation is fixed once you know which face it moves to the top and how that face is turned.)</li>
+          <li>Each $g \in G$ permutes the four diagonals. Let $\varphi(g) \in S_4$ be the permutation with $i \to j$ when $g$ carries $d_i$ to $d_j$. Explain why $\varphi(gh) = \varphi(g)\varphi(h)$. Find $\varphi(g)$ for
+            <div class="eqs">
+              <div>\[R\colon (x, y, z) \mapsto (-y, x, z),\]</div>
+              <div>\[C\colon (x, y, z) \mapsto (z, x, y),\]</div>
+              <div>\[B\colon (x, y, z) \mapsto (y, x, -z).\]</div>
+            </div>
+            $R$ is the quarter-turn about the $z$-axis, $C$ a turn by $120^\circ$ about $d_1$, and $B$ the half-turn about the line through $(1, 1, 0)$ and $(-1, -1, 0)$.</li>
+          <li>Show that $\ker\varphi = \{e\}$. (Hint: if $g$ maps every diagonal to itself, it sends each vertex $v$ to $v$ or to $-v$. Compare the distance between two neighbouring vertices before and after. Is $(x, y, z) \mapsto (-x, -y, -z)$ a rotation?) Conclude that $\varphi$ is an isomorphism, $G \cong S_4$.</li>
+          <li>An isomorphism preserves the order of every element. Use this and the identity $\varphi(R^2) = \varphi(R)^2$ to match each kind of rotation in (a) with a conjugacy class of $S_4$ from the table of Lecture 6, and check that the numbers agree. Conclude that two rotations are conjugate in $G$ exactly when they are of the same kind. In particular, the quarter-turns by $+90^\circ$ and $-90^\circ$ about the $z$-axis are conjugate: find $g \in G$ with $g^{-1} R g = R^{-1}$, and explain the result physically.</li>
+          <li>In a methane molecule CH<sub>4</sub>, the carbon atom sits at the centre of the cube and the four hydrogen atoms at the alternate vertices $(1, 1, 1)$, $(1, -1, -1)$, $(-1, 1, -1)$ and $(-1, -1, 1)$, which form the set $T_+$; the other four vertices form $T_-$. Show that every $g \in G$ maps $T_+$ either onto itself or onto $T_-$ (hint: any two points of $T_+$ are joined by a diagonal of a face), and that setting $\chi(g) = +1$ or $-1$ accordingly defines a homomorphism $\chi\colon G \to \{+1, -1\}$. Evaluate $\chi$ on $R$, $R^2$, $C$ and $B$, and use (d) to show that $\chi(g) = \sgn\varphi(g)$ for every $g \in G$. Conclude that the rotations of the cube that map the methane molecule to itself form a group isomorphic to $A_4$. What does the sign of $\varphi(g)$ mean geometrically?</li>
+          <li>Each $g \in G$ also permutes the three coordinate axes, which defines a homomorphism $\psi\colon G \to S_3$. Find $\psi(R)$ and $\psi(C)$, and show that $\psi$ is onto. Use the first isomorphism theorem to find $|\ker\psi|$, and identify $\ker\psi$ without further search. Deduce that $V = \{e, (12)(34), (13)(24), (14)(23)\}$ is a normal subgroup of $S_4$ and that $S_4/V \cong S_3$. Which group from Week 1 is $\ker\psi$?</li>
+        </ol>
+
+        <p class="ps-end"><a href="../">Back to the course page</a></p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<script src="../../../assets/katex/katex.min.js" defer></script>
+<script src="../../../assets/katex/auto-render.min.js" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  renderMathInElement(document.body,{
+    delimiters:[{left:'\\[',right:'\\]',display:true},{left:'$',right:'$',display:false}],
+    macros:{'\\Z':'\\mathbb{Z}','\\R':'\\mathbb{R}','\\C':'\\mathbb{C}','\\gen':'\\langle #1\\rangle',
+      '\\ord':'\\operatorname{ord}','\\sgn':'\\operatorname{sgn}','\\Cl':'\\operatorname{Cl}','\\lcm':'\\operatorname{lcm}'},
+    throwOnError:false
+  });
+});
+</script>
+</body>
+</html>
