@@ -1,6 +1,7 @@
 (function(){
   /* ---------- papers (single source for home, research and publications) ---------- */
   var PAPERS=[
+    {"y": 2026, "t": "A Common Type II Origin of Galilean and Carroll Superstrings", "a": "M. Ozkan and U. Zorba", "j": "", "x": "2610.41582", "k": "carroll", "s": 1},
     {"y": 2026, "t": "A Twisted Origin for Magnetic Carroll Supersymmetry", "a": "I. Bulunur, O. Ergec, O. Kasikci, M. Ozkan and M. S. Zog", "j": "", "x": "2603.28269", "k": "carroll", "s": 1},
     {"y": 2026, "t": "Chern–Simons-Like Formulation of 3D MMG-Like Massive Gravity Models", "a": "B. Dedeoğlu, M. Ozkan and Ö. Sarıoğlu", "j": "Eur. Phys. J. C 86 (2026) 600", "x": "2601.03936", "k": "3d", "s": 1},
     {"y": 2025, "t": "Supersymmetric Carroll Galileons in Three Dimensions", "a": "U. Zorba, I. Bulunur, O. Kasikci, M. Ozkan, Y. Pang and M. S. Zog", "j": "Phys. Rev. D 111 (2025) 085008", "x": "2409.15428", "k": "carroll", "s": 1},
