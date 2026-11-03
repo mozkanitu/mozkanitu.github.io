@@ -243,7 +243,7 @@ def build_tex(topics, mode):
     n = 0
     key = []
     for t in topics:
-        body.append('\n\\section*{Topic %d: %s}\n' % (t['topic'], t['title']))
+        body.append('\n\\needspace{14\\baselineskip}\n\\section*{Topic %d: %s}\n' % (t['topic'], t['title']))
         for p in t['problems']:
             n += 1
             body.append('%% ---- problem %d (topic %d, item %d) ----' % (n, t['topic'], t['problems'].index(p) + 1))
@@ -252,7 +252,7 @@ def build_tex(topics, mode):
                 body.append(instr_tex(p))
             key.append((n, LET[p['correct']], p['answer']))
     if mode == 'student':
-        body.append('\n\\section*{Answers}\n\\begin{multicols}{2}\\raggedcolumns\n\\begin{enumerate}'
+        body.append('\n\\clearpage\n\\section*{Answers}\n\\begin{multicols}{2}\\raggedcolumns\n\\begin{enumerate}'
                     '[label=\\textsf{\\arabic*.},leftmargin=2.2em,itemsep=0.35em]')
         for k, let, ans in key:
             body.append('\\item (%s) \\enspace %s' % (let, ans))
