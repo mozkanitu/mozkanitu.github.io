@@ -22,6 +22,7 @@ A directory argument loads every *.json in it, sorted by topic. Each problem:
   correct      index of the right choice, 0 to 4
   answer       the final answer as it appears in the key, LaTeX
   answer_value number (numerical problems): the right answer in the units the stem asks for
+               (a string such as "12 i - 8 j" when the answer is a vector)
   solution     short worked solution, LaTeX
   distractors  five strings: the mistake behind each wrong choice ("correct" for the right one)
   variants     numerical problems: four exam versions with other numbers, each
@@ -102,13 +103,13 @@ PREAMBLE = r"""\documentclass[11pt,a4paper]{article}
 INTRO = r"""\pooltitle{Midterm problem pool}{Topics 1--6 \textperiodcentered\ Mehmet \"Ozkan, Istanbul Technical University}
 
 The midterm on Tuesday 24 November, during the usual class time, has 10 multiple-choice questions,
-all taken from this pool of %(n)d problems. On the exam the numbers in a question may be different
-from the numbers here, so learn how to solve each problem rather than its answer. The answers are at
-the end.
+all taken from this pool of %(n)d problems. On the exam a question may have different numbers from
+the ones here, and its choices may be in a different order, so learn how to solve each problem
+instead of memorizing its answer. The answers are at the end.
 
 No calculators are allowed, and none are needed: the numbers are chosen so that the arithmetic can be
-done by hand. Take $g = \qty{10}{m/s^2}$ throughout. Each problem is based on the lecture notes of its
-topic.
+done by hand. Take $g = \qty{10}{m/s^2}$ throughout, and ignore air resistance unless a problem says
+otherwise. Each problem is based on the lecture notes of its topic.
 """
 
 INSTR_INTRO = r"""\pooltitle{Midterm problem pool: instructor copy}{Private: answers, solutions, wrong choices and exam variants}
@@ -177,8 +178,8 @@ def validate(topics):
             if p.get('layout', 'below') not in ('below', 'right'):
                 errs.append('%s: layout must be "below" or "right"' % w)
             if p['kind'] == 'numerical':
-                if not isinstance(p.get('answer_value'), (int, float)):
-                    errs.append('%s: numerical problem needs a number in answer_value' % w)
+                if not isinstance(p.get('answer_value'), (int, float, str)):
+                    errs.append('%s: numerical problem needs a number (or, for a vector, a string) in answer_value' % w)
                 vs = p.get('variants', [])
                 if len(vs) != 4:
                     errs.append('%s: numerical problem needs 4 variants, has %d' % (w, len(vs)))
@@ -192,8 +193,8 @@ def validate(topics):
                         errs.append('%s: needs 5 different choices' % vw)
                     if not (isinstance(v.get('correct'), int) and 0 <= v.get('correct', -1) <= 4):
                         errs.append('%s: correct must be 0..4' % vw)
-                    if not isinstance(v.get('answer_value'), (int, float)):
-                        errs.append('%s: answer_value must be a number' % vw)
+                    if not isinstance(v.get('answer_value'), (int, float, str)):
+                        errs.append('%s: answer_value must be a number (or a string for a vector)' % vw)
                     vals.add(norm(v.get('values', '')))
                     if norm(v.get('stem', '')) == norm(p['stem']):
                         errs.append('%s: same stem as the pool problem' % vw)
@@ -243,7 +244,7 @@ def build_tex(topics, mode):
     n = 0
     key = []
     for t in topics:
-        body.append('\n\\needspace{14\\baselineskip}\n\\section*{Topic %d: %s}\n' % (t['topic'], t['title']))
+        body.append('\n\\needspace{14\\baselineskip}\n\\section*{Topic %d \\textperiodcentered\\ %s}\n' % (t['topic'], t['title']))
         for p in t['problems']:
             n += 1
             body.append('%% ---- problem %d (topic %d, item %d) ----' % (n, t['topic'], t['problems'].index(p) + 1))
