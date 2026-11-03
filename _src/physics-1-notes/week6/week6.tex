@@ -1,0 +1,999 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fiz101notes}
+\usepackage{needspace}
+\noteweek{6}{Potential energy and energy conservation}
+
+% Figure styles used in this week.
+\tikzset{
+  force/.style={->,very thick,fzcomp},
+  velo/.style={->,very thick,fzvec},
+  track/.style={very thick,fzboard},
+}
+% Value of a derivative at a point: \at{\dv{U}{x}}{x_0}
+\newcommand{\at}[2]{\left.#1\right|_{#2}}
+
+\begin{document}
+\makenotetitle
+
+%======================================================================
+\setcounter{section}{7}
+\section{Potential energy and energy conservation}\label{sec:energy}
+
+In the previous chapter we saw why conserved quantities are so useful in Newtonian mechanics
+(Section~7.1), and we met kinetic energy and the work--energy theorem (Sections~7.2 and~7.3). In
+this chapter we come to the central idea: the \emph{conservation of energy}. On the way we need a
+few concepts that are important in their own right and that we will use again and again: potential
+energy (Section~\ref{sec:gravpot}), conservative forces (Section~\ref{sec:conservative}), energy
+diagrams and equilibrium (Section~\ref{sec:diagrams}), the relation between force and potential
+energy in three dimensions (Section~\ref{sec:3d}), and nonconservative forces such as friction
+(Section~\ref{sec:nonconservative}).
+
+Recall the work--energy theorem \textup{(7.7)}: when a body moves from a point $A$ to a point $B$,
+\[
+  W\sub{net} = K_B - K_A , \qquad K = \tfrac12 mv^2 ,
+\]
+where $W\sub{net}$ is the \emph{total} work done on the body by all the forces that act on it (the
+work of the net force). Throughout this chapter we work in an inertial frame, treat bodies as
+particles, and take $g = \qty{9.8}{m/s^2}$; unless we say otherwise, we neglect friction and air
+resistance.
+
+%----------------------------------------------------------------------
+\subsection{Gravitational potential energy}\label{sec:gravpot}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  \draw[->,fzgray] (0,0) -- (6.4,0) node[below]{$x$};
+  \draw[->,fzgray] (0,0) -- (0,4.1) node[left]{$y$};
+  \coordinate (A) at (1.5,0.9);
+  \coordinate (B) at (4.5,3.2);
+  \draw[densely dotted,fzgray] (A) -- (0,0.9) node[left,black]{$y_A$};
+  \draw[densely dotted,fzgray] (B) -- (0,3.2) node[left,black]{$y_B$};
+  \draw[densely dotted,fzgray] (A) -- (5.7,0.9);
+  \draw[densely dotted,fzgray] (B) -- (5.7,3.2);
+  \draw[<->] (5.55,0.9) -- node[right]{$h$} (5.55,3.2);
+  % two paths from A to B
+  \draw[thick,dashed,fzaux] (A) .. controls (1.2,2.9) and (2.9,3.8) .. (B);
+  \draw[very thick,fzvec] (A) .. controls (2.1,0.1) and (2.6,2.4) .. (3.1,1.7)
+    .. controls (3.6,1.0) and (3.9,3.5) .. (B);
+  \draw[force] (3.1,1.7) -- (3.1,0.75) node[below]{$m\vec{g}$};
+  \draw[->,thick] (3.1,1.7) -- (3.42,1.25) node[right]{$\dd\vec{r}$};
+  \fill (A) circle (2pt) node[below left]{$A$};
+  \fill (B) circle (2pt) node[above right]{$B$};
+\end{tikzpicture}
+\caption{A body moves from $A$ to $B$, a height $h = y_B - y_A$ higher. The work done on it by
+gravity is $-mgh$ along either path, the solid one or the dashed one: only the vertical part of each
+displacement $\dd\vec{r}$ counts.}\label{fig:gravwork}
+\end{figure}
+
+Consider a body of mass $m$ that moves from a point $A$ to a point $B$ whose height above $A$ is
+$h = y_B - y_A$ ($h$ is negative if $B$ is below $A$), as in Figure~\ref{fig:gravwork}, under the
+action of gravity and possibly of other forces. Near the
+surface of the Earth gravity is a constant force, $\vec{F} = -mg\,\jhat$ (we take the $+y$ axis
+upward). By \textup{(7.21)} and \textup{(7.24)}, its work along \emph{any} path from $A$ to $B$ is
+\[
+  W_{AB} = \int_A^B \vec{F}\cdot\dd\vec{r} = \int_{y_A}^{y_B} (-mg)\,\dd y = -mg(y_B - y_A) ,
+\]
+because the horizontal parts of the displacement contribute nothing: gravity is perpendicular to
+them. So the work done by gravity is
+\begin{equation}\label{eq:Wgrav}
+  W_{AB} = F_y (y_B - y_A) = -mgh .
+\end{equation}
+It is negative if $B$ is higher than $A$ ($h > 0$: the body rises, against the force), positive if
+$B$ is lower ($h < 0$), and zero if $A$ and $B$ are at the same height, whatever the path between
+them.
+
+Now suppose that gravity is the only force that does work on the body. Other forces may act, as
+long as they do no work: the normal force of a fixed, frictionless track, for example, is always
+perpendicular to the velocity. Then the net work is the work of gravity, and by the work--energy
+theorem \textup{(7.7)} it equals the change in the kinetic energy of the body:
+\begin{equation}\label{eq:wet-grav}
+  -mgh = -mg(y_B - y_A) = K_B - K_A .
+\end{equation}
+If we collect the quantities that belong to $A$ on one side and those that belong to $B$ on the
+other, this becomes
+\begin{equation}\label{eq:Econs-grav}
+  mgy_A + K_A = mgy_B + K_B .
+\end{equation}
+The quantity $mgy$ is called the \textbf{gravitational potential energy}:
+\begin{keyresult}
+\begin{equation}\label{eq:Ugrav}
+  U\sub{grav} = mgy .
+\end{equation}
+\end{keyresult}
+Equation \eqref{eq:Econs-grav} says that the sum of the kinetic and potential energies of the body
+at $A$ is equal to the same sum at $B$. We call this sum the \textbf{mechanical energy},
+$E = K + U$. As the body moves, potential energy can turn into kinetic energy, and kinetic energy
+into potential energy, but their sum, the mechanical energy, stays constant. In terms of $U$, the
+work done by gravity is
+\[
+  W\sub{grav} = U_A - U_B = -\Delta U .
+\]
+When the body rises, gravity does negative work and $U$ increases. The energy is not lost: it is
+stored, and gravity gives it back as kinetic energy when the body comes down. This is the meaning of
+the word ``potential''.
+
+Two remarks. First, the potential energy is not really a property of the body alone. It depends on
+the separation between the body and the Earth, and it is the energy of their gravitational
+interaction, so it belongs to the \emph{system} of the body and the Earth. The Earth is so massive
+that its own motion is negligible, so all the change in kinetic energy is the body's, and we
+usually speak of ``the potential energy of the body'' for short. Second, $U = mgy$ holds only near
+the surface of the Earth, where $g$ is constant. When the height is not small compared with the
+radius of the Earth (\qty{6370}{km}), we need the general expression that follows from Newton's law
+of gravitation: already at \qty{400}{km}, the height of the International Space Station, $g$ is
+more than 10\% smaller than at the surface.
+
+Looking at the definition \eqref{eq:Ugrav}, we see that the potential energy is zero at $y = 0$.
+But where is this point $y = 0$? Can it be the floor of our classroom, the center of the Earth, or
+the roof of our house? The law of conservation of mechanical energy \eqref{eq:Econs-grav} tells us
+that what matters is not the potential energy itself, but the difference in potential energy,
+$\Delta U = U_B - U_A = mg(y_B - y_A)$. This depends only on the difference in height between $A$
+and $B$, not on where $y = 0$ is. Indeed, if we measure heights from another level, $y' = y - y_0$,
+every potential energy changes by the same constant, $-mgy_0$, and this constant appears on both
+sides of \eqref{eq:Econs-grav} and cancels. Moving the level $y = 0$ changes $U$, and with it the
+mechanical energy, by the same constant at every point, but it changes no difference $\Delta U$, and
+so no speed, kinetic energy or force. So the choice of $y = 0$ cannot change the result of a
+problem, and we are free to put it wherever it makes the problem simplest, as long as we keep the
+same choice throughout the problem. With a given choice,
+$U$ may well be negative (for a body below the level $y = 0$); that is no problem, since only
+differences of $U$ have a physical meaning.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  % level y = 0 through C
+  \draw[densely dotted,fzgray] (-0.85,0) -- (7.5,0) node[right,black]{$y = 0$};
+  \draw[->,fzgray] (-1.55,0) -- (-1.55,1.0) node[above,black]{$y$};
+  \draw[<->] (-0.75,0) -- node[left]{$h$} (-0.75,3.0);
+  \draw[densely dotted,fzgray] (-0.85,3.0) -- (-0.12,3.0);
+  % the track: from A down to C, the loop, and out
+  \draw[track] (0,3.0) .. controls (0.8,1.1) and (2.3,0) .. coordinate[pos=0.33](B) (4,0);
+  \draw[track] (4,1) circle (1);
+  \draw[track] (4,0) .. controls (5.6,0) and (6.6,0.7) .. (7.3,1.8);
+  % radius
+  \draw[->,fzgray!80!black] (4,1) -- node[above left=-2pt]{$r$} ($(4,1)+(215:1)$);
+  \fill (4,1) circle (1pt);
+  % points
+  \fill (0,3.0) circle (2.2pt) node[above=2pt]{$A$} node[right=3pt]{$v_A = 0$};
+  \fill (B) circle (2.2pt) node[above right]{$B$};
+  \fill (4,0) circle (2.2pt) node[below=2pt]{$C$};
+  \fill (4,2) circle (2.2pt) node[above=2pt]{$D$};
+  % forces at D, both toward the center
+  \draw[force] (3.86,1.98) -- (3.86,1.32) node[left=1pt]{$\vec{n}$};
+  \draw[force] (4.14,1.98) -- (4.14,1.32) node[right=1pt]{$m\vec{g}$};
+\end{tikzpicture}
+\caption{A roller coaster with a circular loop of radius $r$. The car starts from rest at $A$, a
+height $h$ above the lowest point $C$; $D$ is the top of the loop. At $D$ both forces on the car,
+its weight $m\vec{g}$ and the normal force $\vec{n}$ of the track, point down, toward the center of
+the loop.}\label{fig:coaster}
+\end{figure}
+
+To see what the conservation of mechanical energy can do, consider the roller coaster in
+Figure~\ref{fig:coaster}, with a loop of radius $r$. We release a car at $A$ without giving it any
+initial speed ($v_A = 0$). It starts to slide down the track and picks up speed, turning potential
+energy into kinetic energy. We assume that the track is frictionless and that
+there is no air resistance. The track exerts a normal force on the car, but this force is always
+perpendicular to the velocity and does no work, so gravity is the only force that does work, and
+the mechanical energy is conserved:
+\begin{equation}\label{eq:coaster-E}
+  K_A + U_A = K_B + U_B = K_C + U_C = K_D + U_D .
+\end{equation}
+We choose $y = 0$ at the lowest point $C$. The car is at rest at $A$, which is a height $h$ above
+$y = 0$, so its mechanical energy is
+\begin{equation}\label{eq:coaster-E2}
+  mgh = K_B + U_B = K_C + U_C = K_D + U_D .
+\end{equation}
+At any point of the track at a height $y$ above $C$, the speed $v$ of the car is therefore given by
+\begin{equation}\label{eq:coaster-v}
+  mgh = mgy + \frac12 mv^2 , \qquad\Rightarrow\qquad v^2 = 2g(h - y) .
+\end{equation}
+The speed depends only on how far the car has come down from $A$, not on the shape of the track,
+and it is the same as for a body that falls freely through the same height. (The shape of the
+track does decide the \emph{direction} of the velocity and how long the trip takes, and energy alone
+cannot tell us these.) Since $v^2$ cannot be negative, the car can never rise above the height $h$
+from which it started. The car is fastest at the lowest point $C$, where $U$ is smallest and so
+$K = E - U$ is largest; with our choice $y = 0$ at $C$, $U_C = 0$ and all the mechanical energy
+$mgh$ is kinetic there: $v_C = \sqrt{2gh}$.
+
+\begin{aside}
+\textbf{Simulation:}
+\href{https://phet.colorado.edu/en/simulations/energy-skate-park}{\emph{Energy Skate
+Park}}\footnote{\url{https://phet.colorado.edu/en/simulations/energy-skate-park}} (PhET Interactive
+Simulations, University of Colorado Boulder). A skater rides a track that you can build and
+reshape, while the simulation shows the skater's kinetic, potential and thermal energy. With
+friction off, release the skater from the same height on tracks of different shapes and compare
+the speeds at the same height: by~\eqref{eq:coaster-v} they must agree. Then move the reference
+height, the level where $U = 0$: $U$ and $E$ change by the same constant everywhere, but no speed
+changes. With friction on, mechanical energy turns into thermal energy and the total stays
+constant, as we will see in Section~\ref{sec:Wother}. For a lighter first look, try
+\href{https://phet.colorado.edu/en/simulations/energy-skate-park-basics}{\emph{Energy Skate Park:
+Basics}}.\footnote{\url{https://phet.colorado.edu/en/simulations/energy-skate-park-basics}}
+\end{aside}
+
+Equation \eqref{eq:coaster-v} also gives the speed at $D$, provided the car gets there while staying
+on the track. After $C$ the car moves on a circle, so it has a radial acceleration
+$a\sub{rad} = v^2/r$ toward the center of the loop; its speed changes along the loop, so this is
+nonuniform circular motion, and $v$ is the speed at the point we consider. At
+the top, $D$, the car is upside down on the inside of the track, and both forces on it point down,
+toward the center: its weight $mg$ and the normal force $n$ of the track
+(Figure~\ref{fig:coaster}). Newton's second law in the radial direction gives
+$mv_D^2/r = n + mg$, so $n = m(v_D^2/r - g)$, just as for the tension of the string in
+\textup{(6.19)}. The track can push on the car but it cannot pull it, so $n \geq 0$ (real
+roller-coaster cars have wheels on both sides of the rail, so that the track can also pull them, but
+here we consider a car that simply runs on the inside of the track), and the car stays on the track
+at the top only if
+\begin{equation}\label{eq:loop-cond}
+  a\sub{rad} = \frac{v_D^2}{r} \geq g .
+\end{equation}
+The top of the loop is at $y = 2r$, so by \eqref{eq:coaster-v} the speed of the car at $D$ is given
+by
+\begin{equation}\label{eq:loop-vD}
+  v_D^2 = 2g(h - 2r) .
+\end{equation}
+Putting this into \eqref{eq:loop-cond}, $2g(h - 2r)/r \geq g$, and so
+\begin{equation}\label{eq:loop-h}
+  2h - 4r \geq r , \qquad\Rightarrow\qquad h \geq \frac52 r .
+\end{equation}
+Why is it enough to look at the top? At a point of the loop at an angle $\varphi$ from the bottom,
+the car is at the height $y = r(1 - \cos\varphi)$, and the radial component of the weight,
+$mg\cos\varphi$, points away from the center. The second law in the radial direction,
+$n - mg\cos\varphi = mv^2/r$, together with \eqref{eq:coaster-v}, gives
+\[
+  n = \frac{mg}{r}\,(2h - 2r + 3r\cos\varphi) ,
+\]
+which is smallest at the top, $\varphi = \ang{180}$, where it is $n_D = mg(2h - 5r)/r$. So if the
+car stays on the track at $D$, it stays on it everywhere. If $h$ is smaller than $\frac52 r$ but
+larger than $r$, $n$ drops to zero somewhere in the upper half of the loop, before the car reaches
+$D$. From there on, gravity alone pulls the car toward the center more strongly than motion on the
+circle requires, so the car leaves the track and falls, following a projectile path. (If
+$h \leq r$, the car never rises above the center of the loop: it stops on the track and slides back
+down.)
+
+The car must start at least half a radius above the top of the loop: this extra height gives it the
+speed $\sqrt{gr}$ that it needs at the top. Notice that the mass has cancelled. A real roller
+coaster has friction, so it must start higher still. Note also how hard the track must push at the
+bottom: for $h = \frac52 r$, $v_C^2 = 2gh = 5gr$, and the second law at $C$,
+$n_C - mg = mv_C^2/r$, gives $n_C = 6mg$. The riders would feel six times as heavy as usual, which
+is far too much; this is one reason why real loops are not circles but are tighter at the top
+than at the bottom.\footnote{We have treated the car as a particle that slides. A solid ball
+that \emph{rolls} along the same track also has kinetic energy of rotation, so less of its energy
+is available for its forward motion; it needs $h \geq 2.7\,r$. We will see why when we study the
+rotation of rigid bodies.}
+
+\begin{aside}
+\textbf{Demonstration:}
+\href{https://sciencedemonstrations.fas.harvard.edu/presentations/loop-loop}{\emph{Loop-the-loop}}\footnote{\url{https://sciencedemonstrations.fas.harvard.edu/presentations/loop-loop}}
+(Harvard Natural Sciences Lecture Demonstrations, a demonstration page). A body released from a
+ramp runs into a vertical loop. The page gives the numbers we found above (its $R$ is our $r$):
+neglecting friction, the critical speed at the top is $\sqrt{Rg}$, as in~\eqref{eq:loop-cond}, and
+it is reached for the release height $h = 2.5R$, as in~\eqref{eq:loop-h}. Released lower, the body
+leaves the track and follows a parabola for part of the loop.
+\par\smallskip
+\textbf{Video:}
+\href{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/resources/24-2/}{\emph{24.3
+Worked Example -- Block Sliding Down Circular
+Slope}}\footnote{\url{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/resources/24-2/}}
+(MIT OpenCourseWare, 8.01SC, 2016, short). A worked example from MIT's lesson on the conservation
+of energy: a block slides down a slope shaped like an arc of a circle. As you follow it, ask the
+questions we asked for the roller coaster: which forces do work and which do none, and what energy
+alone can tell us and what it cannot.
+\end{aside}
+
+\begin{example}[The vertical circle revisited]
+\setlength{\parskip}{0.5em plus 0.1em}%
+In Section~6.1 a body of mass $m$ on a string of length $R$ moved in a vertical circle, and we
+promised to show that the tension at the bottom point $P$ is larger than the tension at the top point
+$S$ by $T_P - T_S = 6mg$, whatever the speed. We assume that the other end of the string is held
+fixed at the center of the circle (a hand that moves can do work on the body through the string)
+and that air resistance is negligible. Then the tension is always along the string, perpendicular to
+the velocity, so it does no work, and the mechanical energy of the body is conserved. The top is a
+height $2R$ above the bottom, so
+\[
+  \tfrac12 mv_P^2 = \tfrac12 mv_S^2 + mg(2R) , \qquad\Rightarrow\qquad v_P^2 = v_S^2 + 4gR .
+\]
+From \textup{(6.17)} and \textup{(6.19)}, with $a\sub{rad} = v^2/R$, the tensions are
+$T_P = m(v_P^2/R + g)$ and $T_S = m(v_S^2/R - g)$, so
+\[
+  T_P - T_S = \frac{m(v_P^2 - v_S^2)}{R} + 2mg = 4mg + 2mg = 6mg .
+\]
+This holds as long as the string stays taut. For the roller coaster the normal force plays the role
+of the tension: with $h = \frac52 r$, $n_D = 0$ and so $n_C = 6mg$, as we found above.
+\end{example}
+
+\begin{aside}
+\textbf{Demonstration:}
+\href{https://sciencedemonstrations.fas.harvard.edu/presentations/pendulum-and-nose}{\emph{Pendulum
+and
+Nose}}\footnote{\url{https://sciencedemonstrations.fas.harvard.edu/presentations/pendulum-and-nose}}
+(Harvard Natural Sciences Lecture Demonstrations, a demonstration page). A heavy iron ball hangs
+from the ceiling as a pendulum (a bowling ball also works) and is released from rest at the
+demonstrator's nose. As in the example above, the tension does no work, so the ball can never rise
+above its release height; since air drag takes a little of its mechanical energy, it comes back a
+little short of the nose. The ball must be released, not pushed: a push would give it kinetic
+energy at the start.
+\par\smallskip
+\textbf{Simulation:}
+\href{https://phet.colorado.edu/en/simulations/pendulum-lab}{\emph{Pendulum
+Lab}}\footnote{\url{https://phet.colorado.edu/en/simulations/pendulum-lab}} (PhET Interactive
+Simulations, University of Colorado Boulder). A pendulum with a display of its energy. Without
+friction the bob comes back to its release height on every swing: its kinetic energy is zero at
+the ends of the swing and largest at the bottom, where $U$ is smallest. With friction on, the
+swings shrink as mechanical energy turns into thermal energy (Section~\ref{sec:Wother}).
+\end{aside}
+
+%----------------------------------------------------------------------
+\subsection{Conservative forces and the conservation of mechanical energy}\label{sec:conservative}
+
+When we studied the gravitational potential energy, we saw that the work done by gravity when a
+body moves from a point $A$ to a point $B$ does not depend on the path it follows. When the work
+done by a force is independent of the path and depends only on the starting and ending points of
+the motion, like the work of gravity, we call that force a \textbf{conservative force}. An
+equivalent statement is that the work done by a conservative force around any \emph{closed} path,
+one that returns to its starting point, is zero: what the force takes from the body on one part of
+the path, it gives back on another. (To see that the two statements are equivalent, go from $A$ to
+$B$ along one path and come back along another. On the way back the work is minus the work along
+the second path from $A$ to $B$, so the total is zero exactly when the two paths give the same
+work.)
+
+Only for a conservative force can we define a potential energy. Choose a reference point $O$ and
+give $U$ any value $U_O$ there. For every point $P$, define $U_P = U_O - W_{O\to P}$, where
+$W_{O\to P}$ is the work done by the force along any path from $O$ to $P$. This makes sense only
+because the work is the same along every path. Going from $A$ to $B$ by way of $O$, and using the
+fact that the work from $A$ to $O$ is minus the work from $O$ to $A$,
+$W_{AB} = W_{A\to O} + W_{O\to B} = (U_A - U_O) + (U_O - U_B)$, so
+\[
+  W_{AB} = U_A - U_B = -\Delta U .
+\]
+The choice of $O$ and $U_O$ is the free choice of the zero of potential energy that we met for
+gravity. For a force whose work depends on the path, no function of position can do this.
+
+To see why conservative forces are called by this name, let us go back to equation
+\eqref{eq:Wgrav}: as the body moves, the work done on it by gravity, $-mgh$, is minus the change in
+its potential energy, $W = -\Delta U$. In one dimension, the work done by a force $F$ during a small displacement $\dd x$ is
+$\dd W = F\,\dd x$, and for a conservative force it is also $\dd W = -\dd U$. So there is a relation
+between the force and the potential energy:
+\begin{keyresult}
+\begin{equation}\label{eq:F-dU}
+  F = -\dv{U}{x} .
+\end{equation}
+\end{keyresult}
+Conversely, we find the potential energy from the force by integrating:
+\[
+  U(x) = U(x\sub{ref}) - \int_{x\sub{ref}}^{x} F(x')\,\dd x' ,
+\]
+where the reference point $x\sub{ref}$ and the value $U(x\sub{ref})$ there are our free choice of
+the zero. The minus sign in \eqref{eq:F-dU} says that a conservative force always points toward
+lower potential energy, ``downhill''. Now consider the mechanical energy of the body,
+\begin{equation}\label{eq:E}
+  E = \frac12 mv^2 + U ,
+\end{equation}
+and suppose that $F$ is the only force on it. We take the time derivative of $E$, using the chain
+rule, $\dd U/\dd t = (\dd U/\dd x)(\dd x/\dd t) = v\,\dd U/\dd x$, where $v = \dd x/\dd t$ is the
+velocity along $x$, positive or negative:
+\begin{equation}\label{eq:dEdt}
+  \dv{E}{t} = mv\dv{v}{t} + \dv{U}{t} = v\Bigl(m\dv{v}{t} + \dv{U}{x}\Bigr) = 0 .
+\end{equation}
+The bracket vanishes because, by Newton's second law and \eqref{eq:F-dU},
+$m\,\dd v/\dd t = F = -\dd U/\dd x$. So conservative forces \emph{conserve} the mechanical energy,
+and this is where their name comes from.
+
+Notice where we used the fact that $U$ depends only on the position $x$. If $U$ also depended on the
+time, say because someone kept moving the support of a spring, $\dd U/\dd t$ would contain an extra
+term, the rate at which $U$ changes at a fixed point, and $E$ would no longer be constant. A force
+law that does not change in time is just the homogeneity of time of Section~5.2.1: an experiment
+done tomorrow gives the same result as one done today. As we said in Section~7.1, this symmetry is
+the reason why energy is conserved; here we have seen how it works.
+
+So a force is conservative if there is a function $U(x)$ that gives it through \eqref{eq:F-dU}. In
+one dimension, every force that depends only on the position $x$ of the body passes this test, since
+we can always find $U$ by integrating. Forces that depend on the velocity, such as friction and air
+resistance, whose direction is always opposite to the motion, do not (Section~\ref{sec:nonconservative}).
+As we saw in the previous section, gravity is a conservative force: from $U\sub{grav} = mgy$,
+\eqref{eq:F-dU} gives $F_y = -\dd(mgy)/\dd y = -mg$, the weight, pointing down, toward lower $U$.
+
+As another example, consider a harmonic oscillator, a body attached to an ideal spring. Its potential
+energy, the \textbf{elastic potential energy}, is
+\begin{keyresult}
+\begin{equation}\label{eq:Uel}
+  U\sub{el} = \frac12 kx^2 ,
+\end{equation}
+\end{keyresult}
+where $k$ is the spring constant and $x$ is the stretch of the spring, measured from its relaxed
+length ($x < 0$ for a compressed spring; $U\sub{el}$ is positive either way). From
+\eqref{eq:F-dU} the spring force is then $F\sub{el} = -\dd U\sub{el}/\dd x = -kx$, which is exactly
+Hooke's law \textup{(7.26)}: the spring force is conservative. (We can also go the other way: starting
+from Hooke's law and choosing $U = 0$ at $x\sub{ref} = 0$, the integral above gives
+$U\sub{el} = -\int_0^x (-kx')\,\dd x' = \frac12 kx^2$.) This agrees with what we found in Chapter~7.
+When we stretch a spring from $x = 0$ to $x$, the spring does the work $-\frac12 kx^2$ on the body
+\textup{(7.27)}, which is $-\Delta U\sub{el}$, while we do the work $+\frac12 kx^2$ on it
+\textup{(7.28)}; this work is stored in the spring as elastic potential energy, and the spring gives
+it back when it is released. Equation \textup{(7.30)} for a body released from the stretch
+$x\sub{max}$ is just the conservation of $E = \frac12 mv^2 + \frac12 kx^2$:
+$\frac12 kx\sub{max}^2 = \frac12 mv^2 + \frac12 kx^2$.
+
+When several conservative forces do work on a body, each has its own potential energy, and $U$ is
+their sum. This gives the \textbf{law of conservation of mechanical energy}:
+\begin{keyresult}
+If only conservative forces do work on a body, its mechanical energy is conserved:
+\[
+  K_A + U_A = K_B + U_B , \qquad U = U\sub{grav} + U\sub{el} + \cdots .
+\]
+Forces that do no work, such as the normal force of a fixed surface, do not change $E$.
+\end{keyresult}
+
+\begin{example}[A spring gun]
+\setlength{\parskip}{0.5em plus 0.1em}%
+The spring of a toy gun has $k = \qty{600}{N/m}$. We compress it by \qty{0.10}{m}, put a ball of mass
+\qty{0.020}{kg} on it and fire the ball straight up. How high does it go?
+
+Two conservative forces do work on the ball, the spring force and gravity, so $E = K + U\sub{el} +
+U\sub{grav}$ is conserved. We put $y = 0$ at the starting point. At the start the ball is at rest and
+all the energy is elastic, $\frac12 kx^2 = \frac12(\qty{600}{N/m})(\qty{0.10}{m})^2 = \qty{3.0}{J}$.
+At the highest point the ball is again at rest, the spring is relaxed and all the energy is
+gravitational, $mgH$. So
+\[
+  H = \frac{kx^2}{2mg} = \frac{\qty{3.0}{J}}{(\qty{0.020}{kg})(\qty{9.8}{m/s^2})} = \qty{15}{m} .
+\]
+We did not need to know how the force of the spring changes during the launch, only the energy it
+stores. The ball leaves the spring when the spring reaches its relaxed length, \qty{0.10}{m} above
+the start; there $\frac12 mv^2 = \qty{3.0}{J} - mg(\qty{0.10}{m}) = \qty{2.98}{J}$, so
+$v = \qty{17}{m/s}$.
+\end{example}
+
+One of the great advantages of conservative forces is that, instead of Newton's equations, which
+are \emph{second-order} differential equations (they contain $\dd^2 x/\dd t^2$), they give us a
+\emph{first-order} differential equation, one that contains only $\dd x/\dd t$. If we want to study,
+in general, a system that moves in one dimension under a conservative force, we use
+\eqref{eq:E} and find
+\begin{equation}\label{eq:dxdt}
+  E = \frac12 m\Bigl(\dv{x}{t}\Bigr)^2 + U(x) , \qquad\Rightarrow\qquad
+  \dv{x}{t} = \pm\sqrt{\frac{2}{m}\bigl(E - U(x)\bigr)} ,
+\end{equation}
+where we take the $+$ sign while the body moves in the $+x$ direction and the $-$ sign while it moves
+in the $-x$ direction. As we found above, the mechanical energy $E$ does not depend on time, and the
+potential energy is a function of position only. So we can separate the variables, putting
+everything that contains $x$ on one side and $\dd t$ on the other, and integrate from the moment
+$t_0$, when the body is at $x_0$, to the moment $t$, when it is at $x$:
+\begin{equation}\label{eq:t-integral}
+  t - t_0 = \pm\int_{x_0}^{x} \frac{\dd x'}{\sqrt{\frac{2}{m}\bigl(E - U(x')\bigr)}} .
+\end{equation}
+If we can do this integral, we know $t$ as a function of $x$; turning this around gives $x(t)$, and
+the problem is solved. Notice that the constants $E$ and $x_0$, together with the choice of sign,
+play the role of the two initial conditions that Newton's second law needs: $x_0$ is the initial
+position, $E$ gives the initial speed through $\frac12 mv_0^2 = E - U(x_0)$, and the sign gives the
+direction of the initial velocity. The sign in
+\eqref{eq:t-integral} changes at the points where $E = U(x)$, where the speed is zero and the body
+turns around; we come back to these \emph{turning points} in the next section. (This trick works
+only in one dimension: in three dimensions, conservation of energy is one equation for three
+unknown coordinates.)
+
+\begin{example}[A body on a spring]
+\setlength{\parskip}{0.5em plus 0.1em}%
+For a body on a spring, $U = \frac12 kx^2$. If the body oscillates between $x = -A$ and $x = +A$,
+it is at rest at these turning points, so $E = \frac12 kA^2$ and
+$\frac{2}{m}(E - U) = \frac{k}{m}(A^2 - x^2)$. Suppose that the body passes through $x_0 = 0$ at
+$t_0 = 0$, moving in the $+x$ direction. With $\int \dd x/\sqrt{A^2 - x^2} = \arcsin(x/A)$,
+\eqref{eq:t-integral} gives
+\[
+  t = \sqrt{\frac{m}{k}}\int_0^x \frac{\dd x'}{\sqrt{A^2 - x'^2}} = \sqrt{\frac{m}{k}}\,\arcsin\frac{x}{A} ,
+  \qquad\Rightarrow\qquad x(t) = A\sin\omega t , \quad \omega = \sqrt{\frac{k}{m}} .
+\]
+We derived this for the first quarter of a period, while the body moves from $0$ to $A$. After the
+turning point at $x = A$ we must take the minus sign in \eqref{eq:t-integral}, and the same steps
+show that $x = A\sin\omega t$ continues to hold, through every later turning point. So the body
+oscillates with period $2\pi/\omega = 2\pi\sqrt{m/k}$, independent of the amplitude $A$:
+this is \emph{simple harmonic motion}. We have solved Newton's second law,
+${m\,\dd^2x/\dd t^2 = -kx}$, without ever writing it down.
+\end{example}
+
+\begin{aside}
+\textbf{Video:}
+\href{https://www.youtube.com/watch?v=w4QFJb9a8vo}{\emph{Work, Energy, and Power: Crash Course
+Physics \#9}}\footnote{\url{https://www.youtube.com/watch?v=w4QFJb9a8vo}} (CrashCourse,
+\emph{Crash Course Physics}, Shini Somara, 2016, 10~min). A fast animated review of work and
+kinetic energy (Chapter~7), potential energy and its conservation, and power; watch it after
+reading this section. Check each step against the law of conservation of mechanical energy in the
+box above: it holds only when the forces that do work are conservative.
+\par\smallskip
+\textbf{Simulation:}
+\href{https://phet.colorado.edu/en/simulations/masses-and-springs}{\emph{Masses and
+Springs}}\footnote{\url{https://phet.colorado.edu/en/simulations/masses-and-springs}} (PhET
+Interactive Simulations, University of Colorado Boulder). Hang a mass on a spring and let it
+oscillate while the simulation shows its kinetic energy, its elastic and gravitational potential
+energy, and thermal energy. The mass stops at the turning points, where $K = 0$, and moves fastest
+in the middle of its oscillation, where the total potential energy $U\sub{el} + U\sub{grav}$ is
+smallest. (The spring hangs vertically, so gravity also does work, and the mass oscillates about
+the point where the stretched spring holds up its weight.) Pull the mass down by different amounts:
+the period does not change, as we found above. Add damping to see mechanical energy turn into
+thermal energy.
+\end{aside}
+
+%----------------------------------------------------------------------
+\needspace{8\baselineskip}
+\subsection{Energy diagrams}\label{sec:diagrams}
+
+When a body moves along a line and only a conservative force does work on it, so that its
+mechanical energy is constant, the graph of its potential energy $U(x)$ shows the main features of
+the motion without our solving any equation. To see this, consider a potential energy of the form
+\begin{equation}\label{eq:cubic}
+  U(x) = m(x^3 - 3x) .
+\end{equation}
+(This is a made-up example, chosen to keep the numbers simple: we measure $x$ in meters and $U$ in
+joules, and we do not write the units of the two coefficients, \unit{m^{-1}.s^{-2}} and
+\unit{m.s^{-2}}. Since $U$ is proportional to the mass, the acceleration
+$a_x = F/m = -(1/m)\,\dd U/\dd x = 3 - 3x^2$ does not depend on $m$, just as in free fall.) Its
+graph is shown in Figure~\ref{fig:cubic}. It has a local maximum at $x = -1$, where $U = 2m$, and a
+local minimum at $x = +1$, where $U = -2m$; it also takes the value $2m$ at $x = 2$.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[font=\small]
+\begin{axis}[width=9cm,height=6.6cm,axis lines=middle,xmin=-2.4,xmax=2.75,ymin=-4.4,ymax=4.7,
+    xlabel={$x$},ylabel={$U(x)$},xtick={-1,1,2},xticklabels={},ytick={-2,2},yticklabels={},
+    every axis x label/.style={at={(ticklabel* cs:1)},anchor=west},
+    every axis y label/.style={at={(ticklabel* cs:1)},anchor=south},
+    clip=false]
+  \node[anchor=north] at (axis cs:-1,0) {$-1$};
+  \node[anchor=south] at (axis cs:1,0) {$+1$};
+  \node[anchor=north] at (axis cs:2,0) {$+2$};
+  \node[anchor=north west,inner sep=2pt] at (axis cs:0,2) {$2m$};
+  \node[anchor=east] at (axis cs:0,-2) {$-2m$};
+  \addplot[densely dashed,fzgray!80!black,thick] coordinates {(-1,2) (2,2)};
+  \addplot[densely dotted,fzgray] coordinates {(2,2) (2,0)};
+  \addplot[densely dotted,fzgray] coordinates {(-1,2) (-1,0)};
+  \addplot[densely dotted,fzgray] coordinates {(1,-2) (1,0)};
+  \addplot[very thick,fzvec,domain=-2.2:2.2,samples=150] {x^3-3*x};
+  \addplot[only marks,mark=*,mark size=1.8pt,black] coordinates {(-1,2) (1,-2)};
+\end{axis}
+\end{tikzpicture}
+\caption{The potential energy $U(x) = m(x^3 - 3x)$. It has a local maximum $U = 2m$ at $x = -1$ and
+a local minimum $U = -2m$ at $x = +1$; the dashed line shows that $U(2)$ is equal to $U(-1)$.}
+\label{fig:cubic}
+\end{figure}
+
+Of course, with this potential energy we could do the integral \eqref{eq:t-integral}; the result is
+an elliptic integral, a function that is not among the ones we know from calculus. But we can say a
+lot about the motion without doing the integral. The key is that the kinetic energy can never be
+negative:
+\[
+  K = \frac12 mv^2 = E - U(x) \geq 0 .
+\]
+So if we draw a horizontal line at the height $E$ on the graph of $U(x)$, the body can only be where
+the curve is \emph{below} the line, and the vertical distance from the curve up to the line is its
+kinetic energy at that point. Where the curve meets the line, $U = E$, the speed is zero: these are
+the \textbf{turning points}, where the body stops for an instant and turns around. Meanwhile the
+force $F = -\dd U/\dd x$ is minus the slope of the curve: it is strongest where the curve is
+steepest, and it always points downhill.
+
+Now suppose that the body starts its motion from rest at a point $x_0$. Its mechanical energy is
+then $E = U(x_0)$, and this energy is conserved throughout the motion, so the starting point $x_0$
+decides what happens to the body (Figure~\ref{fig:levels}).
+\begin{itemize}
+\item $x_0 = \pm 1$: these are the local minimum and maximum of $U$, where the slope, and with it
+  the force, is zero. If the body starts at rest at one of these points, it stays there. (But the two
+  points behave very differently if the body is displaced slightly, as we will see in
+  Section~\ref{sec:equilibrium}.)
+\item $x_0$ in the interval $(-1, 2)$, other than $x_0 = 1$: here $E = U(x_0) < 2m$, and the body is
+  trapped in a \emph{potential well}. It oscillates back and forth between two turning points at
+  which $U = U(x_0)$, one of which is $x_0$ itself. It cannot climb further to the right, because it
+  does not have enough energy to do so. Far to the left, beyond the hill at $x = -1$, there is a
+  region where $U$ is again smaller than $E$, so the conservation of energy alone would allow the body
+  to be there. But to get there it would have to pass over the hill at $x = -1$, where $U = 2m > E$,
+  and it does not have the energy to do so.\footnote{In quantum mechanics a particle \emph{can}
+  sometimes get through such a barrier, a process called \emph{tunneling}; the alpha decay of
+  nuclei is an example. In classical mechanics it is impossible.}
+\item $x_0 > 2$: now $E = U(x_0) > 2m$. The force at $x_0$ points to the left, so the body speeds up
+  toward the bottom of the well, passes through $x = 1$, where its speed has a local maximum (it does
+  not stop there), slows down as it climbs toward $x = -1$, and goes over the hill with a speed that
+  is not zero, since $E > 2m$. Beyond the hill it moves toward $x \to -\infty$, faster and faster, and
+  never comes back.
+\item $x_0 < -1$: the slope of $U$ is positive, so the force points to the left, and the body moves
+  toward $x \to -\infty$.
+\item $x_0 = +2$: this is a special case, in which the energy of the body is exactly the value of $U$
+  at the local maximum, $E = 2m$. Released from here, the body cannot stop anywhere before
+  $x = -1$, since $U < 2m$ everywhere between $-1$ and $2$, so its kinetic energy is not zero there. On
+  the other hand, at $x = -1$ both its speed and the force on it are zero, so if it ever got there,
+  it would stay there. In fact it approaches $x = -1$ more and more slowly and gets there only in the
+  limit $t \to \infty$. If we start the body a little to the left of $x_0 = 2$, so that $E$ is
+  slightly less than $2m$, it oscillates in the well, and the period of its oscillation grows without
+  bound as $E$ approaches $2m$; for $E = 2m$ the body never completes even one trip.
+\end{itemize}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[font=\small,>=Stealth]
+\begin{axis}[width=9.6cm,height=6.6cm,axis lines=middle,xmin=-2.4,xmax=2.75,ymin=-4.4,ymax=4.7,
+    xlabel={$x$},ylabel={$U(x)$},xtick=\empty,ytick=\empty,
+    every axis x label/.style={at={(ticklabel* cs:1)},anchor=west},
+    every axis y label/.style={at={(ticklabel* cs:1)},anchor=south},
+    clip=false]
+  % energy E1 = m: trapped motion between x1 and x2; allowed but unreachable for x < x3
+  \addplot[fzgray,thin] coordinates {(-2.3,1) (2.3,1)};
+  \addplot[fzcomp,line width=2.2pt] coordinates {(-0.3473,1) (1.8794,1)};
+  \addplot[fzcomp,thick,densely dotted] coordinates {(-2.3,1) (-1.5321,1)};
+  \addplot[densely dotted,fzgray] coordinates {(-0.3473,1) (-0.3473,0)};
+  \addplot[densely dotted,fzgray] coordinates {(1.8794,1) (1.8794,0)};
+  \node[fzcomp,anchor=west] at (axis cs:2.3,1) {$E_1$};
+  \node[anchor=north,font=\footnotesize] at (axis cs:-0.3473,0) {$x_1$};
+  \node[anchor=north,font=\footnotesize] at (axis cs:1.8794,0) {$x_2$};
+  % energy E2 = 3m: the body passes over the hill
+  \addplot[fzaux,thin] coordinates {(2.1038,3) (2.3,3)};
+  \addplot[fzaux,line width=2.2pt,->] coordinates {(2.1038,3) (-2.3,3)};
+  \node[fzaux,anchor=west] at (axis cs:2.3,3) {$E_2$};
+  % the curve
+  \addplot[very thick,fzvec,domain=-2.2:2.2,samples=150] {x^3-3*x};
+  \addplot[only marks,mark=*,mark size=1.8pt,fzcomp] coordinates {(-0.3473,1) (1.8794,1)};
+  \addplot[only marks,mark=*,mark size=1.8pt,fzaux] coordinates {(2.1038,3)};
+  \node[font=\footnotesize,fzcomp] at (axis cs:1.45,-3.4) {trapped between $x_1$ and $x_2$};
+  \node[font=\footnotesize,align=right,fzcomp,anchor=east] at (axis cs:-2.35,1) {allowed, but\\ out of reach};
+\end{axis}
+\end{tikzpicture}
+\caption{Reading an energy diagram. The body can only be where $U(x) \leq E$. With the energy $E_1$
+(red), a body in the well between $-1$ and $2$ oscillates between the turning points $x_1$ and $x_2$;
+the region on the far left, where $U < E_1$ again, cannot be reached, because the hill at $x = -1$ is
+in the way. With the energy $E_2 > 2m$ (blue), a body released at rest at its turning point passes
+over the hill and moves off toward $x \to -\infty$.}\label{fig:levels}
+\end{figure}
+
+We can check the last case with the integral \eqref{eq:t-integral}. For $E = 2m$,
+\[
+  E - U(x) = m(2 - x^3 + 3x) = m(2 - x)(x + 1)^2 ,
+\]
+and the body moves to the left, so, with $t_0 = 0$ at $x_0 = 2$,
+\[
+  t = \int_x^2 \frac{\dd x'}{(x' + 1)\sqrt{2(2 - x')}}
+    = \frac{1}{\sqrt6}\,\ln\frac{\sqrt3 + \sqrt{2 - x}}{\sqrt3 - \sqrt{2 - x}}
+\]
+(substitute $u = \sqrt{2 - x'}$). As $x \to -1$, $\sqrt{2 - x} \to \sqrt3$, the denominator goes to
+zero, and $t \to \infty$. Near $x = -1$ the speed is about $\sqrt6\,(x + 1)$: it is proportional to the
+distance that is left, so the body covers each further stretch more slowly and never quite arrives.
+
+%......................................................................
+\subsubsection{Equilibrium}\label{sec:equilibrium}
+
+A body is in \textbf{equilibrium} at a point where the net force on it is zero: if it is placed there
+at rest, it stays there. In the cubic example above there are two equilibrium points, $x = \pm 1$. In
+general, since $F = -\dd U/\dd x$, the equilibrium points are the critical points of the potential
+energy, where
+\begin{equation}\label{eq:equil}
+  \dv{U}{x} = 0 .
+\end{equation}
+But what happens if the body is not exactly at an equilibrium point, only very close to it? To see
+this, we call the equilibrium point $x_0$ (in this section $x_0$ no longer means the starting
+point) and expand the potential energy in a Taylor series around $x_0$:
+\begin{equation}\label{eq:taylor}
+  U(x) = U(x_0) + \at{\dv{U}{x}}{x_0}(x - x_0) + \frac12\at{\frac{\dd^2 U}{\dd x^2}}{x_0}(x - x_0)^2
+  + \cdots .
+\end{equation}
+The second term is zero, by the definition \eqref{eq:equil} of an equilibrium point. Close to $x_0$,
+where $x - x_0$ is small, the terms that are not written are much smaller still, and if we
+differentiate \eqref{eq:taylor} we find the force
+\[
+  F = -\dv{U}{x} \approx -U''(x_0)\,(x - x_0) , \qquad U''(x_0) \equiv \at{\frac{\dd^2 U}{\dd x^2}}{x_0} .
+\]
+What happens next depends on the sign of the second derivative of the potential energy at $x_0$.
+\begin{itemize}
+\item $U''(x_0) > 0$: the equilibrium point is a minimum of the potential energy. Near it, the
+  equation of motion is
+  \begin{equation}\label{eq:stable}
+    m\frac{\dd^2 x}{\dd t^2} = -U''(x_0)\,(x - x_0) .
+  \end{equation}
+  If we displace the body slightly from the equilibrium point, the force, and with it the
+  acceleration, points back toward $x_0$, and tries to bring the body back. Equation
+  \eqref{eq:stable} is the equation of a body on a spring with spring constant $k = U''(x_0)$, so the
+  body oscillates about the minimum in simple harmonic motion, with $\omega = \sqrt{U''(x_0)/m}$. This
+  is called \textbf{stable equilibrium}. Since near its minimum almost any smooth $U$ looks like a
+  parabola, small oscillations about a stable equilibrium are almost always simple harmonic.
+\item $U''(x_0) < 0$: the equilibrium point is a maximum of the potential energy. Near it, the
+  equation of motion is
+  \begin{equation}\label{eq:unstable}
+    m\frac{\dd^2 x}{\dd t^2} = -U''(x_0)\,(x - x_0) = +\bigl|U''(x_0)\bigr|\,(x - x_0) .
+  \end{equation}
+  Now if we displace the body slightly from the equilibrium point, the force points away from $x_0$
+  and pushes the body further away. The displacement grows exponentially, like
+  $e^{\gamma t}$ with $\gamma = \sqrt{|U''(x_0)|/m}$, and the body quickly moves away from the
+  equilibrium point. This is called \textbf{unstable equilibrium}.
+\end{itemize}
+If $U''(x_0) = 0$, we must look at the higher terms of the series. If $U$ is constant near $x_0$,
+like the potential energy of a ball on a level table, the body stays wherever we put it: this is
+called \textbf{neutral equilibrium}. The three cases are shown in Figure~\ref{fig:equilibrium}.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[font=\small]
+  \begin{scope}
+    \draw[track,domain=-1.3:1.3,samples=40] plot (\x,{0.45*\x*\x});
+    \shade[ball color=fzaux!50] (0,0.17) circle (0.17);
+    \node at (0,-0.75) {(a) stable};
+  \end{scope}
+  \begin{scope}[xshift=4.2cm]
+    \draw[track,domain=-1.3:1.3,samples=40] plot (\x,{0.76-0.45*\x*\x});
+    \shade[ball color=fzaux!50] (0,0.93) circle (0.17);
+    \node at (0,-0.75) {(b) unstable};
+  \end{scope}
+  \begin{scope}[xshift=8.4cm]
+    \draw[track] (-1.3,0.2) -- (1.3,0.2);
+    \shade[ball color=fzaux!50] (0,0.37) circle (0.17);
+    \node at (0,-0.75) {(c) neutral};
+  \end{scope}
+\end{tikzpicture}
+\caption{A ball on a curved surface: its gravitational potential energy is proportional to the height
+of the surface. (a) At the bottom of a valley, a minimum of $U$, the ball returns when it is
+displaced. (b) On the top of a hill, a maximum of $U$, it rolls away. (c) On a level surface it stays
+wherever it is put.}\label{fig:equilibrium}
+\end{figure}
+
+For the cubic potential energy \eqref{eq:cubic}, $U''(x) = 6mx$. At $x = +1$, $U'' = 6m > 0$: this is
+a stable equilibrium, the bottom of the well, and a body slightly displaced from it oscillates with
+$\omega = \sqrt{6m/m} = \qty{2.4}{s^{-1}}$, that is, with a period of $2\pi/\sqrt6 \approx \qty{2.6}{s}$.
+At $x = -1$, $U'' = -6m < 0$: this is an unstable equilibrium, the top of the hill. (Compare the
+speed $\sqrt6\,(x + 1)$ with which the body of the last case above creeps up to this point: the same
+$\sqrt6 = \sqrt{|U''(-1)|/m}$ appears.)
+
+\begin{aside}
+\textbf{Video:}
+\href{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-8-potential-energy-and-energy-conservation/25-3-reading-potential-energy-diagrams/}{\emph{25.3
+Reading Potential Energy
+Diagrams}}\footnote{\raggedright\url{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-8-potential-energy-and-energy-conservation/25-3-reading-potential-energy-diagrams/}}
+(MIT OpenCourseWare, 8.01SC, 2016, short). A short segment on how to read a graph of $U(x)$.
+Compare it with Figure~\ref{fig:levels}: the horizontal line at the height $E$, the kinetic energy
+$E - U$ as the gap between the line and the curve, the turning points where the two meet, the force
+as minus the slope, and the equilibrium points at the minima and maxima of $U$.
+\end{aside}
+
+%----------------------------------------------------------------------
+\subsection{Force and potential energy in three dimensions}\label{sec:3d}
+
+It is easy to extend the ideas of conservative force and potential energy from one dimension to
+three. In three dimensions the potential energy is a function of all three coordinates,
+$U(x, y, z)$. During a small displacement $\dd\vec{r} = \dd x\,\ihat + \dd y\,\jhat + \dd z\,\khat$,
+a conservative force does the work
+\[
+  \dd W = \vec{F}\cdot\dd\vec{r} = F_x\,\dd x + F_y\,\dd y + F_z\,\dd z ,
+\]
+and this must be equal to $-\dd U$, the change in $U$ with the opposite sign. For a small
+displacement, the change in $U$ is the sum of the changes caused by $\dd x$, $\dd y$ and $\dd z$
+separately, each equal to the rate at which $U$ changes in that direction times the step:
+\[
+  -\dd U = -\frac{\partial U}{\partial x}\,\dd x - \frac{\partial U}{\partial y}\,\dd y
+  - \frac{\partial U}{\partial z}\,\dd z .
+\]
+Here $\partial U/\partial x$ is a \textbf{partial derivative}: the derivative of $U$ with respect to $x$
+when $y$ and $z$ are kept fixed, and similarly for $y$ and $z$. The two expressions must agree for
+every small displacement; taking one along $x$ ($\dd y = \dd z = 0$), then one along $y$, then one
+along $z$, we find
+\begin{equation}\label{eq:F-partial}
+  F_x = -\frac{\partial U}{\partial x} , \qquad F_y = -\frac{\partial U}{\partial y} , \qquad
+  F_z = -\frac{\partial U}{\partial z} .
+\end{equation}
+Each component of the force is minus the rate at which $U$ changes in that direction. In vector
+notation
+we use the \textbf{gradient} operator,
+\begin{equation}\label{eq:nabla}
+  \vec{\nabla} = \ihat\,\frac{\partial}{\partial x} + \jhat\,\frac{\partial}{\partial y}
+  + \khat\,\frac{\partial}{\partial z} ,
+\end{equation}
+and write the force as
+\begin{keyresult}
+\begin{equation}\label{eq:F-grad}
+  \vec{F} = -\vec{\nabla} U .
+\end{equation}
+\end{keyresult}
+The gradient $\vec{\nabla} U$ points in the direction in which $U$ increases fastest, and it is
+perpendicular to the surfaces on which $U$ is constant. Think of a hiking map with contour lines,
+the lines along which the height of the ground is constant, drawn for equally spaced heights. The
+gradient of the height of the ground is a horizontal vector on the map: it points straight uphill,
+perpendicular to the contour lines, and it is largest where the lines are closest together, where
+the slope is steepest. In the same way, $-\vec{\nabla} U$ points ``downhill'' in $U$, perpendicular
+to the surfaces of constant $U$, and the force is strongest where these surfaces, drawn for equally
+spaced values of $U$, are crowded together. For gravity near the Earth, $U = mgy$, the surfaces of
+constant $U$ are horizontal planes, and $\vec{F} = -\vec{\nabla}(mgy) = -mg\,\jhat$ points straight
+down, toward lower $U$. For a body pulled toward the origin by a force proportional to its distance
+from it (an idealized spring whose relaxed length is zero; this is called a three-dimensional
+harmonic oscillator), $U = \frac12 k(x^2 + y^2 + z^2)$ and \eqref{eq:F-grad} gives
+$\vec{F} = -k(x\,\ihat + y\,\jhat + z\,\khat) = -k\vec{r}$, a force that always points back to the
+origin.
+
+If a force can be written in the form $\vec{F} = -\vec{\nabla} U$, it is conservative. Indeed, along
+any path
+\[
+  \vec{F}\cdot\dd\vec{r} = -\Bigl(\frac{\partial U}{\partial x}\,\dd x
+  + \frac{\partial U}{\partial y}\,\dd y + \frac{\partial U}{\partial z}\,\dd z\Bigr) = -\dd U ,
+\]
+so its work from $A$ to $B$ is $\int_A^B \vec{F}\cdot\dd\vec{r} = -\int_A^B \dd U = U_A - U_B$,
+which depends only on the end points. How can we tell whether a given force has this form? We use the
+\textbf{curl} of the force, $\vec{\nabla}\times\vec{F}$, the vector product of the operator
+$\vec{\nabla}$ with $\vec{F}$:
+\[
+  \vec{\nabla}\times\vec{F} = \Bigl(\frac{\partial F_z}{\partial y} - \frac{\partial F_y}{\partial z}\Bigr)\ihat
+  + \Bigl(\frac{\partial F_x}{\partial z} - \frac{\partial F_z}{\partial x}\Bigr)\jhat
+  + \Bigl(\frac{\partial F_y}{\partial x} - \frac{\partial F_x}{\partial y}\Bigr)\khat .
+\]
+For a conservative force the curl vanishes. Take the $z$ component, for example: with
+\eqref{eq:F-partial},
+\[
+  \frac{\partial F_y}{\partial x} - \frac{\partial F_x}{\partial y}
+  = -\frac{\partial^2 U}{\partial x\,\partial y} + \frac{\partial^2 U}{\partial y\,\partial x} = 0 ,
+\]
+because the order in which we take two partial derivatives does not matter; the other two components
+vanish in the same way. So if a force is conservative,
+\begin{keyresult}
+\begin{equation}\label{eq:curl}
+  \vec{\nabla}\times\vec{F} = \vec{0} .
+\end{equation}
+\end{keyresult}
+(A way to remember this: the vector product of a vector with itself, or with any vector parallel to
+it, is zero, and ``$\vec{\nabla}\times\vec{\nabla}U$'' looks like such a product. But $\vec{\nabla}$
+is not an ordinary vector, and the real reason is the equality of the mixed partial derivatives.)
+The converse is also true for a force defined everywhere in a region with no hole running through
+it, like the hole of a doughnut (more precisely, a region in which every closed path can be shrunk
+to a point without leaving the region; all of space is such a region): if
+$\vec{\nabla}\times\vec{F} = \vec{0}$ there, then $\vec{F}$ is conservative. This gives us a
+practical test.
+
+\begin{example}[Which force is conservative?]
+\setlength{\parskip}{0.5em plus 0.1em}%
+Consider two forces in the $xy$ plane, $\vec{F}_1 = c(y\,\ihat + x\,\jhat)$ and
+$\vec{F}_2 = c(-y\,\ihat + x\,\jhat)$, where $c$ is a positive constant. Only the $z$ component of
+the curl can be nonzero. For $\vec{F}_1$ it is $\partial(cx)/\partial x - \partial(cy)/\partial y =
+c - c = 0$, so $\vec{F}_1$ is conservative; indeed, $U = -cxy$ gives $-\partial U/\partial x = cy$ and
+$-\partial U/\partial y = cx$. For $\vec{F}_2$ it is $c - (-c) = 2c \neq 0$, so $\vec{F}_2$ is not
+conservative. We can check this directly. On a circle of radius $R$ around the origin,
+$\vec{F}_2$ is tangent to the circle, pointing counterclockwise, with magnitude $cR$. If a body goes
+once around the circle counterclockwise, the force always points along its motion and does the work
+$W = (cR)(2\pi R) = 2\pi cR^2$, not zero, although the body returns to where it started.
+\end{example}
+
+\begin{aside}
+\textbf{Video:}
+\href{https://oyc.yale.edu/physics/phys-200/lecture-6}{\emph{Lecture~6 -- Law of Conservation of
+Energy in Higher Dimensions}}\footnote{\url{https://oyc.yale.edu/physics/phys-200/lecture-6}} (Open
+Yale Courses, PHYS~200 \emph{Fundamentals of Physics~I}, Ramamurti Shankar, recorded 2006, about
+70~min; an optional full lecture). Shankar carries the conservation of energy from one dimension to
+two. He reviews functions of two variables and their partial derivatives, computes the work along a
+path with the scalar product, and separates conservative forces from nonconservative ones. Watch
+how he decides whether a force is conservative, and compare with the curl
+test~\eqref{eq:curl} and the example above.
+\end{aside}
+
+%----------------------------------------------------------------------
+\subsection{Nonconservative forces}\label{sec:nonconservative}
+
+The tools we have developed in this chapter are very powerful, but we must use them with care. The
+conservation of mechanical energy holds only when all the forces that do work are conservative, and
+not all forces are conservative. Friction, for example, is not a conservative force. To see this,
+consider a box that we push horizontally from a point $A$ to a point $B$ on a rough, horizontal
+floor, once along a straight line and once along a curve (Figure~\ref{fig:friction-paths}). The
+kinetic friction force has the constant magnitude $f\sub{k} = \mu\sub{k} n = \mu\sub{k} mg$ and always points opposite
+to the velocity, so on every small piece $\dd s$ of the path it does the work $-f\sub{k}\,\dd s$.
+Its total work is therefore $-f\sub{k}$ times the \emph{length} of the path: $-f\sub{k} d$ along the
+straight line of length $d$, and $-f\sub{k} s$ along the curve of length $s > d$. The work done by
+friction depends on the path. Around a closed path it is not zero either: if we push the box from
+$A$ to $B$ and back, friction does negative work on both legs. So friction is not a conservative
+force: there is no potential-energy function $U$ whose gradient gives the friction force,
+$\vec{f}\sub{k} = -\vec{\nabla}U$, and no potential energy can be defined for it. (Kinetic friction
+depends on the direction of the velocity, not only on the position of the body.) The same is true
+of air resistance and of the other forces that, like friction, always oppose the motion of the body.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  \fill[fzgray!12] (-0.8,-0.75) rectangle (6.8,2.7);
+  \coordinate (A) at (0,0);
+  \coordinate (B) at (6,0);
+  \draw[very thick,fzgray!90!black] (A) -- node[below=2pt,black]{length $d$} (B);
+  \draw[very thick,fzgray!90!black,postaction={decorate,decoration={markings,
+      mark=at position 0.25 with {\draw[->,very thick,fzvec] (0,0) -- (0.75,0);
+        \draw[->,very thick,fzcomp] (0,0) -- (-0.7,0) node[above left=-1pt]{$\vec{f}\sub{k}$};},
+      mark=at position 0.72 with {\draw[->,very thick,fzvec] (0,0) -- (0.75,0) node[above right=-1pt]{$\vec{v}$};
+        \draw[->,very thick,fzcomp] (0,0) -- (-0.7,0);}}}]
+    (A) .. controls (0.9,2.9) and (5.1,2.9) .. node[pos=0.5,above,black]{length $s$} (B);
+  \draw[->,very thick,fzcomp] (3.0,0) -- (2.3,0) node[above]{$\vec{f}\sub{k}$};
+  \draw[->,very thick,fzvec] (3.0,0) -- (3.75,0);
+  \fill (A) circle (2pt) node[left=2pt]{$A$};
+  \fill (B) circle (2pt) node[right=2pt]{$B$};
+\end{tikzpicture}
+\caption{A box is pushed from $A$ to $B$ on a rough horizontal floor (seen from above), along a
+straight line of length $d$ or along a curve of length $s > d$. Kinetic friction always points
+opposite to the velocity, so its work is $-f\sub{k} d$ along the line and $-f\sub{k} s$ along the
+curve: it depends on the path.}\label{fig:friction-paths}
+\end{figure}
+
+%......................................................................
+\subsubsection{The work done by nonconservative forces}\label{sec:Wother}
+
+Does this mean that we cannot use energy at all when there is friction? Not at all. The work--energy
+theorem holds for the net work of \emph{all} the forces. We split it into the work of the
+conservative forces, which is $-\Delta U$, and the work $W\sub{other}$ of all the other forces:
+$W\sub{net} = -\Delta U + W\sub{other} = \Delta K$. Rearranging,
+\begin{keyresult}
+\[
+  K_A + U_A + W\sub{other} = K_B + U_B , \qquad\text{that is,}\qquad \Delta E = W\sub{other} .
+\]
+\end{keyresult}
+The mechanical energy changes by exactly the work done by the nonconservative forces. When we push a
+body, our push can increase $E$; the kinetic friction of a fixed surface on a body that slides over
+it does negative work and decreases $E$.
+
+Where does the mechanical energy go? It is not destroyed: it turns into \textbf{internal energy}.
+Rub your hands together and they get warm; the brakes of a car get hot when it stops. Kinetic
+friction turns the ordered motion of the body as a whole into the random motion of the atoms of the
+two surfaces, and the increase of their internal energy is $\Delta U\sub{int} = -W\sub{fric}$. If
+kinetic friction is the only nonconservative force that does work (nobody pushes or pulls the
+body), then $W\sub{other} = W\sub{fric} = -\Delta U\sub{int}$, and with this term included the
+energy is conserved after all:
+\[
+  \Delta K + \Delta U + \Delta U\sub{int} = 0 .
+\]
+(If we also push the body, the right-hand side is the work of our push: energy passes from us to the
+body.) This is the \textbf{law of conservation of energy}: energy is never created or destroyed; it
+only changes from one form to another, or passes from one body to another. No exception to it has ever been found. Mechanical energy, on the
+other hand, is conserved only when the nonconservative forces do no work.
+
+\begin{example}[A box on a curved ramp]
+\setlength{\parskip}{0.5em plus 0.1em}%
+A box of mass \qty{10}{kg} starts from rest at the top of a curved ramp, \qty{2.0}{m} high, and slides
+down. At the bottom its speed is \qty{5.0}{m/s}. How much work did friction do on it?
+
+On a curved ramp the normal force, and so the friction force, changes along the way, and Newton's
+second law would be hard to use. With energy it is easy. We put $y = 0$ at the bottom. The normal
+force does no work, so $W\sub{other} = W\sub{fric}$, and
+\begin{align*}
+  W\sub{fric} &= (K_B + U_B) - (K_A + U_A)
+  = \tfrac12(\qty{10}{kg})(\qty{5.0}{m/s})^2 - (\qty{10}{kg})(\qty{9.8}{m/s^2})(\qty{2.0}{m}) \\
+  &= \qty{125}{J} - \qty{196}{J} = \qty{-71}{J} .
+\end{align*}
+Of the \qty{196}{J} of potential energy that the box had at the top, \qty{125}{J} became kinetic
+energy and \qty{71}{J} became internal energy of the box and the ramp, which got slightly warmer.
+\end{example}
+
+\begin{aside}
+\textbf{Video:}
+\href{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-8-potential-energy-and-energy-conservation/24-1-mechanical-energy-and-energy-conservation/}{\emph{24.1
+Mechanical Energy and Energy
+Conservation}}\footnote{\raggedright\url{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-8-potential-energy-and-energy-conservation/24-1-mechanical-energy-and-energy-conservation/}}
+(MIT OpenCourseWare, 8.01SC, 2016, short). The opening segment of MIT's lesson on the conservation
+of energy: the mechanical energy $E = K + U$, and when it is conserved. Compare it with the step at
+the start of this subsection, where the net work is split into the work of the conservative forces,
+$-\Delta U$, and the work $W\sub{other}$ of all the other forces, so that $\Delta E = W\sub{other}$.
+\end{aside}
+
+%======================================================================
+\section*{Videos and simulations for this week}
+\begin{itemize}[nosep]
+\item \href{https://phet.colorado.edu/en/simulations/energy-skate-park}{\emph{Energy Skate Park}}
+  (PhET simulation, University of Colorado; or the lighter
+  \href{https://phet.colorado.edu/en/simulations/energy-skate-park-basics}{\emph{Energy Skate Park:
+  Basics}}): Sections~\ref{sec:gravpot} and~\ref{sec:Wother}, energy on a track, the level $y = 0$
+  and friction.
+\item \href{https://sciencedemonstrations.fas.harvard.edu/presentations/loop-loop}{\emph{Loop-the-loop}}
+  (Harvard Natural Sciences Lecture Demonstrations, demonstration page): Section~\ref{sec:gravpot},
+  the loop.
+\item \href{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/resources/24-2/}{\emph{24.3
+  Worked Example -- Block Sliding Down Circular Slope}} (MIT OpenCourseWare, 8.01SC):
+  Section~\ref{sec:gravpot}, energy on a curved slope.
+\item \href{https://sciencedemonstrations.fas.harvard.edu/presentations/pendulum-and-nose}{\emph{Pendulum
+  and Nose}} (Harvard Natural Sciences Lecture Demonstrations, demonstration page):
+  Section~\ref{sec:gravpot}, a pendulum never rises above its release height.
+\item \href{https://phet.colorado.edu/en/simulations/pendulum-lab}{\emph{Pendulum Lab}} (PhET
+  simulation, University of Colorado): Section~\ref{sec:gravpot}, energy in a swinging pendulum.
+\item \href{https://www.youtube.com/watch?v=w4QFJb9a8vo}{\emph{Work, Energy, and Power: Crash Course
+  Physics \#9}} (CrashCourse): Section~\ref{sec:conservative}, review of work, energy and power.
+\item \href{https://phet.colorado.edu/en/simulations/masses-and-springs}{\emph{Masses and Springs}}
+  (PhET simulation, University of Colorado): Section~\ref{sec:conservative}, elastic potential energy
+  and oscillations.
+\item \href{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-8-potential-energy-and-energy-conservation/25-3-reading-potential-energy-diagrams/}{\emph{25.3
+  Reading Potential Energy Diagrams}} (MIT OpenCourseWare, 8.01SC): Section~\ref{sec:diagrams},
+  energy diagrams and equilibrium.
+\item \href{https://oyc.yale.edu/physics/phys-200/lecture-6}{\emph{Lecture~6 -- Law of Conservation of
+  Energy in Higher Dimensions}} (Open Yale Courses, Ramamurti Shankar; optional full lecture):
+  Section~\ref{sec:3d}, conservative forces in more than one dimension.
+\item \href{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-8-potential-energy-and-energy-conservation/24-1-mechanical-energy-and-energy-conservation/}{\emph{24.1
+  Mechanical Energy and Energy Conservation}} (MIT OpenCourseWare, 8.01SC):
+  Section~\ref{sec:Wother}, mechanical energy and the work of nonconservative forces.
+\end{itemize}
+
+\section*{About these notes}
+These notes are not original. They draw heavily on the books listed in the Week~1 notes, on Walter Lewin's 8.01x Classical Mechanics lectures at MIT, and on the Dynamics and Relativity courses taught at different times by Stephen Siklos and David Tong at the University of Cambridge. They are not official course notes of FIZ~101: they are written only to help the students of Mehmet \"Ozkan's section. Istanbul Technical University and its Department of Physics Engineering bear no responsibility for them.
+
+\end{document}

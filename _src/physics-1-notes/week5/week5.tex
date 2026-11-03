@@ -1,0 +1,1096 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fiz101notes}
+\usepackage{needspace}
+\noteweek{5}{Work and kinetic energy}
+
+\newcommand{\on}[2]{#1\,\mathrm{on}\,#2}   % force exerted by body #1 on body #2
+
+\tikzset{
+  force/.style={->,very thick,fzcomp},
+  velo/.style={->,very thick,fzvec},
+  disp/.style={->,very thick,fzvec},
+  comp/.style={->,thick,dashed,fzcomp!80},
+  dim/.style={<->,fzgray!90!black},
+}
+
+\begin{document}
+\makenotetitle
+
+%======================================================================
+\setcounter{section}{6}
+\section{Work and kinetic energy}\label{sec:work}
+
+In the last two chapters we solved problems with Newton's laws directly: we found all the forces on
+a body, wrote $\sum\vec{F} = m\vec{a}$, and from the acceleration found how the velocity and the
+position change with time. In principle this always works. If we know exactly all the forces that
+act on all the bodies of a system, together with their initial positions and velocities, and if we
+have enough computer power to solve the differential equations that Newton's second law gives for
+every particle, then Newton's laws determine the motion of the whole system at all times. In
+practice, as the problem becomes more complicated, this is far from easy. A system may contain an
+enormous number of particles (think of the molecules of the air in this room); the forces may be
+complicated or simply unknown (what is the force between two billiard balls during the thousandth
+of a second that they touch?); and even for a single body sliding along a curved track, the push of
+the track changes from point to point. In such situations the symmetries of the system, and the
+conservation laws that come with them, become very important.
+
+In this chapter we first explain this idea (Section~\ref{sec:symmetry}). Then we meet the first of
+the new tools that it leads to: work, kinetic energy and the work--energy theorem
+(Sections~\ref{sec:wke} and~\ref{sec:variable}), and power (Section~\ref{sec:power}). In Chapter~8
+they will lead us to potential energy and the conservation of energy. Unless we say otherwise, we
+take $g = \qty{9.8}{m/s^2}$ and treat each body as a particle.
+
+%----------------------------------------------------------------------
+\subsection{Symmetry and conservation laws}\label{sec:symmetry}
+
+The symmetries of a system tell us which quantities it \textbf{conserves}, that is, which quantities
+keep the same value however complicated its motion is, and which \textbf{conservation laws} it
+obeys. Why are these laws so important?
+\begin{enumerate}
+  \item Conservation laws do not depend on the details of the system. So they tell us important
+    facts about its motion before we even look at the equations of motion, and often without
+    solving them.
+  \item Conservation laws can be applied even when we do not know the details of the forces inside
+    the system. When two cars collide, for example, the forces between them during the crash are
+    enormously complicated, yet, as we will see in Chapter~9, the total momentum of the two cars
+    just after the impact is very nearly the same as just before it. (The friction of the road is
+    tiny compared with the forces of the crash, and acts only for a fraction of a second.) We only
+    need to know that the conditions for the law hold: for momentum, that the net force from
+    outside the system is zero, or negligible.
+  \item Conservation laws are deeply connected to symmetries. So once we know the symmetries of a
+    system, we know which quantities it conserves, and the conservation laws give us a great deal of
+    information about the problem without our knowing the details of the forces inside it.
+  \item Conservation laws simplify problems. They connect the state of a system at two different
+    instants directly, without following the motion in between. We get a first taste of this in
+    Section~\ref{sec:wke}, where the height reached by a ball thrown upward comes out in one line,
+    without the time.
+\end{enumerate}
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[c]{0.34\textwidth}
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  \draw[thick] (0,0) .. controls (0.45,1.0) and (-0.55,2.0) .. (0,3.0) coordinate[pos=0.5] (M);
+  \draw[thick,fzcomp] (2.3,0) .. controls (2.75,1.0) and (1.75,2.0) .. (2.3,3.0)
+    coordinate[pos=0.5] (M2);
+  \draw[densely dashed] (M) circle (0.15);
+  \draw[densely dashed] (0,3.0) circle (0.15);
+  \draw[densely dashed,fzcomp] (M2) circle (0.15);
+  \draw[densely dashed,fzcomp] (2.3,3.0) circle (0.15);
+  \fill (0,0) circle (0.15);
+  \fill[fzcomp] (2.3,0) circle (0.15);
+  \draw[->,thick,fzaux] (0.2,0) -- (2.1,0) node[midway,above]{$\vec{r}$};
+  \draw[->,thick,densely dashed,fzaux] ($(M)+(0.2,0)$) -- ($(M2)+(-0.2,0)$) node[midway,above]{$\vec{r}$};
+  \draw[->,thick,densely dashed,fzaux] (0.2,3.0) -- (2.1,3.0) node[midway,above]{$\vec{r}$};
+  \node[left=4pt] at (0,0) {$A$};
+  \node[left=4pt] at (0,3.0) {$B$};
+  \node[right=4pt,fzcomp] at (2.3,0) {$A'$};
+  \node[right=4pt,fzcomp] at (2.3,3.0) {$B'$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.62\textwidth}
+\caption{Translation symmetry. A body starts at $A$ and moves along the black path to $B$. If we
+run a second copy of the experiment, with the body and everything that acts on it shifted by a
+constant vector $\vec{r}$, the second body starts at $A'$ at the same instant, with the same initial
+velocity, and follows the same path shifted by $\vec{r}$ (red), arriving at $B'$. Each pair of dashed
+circles joined by a dashed arrow shows the two copies of the body at one instant.}\label{fig:translation}
+\end{minipage}
+\end{figure}
+
+To see an example of the connection between symmetry and conservation laws, let us look at
+Figure~\ref{fig:translation}. A body starts its motion at a point $A$ and, under the forces that act
+on it, arrives at the end of its motion at a point $B$. Now recall from Section~5.2.1 that the laws
+of physics do not change under translations: there is no special point in space. So suppose that,
+alongside the original experiment, we run a second copy shifted by a constant vector $\vec{r}$: a
+second body starts at the same instant from the point $A'$, with the same initial velocity, and
+everything that acts on it (the bodies that push or pull on it) is shifted by the same $\vec{r}$, or
+else the forces on it are the same everywhere. Newton's laws then give the same result in both
+cases: the second body performs exactly the same motion as the first, only shifted. At every instant
+it is a displacement $\vec{r}$ away from where the first body is at that instant, and at the end of
+its motion it arrives at the point $B'$, a displacement $\vec{r}$ away from $B$. The shifted motion is
+just as possible as the original one. This is what we mean when we say that a system has \textbf{translation symmetry}.
+
+Notice that the two copies of the motion stay the same displacement $\vec{r}$ apart simply because
+that is what a translation means; this is a statement of symmetry, not yet a conservation law. The
+conserved quantity that goes with translation symmetry, the total momentum, is much less obvious. Its
+conservation was known from experiments with colliding bodies as early as the seventeenth century;
+what took a theorem, found only in 1918, was the general reason behind it. As we will
+discuss once we have introduced the necessary concepts, there is a precise relation between the
+Galilean symmetries of space and time (Section~5.2.1) and conserved quantities. It is given by
+\textbf{Noether's theorem}: for an \emph{isolated} system, that is, one on which no outside body acts
+(so that the system includes every body that interacts with its parts),
+\begin{center}
+\begin{tabular}{l@{\qquad}c@{\qquad}l}
+  \toprule
+  Symmetry of the laws & & Conserved quantity \\
+  \midrule
+  time translations (no special instant) & $\longleftrightarrow$ & energy \\
+  translations (no special point) & $\longleftrightarrow$ & momentum \\
+  rotations (no special direction) & $\longleftrightarrow$ & angular momentum \\
+  \bottomrule
+\end{tabular}
+\end{center}
+The word \emph{isolated} matters: the symmetry must belong to the whole system, including every body
+that exerts a force on the part we are watching. A ball flying through the air is not an isolated
+system: the Earth pulls it, and the momentum of the ball changes as it flies. (Shifting the ball but
+not the Earth changes where the ball is relative to the Earth, so it is not a symmetry.) The ball and
+the Earth together, however, form an isolated system, if we ignore the air, the Sun and the Moon, and
+their total momentum is conserved: while the ball falls toward the Earth, the Earth also moves toward
+the ball, by an immeasurably small amount.
+
+Section~5.2.1 listed a fourth symmetry, boosts: the laws of physics are the same in two frames that
+move with constant velocity relative to each other. It too has a conservation law, a less famous one:
+the center of mass of an isolated system moves with constant velocity. We meet the center of mass in
+Chapter~9.
+
+\begin{aside}
+\textbf{Emmy Noether.} The German mathematician Emmy Noether (1882--1935) proved her theorem in 1918,
+while helping David Hilbert and Felix Klein at G\"ottingen to understand energy conservation in
+Einstein's new general theory of relativity. It applies to every theory that can be derived from a
+single quantity called the \emph{action}, which includes Newtonian mechanics with forces such as
+gravity (but not friction), electromagnetism, relativity and quantum theory. Its proof uses methods taught in later mechanics courses, so in this course we take it
+as given.
+\par\smallskip
+\textbf{Video:}
+\href{https://www.pbs.org/video/noethers-theorem-and-the-symmetries-of-reality-tf9sqz}{\emph{Noether's
+Theorem and The Symmetries of
+Reality}}\footnote{\url{https://www.pbs.org/video/noethers-theorem-and-the-symmetries-of-reality-tf9sqz}}
+(PBS Space Time, PBS Digital Studios, Matt O'Dowd, 2018, about 10~min). An optional look beyond
+this course. Watch for the three pairs of the table above, each continuous symmetry with its
+conserved quantity, and for the other side of the theorem: where a symmetry is missing, it
+promises no conservation law. In an expanding universe space itself changes with time, so there is
+no time-translation symmetry, and energy is not conserved in the usual sense.
+\end{aside}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\footnotesize]
+  \node[align=center] (G) at (0.45,0) {\small Galilean\\ \small symmetries};
+  \node[align=center,text=fzcomp] (N) at (-2.5,0) {\small Newton's\\ \small laws};
+  \node[align=center,text=fzaux] (C) at (3.4,0) {\small Conservation\\ \small laws};
+  \draw[->,thick] (G) -- (N) node[midway,below=8pt,align=center,text=fzgray!80!black]{respected\\ by};
+  \draw[->,thick] (G) -- (C) node[midway,below=8pt,align=center,text=fzgray!80!black]{Noether's\\ theorem};
+  \node[anchor=east,align=center,text=fzcomp] (N1) at (-3.6,1.3)
+    {inertial frames exist:\\ $\sum\vec{F} = \vec{0} \Rightarrow \vec{a} = \vec{0}$};
+  \node[anchor=east,text=fzcomp] (N2) at (-3.6,0) {$\dfrac{\dd}{\dd t}(m\vec{v}) = \sum\vec{F}$};
+  \node[anchor=east,align=center,text=fzcomp] (N3) at (-3.6,-1.3)
+    {action $= -$reaction:\\ $\vec{F}_{\on{A}{B}} = -\vec{F}_{\on{B}{A}}$};
+  \foreach \n in {N1,N2,N3} \draw[->,fzcomp] (N.west) -- (\n.east);
+  \node[anchor=west,align=center,text=fzaux] (C1) at (5.0,1.3)
+    {energy\\ {\color{fzgray!80!black}(time translations)}};
+  \node[anchor=west,align=center,text=fzaux] (C2) at (5.0,0)
+    {momentum\\ {\color{fzgray!80!black}(translations)}};
+  \node[anchor=west,align=center,text=fzaux] (C3) at (5.0,-1.3)
+    {angular momentum\\ {\color{fzgray!80!black}(rotations)}};
+  \foreach \n in {C1,C2,C3} \draw[->,fzaux] (C.east) -- (\n.west);
+\end{tikzpicture}
+\caption{Symmetry, Newton's laws and conserved quantities. Newton's three laws (red) respect the
+Galilean symmetries of space and time: they take the same form in every inertial frame
+(Section~5.2.1). Through Noether's theorem the same symmetries give the conservation laws (blue) of
+energy, momentum and angular momentum; under each conserved quantity is the symmetry that goes with
+it.}\label{fig:symmetries}
+\end{figure}
+
+In this and the next few chapters we discuss these conserved quantities and their physical
+consequences: energy in this chapter and the next, momentum in Chapter~9, and angular momentum in
+Chapter~11. Figure~\ref{fig:symmetries} shows how they fit with what we have learned so far.
+
+%----------------------------------------------------------------------
+\subsection{Work, kinetic energy and the work--energy theorem}\label{sec:wke}
+
+Let us first meet the ideas of work and kinetic energy in one dimension. Consider a body of mass $m$
+moving along the $x$ axis of an inertial frame. At $t = 0$ it is at $x_0$ and has velocity $v_0$, and
+from then on a constant net force $F$ acts on it, also along the $x$ axis. (Here $F$, $v_0$ and $v$
+are $x$ components: each is positive if it points in the $+x$ direction and negative if it points in
+the $-x$ direction.) By Newton's second law the body accelerates under this force, with the constant
+acceleration $a = F/m$:
+\begin{equation}\label{eq:n2-1d}
+  F = m\,\frac{\dd^2 x}{\dd t^2} = m\,\dv{v}{t} .
+\end{equation}
+Multiplying by $\dd t/m$ and integrating from $t = 0$, when the velocity is $v_0$, to a later time
+$t$, when it is $v$, we find the velocity of the body at any time $t$:
+\begin{equation}\label{eq:v-t}
+  \int_{v_0}^{v} \dd v' = \int_0^{t} \frac{F}{m}\,\dd t' , \qquad\Rightarrow\qquad
+  v(t) - v_0 = \frac{F}{m}\,t .
+\end{equation}
+(We write the variables of integration as $v'$ and $t'$ so as not to confuse them with the upper
+limits $v$ and $t$.) This is the familiar $v = v_0 + at$ of Section~3.3. Integrating \eqref{eq:v-t}
+once more over time, we find the position:
+\begin{equation}\label{eq:x-t}
+  x - x_0 = \int_0^t v(t')\,\dd t' = \int_0^t \Bigl(v_0 + \frac{F}{m}\,t'\Bigr)\dd t'
+          = v_0 t + \frac12\,\frac{F}{m}\,t^2 .
+\end{equation}
+Now we eliminate the time. Solving \eqref{eq:v-t} for $t$ (we assume $F \neq 0$; if $F = 0$ the
+velocity does not change, and both sides of \eqref{eq:wke-const} below are zero) and putting the
+result into \eqref{eq:x-t}, we obtain
+\begin{equation}\label{eq:eliminate-t}
+\begin{split}
+  t = \frac{m}{F}(v - v_0) , \quad\Rightarrow\quad x - x_0
+    &= v_0\,\frac{m}{F}(v - v_0) + \frac12\,\frac{F}{m}\Bigl(\frac{m}{F}(v - v_0)\Bigr)^2 \\
+    &= \frac{m}{F}(vv_0 - v_0^2) + \frac12\,\frac{m}{F}(v^2 - 2vv_0 + v_0^2) \\
+    &= \frac12\,\frac{m}{F}(v^2 - v_0^2) ,
+\end{split}
+\end{equation}
+and so, multiplying both sides by $F$,
+\begin{equation}\label{eq:wke-const}
+  F\,(x - x_0) = \frac12 mv^2 - \frac12 mv_0^2 .
+\end{equation}
+(This is the constant-acceleration result $v^2 = v_0^2 + 2a(x - x_0)$ of Section~3.3, multiplied by
+$m/2$.) Equation \eqref{eq:wke-const} is worth reading slowly, because each of its sides has a name.
+
+The quantity $\frac12 mv^2$ is called the \textbf{kinetic energy} of the body and is written $K$:
+\begin{keyresult}
+\begin{equation}\label{eq:K}
+  K = \frac12 mv^2 .
+\end{equation}
+\end{keyresult}
+It is the energy that the body has because it moves. A few of its properties follow at once from the
+definition. Kinetic energy is a \emph{scalar}: it depends on the speed of the body but not on the
+direction of its motion, so a body moving east at \qty{10}{m/s} has the same kinetic energy as the
+same body moving north at \qty{10}{m/s}. It is never negative, and it is zero only when the body is at
+rest. And it grows as the square of the speed: twice the speed means four times the kinetic energy.
+
+The right side of \eqref{eq:wke-const} is therefore the change in the kinetic energy of the body. What
+causes this change is the force $F$ that acts on the body while the body moves through the
+displacement $x - x_0$ (a signed quantity, not the distance traveled). The left side of
+\eqref{eq:wke-const}, the product $F(x - x_0)$, is called the \textbf{work} done by the force $F$ on
+the body, and is written $W$. Note the words: work is always done \emph{by} a particular force
+\emph{on} a particular body, and a force does work on a body only if the body moves while the force
+acts on it. Since $F$ here is the net force, equation \eqref{eq:wke-const} says that \emph{the work
+done on a body by the net force is equal to the change in its kinetic energy}. This is called the
+\textbf{work--energy theorem}. Like every result in this chapter, it is a statement about a particle,
+or about a body that we can treat as one because it moves without rotating or deforming. If the body goes from a
+point $A$, where its kinetic energy is $K_A$, to a point $B$, where it is $K_B$, the work done on it by
+the net force is
+\begin{keyresult}
+\begin{equation}\label{eq:wke}
+  W_{AB} = K_B - K_A = \Delta K .
+\end{equation}
+\end{keyresult}
+The work done by the net force is the same as the sum of the works done by all the individual forces
+that act on the body, which we call the \emph{total work} (we show this in
+Section~\ref{sec:variable}). So we can also read the theorem as: \emph{the total work done on a body
+by all the forces that act on it is equal to the change in its kinetic energy}. The work done by just
+one of several forces does not, in general, tell us how the speed changes. And since we derived the
+theorem from Newton's second law, it holds in every inertial frame.
+
+The dimensions of work are those of a force times a length:
+\begin{equation}\label{eq:W-dim}
+  [\text{Work}] = [\text{Force}]\,[\text{Length}] = [M]\,[L]^2\,[T]^{-2} ,
+\end{equation}
+the same as those of kinetic energy, as they must be. (In Section~1.1 we found the same dimensions
+for energy, starting from $\frac12 mv^2$.) Since work is a force times a length, its SI unit is
+the newton-meter. This unit is called the \textbf{joule}, in honor of James Prescott Joule
+(1818--1889), whose experiments showed that a given amount of work always produces the same amount
+of heat, so that heat, like work, is a way of transferring energy:
+\begin{equation}\label{eq:joule}
+  1~\text{newton-meter} = \qty[inter-unit-product=\ensuremath{{}\cdot{}}]{1}{N.m} = 1~\text{joule}
+  = \qty{1}{J} .
+\end{equation}
+To get a feeling for its size: lifting an apple, whose weight is about \qty{1}{N}, by \qty{1}{m}
+takes about \qty{1}{J} of work, and a car of mass \qty{1000}{kg} moving at \qty{20}{m/s}
+(\qty{72}{km/h}) has a kinetic energy of
+$\frac12(\qty{1000}{kg})(\qty{20}{m/s})^2 = \qty{2.0e5}{J}$.
+
+If the force points in the same direction as the displacement of the body, the work it does is
+positive; if it points opposite to the displacement, the work is negative. When a ball falls, gravity
+does positive work on it; when a sliding box slows down, the friction of the floor does negative work
+on it. As we can see clearly from the work--energy theorem \eqref{eq:wke}, if the total work done on
+the body as it goes from $A$ to $B$ is positive, its kinetic energy has increased: the body has sped
+up. If the total work is negative, the kinetic energy has decreased, and the body has slowed down. If
+it is zero, the kinetic energy, and so the speed, is the same at $B$ as at $A$.
+
+One more property of kinetic energy may surprise you: its value depends on the frame of reference. A
+passenger of mass \qty{70}{kg} sitting in a train that moves at \qty{20}{m/s} has $K = 0$ in the frame
+of the train, but $K = \frac12(\qty{70}{kg})(\qty{20}{m/s})^2 = \qty{14}{kJ}$ in the frame of the
+ground. Work depends on the frame too, because displacements do. What does not depend on the frame
+is the work--energy theorem itself: in every inertial frame, the total work is equal to the change in
+the kinetic energy measured in that frame. (Recall from Section~5.2.1 that observers in different
+inertial frames measure different velocities, but the same accelerations and the same forces.)
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[c]{0.3\textwidth}
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  \draw[dashed,fzgray] (-0.9,0) -- (-0.2,0);
+  \draw[dashed,fzgray] (-0.9,2.8) -- (-0.2,2.8);
+  \draw[dim] (-0.7,0) -- (-0.7,2.8) node[midway,left]{$h$};
+  \draw[densely dotted,fzgray] (0,0.2) -- (0,2.6);
+  \draw[velo] (0,0.15) -- (0,1.25) node[right]{$\vec{v}_0$};
+  \draw[force] (0,-0.15) -- (0,-0.95) node[right]{$m\vec{g}$};
+  \shade[ball color=fzvec!50] (0,0) circle (0.15);
+  \draw[densely dashed] (0,2.8) circle (0.15);
+  \node[right=5pt] at (0,0) {$A$};
+  \node[right=5pt] at (0,2.8) {$B$, $v = 0$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.66\textwidth}
+\caption{A body thrown straight up. It leaves the point $A$ with speed $v_0$ and rises to the point
+$B$, a height $h$ above $A$, where it stops for an instant. On the way up the only force on it is its
+weight $m\vec{g}$, which points opposite to its displacement and does the negative work
+$-mgh$.}\label{fig:throw}
+\end{minipage}
+\end{figure}
+
+As an example, let us return to the projectile motion of Section~4.1. We found there, in
+equation~(4.14), that a body thrown with initial speed $v_0$ at an angle $\theta$ above the
+horizontal reaches the maximum height
+\begin{equation}\label{eq:ymax}
+  y\sub{max} = \frac{(v_0\sin\theta)^2}{2g} .
+\end{equation}
+If the body is thrown straight up, as in Figure~\ref{fig:throw}, then $\theta = \pi/2$, and it must
+rise to the height
+\begin{equation}\label{eq:h-kin}
+  h = \frac{v_0^2}{2g} .
+\end{equation}
+Let us now solve the same problem with the work--energy theorem, and see how easily we find the
+answer. As in Section~4.1, we neglect air resistance, so once the body has left our hand the only
+force on it is its weight. If we choose the direction of the initial velocity $\vec{v}_0$ as the $+y$
+axis, this force is $\vec{F} = -mg\,\jhat$, that is, $F_y = -mg$. As the body goes from the launch
+point $A$ to the highest point $B$, a height $h$ above $A$, its displacement is $+h$ and the force
+points the other way, so the work done by gravity is
+\begin{equation}\label{eq:Wgrav-up}
+  W_{AB} = -mgh .
+\end{equation}
+On the other hand, the speed of the body is $v_0$ at $A$, and zero at $B$, where it stops for an
+instant before it falls back. So the change in its kinetic energy is
+\begin{equation}\label{eq:dK-up}
+  \Delta K = \frac12 mv_B^2 - \frac12 mv_A^2 = -\frac12 mv_0^2 .
+\end{equation}
+Gravity is the only force, so its work is the total work, and the work--energy theorem \eqref{eq:wke}
+gives $-mgh = -\frac12 mv_0^2$. The maximum height $h$ that the body reaches is therefore given by
+\begin{equation}\label{eq:h-energy}
+  mgh = \frac12 mv_0^2 , \qquad\Rightarrow\qquad h = \frac{v_0^2}{2g} .
+\end{equation}
+This is the same result that we found from projectile motion. But notice what we did \emph{not} need:
+neither the time it takes the body to reach the top, nor where it is at intermediate times. A ball
+thrown straight up at \qty{14}{m/s} rises $(\qty{14}{m/s})^2/(2\times\qty{9.8}{m/s^2}) = \qty{10}{m}$,
+whatever its mass.
+
+The work--energy theorem gives us the \emph{speed} of the body, not the direction of its velocity,
+because kinetic energy is a scalar. For a body thrown at an angle $\theta$, it tells us that the body
+has the speed $v$ at the height $y$ above the launch point when $\frac12 mv^2 - \frac12 mv_0^2 =
+-mgy$. (The path is now curved, but gravity still does the work $-mgy$: in
+Section~\ref{sec:variable} we will see that a constant force does the work
+$\vec{F}\cdot\Delta\vec{r}$, so only the vertical part of the displacement counts.) To find
+$y\sub{max}$ we need one more fact from Section~4.1: the horizontal component of the velocity does not
+change, so at the top, where the vertical component is zero, the speed is $v_0\cos\theta$. Then
+$\frac12 mv_0^2\cos^2\theta - \frac12 mv_0^2 = -mg\,y\sub{max}$, and since
+$1 - \cos^2\theta = \sin^2\theta$, we recover \eqref{eq:ymax}.
+
+As another example, suppose that we carry a body from a point $A$ to a point $B$ a height $h$ above
+$A$, for instance by lifting it with our hand. The body is at rest at $A$ and at rest again at $B$, so
+$v_A = v_B = 0$, and the change in its kinetic energy is $\Delta K = 0$. By the work--energy theorem,
+the total work done on the body, that is, the work done by the net force, must then also be zero.
+Notice that the theorem does \emph{not} say that the net force is zero at every instant: to set the
+body in motion we must at first push up a little harder than its weight, and to stop it at $B$ a
+little less hard. Only while the body moves at constant velocity, in the middle part of a steady
+lift, is the force $F\sub{you}$ of our hand equal in magnitude and opposite in direction to the force
+of gravity. But whatever the details,
+gravity does the work $-mgh$, as in \eqref{eq:Wgrav-up}, so the work that we do must be $+mgh$. From
+$A$ to $B$, then,
+\begin{equation}\label{eq:carry}
+  W\sub{you} = mgh , \qquad W\sub{grav} = -mgh , \qquad\Rightarrow\qquad
+  W = W\sub{you} + W\sub{grav} = 0 .
+\end{equation}
+If you pick your backpack up from the floor and put it on a table, you do positive work on it and
+gravity does negative work. If you take it from the table and put it back on the floor, you do
+negative work (your hand pushes up while the backpack moves down), and gravity does positive work.
+You can do this all day long, and the total work that you do on the backpack in moving it from the
+floor to the table and back is zero. At the end of the day you are very tired, yet you have done no
+net work on the backpack. Similarly, if you hold your backpack for hours without moving it, the work
+that you do on it is zero, since it does not move; yet you get quite tired while you wait. These two
+examples show that you can get very tired while doing no net work on anything outside your body. The
+reason is that the work done on the backpack is not the whole story. Even when a muscle holds a load
+still, the molecular motors in its fibers keep attaching, pulling and letting go, and each of these
+cycles uses chemical energy from our food, which ends up as heat in the body. And when you lower the
+backpack, your muscles cannot store the energy that it gives them, as a stretched spring would; that
+energy, too, becomes heat. A table holds the backpack just as well and uses no energy at all. In
+physics the word ``work'' has a precise meaning, and it is not the same as effort.
+
+\begin{example}[A box sliding to a stop]
+\setlength{\parskip}{0.5em plus 0.1em}%
+You give a box a shove along a horizontal floor. It leaves your hands with the speed
+$v_0 = \qty{4.0}{m/s}$ and slides to a stop. The coefficient of kinetic friction between the box and
+the floor is $\mu\sub{k} = 0.40$. How far does the box slide?
+
+Once the box has left your hands, three forces act on it (Section~6.2): its weight $mg$, the normal
+force $n$ of the floor and the kinetic friction force $f\sub{k} = \mu\sub{k} n$. Vertically nothing
+accelerates, so $n = mg$. The weight and the normal force are vertical, perpendicular to the
+horizontal displacement, so they do no work (we will see why in Section~\ref{sec:variable}). Friction
+points opposite to the displacement, whose magnitude we call $d$, and does the work
+$W_f = -\mu\sub{k} mg\,d$. This is the total work, and the box ends at rest, so the work--energy
+theorem gives
+\[
+  -\mu\sub{k} mg\,d = 0 - \frac12 mv_0^2 , \qquad\Rightarrow\qquad
+  d = \frac{v_0^2}{2\mu\sub{k} g} = \frac{(\qty{4.0}{m/s})^2}{2(0.40)(\qty{9.8}{m/s^2})}
+    \approx \qty{2.0}{m} .
+\]
+The mass cancels, and the distance grows as the \emph{square} of the initial speed: twice as fast
+means four times as far. The same holds for the braking distance of a car. Where has the kinetic
+energy of the box gone? It has not been destroyed: friction has turned it into internal energy, and
+the box and the floor are slightly warmer. We return to this in Section~8.5.
+\end{example}
+
+\begin{aside}
+\textbf{Video:}
+\href{https://www.youtube.com/watch?v=w4QFJb9a8vo}{\emph{Work, Energy, and Power: Crash Course
+Physics \#9}}\footnote{\url{https://www.youtube.com/watch?v=w4QFJb9a8vo}} (CrashCourse,
+\emph{Crash Course Physics}, Shini Somara, 2016, 10~min). A fast animated overview of this
+chapter: why work in physics is not the same as effort, as in the backpack example above; the work
+of a constant force at an angle to the displacement, in which only the component along the
+displacement counts, as in~\eqref{eq:W-dot} of the next section; kinetic energy and the
+work--energy theorem; and power, in watts (Section~\ref{sec:power}). It also introduces potential
+energy and the conservation of energy, the subject of Chapter~8.
+\par\smallskip
+\textbf{Video:}
+\href{https://oyc.yale.edu/node/1555}{\emph{Lecture~5 -- Work-Energy Theorem and Law of
+Conservation of Energy}}\footnote{\url{https://oyc.yale.edu/node/1555}} (Open Yale Courses,
+PHYS~200 \emph{Fundamentals of Physics~I}, Ramamurti Shankar, recorded 2006, about 70~min; an
+optional full lecture, with a transcript). After a review of the loop-the-loop (circular motion,
+Week~4), Shankar derives the work--energy theorem for motion along a line, as in this section and
+in~\eqref{eq:wke-1d} of the next. The second half, potential energy and the conservation of
+energy, and how friction spoils it, is a preview of Chapter~8.
+\end{aside}
+
+%----------------------------------------------------------------------
+\subsection{Variable forces, work and energy}\label{sec:variable}
+
+In the previous section we dealt with a constant force in one dimension and the work that it does.
+When the force is not constant, it pays to derive the work--energy theorem in a different way, one
+that does not require us to find $x(t)$ and $v(t)$ first. Suppose that a force $F$, which may change
+from point to point,
+acts on a body that moves along the $x$ axis. During an infinitesimal displacement $\dd x$ the force
+hardly changes, so we can treat it as constant there, and the work that it does on the body during
+this displacement is
+\begin{equation}\label{eq:dW}
+  \dd W = F\,\dd x .
+\end{equation}
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small,declare function={f(\x)=1.2+0.8*sin(55*\x)+0.12*\x;}]
+  \fill[fzvec!15] (0.8,0) -- plot[domain=0.8:6.6,samples=70] (\x,{f(\x)}) -- (6.6,0) -- cycle;
+  \fill[fzvec!50] (3.6,0) rectangle (3.85,{f(3.6)});
+  \draw[->] (0,0) -- (7.4,0) node[below]{$x$};
+  \draw[->] (0,0) -- (0,2.75) node[left]{$F$};
+  \draw[very thick,fzcomp] plot[domain=0.2:7.0,samples=90] (\x,{f(\x)});
+  \draw[dashed,fzgray] (0.8,0) -- (0.8,{f(0.8)});
+  \draw[dashed,fzgray] (6.6,0) -- (6.6,{f(6.6)});
+  \node[below] at (0.8,0) {$x_A$};
+  \node[below] at (6.6,0) {$x_B$};
+  \node at (2.1,0.75) {$W_{AB}$};
+  \draw[decorate,decoration={brace,mirror,amplitude=3pt}] (3.6,-0.06) -- (3.85,-0.06)
+    node[midway,below=3pt]{$\dd x$};
+  \draw[->,fzgray!90!black] (4.6,2.25) node[above right=-2pt,text=black]{$\dd W = F\,\dd x$}
+    -- (3.78,1.15);
+\end{tikzpicture}
+\caption{The work done by a variable force $F(x)$ as the body moves from $x_A$ to $x_B$ is the area
+under the curve of $F$ against $x$. The narrow strip of width $\dd x$ has the area $F\,\dd x$, the
+work done in that small displacement; adding up the strips gives the integral
+\eqref{eq:W-int}.}\label{fig:area}
+\end{figure}
+
+To find the work done by the force as the body goes from a point $A$, at $x_A$, to a point $B$, at
+$x_B$, we divide the displacement into many small pieces $\Delta x_i$, in each of which the force is
+nearly constant, $F_i$, and add up the works $F_i\,\Delta x_i$ done in all the pieces. As the pieces
+become smaller and smaller, this sum becomes an integral:
+\begin{equation}\label{eq:W-int}
+  W_{AB} = \int_{x_A}^{x_B} F(x)\,\dd x .
+\end{equation}
+Graphically, the work is the area under the curve of $F$ against $x$, between $x_A$ and $x_B$
+(Figure~\ref{fig:area}). Where the force is negative, the area lies below the $x$ axis and counts as
+negative work. And if the body moves in the $-x$ direction ($x_B < x_A$), the limits of the integral
+are reversed and the sign flips once more: a positive force then does negative work, as it should,
+since it points against the displacement. When the force is constant, $F$ comes out of the integral,
+and this integral over the position gives, as we expected,
+\begin{equation}\label{eq:W-const}
+  W_{AB} = F\,(x_B - x_A) ,
+\end{equation}
+the area of a rectangle.
+
+On the other hand, if $F$ is the net force on the body, we can use Newton's second law,
+$F = m\,\dd v/\dd t$, and the relation $\dd x = v\,\dd t$ between the displacement and the velocity,
+to find the work in another way:
+\begin{equation}\label{eq:W-n2}
+  W_{AB} = \int_{t_A}^{t_B} m\,\dv{v}{t}\,v\,\dd t = \int_{v_A}^{v_B} mv\,\dd v
+         = \frac12 mv_B^2 - \frac12 mv_A^2 .
+\end{equation}
+In the second step we used $(\dd v/\dd t)\,\dd t = \dd v$: instead of adding up over the time, from
+$t_A$ to $t_B$, we add up over the velocity, which goes from $v_A$ to $v_B$ in the same interval. So
+for variable forces we can write the work--energy theorem in one dimension as
+\begin{keyresult}
+\begin{equation}\label{eq:wke-1d}
+  \int_{x_A}^{x_B} F\,\dd x = \frac12 mv_B^2 - \frac12 mv_A^2 = \Delta K ,
+\end{equation}
+\end{keyresult}
+where $F$ is the net force. This time we never assumed that $F$ is constant: the theorem holds
+whether the net force is constant or changes from point to point. (It still holds only for the net
+force, not for one of several forces.) If several forces act on the body, the net force is their sum, $F = F_1 + F_2 + \cdots$,
+and the integral of a sum is the sum of the integrals. So the work done by the net force is the sum of
+the works done by the individual forces, $W = W_1 + W_2 + \cdots$: the total work.
+
+\needspace{9\baselineskip}
+\begin{aside}
+\textbf{Video:}
+\href{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-7-kinetic-energy-and-work/20-3-work-by-a-non-constant-force/}{\emph{20.3
+Work by a Non-Constant
+Force}}\footnote{\url{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-7-kinetic-energy-and-work/20-3-work-by-a-non-constant-force/}}
+(MIT OpenCourseWare, 8.01SC \emph{Classical Mechanics}, 2016, short). The work of a force that
+changes with position as the integral~\eqref{eq:W-int}, the area under the graph of $F$ against $x$,
+as in Figure~\ref{fig:area}. Below we find the work of a spring in the same way, as the area of a
+triangle.
+\end{aside}
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[c]{0.46\textwidth}
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small,scale=1.12]
+  \draw[thick] (0,0) .. controls (2.0,0.0) and (2.6,2.4) .. (5.4,2.6)
+    [postaction={decorate,decoration={markings,
+      mark=at position 0.3 with {
+        \draw[->,very thick,fzvec] (0,0) -- (0.9,0) node[below right=-1pt]{$\dd\vec{r}$};
+        \draw[->,very thick,fzcomp] (0,0) -- (55:1.5) node[above]{$\vec{F}$};
+        \draw[fzgray!90!black] (0.5,0) arc[start angle=0,end angle=55,radius=0.5];
+        \node at (28:0.72) {$\phi$};},
+      mark=at position 0.78 with {
+        \draw[->,very thick,fzvec] (0,0) -- (0.9,0) node[below right=-1pt]{$\dd\vec{r}$};
+        \draw[->,very thick,fzcomp] (0,0) -- (125:1.45) node[above]{$\vec{F}$};
+        \draw[fzgray!90!black] (0.4,0) arc[start angle=0,end angle=125,radius=0.4];
+        \node at (62:0.64) {$\phi$};}
+      }}];
+  \fill (0,0) circle (0.06) node[below]{$A$};
+  \fill (5.4,2.6) circle (0.06) node[right]{$B$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.5\textwidth}
+\caption{Work in three dimensions. As the body moves along its path from $A$ to $B$, each
+infinitesimal displacement $\dd\vec{r}$ is tangent to the path. During this displacement the force
+$\vec{F}$ does the work $\vec{F}\cdot\dd\vec{r} = F\,|\dd\vec{r}|\cos\phi$. At the first point $\phi < 90^\circ$ and
+this work is positive; at the second $\phi > 90^\circ$ and it is negative.}\label{fig:path}
+\end{minipage}
+\end{figure}
+
+It is quite easy to generalize what we have said about work, kinetic energy and the work--energy
+theorem in one dimension to three dimensions. All we need is to pay attention to the directions of the
+force vector and of the displacement vector, as in Figure~\ref{fig:path}. When the body moves along
+its path through an infinitesimal displacement $\dd\vec{r}$, which is tangent to the path, a force
+$\vec{F}$ that acts on it does the work $\dd W = \vec{F}\cdot\dd\vec{r} = F\,|\dd\vec{r}|\cos\phi$,
+where $\phi$ is the angle between $\vec{F}$ and $\dd\vec{r}$. Only the component of the force along
+the displacement, $F\cos\phi$, does work. This is where we use the scalar product of Section~2.3.1.
+Adding up these works along the path from $A$ to $B$, we define the work done by the force as
+\begin{keyresult}
+\begin{equation}\label{eq:W-line}
+  W_{AB} \equiv \int_A^B \vec{F}\cdot\dd\vec{r} .
+\end{equation}
+\end{keyresult}
+This is called a \textbf{line integral}: it is taken along the path that the body actually follows,
+and in general its value depends on that path. (In Chapter~8 we will meet forces for which it does
+not.) If the force is constant, that is, the same in magnitude and direction all along the path, it
+comes out of the integral, and the small displacements add up to the total displacement,
+$\int_A^B \dd\vec{r} = \Delta\vec{r} = \vec{r}_B - \vec{r}_A$. The work done is then
+\begin{equation}\label{eq:W-dot}
+  W = \vec{F}\cdot\Delta\vec{r} = F\,\Delta r\cos\phi ,
+\end{equation}
+where $\phi$ is now the angle between $\vec{F}$ and $\Delta\vec{r}$. So:
+\begin{itemize}
+  \item If the angle between the force and the displacement is less than $90^\circ$, so that the force
+    has a component along the displacement, the work done by the force is positive.
+  \item If the angle is greater than $90^\circ$ (up to $180^\circ$), so that the force has a component
+    opposite to the displacement, the work done by the force is negative.
+  \item If the force is perpendicular to the displacement, it does no work.
+\end{itemize}
+It is not enough for the force and the displacement to point in different directions for the work to
+be negative: a force at $30^\circ$ to the displacement does the positive work
+$F\,\Delta r\cos 30^\circ \approx 0.87\,F\,\Delta r$.
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[c]{0.46\textwidth}
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  \fill[pattern=north east lines,pattern color=fzgray] (-1.6,-0.3) rectangle (3.7,0);
+  \draw[thick] (-1.6,0) -- (3.7,0);
+  \draw[thick,fill=fzaux!15] (0,0) rectangle (1.8,1.1);
+  \node at (1.5,0.25) {$m$};
+  \draw[force] (0.9,0.55) -- (0.9,2.45) node[above]{$\vec{n}$};
+  \draw[force] (0.9,0.55) -- (0.9,-0.6) node[below]{$m\vec{g}$};
+  \draw[comp] (-1.07,1.895) -- (0.2,1.895) node[midway,above]{$F_x = F\cos\phi$};
+  \draw[comp] (0.2,1.895) -- (0.2,1.12) node[midway,right=-1pt]{$F\sin\phi$};
+  \draw[force] (-1.07,1.895) -- (0.2,1.1) node[pos=0.4,below left=-1pt]{$\vec{F}$};
+  \draw[fzgray!90!black] (-0.57,1.895) arc[start angle=0,end angle=-32,radius=0.5];
+  \node at ($(-1.07,1.895)+(-15:0.72)$) {\scriptsize $\phi$};
+  \draw[disp] (2.15,0.55) -- (3.35,0.55) node[above,midway,font=\footnotesize]{motion};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.5\textwidth}
+\caption{A block pushed along a frictionless horizontal floor by a force $\vec{F}$ at an angle $\phi$
+below the horizontal. The block moves in the $+x$ direction. Only the horizontal component
+$F_x = F\cos\phi$ does work. The vertical component, of magnitude $F\sin\phi$
+($F_y = -F\sin\phi$), the weight $m\vec{g}$ and the normal force
+$\vec{n}$ are perpendicular to the displacement and do no work; vertically they balance, so
+$n = mg + F\sin\phi$.}\label{fig:push}
+\end{minipage}
+\end{figure}
+
+To see how a force can do zero work, consider the example in Figure~\ref{fig:push}. A block on a
+horizontal, frictionless floor is pushed by a force $\vec{F}$ directed at an angle $\phi$ below the
+horizontal, and moves in the $+x$ direction. Let us resolve the force into its components,
+$F_x = F\cos\phi$ and $F_y = -F\sin\phi$. The $y$ component has no effect on the motion along $x$:
+together with the weight, it is balanced by the normal force of the floor, $n = mg + F\sin\phi$, and it
+causes no motion in the $y$ direction. Since the $y$ component of the force is perpendicular to the
+displacement, it does no work, and neither do the weight and the normal force, which are vertical too.
+Only $F_x$ does work, and for a displacement $\Delta x$ this work is $W = F_x\,\Delta x =
+F\,\Delta x\cos\phi$, just as \eqref{eq:W-dot} says. (On a floor with friction the $y$ component
+would matter after all: it presses the block harder against the floor, which increases $n$ and with it
+the kinetic friction $\mu\sub{k} n$, which does negative work. Even then $F_y$ itself does no work; it
+changes the work done by another force.)
+
+If we write the force and the infinitesimal displacement in components as
+\begin{equation}\label{eq:F-dr-comp}
+  \vec{F} = F_x\,\ihat + F_y\,\jhat + F_z\,\khat , \qquad
+  \dd\vec{r} = \ihat\,\dd x + \jhat\,\dd y + \khat\,\dd z ,
+\end{equation}
+then by the scalar product in components, equation~(2.16),
+$\vec{F}\cdot\dd\vec{r} = F_x\,\dd x + F_y\,\dd y + F_z\,\dd z$, and the integral \eqref{eq:W-line}
+becomes
+\begin{equation}\label{eq:W-xyz}
+  W_{AB} = \int_{x_A}^{x_B} F_x\,\dd x + \int_{y_A}^{y_B} F_y\,\dd y + \int_{z_A}^{z_B} F_z\,\dd z .
+\end{equation}
+In this way the three-dimensional work problem turns into three one-dimensional ones. One warning: in
+general $F_x$ depends on $y$ and $z$ as well as on $x$, so each of these integrals must be taken along
+the path, with $x$, $y$ and $z$ changing together as the body moves. For the net force, however,
+Newton's second law makes each integral exactly like the one-dimensional integral \eqref{eq:W-n2}.
+Along the path that the body actually follows, $\dd x = v_x\,\dd t$ and $F_x = m\,\dd v_x/\dd t$, so
+$F_x\,\dd x = mv_x\,\dd v_x$, and the same holds for $y$ and $z$. The result is
+\begin{equation}\label{eq:wke-3d}
+\begin{split}
+  W_{AB} &= \frac12 m(v_{Bx}^2 - v_{Ax}^2) + \frac12 m(v_{By}^2 - v_{Ay}^2)
+            + \frac12 m(v_{Bz}^2 - v_{Az}^2) \\
+         &= \frac12 m(v_{Bx}^2 + v_{By}^2 + v_{Bz}^2) - \frac12 m(v_{Ax}^2 + v_{Ay}^2 + v_{Az}^2) \\
+         &= \frac12 mv_B^2 - \frac12 mv_A^2 \\
+         &= \Delta K ,
+\end{split}
+\end{equation}
+since the square of the speed is $v^2 = \vec{v}\cdot\vec{v} = v_x^2 + v_y^2 + v_z^2$.
+\begin{keyresult}
+\textbf{The work--energy theorem in three dimensions.} The total work done on a particle by all the forces that act on it, $W_{AB} = \int_A^B
+\bigl(\sum\vec{F}\bigr)\cdot\dd\vec{r}$, is equal to the change in its kinetic energy, $\Delta K$,
+whatever the path and however the forces change along it.
+\end{keyresult}
+Because the scalar product is distributive, the work done by the net force is again the sum of the
+works done by the individual forces. One consequence is worth noting: a force that is always
+perpendicular to the velocity does no work. If it is the net force, as for a body in uniform circular
+motion (Section~6.4), it cannot change the speed; it only changes the direction of the motion. (A
+single such force among others, like the tension of the pendulum string below, still does no work,
+but the speed may change because of the other forces.) Now let us look at these results in a few simple examples.
+
+\subsubsection*{The spring force}
+
+The force of a spring is the simplest example of a force that changes from point to point. Consider
+a spring that lies along the $x$ axis, fixed at one end, with a body of mass $m$ attached to the other
+end, and put the origin $x = 0$ at the position of this end when the spring is relaxed, neither
+stretched nor compressed. If we stretch the spring by $x$ ($x > 0$) or compress it ($x < 0$), it pulls
+or pushes the body back toward $x = 0$ with the force
+\begin{keyresult}
+\begin{equation}\label{eq:hooke}
+  F = -kx .
+\end{equation}
+\end{keyresult}
+The minus sign says that the force always points back toward the equilibrium position $x = 0$: it is
+a \emph{restoring} force. The positive constant $k$ is called the \textbf{force constant} or
+\textbf{spring constant}, and is measured in \unit{N/m}; a stiff spring has a large $k$. Equation
+\eqref{eq:hooke} is called \textbf{Hooke's law}, after Robert Hooke, who published it in 1678. It is
+not a fundamental law but a very good approximation for most springs, as long as they are not
+stretched or compressed too far. More generally, any force that pulls a body back toward its
+equilibrium position in proportion to its displacement from it, a \emph{linear} restoring force, has
+this form. Notice also that to hold the body at rest with the spring stretched by $x$ we must pull it
+with the force $+kx$: the body is in equilibrium, so by Newton's second law with $\vec{a} = \vec{0}$
+our pull balances the pull $-kx$ of the spring on it (Figure~\ref{fig:spring}(a)). These two forces
+act on the same body, so they are not an action--reaction pair. The third-law partner of our pull is
+the force $-kx$ with which the body pulls back on our hand.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  % (a) the spring, relaxed (top) and stretched by x (bottom)
+  \begin{scope}[yshift=1.9cm]
+    \fill[pattern=north east lines,pattern color=fzgray] (-0.25,-0.25) rectangle (4.4,0);
+    \fill[pattern=north east lines,pattern color=fzgray] (-0.25,0) rectangle (0,1.0);
+    \draw[thick] (0,1.0) -- (0,0) -- (4.4,0);
+    \draw[thick,decorate,decoration={zigzag,segment length=5pt,amplitude=3.5pt,pre length=4pt,post length=4pt}]
+      (0,0.35) -- (2.2,0.35);
+    \draw[thick,fill=fzaux!15] (2.2,0) rectangle (3.0,0.7);
+    \node at (2.6,0.35) {$m$};
+    \node[font=\footnotesize,anchor=west] at (3.2,0.35) {relaxed};
+  \end{scope}
+  \begin{scope}
+    \fill[pattern=north east lines,pattern color=fzgray] (-0.25,-0.25) rectangle (5.6,0);
+    \fill[pattern=north east lines,pattern color=fzgray] (-0.25,0) rectangle (0,1.0);
+    \draw[thick] (0,1.0) -- (0,0) -- (5.6,0);
+    \draw[thick,decorate,decoration={zigzag,segment length=8.1pt,amplitude=3.5pt,pre length=4pt,post length=4pt}]
+      (0,0.35) -- (3.4,0.35);
+    \draw[thick,fill=fzaux!15] (3.4,0) rectangle (4.2,0.7);
+    \node at (3.8,0.35) {$m$};
+    \draw[force] (4.2,0.35) -- (5.4,0.35) node[above,pos=0.5]{$\vec{F}\sub{you}$};
+    \draw[force] (3.4,0.6) -- (2.4,0.6) node[above,pos=0.4]{$\vec{F}\sub{spring}$};
+  \end{scope}
+  \draw[densely dashed,fzgray] (2.2,-0.3) -- (2.2,2.75) node[above,text=black]{$x = 0$};
+  \draw[dim] (2.2,-0.5) -- (3.4,-0.5) node[midway,below]{$x$};
+  \node at (2.5,-1.25) {(a)};
+  % (b) the force we exert, against x
+  \begin{scope}[xshift=7.4cm,yshift=-0.2cm]
+    \fill[fzvec!15] (0,0) -- (1.5,1.125) -- (1.5,0) -- cycle;
+    \fill[fzaux!25] (1.5,0) -- (1.5,1.125) -- (3.0,2.25) -- (3.0,0) -- cycle;
+    \draw[->] (0,0) -- (3.9,0) node[below]{$x$};
+    \draw[->] (0,0) -- (0,3.0) node[left]{$F\sub{you}$};
+    \draw[very thick,fzcomp] (0,0) -- (3.5,2.625) node[above left=-1pt]{$F\sub{you} = kx$};
+    \draw[dashed,fzgray] (1.5,0) -- (1.5,1.125) -- (0,1.125) node[left,text=black]{$kx_1$};
+    \draw[dashed,fzgray] (3.0,0) -- (3.0,2.25) -- (0,2.25) node[left,text=black]{$kx_2$};
+    \node[below] at (1.5,0) {$x_1$};
+    \node[below] at (3.0,0) {$x_2$};
+    \node at (1.05,0.3) {\scriptsize $\tfrac12 kx_1^2$};
+    \node at (2.3,0.75) {$W\sub{you}$};
+    \node at (1.8,-1.05) {(b)};
+  \end{scope}
+\end{tikzpicture}
+\caption{(a) A body on a frictionless horizontal surface, attached to a spring. Top: the spring is
+relaxed and its end is at $x = 0$. Bottom: we have stretched the spring by $x$. To hold it there we
+pull the body with the force $\vec{F}\sub{you}$, whose $x$ component is $kx$; the spring pulls it back
+with $\vec{F}\sub{spring}$, whose $x$ component is $-kx$. (b) The force $F\sub{you} = kx$ that we
+exert, against the stretch $x$. The work needed to stretch the spring from $0$ to $x_1$ is the area of
+the light triangle, $\frac12 kx_1^2$; the work $W\sub{you}$ needed to stretch it further, from $x_1$ to
+$x_2$, is the area of the darker region, the difference of two triangles,
+$\frac12 kx_2^2 - \frac12 kx_1^2$.}\label{fig:spring}
+\end{figure}
+
+Now suppose that we stretch the spring from its equilibrium position $x = 0$ by applying a force to
+the body of mass $m$ at its end, in the $\ihat$ direction, until the stretch is $x$
+(Figure~\ref{fig:spring}(a)). The body rests on a horizontal, frictionless surface, so its weight and
+the normal force do no work. The body starts and ends at rest, so the total work done on it must be
+zero: the work done by the spring and the work done by the force that stretches the spring must be the
+negatives of each other. As the body moves from $0$ to $x$, the work done on it by the spring is
+\begin{equation}\label{eq:W-spring}
+  W\sub{spring} = \int_0^x F\,\dd x' = \int_0^x (-kx')\,\dd x' = -\frac12 kx^2 ,
+\end{equation}
+where we have written the variable of integration as $x'$, to keep it apart from the final stretch
+$x$. The work done by the spring is negative, because the force of the spring points opposite to the
+displacement of the body: the body moves away from $x = 0$ while the spring pulls it back. This minus
+sign comes from the force law \eqref{eq:hooke} itself; we never put it in by hand. When the spring
+pulls the body back toward $x = 0$, the same kind of integral gives positive work, as we will see
+below. So the work that we must do on the body to stretch the spring is
+\begin{equation}\label{eq:W-stretch}
+  W\sub{you} = \int_0^x kx'\,\dd x' = \frac12 kx^2 .
+\end{equation}
+(If we pull slowly, our force is $kx'$ at every point, as in this integral. Even if we do not, the
+total work that we do is $\frac12 kx^2$, because the body starts and ends at rest.) The same work is
+needed to \emph{compress} the spring by the same amount: for $x < 0$ both our force and the
+displacement point in the $-x$ direction, and $\frac12 kx^2$ is again positive. In the same way, if
+the spring is already stretched by $x_1$ and we want to stretch it further, to $x_2$, the work we must
+do is
+\begin{equation}\label{eq:W-x1x2}
+  W\sub{you} = \int_{x_1}^{x_2} kx\,\dd x = \frac12 kx_2^2 - \frac12 kx_1^2 ,
+\end{equation}
+and the spring does the opposite work, $-(\frac12 kx_2^2 - \frac12 kx_1^2)$. Since the spring force is
+linear in $x$, the graph of our force against the stretch is a straight line through the origin
+(Figure~\ref{fig:spring}(b)), and finding the work from this graph comes down to finding the area of a
+triangle, $\frac12(x)(kx) = \frac12 kx^2$. So the results that we have found are nothing but areas of
+triangles, or differences of them. Note that the work is not proportional to the stretch: stretching
+a spring from \qty{1}{cm} to \qty{2}{cm} takes three times as much work as stretching it from $0$ to
+\qty{1}{cm}.
+
+Now suppose that the spring is stretched by $x\sub{max}$ and then released, so that the body starts
+from rest at $x = x\sub{max}$. As the body moves back from $x\sub{max}$ to some position $x$, the
+spring does on it the work $\int_{x\sub{max}}^{x}(-kx')\,\dd x' = \frac12 kx\sub{max}^2 - \frac12
+kx^2$. This work is positive whenever $|x| < x\sub{max}$. It is the total work, since on the
+frictionless surface no other force does work. The same holds at later times, after the body has
+turned around: on a trip out and back over the same stretch of the axis, the spring force at each
+point is the same both ways while the displacement is reversed, so the two works cancel. So the
+work--energy theorem gives the speed $v$ of the body at any instant, when it is at position $x$:
+\begin{equation}\label{eq:spring-v}
+  \frac12 mv^2 = \frac12 kx\sub{max}^2 - \frac12 kx^2 .
+\end{equation}
+If we want the speed with which the body passes through the equilibrium position, we put $x = 0$,
+since we chose the equilibrium position as $x = 0$. We find
+\begin{equation}\label{eq:v-eq}
+  v\sub{eq}^2 = \frac{k}{m}\,x\sub{max}^2 , \qquad\text{that is,}\qquad
+  v\sub{eq} = x\sub{max}\sqrt{\frac{k}{m}} .
+\end{equation}
+This is the largest speed of the body: by \eqref{eq:spring-v}, the kinetic energy is largest where
+$x = 0$. (The units work out: $k/m$ is in $(\unit{N/m})/\unit{kg} = \unit{s^{-2}}$, so
+$x\sub{max}\sqrt{k/m}$ is in \unit{m/s}.) For example, a body of mass \qty{0.50}{kg} on a spring with
+$k = \qty{200}{N/m}$, released from $x\sub{max} = \qty{0.10}{m}$, passes through $x = 0$ at
+$(\qty{0.10}{m})\sqrt{(\qty{200}{N/m})/(\qty{0.50}{kg})} = \qty{2.0}{m/s}$. Equation
+\eqref{eq:spring-v} also tells us where the body can go: since $v^2$ cannot be negative, $x^2$ can
+never exceed $x\sub{max}^2$. The body oscillates back and forth between $x = x\sub{max}$ and
+$x = -x\sub{max}$, where it stops for an instant and turns back.
+
+\begin{aside}
+\textbf{Simulation:}
+\href{https://phet.colorado.edu/en/simulations/hookes-law}{\emph{Hooke's
+Law}}\footnote{\url{https://phet.colorado.edu/en/simulations/hookes-law}} (PhET Interactive
+Simulations, University of Colorado Boulder). Stretch and compress a spring and read the applied
+force $kx$ against the displacement. The Energy screen can plot this force against the
+displacement, a straight line as in Figure~\ref{fig:spring}(b), and shade the triangle under it,
+whose area is the work $\frac12 kx^2$ (the simulation calls it potential energy, which we meet in
+Chapter~8). Check that compressing by $x$ takes as much work as stretching by $x$, and that
+doubling the stretch takes four times the work, so that the second step, from $x$ to $2x$, takes
+three times as much as the first.
+\par\smallskip
+\textbf{Simulation:}
+\href{https://phet.colorado.edu/en/simulations/masses-and-springs}{\emph{Masses and
+Springs}}\footnote{\url{https://phet.colorado.edu/en/simulations/masses-and-springs}} (PhET
+Interactive Simulations, University of Colorado Boulder). Hang a mass on a spring, set the damping
+to zero, pull the mass down and let it go. The spring hangs vertically, so gravity acts as well, but
+it only shifts the equilibrium position down by $mg/k$; measured from there, the net force is still
+$-kx$, and everything above holds. On the Energy screen the kinetic energy is largest each time the
+mass passes through equilibrium, as in~\eqref{eq:v-eq}, and zero at the turning points; the other
+bars are energies of Chapter~8. With damping, the swings die away as friction takes energy from the
+mass.
+\end{aside}
+
+\subsubsection*{Work along a curved path}
+
+As an example of a force that acts on a body moving along a curved path, consider a pendulum, a small
+ball of mass $m$ hanging from a string of length $L$, under the force of gravity
+(Figure~\ref{fig:pendulum}). Although this problem looks two-dimensional, the distance of the ball
+from the point of suspension, that is, the magnitude of its position vector measured from that point,
+is always $L$: the ball moves on an arc of a circle, and its position is fixed by a single variable,
+the angle $\theta$ that the string makes with the vertical. Once we notice this, the problem becomes
+much simpler. When $\theta$ changes by $\dd\theta$ (measured in radians, so that an arc of radius
+$L$ and angle $\dd\theta$ has the length $L\,\dd\theta$), the ball moves along the arc through a
+displacement of magnitude $L\,\dd\theta$, tangent to the circle and so perpendicular to the string.
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[c]{0.5\textwidth}
+\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  \fill[pattern=north east lines,pattern color=fzgray] (-1.1,0) rectangle (1.1,0.25);
+  \draw[thick] (-1.1,0) -- (1.1,0);
+  \draw[dashed,fzgray] (0,0) -- (0,-3.4);
+  \draw[densely dashed,fzgray] (-125:3.4) arc[start angle=-125,end angle=-28,radius=3.4];
+  \coordinate (B) at (-55:3.4);
+  \draw[thick,fzgray!70!black] (0,0) -- (B) node[pos=0.3,right]{$L$};
+  \draw[fzgray!90!black] (0,-0.75) arc[start angle=-90,end angle=-55,radius=0.75];
+  \node at (-72.5:1.0) {$\theta$};
+  % height above the lowest point
+  \draw[dashed,fzgray] (-2.3,-3.4) -- (0,-3.4);
+  \draw[dashed,fzgray] (-2.3,{-3.4*cos(35)}) -- (B);
+  \draw[dim] (-2.12,-3.4) -- (-2.12,{-3.4*cos(35)}) node[midway,left]{$h$};
+  % forces
+  \draw[densely dotted,fzgray] ($(B)+(-55:1.475)$) -- ($(B)+(0,-1.8)$) -- ($(B)+(215:1.032)$);
+  \draw[comp] (B) -- ++(-55:1.475) node[right]{$mg\cos\theta$};
+  \draw[comp] (B) -- ++(215:1.032) node[left=1pt,yshift=-9pt]{$mg\sin\theta$};
+  \draw[force] (B) -- ++(0,-1.8) node[below]{$m\vec{g}$};
+  \draw[force] (B) -- ++(125:1.75) node[left]{$\vec{T}$};
+  \draw[disp] (B) -- ++(35:0.9) node[right]{$\dd\vec{r}$};
+  \draw[fzgray!90!black] ($(B)+(0,-0.55)$) arc[start angle=-90,end angle=-55,radius=0.55];
+  \node at ($(B)+(-72.5:0.75)$) {\scriptsize $\theta$};
+  \shade[ball color=fzvec!50] (B) circle (0.15);
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.46\textwidth}
+\caption{A pendulum. The ball moves on an arc of radius $L$; its displacement $\dd\vec{r}$ is tangent
+to the arc. The tension $\vec{T}$ of the string is perpendicular to $\dd\vec{r}$ and does no work; it is drawn
+for a swinging ball, for which $T > mg\cos\theta$. The weight $m\vec{g}$ is resolved into two
+components (dashed): $mg\cos\theta$ along the string and $mg\sin\theta$ tangent to the arc, toward
+the lowest point; only the tangential component does work. At the angle $\theta$ the ball is a height $h = L(1 - \cos\theta)$ above its lowest
+point.}\label{fig:pendulum}
+\end{minipage}
+\end{figure}
+
+As in the earlier examples (the normal force in Figure~\ref{fig:push}), the ball does not move along
+the string, in the radial direction, so the forces in this direction do no work. If we resolve the
+forces on the ball into components along the string and tangent to the arc, as in
+Figure~\ref{fig:pendulum}, we see that the tension $\vec{T}$ of the string and the component
+$mg\cos\theta$ of the weight lie along the string. They are perpendicular to the displacement and do
+no work, whatever their sizes. (They do \emph{not} in general balance each other: when the ball is
+moving, their difference supplies the centripetal force, $T - mg\cos\theta = mv^2/L$, as in
+Section~6.4. But this does not matter for the work.) Only the tangential component of the weight,
+$mg\sin\theta$, which points along the arc toward the lowest point $\theta = 0$, does work.
+
+Suppose now that we move the ball, by pushing it along the arc, from the equilibrium position
+$\theta = 0$ to the angle $\theta_0$. The ball starts and ends at rest, so the work that we do must be
+equal in magnitude and opposite in sign to the work done by gravity. The work done by gravity is
+\begin{equation}\label{eq:W-pend-grav}
+  W\sub{grav} = -\int_0^{\theta_0} mg\sin\theta\,L\,\dd\theta = -mgL(1 - \cos\theta_0) ,
+\end{equation}
+where $L$ is the length of the string. The minus sign appears because the tangential component of the
+gravitational force points opposite to the direction in which the ball moves: toward $\theta = 0$,
+while the ball moves away from it. So the work that we must do to bring the ball from the equilibrium
+position $\theta = 0$ to the angle $\theta_0$ is
+\begin{equation}\label{eq:W-pend}
+  W\sub{you} = \int_0^{\theta_0} mgL\sin\theta\,\dd\theta = mgL(1 - \cos\theta_0) .
+\end{equation}
+Since our force points in the direction of the motion of the ball, this work is positive, as expected.
+If the ball never leaves the equilibrium position, then $\theta_0 = 0$ and the work is zero. This, too,
+is what we expect: no force does work on a body that does not move. Nor do we need to push to keep
+the ball there: at $\theta = 0$ the weight has no tangential component, and the only forces on the
+ball, its weight and the tension of the string, balance each other. That is why $\theta = 0$ is the
+equilibrium position.
+
+These results have a simple meaning. At the angle $\theta_0$ the ball is a distance $L\cos\theta_0$
+below the point of suspension, and at the lowest point a distance $L$; so it has risen by the height
+$h = L(1 - \cos\theta_0)$ (Figure~\ref{fig:pendulum}). Equation \eqref{eq:W-pend-grav} is therefore
+$W\sub{grav} = -mgh$, exactly what we found in \eqref{eq:Wgrav-up} for a body moving straight up. The
+work done by gravity depends only on how much the body rises, not on the path that it takes to get
+there. In fact we could have seen this at once from \eqref{eq:W-dot}: near the Earth the weight
+$m\vec{g} = -mg\,\jhat$ is a constant force, so along any path from $A$ to $B$ it does the work
+$W\sub{grav} = (-mg\,\jhat)\cdot\Delta\vec{r} = -mg\,(y_B - y_A)$, and the integral
+\eqref{eq:W-pend-grav} is a check of this. This fact will be the starting point of Chapter~8.
+
+Now let the ball go from rest at $\theta_0$. On the way down gravity does the positive work
+$+mgL(1 - \cos\theta_0)$ on it, and the tension still does no work, so by the work--energy theorem its
+speed at the lowest point is given by $\frac12 mv^2 = mgL(1 - \cos\theta_0)$, that is,
+\[
+  v = \sqrt{2gL(1 - \cos\theta_0)} .
+\]
+A pendulum of length $L = \qty{1.0}{m}$ released at $\theta_0 = 60^\circ$, where $\cos\theta_0 = 0.5$,
+swings through the bottom at $\sqrt{(\qty{9.8}{m/s^2})(\qty{1.0}{m})} \approx \qty{3.1}{m/s}$. To find
+this speed from Newton's second law, we would have had to solve the equation of motion of the
+pendulum, which for large angles cannot even be done with elementary functions; with work and energy
+it takes one line.
+
+\begin{aside}
+\textbf{Video:}
+\href{https://lecturedemos.ph.utexas.edu/demo/47}{\emph{Conservation of Energy: Nose
+Basher}}\footnote{\url{https://lecturedemos.ph.utexas.edu/demo/47}} (University of Texas at
+Austin, Physics Lecture Demonstrations, demonstration 1M40.10; a page with a short video). A heavy
+ball on a long wire is pulled aside until it touches the demonstrator's nose and released from
+rest; it swings away and comes back, but stops just short of the nose. The ball is at rest when it
+is released and again when it comes back, so the total work done on it is zero. The tension does no
+work, so the work of gravity is zero, or slightly positive, because air resistance does a little
+negative work; by $W\sub{grav} = -mg\,(y_B - y_A)$ the ball comes back to the height from which it
+started, or slightly lower, never higher. It must be released, not pushed: a push would give it
+kinetic energy at the start, and it would come back higher.
+\par\smallskip
+\textbf{Simulation:}
+\href{https://phet.colorado.edu/en/simulations/pendulum-lab}{\emph{Pendulum
+Lab}}\footnote{\url{https://phet.colorado.edu/en/simulations/pendulum-lab}} (PhET Interactive
+Simulations, University of Colorado Boulder). Release the pendulum from rest, with the friction set
+to zero, and watch it rise on the other side to the height from which it started, and come back to
+it, swing after swing. On the Energy screen the kinetic energy is largest at the bottom; the other
+bars are energies of Chapter~8. Change the mass: the motion does not change, since $m$ cancels in
+$v = \sqrt{2gL(1 - \cos\theta_0)}$.
+\end{aside}
+
+%----------------------------------------------------------------------
+\subsection{Power}\label{sec:power}
+
+The work--energy theorem told us that the total work done on a body is equal to the change in its
+kinetic energy. Looked at another way, work is a measure of the \emph{transfer of energy}: the work
+done by any one force is the energy that this force gives to the body (positive work) or takes from
+it (negative work). When the total work done on a body is positive, energy has been given to the
+body and its kinetic energy has increased; when the total work is negative, energy has been taken
+from it and its kinetic energy has decreased. Often we want to know not only how much energy is transferred, but how fast. Lifting a box
+onto a shelf takes the same work whether we do it in one second or in one minute, but doing it in
+one second takes sixty times the average power. The time rate at which work is done, that is, the rate of this energy transfer, is called
+\textbf{power}. If a force does the work $\Delta W$ during a time interval $\Delta t$, the average power
+of the force over this interval is
+\begin{equation}\label{eq:P-avg}
+  \avg{P} = \frac{\Delta W}{\Delta t} .
+\end{equation}
+(Here $\Delta W$ is the work done during $\Delta t$, not the change of some quantity $W$: a body
+does not ``have'' work as it has kinetic energy.) The instantaneous power is found by
+taking the limit $\Delta t \to 0$:
+\begin{equation}\label{eq:P-inst}
+  P = \lim_{\Delta t \to 0} \avg{P} = \dv{W}{t} .
+\end{equation}
+Adding up the small works $P\,\dd t$, we can also write the work done by a force between the
+times $t_A$ and $t_B$, when the body is at $A$ and at $B$, as
+\begin{equation}\label{eq:W-from-P}
+  W_{AB} = \int_{t_A}^{t_B} P(t)\,\dd t .
+\end{equation}
+If we use the three-dimensional definition of work \eqref{eq:W-line}, we find a relation between power
+and force. During the time $\dd t$ the body moves through $\dd\vec{r} = \vec{v}\,\dd t$, so
+\begin{equation}\label{eq:P-Fv}
+  P(t)\,\dd t = \vec{F}\cdot\dd\vec{r} = \vec{F}\cdot\dv{\vec{r}}{t}\,\dd t = \vec{F}\cdot\vec{v}\,\dd t ,
+  \qquad\Rightarrow\qquad P = \vec{F}\cdot\vec{v} .
+\end{equation}
+Like work, power belongs to a particular force. It is positive when the force has a component along
+the velocity, negative when the force has a component opposite to it (as kinetic friction on a sliding box
+does), and zero when the force is perpendicular to the
+velocity. For the net force, Newton's second law gives
+\[
+  P = \Bigl(\sum\vec{F}\Bigr)\cdot\vec{v} = m\,\dv{\vec{v}}{t}\cdot\vec{v}
+    = \frac{\dd}{\dd t}\Bigl(\frac12 m\,\vec{v}\cdot\vec{v}\Bigr) = \dv{K}{t} .
+\]
+So the power of the net force is the rate at which the kinetic energy changes. The dimensions of
+power are
+\begin{equation}\label{eq:P-dim}
+  [\text{Power}] = [\text{Work}]/[\text{Time}] = [M]\,[L]^2\,[T]^{-3} .
+\end{equation}
+Since power is work divided by time, its SI unit is the joule per second. This unit is called the
+\textbf{watt}, in honor of James Watt (1736--1819), who greatly improved the steam engine:
+\begin{equation}\label{eq:watt}
+  1~\text{joule/second} = \qty{1}{J/s} = 1~\text{watt} = \qty{1}{W} .
+\end{equation}
+A larger unit is the kilowatt, $\qty{1}{kW} = \qty{e3}{W}$; car engines are still often rated in
+horsepower, $\qty{1}{hp} \approx \qty{746}{W}$ (the metric horsepower, or PS, quoted for most cars
+sold in Turkey and Europe, is a little smaller, about \qty{735}{W}). Do not confuse power with
+energy: the kilowatt-hour, the unit used on electricity bills, is a unit of \emph{energy}: $\qty[inter-unit-product=\ensuremath{{}\cdot{}}]{1}{kW.h} = (\qty{e3}{W})(\qty{3600}{s}) = \qty{3.6e6}{J}$.
+
+\begin{example}[The power of an elevator motor]
+\setlength{\parskip}{0.5em plus 0.1em}%
+An elevator cabin of mass \qty{800}{kg}, with its passengers, is pulled up by its cable at the
+constant speed $v = \qty{2.0}{m/s}$. At what rate does the cable do work on the cabin?
+
+The cabin does not accelerate, so the tension of the cable balances the weight:
+$T = mg = (\qty{800}{kg})(\qty{9.8}{m/s^2}) = \qty{7840}{N}$. The tension points up, along the
+velocity, so by \eqref{eq:P-Fv}
+\[
+  P = \vec{T}\cdot\vec{v} = Tv = (\qty{7840}{N})(\qty{2.0}{m/s}) \approx \qty{1.6e4}{W} = \qty{16}{kW} ,
+\]
+about \qty{21}{hp}. In \qty{10}{s} the cabin rises \qty{20}{m}, and the cable does the work
+$Pt \approx \qty{1.6e5}{J}$, which is just $mgh = (\qty{800}{kg})(\qty{9.8}{m/s^2})(\qty{20}{m})$,
+as in \eqref{eq:carry}. Gravity, meanwhile, does work at the rate $m\vec{g}\cdot\vec{v} = -mgv$; the
+total power is zero, and the kinetic energy of the cabin does not change.
+\end{example}
+
+\needspace{9\baselineskip}
+\begin{aside}
+\textbf{Video:}
+\href{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-7-kinetic-energy-and-work/20-6-power/}{\emph{20.6
+Power}}\footnote{\url{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-7-kinetic-energy-and-work/20-6-power/}}
+(MIT OpenCourseWare, 8.01SC \emph{Classical Mechanics}, 2016, short). Power as the time rate at
+which a force does work, $P = \dd W/\dd t$, and, for a force acting on a moving body,
+$P = \vec{F}\cdot\vec{v}$, as in~\eqref{eq:P-Fv}; its unit is the watt. In the elevator example the
+cable pulls along the velocity, so its power is simply $Tv$.
+\end{aside}
+
+%======================================================================
+\section*{Videos and simulations for this week}
+\begin{itemize}[nosep]
+\item \href{https://www.pbs.org/video/noethers-theorem-and-the-symmetries-of-reality-tf9sqz}{\emph{Noether's
+  Theorem and The Symmetries of Reality}} (PBS Space Time; optional): Section~\ref{sec:symmetry},
+  symmetries and conservation laws.
+\item \href{https://www.youtube.com/watch?v=w4QFJb9a8vo}{\emph{Work, Energy, and Power: Crash
+  Course Physics \#9}} (CrashCourse): Sections~\ref{sec:wke}--\ref{sec:power}, review of work,
+  kinetic energy and power.
+\item \href{https://oyc.yale.edu/node/1555}{\emph{Lecture~5 -- Work-Energy Theorem and Law of
+  Conservation of Energy}} (Open Yale Courses, Ramamurti Shankar; optional full lecture):
+  Sections~\ref{sec:wke} and~\ref{sec:variable}, the work--energy theorem.
+\item \href{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-7-kinetic-energy-and-work/20-3-work-by-a-non-constant-force/}{\emph{20.3
+  Work by a Non-Constant Force}} (MIT OpenCourseWare, 8.01SC): Section~\ref{sec:variable}, work as
+  an integral.
+\item \href{https://phet.colorado.edu/en/simulations/hookes-law}{\emph{Hooke's Law}} (PhET
+  simulation, University of Colorado): Section~\ref{sec:variable}, the work done in stretching a
+  spring.
+\item \href{https://phet.colorado.edu/en/simulations/masses-and-springs}{\emph{Masses and Springs}}
+  (PhET simulation, University of Colorado): Section~\ref{sec:variable}, a body oscillating on a
+  spring.
+\item \href{https://lecturedemos.ph.utexas.edu/demo/47}{\emph{Conservation of Energy: Nose
+  Basher}} (University of Texas at Austin, Physics Lecture Demonstrations):
+  Section~\ref{sec:variable}, a pendulum released from rest.
+\item \href{https://phet.colorado.edu/en/simulations/pendulum-lab}{\emph{Pendulum Lab}} (PhET
+  simulation, University of Colorado): Section~\ref{sec:variable}, work along a curved path.
+\item \href{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-7-kinetic-energy-and-work/20-6-power/}{\emph{20.6
+  Power}} (MIT OpenCourseWare, 8.01SC): Section~\ref{sec:power}, power.
+\end{itemize}
+
+\section*{About these notes}
+These notes are not original. They draw heavily on the books listed in the Week~1 notes, on Walter Lewin's 8.01x Classical Mechanics lectures at MIT, and on the Dynamics and Relativity courses taught at different times by Stephen Siklos and David Tong at the University of Cambridge. They are not official course notes of FIZ~101: they are written only to help the students of Mehmet \"Ozkan's section. Istanbul Technical University and its Department of Physics Engineering bear no responsibility for them.
+
+\end{document}
