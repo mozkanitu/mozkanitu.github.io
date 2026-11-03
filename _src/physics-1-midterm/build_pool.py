@@ -42,6 +42,7 @@ PREAMBLE = r"""\documentclass[11pt,a4paper]{article}
 \usepackage{needspace}
 \usepackage{multicol}
 \makeatletter
+\titleformat{\section}{\normalfont\Large\bfseries\color{fzboard}\raggedright}{\thesection}{0.8em}{}
 \hypersetup{pdftitle={FIZ 101 Physics I: Mechanics -- Midterm problem pool},pdfauthor={Mehmet \"Ozkan}}
 \fancyhead[L]{\small\sffamily\color{fzmuted}FIZ 101 \textperiodcentered\ Midterm problem pool}
 \fancyhead[R]{\small\sffamily\color{fzmuted}@@HEADR@@}
@@ -75,7 +76,7 @@ PREAMBLE = r"""\documentclass[11pt,a4paper]{article}
 \newcommand\pc@i[2]{\makebox[\pc@col][l]{\textsf{\small(#1)}\hspace{0.5em}#2}}
 \newcommand{\choices}[5]{\par\nopagebreak{\setlength\parskip{0.45em}%
   \global\pc@max=0pt\pc@m{#1}\pc@m{#2}\pc@m{#3}\pc@m{#4}\pc@m{#5}%
-  \global\advance\pc@max by 2.6em
+  \global\advance\pc@max by 2.6em\relax
   \ifdim\pc@max<0.2\linewidth
     \setlength\pc@col{0.2\linewidth}%
     \noindent\pc@i{A}{#1}\pc@i{B}{#2}\pc@i{C}{#3}\pc@i{D}{#4}\pc@i{E}{#5}\par

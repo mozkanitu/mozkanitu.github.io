@@ -1,0 +1,551 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fiz101notes}
+\usepackage{needspace}
+\usepackage{multicol}
+\makeatletter
+\titleformat{\section}{\normalfont\Large\bfseries\color{fzboard}\raggedright}{\thesection}{0.8em}{}
+\hypersetup{pdftitle={FIZ 101 Physics I: Mechanics -- Midterm problem pool},pdfauthor={Mehmet \"Ozkan}}
+\fancyhead[L]{\small\sffamily\color{fzmuted}FIZ 101 \textperiodcentered\ Midterm problem pool}
+\fancyhead[R]{\small\sffamily\color{fzmuted}Topics 1--6}
+\newcommand{\pooltitle}[2]{%
+  \thispagestyle{plain}%
+  \begin{tcolorbox}[enhanced,colback=fzboard,colframe=fzboard,coltext=white,arc=2mm,boxrule=0pt,
+      left=7mm,right=7mm,top=6mm,bottom=6mm,borderline south={2.5pt}{0pt}{fzyellow}]
+    {\small\sffamily FIZ 101 \textperiodcentered\ Physics I: Mechanics \textperiodcentered\ Fall 2026}\par\vspace{2.5mm}
+    {\sffamily\bfseries\LARGE\raggedright #1\par}\vspace{3mm}
+    {\small\sffamily #2}
+  \end{tcolorbox}\vspace{2mm}}
+% Figure styles (the same as in the weekly notes).
+\tikzset{
+  vec/.style={->,very thick,fzvec}, sum/.style={->,very thick,fzcomp},
+  force/.style={->,very thick,fzcomp}, velo/.style={->,very thick,fzvec},
+  accel/.style={->,very thick,fzaux}, disp/.style={->,very thick,fzvec},
+  comp/.style={->,thick,dashed,fzcomp!80}, dim/.style={<->,fzgray!90!black},
+  track/.style={very thick,fzboard},
+  ground/.style={pattern=north east lines,pattern color=fzgray,draw=none},
+  axis/.style={->,thin,fzgray!90!black},
+}
+% Problems
+\newcounter{prob}
+\newcommand{\plabel}{{\sffamily\bfseries\color{fzboard}\theprob.}\enspace\ignorespaces}
+\newenvironment{problem}{\par\needspace{6\baselineskip}\refstepcounter{prob}%
+  \tcolorbox[blank,before skip=1.0em plus 0.4em,after skip=0.4em]}{\endtcolorbox}
+\newenvironment{probfig}{\par\nopagebreak\begin{center}\vspace{-0.6em}}{\vspace{-0.6em}\end{center}}
+% Five choices: one row, rows of three or two, or one per line, whichever fits the longest choice.
+\newlength\pc@w \newlength\pc@max \newlength\pc@col
+\newcommand\pc@m[1]{\settowidth\pc@w{#1}\ifdim\pc@w>\pc@max\global\pc@max\pc@w\fi}
+\newcommand\pc@i[2]{\makebox[\pc@col][l]{\textsf{\small(#1)}\hspace{0.5em}#2}}
+\newcommand{\choices}[5]{\par\nopagebreak{\setlength\parskip{0.45em}%
+  \global\pc@max=0pt\pc@m{#1}\pc@m{#2}\pc@m{#3}\pc@m{#4}\pc@m{#5}%
+  \global\advance\pc@max by 2.6em\relax
+  \ifdim\pc@max<0.2\linewidth
+    \setlength\pc@col{0.2\linewidth}%
+    \noindent\pc@i{A}{#1}\pc@i{B}{#2}\pc@i{C}{#3}\pc@i{D}{#4}\pc@i{E}{#5}\par
+  \else\ifdim\pc@max<0.3333\linewidth
+    \setlength\pc@col{0.3333\linewidth}%
+    \noindent\pc@i{A}{#1}\pc@i{B}{#2}\pc@i{C}{#3}\par\nopagebreak
+    \noindent\pc@i{D}{#4}\pc@i{E}{#5}\par
+  \else\ifdim\pc@max<0.5\linewidth
+    \setlength\pc@col{0.5\linewidth}%
+    \noindent\pc@i{A}{#1}\pc@i{B}{#2}\par\nopagebreak
+    \noindent\pc@i{C}{#3}\pc@i{D}{#4}\par\nopagebreak
+    \noindent\pc@i{E}{#5}\par
+  \else
+    \begin{enumerate}[label=\textsf{\small(\Alph*)},leftmargin=2.4em,itemsep=0.1em,parsep=0pt,topsep=0.1em]
+    \item #1 \item #2 \item #3 \item #4 \item #5
+    \end{enumerate}
+  \fi\fi\fi}}
+% Instructor notes under a problem
+\newtcolorbox{instr}{enhanced,breakable,colback=fzpaper,colframe=fzpaper,arc=1.5mm,boxrule=0pt,
+  left=3mm,right=3mm,top=1.5mm,bottom=1.5mm,fontupper=\small,borderline west={2pt}{0pt}{fzlink}}
+\makeatother
+\begin{document}
+
+\pooltitle{Midterm problem pool}{Topics 1--6 \textperiodcentered\ Mehmet \"Ozkan, Istanbul Technical University}
+
+The midterm on Tuesday 24 November, during the usual class time, has 10 multiple-choice questions,
+all taken from this pool of 40 problems. On the exam a question may have different numbers from
+the ones here, and its choices may be in a different order, so learn how to solve each problem
+instead of memorizing its answer. The answers are at the end.
+
+No calculators are allowed, and none are needed: the numbers are chosen so that the arithmetic can be
+done by hand. Take $g = \qty{10}{m/s^2}$ throughout, and ignore air resistance unless a problem says
+otherwise. Each problem is based on the lecture notes of its topic.
+
+
+\needspace{14\baselineskip}
+\section*{Topic 1 \textperiodcentered\ Units, physical quantities and vectors}
+
+% ---- problem 1 (topic 1, item 1) ----
+\begin{problem}
+\plabel An object is released from rest at a height $h$ above the ground and falls freely. Suppose that the speed $v$ with which it reaches the ground depends only on $h$, on the mass $m$ of the object and on the magnitude $g$ of the acceleration due to gravity, so that $v \propto h^{\alpha} m^{\beta} g^{\gamma}$. Which expression for $v$ does dimensional analysis give? ($C$ is a dimensionless constant.)
+\choices{$C\sqrt{h/g}$}{$C\,gh$}{$C\sqrt{gh}$}{$C\sqrt{mgh}$}{$C\sqrt{g/h}$}
+\end{problem}
+% ---- problem 2 (topic 1, item 2) ----
+\begin{problem}
+\plabel Which of the following measured lengths has exactly three significant figures?
+\choices{$\qty{0.052}{m}$}{$\qty{12.05}{m}$}{$\qty{5.2e2}{m}$}{$\qty{0.5020}{m}$}{$\qty{0.0520}{m}$}
+\end{problem}
+% ---- problem 3 (topic 1, item 3) ----
+\begin{problem}
+\begin{minipage}[t]{0.6\linewidth}\vspace{0pt}
+\plabel Two vectors $\vec{A}$ and $\vec{B}$, of magnitudes $A = \qty{3}{m}$ and $B = \qty{5}{m}$, are drawn from the same point with an angle of $60^\circ$ between them, as in the figure. What is the magnitude of their sum $\vec{A} + \vec{B}$?
+\end{minipage}\hfill\begin{minipage}[t]{0.37\linewidth}\vspace{0pt}\centering
+\begin{tikzpicture}[>={Stealth[length=2.4mm]}]
+  \draw[vec] (0,0) -- (1.8,0) node[midway,below]{$\vec{A}$};
+  \draw[vec] (0,0) -- (60:3.0) node[pos=0.55,left]{$\vec{B}$};
+  \draw[fzgray] (0.7,0) arc[start angle=0,end angle=60,radius=0.7];
+  \node[font=\small] at (30:1.08) {$60^\circ$};
+\end{tikzpicture}
+\end{minipage}\par
+\choices{$\qty{2}{m}$}{$\sqrt{19}\,\unit{m}$}{$\sqrt{34}\,\unit{m}$}{$\qty{7}{m}$}{$\qty{8}{m}$}
+\end{problem}
+% ---- problem 4 (topic 1, item 4) ----
+\begin{problem}
+\plabel The vector $\vec{A} = -8\,\ihat + 6\,\jhat$ lies in the $xy$ plane. What angle $\theta$ does it make with the positive $x$ axis, measured from that axis towards the positive $y$ axis, with $0 \le \theta < 360^\circ$? Use $\sin 37^\circ = \cos 53^\circ = 0.6$ and $\cos 37^\circ = \sin 53^\circ = 0.8$.
+\choices{$37^\circ$}{$53^\circ$}{$127^\circ$}{$143^\circ$}{$323^\circ$}
+\end{problem}
+% ---- problem 5 (topic 1, item 5) ----
+\begin{problem}
+\plabel For what value of the constant $b$ are the vectors $\vec{A} = 2\,\ihat + b\,\jhat + 3\,\khat$ and $\vec{B} = 4\,\ihat - 2\,\jhat + 2\,\khat$ perpendicular to each other?
+\choices{$-7$}{$3$}{$4$}{$7$}{$14$}
+\end{problem}
+% ---- problem 6 (topic 1, item 6) ----
+\begin{problem}
+\plabel What is the vector product $\vec{A}\times\vec{B}$ of the vectors $\vec{A} = 2\,\ihat + 3\,\jhat$ and $\vec{B} = 4\,\khat$?
+\choices{$\vec{0}$}{$12\,\ihat - 8\,\jhat$}{$12\,\ihat + 8\,\jhat$}{$-12\,\ihat + 8\,\jhat$}{$8\,\ihat + 12\,\jhat$}
+\end{problem}
+
+\needspace{14\baselineskip}
+\section*{Topic 2 \textperiodcentered\ Kinematics: motion in one, two and three dimensions}
+
+% ---- problem 7 (topic 2, item 1) ----
+\begin{problem}
+\plabel In an $xy$ coordinate system a vector is $\vec{A} = (\qty{7}{m})\,\ihat + (\qty{24}{m})\,\jhat$. A second coordinate system, $x'y'$, has the same origin, but its axes are rotated in the $xy$ plane with respect to the $x$ and $y$ axes (the vector lies in this plane, so it has no $z$ component in either system). In the second system the $x'$ component of the vector is $A'_x = \qty{15}{m}$. What is the magnitude of its $y'$ component, $|A'_y|$?
+\choices{$\qty{10}{m}$}{$\qty{16}{m}$}{$\qty{20}{m}$}{$\qty{24}{m}$}{$\qty{25}{m}$}
+\end{problem}
+% ---- problem 8 (topic 2, item 2) ----
+\begin{problem}
+\plabel A cyclist rides along a straight road. She rides east at a constant \qty{5}{m/s} for \qty{60}{s}, then turns around and rides west at a constant \qty{3}{m/s} for \qty{20}{s}. Take east as the positive $x$ direction. What is the $x$ component of her average velocity, $v_{\mathrm{av}\text{-}x}$, for the whole trip?
+\choices{$\qty{-3}{m/s}$}{$\qty{1}{m/s}$}{$\qty{3}{m/s}$}{$\qty{4}{m/s}$}{$\qty{4.5}{m/s}$}
+\end{problem}
+% ---- problem 9 (topic 2, item 3) ----
+\begin{problem}
+\plabel The figure shows the position--time ($x$--$t$) graph of an object moving along the $x$ axis. At which of the marked points is the object moving in the positive $x$ direction and slowing down?
+\begin{probfig}
+\begin{tikzpicture}[x=1.15cm,y=1cm,>=Stealth]
+  \draw[axis] (0,0) -- (7.6,0) node[right]{$t$};
+  \draw[axis] (0,0) -- (0,3.4) node[left]{$x$};
+  \draw[thick,fzvec,domain=0:6.2832,samples=120,smooth] plot (\x,{0.3+1.25*(1-cos(\x r))});
+  \foreach \t/\n/\pos in {0.7854/1/above left, 2.3562/2/above left, 3.1416/3/above,
+                          3.9270/4/above right, 5.4978/5/above right}
+    \fill (\t,{0.3+1.25*(1-cos(\t r))}) circle (1.7pt) node[\pos]{$\n$};
+\end{tikzpicture}
+\end{probfig}
+\choices{At point 1}{At point 2}{At point 3}{At point 4}{At point 5}
+\end{problem}
+% ---- problem 10 (topic 2, item 4) ----
+\begin{problem}
+\begin{minipage}[t]{0.6\linewidth}\vspace{0pt}
+\plabel A stone is thrown straight up with speed $v_0 = \qty{20}{m/s}$ from the edge of a cliff of height $h = \qty{25}{m}$. On its way down it misses the edge and falls to the ground at the foot of the cliff. How long after it is thrown does it hit the ground? Ignore air resistance.
+\end{minipage}\hfill\begin{minipage}[t]{0.37\linewidth}\vspace{0pt}\centering
+\begin{tikzpicture}[scale=0.85,>=Stealth]
+  \fill[ground] (-0.6,0) rectangle (1.2,2.6);
+  \draw[thick] (-0.6,2.6) -- (1.2,2.6) -- (1.2,0);
+  \fill[ground] (-0.6,-0.25) rectangle (3.4,0);
+  \draw[thick] (-0.6,0) -- (3.4,0);
+  \fill[fzaux] (1.0,2.75) circle (0.13);
+  \draw[velo] (1.0,2.95) -- (1.0,3.75) node[left]{$\vec{v}_0$};
+  \draw[dashed,fzgray,->] (1.0,3.88) .. controls (1.0,4.3) and (1.55,4.3) .. (1.55,3.88) -- (1.55,0.08);
+  \draw[fzgray] (1.2,2.6) -- (2.95,2.6);
+  \draw[dim] (2.75,2.6) -- (2.75,0) node[midway,right]{$h$};
+\end{tikzpicture}
+\end{minipage}\par
+\choices{$\qty{1}{s}$}{$\sqrt{5}\,\unit{s}$}{$\qty{4}{s}$}{$\qty{5}{s}$}{$(4 + \sqrt{5})\,\unit{s}$}
+\end{problem}
+% ---- problem 11 (topic 2, item 5) ----
+\begin{problem}
+\plabel A particle moves in space with position vector $\vec{r}(t) = \alpha t^3\,\ihat + \beta t\,\jhat + \gamma\,\khat$, where $\alpha$, $\beta$ and $\gamma$ are constants. What is its acceleration $\vec{a}(t)$?
+\choices{$3\alpha t^2\,\ihat + \beta\,\jhat$}{$6\alpha t\,\ihat + \beta\,\jhat$}{$3\alpha t\,\ihat$}{$6\alpha\,\ihat$}{$6\alpha t\,\ihat$}
+\end{problem}
+% ---- problem 12 (topic 2, item 6) ----
+\begin{problem}
+\plabel A ball is kicked from level ground with speed $v_0 = \qty{25}{m/s}$ and lands back on the ground $t\sub{tot} = \qty{4}{s}$ later. How far from the kicking point does it land? Ignore air resistance.
+\choices{$\qty{20}{m}$}{$\qty{30}{m}$}{$\qty{60}{m}$}{$\qty{80}{m}$}{$\qty{100}{m}$}
+\end{problem}
+% ---- problem 13 (topic 2, item 7) ----
+\begin{problem}
+\plabel A small ball on a string moves at constant speed around a horizontal circle of radius $r$, making $f$ revolutions per second. What is the magnitude of its acceleration?
+\choices{$4\pi^2 f^2 r$}{$2\pi f r$}{$0$}{$4\pi^2 r/f^2$}{$f^2 r$}
+\end{problem}
+% ---- problem 14 (topic 2, item 8) ----
+\begin{problem}
+\begin{minipage}[t]{0.6\linewidth}\vspace{0pt}
+\plabel A motorboat crosses a river of width $d = \qty{48}{m}$. It heads straight across, perpendicular to the banks, at $v_{B/W} = \qty{8}{m/s}$ relative to the water, and the water flows parallel to the banks at $v_{W/E} = \qty{6}{m/s}$ relative to the Earth (subscripts: $B$ boat, $W$ water, $E$ Earth). What is the straight-line distance from the boat's starting point to the point where it reaches the other bank?
+\end{minipage}\hfill\begin{minipage}[t]{0.37\linewidth}\vspace{0pt}\centering
+\begin{tikzpicture}[scale=0.85,>=Stealth]
+  \fill[ground] (0,-0.25) rectangle (4.2,0);
+  \fill[ground] (0,2.4) rectangle (4.2,2.65);
+  \draw[thick] (0,0) -- (4.2,0);
+  \draw[thick] (0,2.4) -- (4.2,2.4);
+  \fill[fzboard] (0.95,0.08) -- (1.25,0.08) -- (1.25,0.45) -- (1.1,0.62) -- (0.95,0.45) -- cycle;
+  \draw[velo] (1.1,0.7) -- (1.1,1.85) node[pos=0.75,right]{$\vec{v}_{B/W}$};
+  \draw[velo,dashed] (2.6,0.55) -- (3.8,0.55) node[above,midway]{$\vec{v}_{W/E}$};
+  \draw[dim] (0.3,0) -- (0.3,2.4) node[midway,left]{$d$};
+\end{tikzpicture}
+\end{minipage}\par
+\choices{$\qty{36}{m}$}{$\qty{48}{m}$}{$\qty{60}{m}$}{$\qty{80}{m}$}{$\qty{84}{m}$}
+\end{problem}
+
+\needspace{14\baselineskip}
+\section*{Topic 3 \textperiodcentered\ Newton's laws of motion}
+
+% ---- problem 15 (topic 3, item 1) ----
+\begin{problem}
+\begin{minipage}[t]{0.6\linewidth}\vspace{0pt}
+\plabel A puck of mass $m = \qty{2}{kg}$ slides on a horizontal frictionless table, and its weight is balanced by the normal force of the table. Seen from above, two horizontal forces act on it, $\vec{F}_1 = (\qty{6}{N})\,\ihat$ and $\vec{F}_2 = (\qty{8}{N})\,\jhat$, where the $x$ and $y$ axes lie in the plane of the table. What is the magnitude of the acceleration of the puck?
+\end{minipage}\hfill\begin{minipage}[t]{0.37\linewidth}\vspace{0pt}\centering
+\begin{tikzpicture}[font=\small]
+  \draw[axis] (-0.7,0) -- (2.5,0) node[right]{$x$};
+  \draw[axis] (0,-0.7) -- (0,2.6) node[above]{$y$};
+  \draw[force] (0,0) -- (1.5,0) node[below,pos=0.75]{$\vec{F}_1$};
+  \draw[force] (0,0) -- (0,2.0) node[left,pos=0.75]{$\vec{F}_2$};
+  \filldraw[fill=fzgray!35,draw=black,thick] (0,0) circle (0.22);
+  \node[fzgray!90!black,font=\footnotesize,anchor=north east] at (-0.15,-0.2) {top view};
+\end{tikzpicture}
+\end{minipage}\par
+\choices{$\qty{1}{m/s^2}$}{$\qty{5}{m/s^2}$}{$\qty{7}{m/s^2}$}{$\qty{10}{m/s^2}$}{$\qty{50}{m/s^2}$}
+\end{problem}
+% ---- problem 16 (topic 3, item 2) ----
+\begin{problem}
+\plabel A ship moves in a straight line at a constant speed $v = \qty{12}{m/s}$ relative to the shore. A sailor on its deck throws a ball straight up, as seen on the ship, with a speed $u = \qty{10}{m/s}$ relative to the ship. Ignore air resistance. As seen from the shore, how far does the ball move horizontally between leaving the sailor's hand and coming back down to the height of the hand?
+\choices{$\qty{0}{m}$}{$\qty{12}{m}$}{$\qty{20}{m}$}{$\qty{24}{m}$}{$\qty{44}{m}$}
+\end{problem}
+% ---- problem 17 (topic 3, item 3) ----
+\begin{problem}
+\plabel An astronaut weighs $\qty{600}{N}$ on the Earth. On the Moon the acceleration due to gravity is one sixth of its value on the Earth. What net horizontal force gives the astronaut a horizontal acceleration of $\qty{2}{m/s^2}$ on the Moon?
+\choices{$\qty{20}{N}$}{$\qty{100}{N}$}{$\qty{120}{N}$}{$\qty{720}{N}$}{$\qty{1200}{N}$}
+\end{problem}
+% ---- problem 18 (topic 3, item 4) ----
+\begin{problem}
+\plabel Two blocks, of masses $m_1$ and $m_2$, stand side by side and touch each other on a horizontal frictionless surface. A horizontal force of magnitude $F$ pushes block~2 to the left, and both blocks move together. What is the magnitude of the force that block~1 exerts on block~2?
+\begin{probfig}
+\begin{tikzpicture}[font=\small]
+  \fill[ground] (-0.6,-0.28) rectangle (7.2,0);
+  \draw[thick] (-0.6,0) -- (7.2,0);
+  \draw[thick,fill=fzvec!12] (0.6,0) rectangle (1.9,1.0);
+  \node at (1.25,0.5) {$m_1$};
+  \draw[thick,fill=fzaux!12] (1.9,0) rectangle (3.9,1.6);
+  \node at (2.9,0.8) {$m_2$};
+  \draw[force] (5.9,0.8) -- (3.9,0.8) node[pos=0.4,above]{$\vec{F}$};
+\end{tikzpicture}
+\end{probfig}
+\choices{$\dfrac{F}{2}$}{$\dfrac{m_1 F}{m_2}$}{$\dfrac{m_2 F}{m_1 + m_2}$}{$\dfrac{m_1 F}{m_1 + m_2}$}{$F$}
+\end{problem}
+% ---- problem 19 (topic 3, item 5) ----
+\begin{problem}
+\plabel A book lies at rest on a horizontal table, and the table stands on the floor. Which of the following pairs of forces is an action--reaction pair of Newton's third law?
+\choices{The weight of the book and the upward push of the table on the book.}{The upward push of the table on the book and the downward push of the book on the table.}{The weight of the book and the downward push of the book on the table.}{The downward push of the book on the table and the upward push of the floor on the table.}{The downward push of the book on the table and the upward pull of the book on the Earth.}
+\end{problem}
+% ---- problem 20 (topic 3, item 6) ----
+\begin{problem}
+\plabel Which of the following statements about the limits of Newtonian mechanics is correct?
+\choices{At the scale of atoms Newtonian mechanics stops being valid, so to describe an electron in an atom we need quantum mechanics.}{For an airliner flying at $\qty{250}{m/s}$, the corrections from special relativity are about one percent.}{Newton's laws are exact for every body that moves more slowly than light.}{Since relativity and quantum mechanics replaced it, Newtonian mechanics is no longer the right tool for slow, large bodies in weak gravitational fields.}{Near a black hole Newton's theory of gravity still works well, since gravity there is only stronger.}
+\end{problem}
+
+\needspace{14\baselineskip}
+\section*{Topic 4 \textperiodcentered\ Applying Newton's laws}
+
+% ---- problem 21 (topic 4, item 1) ----
+\begin{problem}
+\plabel A student of mass $m = \qty{60}{kg}$ stands on a bathroom scale in an elevator. The elevator is moving downward at $v = \qty{4}{m/s}$ when it starts to slow down; it slows down at a constant rate and stops after moving a further $d = \qty{4}{m}$. What does the scale read (the magnitude of the force it exerts on the student) while the elevator slows down?
+\choices{$\qty{120}{N}$}{$\qty{480}{N}$}{$\qty{600}{N}$}{$\qty{720}{N}$}{$\qty{840}{N}$}
+\end{problem}
+% ---- problem 22 (topic 4, item 2) ----
+\begin{problem}
+\plabel A box of mass $m = \qty{20}{kg}$ rests on a horizontal floor. The coefficients of friction between the box and the floor are $\mu\sub{s} = 0.5$ and $\mu\sub{k} = 0.3$. You push the box with a horizontal force of magnitude $F = \qty{80}{N}$. What is the magnitude of the friction force that the floor exerts on the box while you push?
+\choices{$\qty{0}{N}$}{$\qty{40}{N}$}{$\qty{60}{N}$}{$\qty{80}{N}$}{$\qty{100}{N}$}
+\end{problem}
+% ---- problem 23 (topic 4, item 3) ----
+\begin{problem}
+\begin{minipage}[t]{0.6\linewidth}\vspace{0pt}
+\plabel You push a block of mass $m = \qty{5}{kg}$ up a rough incline of angle $\theta = 37^\circ$ with a force $\vec{F}$ parallel to the incline, so that the block moves up the incline with constant velocity. The coefficient of kinetic friction between the block and the incline is $\mu\sub{k} = 0.4$. Use ${\sin 37^\circ = 0.6}$ and ${\cos 37^\circ = 0.8}$. What is the magnitude of $\vec{F}$?
+\end{minipage}\hfill\begin{minipage}[t]{0.37\linewidth}\vspace{0pt}\centering
+\begin{tikzpicture}[>=Stealth,font=\small,scale=0.85]
+  \fill[fzgray!10] (0,0) -- (4.4,0) -- (4.4,3.3) -- cycle;
+  \draw[thick] (0,0) -- (4.4,0) -- (4.4,3.3) -- cycle;
+  \draw (4.15,0) -- (4.15,0.25) -- (4.4,0.25);
+  \draw (0.8,0) arc[start angle=0,end angle=36.87,radius=0.8];
+  \node at (1.1,0.26) {$\theta$};
+  \begin{scope}[rotate=36.87]
+    \draw[thick,fill=fzaux!15] (2.6,0) rectangle (3.5,0.55);
+    \node at (3.05,0.275) {$m$};
+    \draw[force] (1.45,0.275) -- (2.6,0.275);
+    \node[above left=-1pt] at (2.05,0.32) {$\vec{F}$};
+    \draw[velo] (2.75,0.9) -- (3.75,0.9) node[above left=-1pt]{$\vec{v}$};
+  \end{scope}
+\end{tikzpicture}
+\end{minipage}\par
+\choices{$\qty{14}{N}$}{$\qty{30}{N}$}{$\qty{46}{N}$}{$\qty{50}{N}$}{$\qty{52}{N}$}
+\end{problem}
+% ---- problem 24 (topic 4, item 4) ----
+\begin{problem}
+\plabel A crate sits on the flat, horizontal bed of a truck. The truck drives forward on a straight, level road and speeds up, and the crate does not slide on the bed. Which statement about the friction force that the bed exerts on the crate is true?
+\choices{There is no friction force, because the crate does not slide on the bed.}{It is kinetic friction, and it points backward.}{It is static friction, and it points backward, opposite to the motion.}{It is static friction, and it points forward.}{It is kinetic friction, and it points forward.}
+\end{problem}
+% ---- problem 25 (topic 4, item 5) ----
+\begin{problem}
+\plabel Two balls of the same size and shape are dropped from rest from a great height. One ball has four times the mass of the other. For both balls the air resistance has magnitude $f = Dv^2$, with the same constant $D$. What is the terminal speed of the heavier ball divided by the terminal speed of the lighter ball?
+\choices{$\tfrac12$}{$1$}{$2$}{$4$}{$16$}
+\end{problem}
+% ---- problem 26 (topic 4, item 6) ----
+\begin{problem}
+\plabel A car takes a flat (unbanked) curve of radius $R = \qty{50}{m}$ at a constant speed $v = \qty{20}{m/s}$. What is the smallest coefficient of static friction between the tires and the road for which the car can take the curve without sliding?
+\choices{$0.04$}{$0.4$}{$0.8$}{$1.25$}{$8$}
+\end{problem}
+% ---- problem 27 (topic 4, item 7) ----
+\begin{problem}
+\begin{minipage}[t]{0.6\linewidth}\vspace{0pt}
+\plabel A child of mass $m$ sits on a swing whose ropes have length $R$. Treat the child as a particle that moves on a circle of radius $R$. At the lowest point of the swing the child's speed is $v$. What is the magnitude $n$ of the force that the seat exerts on the child at that moment?
+\end{minipage}\hfill\begin{minipage}[t]{0.37\linewidth}\vspace{0pt}\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  \fill[pattern=north east lines,pattern color=fzgray] (-1.1,0) rectangle (1.1,0.22);
+  \draw[thick] (-1.1,0) -- (1.1,0);
+  \draw[dashed,fzgray] (-128:2.6) arc[start angle=-128,end angle=-52,radius=2.6];
+  \draw[thick] (0,0) -- (0,-2.6);
+  \fill (0,0) circle (0.04);
+  \node[left] at (0,-1.25) {$R$};
+  \draw[thick,fill=fzgray!45] (-0.32,-2.85) rectangle (0.32,-2.77);
+  \shade[ball color=fzaux!50] (0,-2.6) circle (0.17);
+  \node[above right=-1pt] at (0.12,-2.5) {$m$};
+  \draw[velo] (0.3,-2.6) -- (1.35,-2.6) node[below left=-1pt]{$\vec{v}$};
+\end{tikzpicture}
+\end{minipage}\par
+\choices{$mg$}{$mg + \dfrac{mv^2}{R}$}{$mg - \dfrac{mv^2}{R}$}{$\dfrac{mv^2}{R}$}{$\dfrac{mv^2}{R} - mg$}
+\end{problem}
+
+\needspace{14\baselineskip}
+\section*{Topic 5 \textperiodcentered\ Work and kinetic energy}
+
+% ---- problem 28 (topic 5, item 1) ----
+\begin{problem}
+\plabel For an isolated system, Noether's theorem pairs each symmetry of the laws of physics with a conserved quantity. Which pair is correct?
+\choices{Translations (no special point) $\longleftrightarrow$ energy}{Rotations (no special direction) $\longleftrightarrow$ momentum}{Time translations (no special instant) $\longleftrightarrow$ angular momentum}{Time translations (no special instant) $\longleftrightarrow$ energy}{Translations (no special point) $\longleftrightarrow$ angular momentum}
+\end{problem}
+% ---- problem 29 (topic 5, item 2) ----
+\begin{problem}
+\plabel A car moves at $v_0 = \qty{20}{m/s}$ on a level road. The driver brakes so hard that the wheels lock, and the car skids to a stop. The coefficient of kinetic friction between the tires and the road is $\mu\sub{k} = 0.5$. Ignore air resistance. How far does the car skid?
+\choices{$\qty{2}{m}$}{$\qty{10}{m}$}{$\qty{20}{m}$}{$\qty{40}{m}$}{$\qty{80}{m}$}
+\end{problem}
+% ---- problem 30 (topic 5, item 3) ----
+\begin{problem}
+\plabel You lift a backpack of mass $m$ from the floor and put it on a table, a height $h$ above the floor. The backpack is at rest before you lift it and at rest on the table. Ignore air resistance. Which statement is correct?
+\choices{The total work done on the backpack is zero.}{The total work done on the backpack is $mgh$.}{You do no work on the backpack, because it starts and ends at rest.}{Gravity does positive work on the backpack.}{The net force on the backpack is zero during the whole lift.}
+\end{problem}
+% ---- problem 31 (topic 5, item 4) ----
+\begin{problem}
+\begin{minipage}[t]{0.6\linewidth}\vspace{0pt}
+\plabel A block of mass $m$ starts from rest at $x = 0$ on a frictionless horizontal surface. A horizontal force $F$ along the $x$ axis acts on it, and changes with the position $x$ as shown in the graph. Take $F_0 = \qty{8}{N}$, $x_0 = \qty{2}{m}$ and $m = \qty{4}{kg}$. What is the speed of the block at $x = 3x_0$?
+\end{minipage}\hfill\begin{minipage}[t]{0.37\linewidth}\vspace{0pt}\centering
+\begin{tikzpicture}[>=Stealth,font=\small,xscale=1.15]
+  \draw[axis] (0,0) -- (3.6,0) node[right,text=black]{$x$};
+  \draw[axis] (0,0) -- (0,1.95) node[above,text=black]{$F$};
+  \draw[dashed,fzgray] (1,0.08) -- (1,1.3);
+  \foreach \t/\l in {1/x_0,2/2x_0,3/3x_0}
+    \draw[fzgray!90!black] (\t,0.07) -- (\t,-0.07) node[below=1pt,text=black]{$\l$};
+  \draw[fzgray!90!black] (0.07,1.3) -- (-0.07,1.3) node[left,text=black]{$F_0$};
+  \node[below left] at (0,0) {$0$};
+  \draw[very thick,fzcomp] (0,1.3) -- (1,1.3) -- (3,0);
+\end{tikzpicture}
+\end{minipage}\par
+\choices{$2\sqrt{2}\,\unit{m/s}$}{$2\sqrt{3}\,\unit{m/s}$}{$\qty{4}{m/s}$}{$2\sqrt{6}\,\unit{m/s}$}{$\qty{16}{m/s}$}
+\end{problem}
+% ---- problem 32 (topic 5, item 5) ----
+\begin{problem}
+\plabel One end of a spring with force constant $k$ is fixed. The spring is already stretched by $d$ from its relaxed length. How much work must you do to stretch it slowly further, until it is stretched by $2d$?
+\choices{$\tfrac12 kd^2$}{$kd^2$}{$\tfrac32 kd^2$}{$2kd^2$}{$3kd^2$}
+\end{problem}
+% ---- problem 33 (topic 5, item 6) ----
+\begin{problem}
+\begin{minipage}[t]{0.6\linewidth}\vspace{0pt}
+\plabel A person pulls a sled across level snow at a constant speed $v = \qty{2}{m/s}$. The rope makes an angle $\theta = 37^\circ$ above the horizontal, and the tension in it is $T = \qty{50}{N}$. At what rate does the rope do work on the sled? Use $\sin 37^\circ = 0.6$ and $\cos 37^\circ = 0.8$.
+\end{minipage}\hfill\begin{minipage}[t]{0.37\linewidth}\vspace{0pt}\centering
+\begin{tikzpicture}[>=Stealth,font=\small]
+  \fill[ground] (-0.3,-0.25) rectangle (4.3,0);
+  \draw[thick] (-0.3,0) -- (4.3,0);
+  \draw[thick,fill=fzaux!15] (0,0) rectangle (1.5,0.55);
+  \coordinate (P) at (1.5,0.4);
+  \draw[thick,fzgray!70!black] (P) -- ++(37:2.6);
+  \draw[force] (P) -- ++(37:1.7) node[above left=-1pt]{$\vec{T}$};
+  \draw[dashed,fzgray] (P) -- ++(1.9,0);
+  \draw[fzgray!90!black] ($(P)+(0.9,0)$) arc[start angle=0,end angle=37,radius=0.9];
+  \node at ($(P)+(17:1.15)$) {$\theta$};
+  \draw[velo] (0.1,0.95) -- (1.1,0.95) node[above,midway]{$\vec{v}$};
+\end{tikzpicture}
+\end{minipage}\par
+\choices{$\qty{0}{W}$}{$\qty{60}{W}$}{$\qty{80}{W}$}{$\qty{100}{W}$}{$\qty{140}{W}$}
+\end{problem}
+
+\needspace{14\baselineskip}
+\section*{Topic 6 \textperiodcentered\ Potential energy and energy conservation}
+
+% ---- problem 34 (topic 6, item 1) ----
+\begin{problem}
+\begin{minipage}[t]{0.6\linewidth}\vspace{0pt}
+\plabel A small block is released from rest at point $A$ of a frictionless track, a height $h = \qty{5}{m}$ above the ground. What is its speed when it passes point $B$ of the track, a height $y = \qty{1.8}{m}$ above the ground?
+\end{minipage}\hfill\begin{minipage}[t]{0.37\linewidth}\vspace{0pt}\centering
+\begin{tikzpicture}[>=Stealth,font=\small,scale=0.78]
+  \fill[ground] (-0.2,-0.22) rectangle (5.6,0);
+  \draw[thick,fzgray!90!black] (-0.2,0) -- (5.6,0);
+  \draw[track] (0.4,2.6) .. controls (1.3,0.2) and (2.4,0.15) .. (3.2,0.55)
+    .. controls (3.9,0.9) and (4.4,1.0) .. (5.3,1.05);
+  \fill (0.4,2.6) circle (2pt) node[above right]{$A$};
+  \fill (4.5,1.0) circle (2pt) node[above]{$B$};
+  \draw[dim] (-0.05,0) -- node[left]{$h$} (-0.05,2.6);
+  \draw[densely dotted,fzgray] (-0.15,2.6) -- (0.4,2.6);
+  \draw[dim] (4.5,0) -- node[right]{$y$} (4.5,0.95);
+\end{tikzpicture}
+\end{minipage}\par
+\choices{$\qty{4}{m/s}$}{$\qty{6}{m/s}$}{$\qty{8}{m/s}$}{$\qty{10}{m/s}$}{$\qty{64}{m/s}$}
+\end{problem}
+% ---- problem 35 (topic 6, item 2) ----
+\begin{problem}
+\plabel A ball is dropped from rest from a window and falls to the ground. Ignore air resistance. Ali and Elif both describe the fall with $U\sub{grav} = mgy$ and the $+y$ axis upward, but Ali puts $y = 0$ at the ground and Elif puts $y = 0$ at the window. Which of these quantities do they find to be different?
+\choices{The speed of the ball just before it reaches the ground}{The work done by gravity on the ball during the fall}{The change in the gravitational potential energy of the ball during the fall}{The kinetic energy of the ball just before it reaches the ground}{The gravitational potential energy of the ball at the window}
+\end{problem}
+% ---- problem 36 (topic 6, item 3) ----
+\begin{problem}
+\begin{minipage}[t]{0.6\linewidth}\vspace{0pt}
+\plabel A small car of mass $m = \qty{0.5}{kg}$ is released from rest on a frictionless track, a height $h = \qty{7}{m}$ above the lowest point of a vertical circular loop of radius $r = \qty{2}{m}$. What is the magnitude of the normal force that the track exerts on the car at the top of the loop?
+\end{minipage}\hfill\begin{minipage}[t]{0.37\linewidth}\vspace{0pt}\centering
+\begin{tikzpicture}[>=Stealth,font=\small,scale=0.62]
+  \draw[track] (0,3.4) .. controls (0.6,1.0) and (1.8,0) .. (3.6,0);
+  \draw[track] (3.6,1.15) circle (1.15);
+  \draw[track] (3.6,0) .. controls (4.9,0) and (5.6,0.4) .. (6.2,1.2);
+  \fill (3.6,1.15) circle (1pt);
+  \draw[->,fzgray!80!black] (3.6,1.15) -- node[above left=-2pt]{$r$} ($(3.6,1.15)+(215:1.15)$);
+  \fill[fzaux] (0,3.4) circle (3pt) node[above right]{$m$};
+  \draw[densely dotted,fzgray] (-0.55,0) -- (3.6,0);
+  \draw[densely dotted,fzgray] (-0.55,3.4) -- (-0.1,3.4);
+  \draw[dim] (-0.4,0) -- node[left]{$h$} (-0.4,3.4);
+\end{tikzpicture}
+\end{minipage}\par
+\choices{$\qty{5}{N}$}{$\qty{10}{N}$}{$\qty{15}{N}$}{$\qty{20}{N}$}{$\qty{30}{N}$}
+\end{problem}
+% ---- problem 37 (topic 6, item 4) ----
+\begin{problem}
+\plabel A block of mass $m = \qty{0.5}{kg}$ is pushed against a spring of force constant $k = \qty{150}{N/m}$, compressing it by $x = \qty{0.2}{m}$, and released from rest. It leaves the spring, slides along a frictionless horizontal floor and then up a frictionless ramp that makes the angle $\theta = 37^\circ$ with the horizontal; the floor curves smoothly into the ramp. Use $\sin 37^\circ = 0.6$ and $\cos 37^\circ = 0.8$. What distance $d$ along the ramp, measured from its foot as in the figure, does the block slide before it stops for an instant?
+\begin{probfig}
+\begin{tikzpicture}[>=Stealth,font=\small]
+  \fill[ground] (-0.25,0) rectangle (0,1.0);
+  \draw[thick,fzgray!90!black] (0,0) -- (0,1.0);
+  \fill[ground] (0,-0.2) -- (7.6,-0.2) -- (7.6,2.25) -- (5.0,0.3) .. controls (4.6,0) .. (4.2,0) -- (0,0) -- cycle;
+  \draw[thick,fzgray!90!black] (0,0) -- (4.2,0) .. controls (4.6,0) .. (5.0,0.3) -- (7.6,2.25);
+  \draw[densely dotted,fzgray] (4.2,0) -- (5.55,0);
+  \draw[thick,fzaux,decorate,decoration={coil,aspect=0.45,segment length=2.2mm,amplitude=1.6mm}] (0,0.32) -- (1.2,0.32);
+  \draw[thick,fill=fzpaper] (1.2,0) rectangle (1.85,0.65);
+  \node at (1.525,0.325) {$m$};
+  \node[fzaux,above] at (0.6,0.5) {$k$};
+  \draw (5.4,0) arc (0:36.87:0.8);
+  \node at (5.75,0.25) {$\theta$};
+  \draw[dim] ($(4.6,0)+(-0.2,0.27)$) -- node[above left=-1pt]{$d$} ($(6.6,1.5)+(-0.2,0.27)$);
+  \fill (6.6,1.5) circle (1.6pt);
+\end{tikzpicture}
+\end{probfig}
+\choices{$\qty{0.6}{m}$}{$\qty{0.75}{m}$}{$\qty{1}{m}$}{$\qty{2}{m}$}{$\qty{10}{m}$}
+\end{problem}
+% ---- problem 38 (topic 6, item 5) ----
+\begin{problem}
+\plabel A particle moves along the $x$ axis, and the only force that does work on it is conservative, with the potential energy $U(x)$ shown. $U$ has the same value at $x_1$ and $x_5$. The particle is released from rest at $x_1$. Which statement is true?
+\begin{probfig}
+\begin{tikzpicture}[font=\small]
+\begin{axis}[width=10cm,height=4cm,axis lines=left,xmin=0,xmax=5.6,ymin=0,ymax=4.0,
+    xlabel={$x$},ylabel={$U(x)$},xtick={0.6,1.3,2.5,4.2,4.991},
+    xticklabels={$x_1$,$x_2$,$x_3$,$x_4$,$x_5$},ytick=\empty,
+    every axis x label/.style={at={(ticklabel* cs:1)},anchor=west},
+    every axis y label/.style={at={(ticklabel* cs:1)},anchor=south},
+    clip=false]
+  \addplot[very thick,fzvec,domain=0.515:5.049,samples=200] {(0.307599)*x^4 + (-3.281059)*x^3 + (11.817964)*x^2 + (-16.794920)*x^1 + (9.791329)*x^0};
+  \addplot[densely dotted,fzgray] coordinates {(0.6,0) (0.6,3.300)};
+  \addplot[densely dotted,fzgray] coordinates {(1.3,0) (1.3,1.600)};
+  \addplot[densely dotted,fzgray] coordinates {(2.5,0) (2.5,2.415)};
+  \addplot[densely dotted,fzgray] coordinates {(4.2,0) (4.2,0.350)};
+  \addplot[densely dotted,fzgray] coordinates {(4.991,0) (4.991,3.300)};
+  \addplot[only marks,mark=*,mark size=1.8pt,black] coordinates {(0.6,3.300) (4.991,3.300)};
+\end{axis}
+\end{tikzpicture}
+\end{probfig}
+\choices{It stops for an instant at $x_2$, where the force on it is zero.}{It cannot get past $x_3$, because $x_3$ is the top of a hill of $U$.}{It moves back and forth between $x_1$ and $x_5$.}{Its speed is greatest at $x_3$.}{The point $x_3$ is a position of stable equilibrium.}
+\end{problem}
+% ---- problem 39 (topic 6, item 6) ----
+\begin{problem}
+\plabel A particle moves in a region where the potential energy is $U(x, y, z) = ax^2y + byz$, where $a$ and $b$ are constants. What is the force $\vec{F}$ on the particle at the point $(x, y, z)$?
+\choices{$\vec{F} = -2axy\,\ihat - bz\,\jhat - by\,\khat$}{$\vec{F} = 2axy\,\ihat + (ax^2 + bz)\,\jhat + by\,\khat$}{$\vec{F} = -2axy\,\ihat - (ax^2 + bz)\,\jhat$}{$\vec{F} = -2axy\,\ihat - (ax^2 + bz)\,\jhat - by\,\khat$}{$\vec{F} = -2axy\,\ihat - (ax^2 + by)\,\jhat - bz\,\khat$}
+\end{problem}
+% ---- problem 40 (topic 6, item 7) ----
+\begin{problem}
+\begin{minipage}[t]{0.6\linewidth}\vspace{0pt}
+\plabel A sled of mass $m = \qty{10}{kg}$ moves at $v_0 = \qty{10}{m/s}$ at the bottom of a snowy hill. It slides up the hill and stops at a height $h = \qty{4}{m}$ above the bottom. Ignore air resistance. How much work does the friction force of the snow do on the sled while it slides up?
+\end{minipage}\hfill\begin{minipage}[t]{0.37\linewidth}\vspace{0pt}\centering
+\begin{tikzpicture}[>=Stealth,font=\small,scale=0.8]
+  \fill[ground] (0,-0.2) -- (5.2,-0.2) -- (5.2,1.9) .. controls (3.6,1.9) and (2.6,0) .. (1.0,0) -- (0,0) -- cycle;
+  \draw[track] (0,0) -- (1.0,0) .. controls (2.6,0) and (3.6,1.9) .. coordinate[pos=0.7](S) (5.2,1.9);
+  \coordinate (R) at (5.5,0);
+  \draw[thick,fill=fzpaper] (0.2,0) rectangle (0.8,0.3);
+  \draw[velo] (0.9,0.16) -- (1.7,0.16) node[above]{$\vec{v}_0$};
+  \fill (S) circle (1.8pt);
+  \draw[densely dotted,fzgray] (1.0,0) -- (5.7,0);
+  \draw[densely dotted,fzgray] (S) -- ([xshift=2mm]R |- S);
+  \draw[dim] (R) -- node[right]{$h$} (R |- S);
+\end{tikzpicture}
+\end{minipage}\par
+\choices{$\qty{-900}{J}$}{$\qty{-500}{J}$}{$\qty{-400}{J}$}{$\qty{-100}{J}$}{$+\qty{100}{J}$}
+\end{problem}
+
+\clearpage
+\section*{Answers}
+\begin{multicols}{2}\raggedcolumns
+\begin{enumerate}[label=\textsf{\arabic*.},leftmargin=2.2em,itemsep=0.35em]
+\item (C) \enspace $v = C\sqrt{gh}$
+\item (E) \enspace $\qty{0.0520}{m}$
+\item (D) \enspace $\qty{7}{m}$
+\item (D) \enspace $\theta = 143^\circ$
+\item (D) \enspace $b = 7$
+\item (B) \enspace $\vec{A}\times\vec{B} = 12\,\ihat - 8\,\jhat$
+\item (C) \enspace $|A'_y| = \qty{20}{m}$
+\item (C) \enspace $v_{\mathrm{av}\text{-}x} = \qty{3}{m/s}$
+\item (B) \enspace At point 2
+\item (D) \enspace $t = \qty{5}{s}$
+\item (E) \enspace $\vec{a} = 6\alpha t\,\ihat$
+\item (C) \enspace $\qty{60}{m}$
+\item (A) \enspace $a\sub{rad} = 4\pi^2 f^2 r$
+\item (C) \enspace $\qty{60}{m}$
+\item (B) \enspace $\qty{5}{m/s^2}$
+\item (D) \enspace $\qty{24}{m}$
+\item (C) \enspace $\qty{120}{N}$
+\item (D) \enspace $\dfrac{m_1 F}{m_1 + m_2}$
+\item (B) \enspace Table on book and book on table
+\item (A) \enspace Atoms need quantum mechanics
+\item (D) \enspace $\qty{720}{N}$
+\item (D) \enspace $\qty{80}{N}$
+\item (C) \enspace $\qty{46}{N}$
+\item (D) \enspace Static friction, pointing forward
+\item (C) \enspace $2$
+\item (C) \enspace $\mu\sub{s} = 0.8$
+\item (B) \enspace $n = mg + mv^2/R$
+\item (D) \enspace Time translations $\longleftrightarrow$ energy
+\item (D) \enspace $\qty{40}{m}$
+\item (A) \enspace The total work is zero
+\item (C) \enspace $\qty{4}{m/s}$
+\item (C) \enspace $\tfrac32 kd^2$
+\item (C) \enspace $\qty{80}{W}$
+\item (C) \enspace $\qty{8}{m/s}$
+\item (E) \enspace The gravitational potential energy at the window
+\item (B) \enspace $\qty{10}{N}$
+\item (C) \enspace $\qty{1}{m}$
+\item (C) \enspace It moves back and forth between $x_1$ and $x_5$
+\item (D) \enspace $\vec{F} = -2axy\,\ihat - (ax^2 + bz)\,\jhat - by\,\khat$
+\item (D) \enspace $\qty{-100}{J}$
+\end{enumerate}
+\end{multicols}
+\end{document}
