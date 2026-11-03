@@ -150,6 +150,16 @@ Einstein's new general theory of relativity. It applies to every theory that can
 single quantity called the \emph{action}, which includes Newtonian mechanics with forces such as
 gravity (but not friction), electromagnetism, relativity and quantum theory. Its proof uses methods taught in later mechanics courses, so in this course we take it
 as given.
+\par\smallskip
+\textbf{Video:}
+\href{https://www.pbs.org/video/noethers-theorem-and-the-symmetries-of-reality-tf9sqz}{\emph{Noether's
+Theorem and The Symmetries of
+Reality}}\footnote{\url{https://www.pbs.org/video/noethers-theorem-and-the-symmetries-of-reality-tf9sqz}}
+(PBS Space Time, PBS Digital Studios, Matt O'Dowd, 2018, about 10~min). An optional look beyond
+this course. Watch for the three pairs of the table above, each continuous symmetry with its
+conserved quantity, and for the other side of the theorem: where a symmetry is missing, it
+promises no conservation law. In an expanding universe space itself changes with time, so there is
+no time-translation symmetry, and energy is not conserved in the usual sense.
 \end{aside}
 
 \begin{figure}[ht]
@@ -423,6 +433,27 @@ energy of the box gone? It has not been destroyed: friction has turned it into i
 the box and the floor are slightly warmer. We return to this in Section~8.5.
 \end{example}
 
+\begin{aside}
+\textbf{Video:}
+\href{https://www.youtube.com/watch?v=w4QFJb9a8vo}{\emph{Work, Energy, and Power: Crash Course
+Physics \#9}}\footnote{\url{https://www.youtube.com/watch?v=w4QFJb9a8vo}} (CrashCourse,
+\emph{Crash Course Physics}, Shini Somara, 2016, 10~min). A fast animated overview of this
+chapter: why work in physics is not the same as effort, as in the backpack example above; the work
+of a constant force at an angle to the displacement, in which only the component along the
+displacement counts, as in~\eqref{eq:W-dot} of the next section; kinetic energy and the
+work--energy theorem; and power, in watts (Section~\ref{sec:power}). It also introduces potential
+energy and the conservation of energy, the subject of Chapter~8.
+\par\smallskip
+\textbf{Video:}
+\href{https://oyc.yale.edu/node/1555}{\emph{Lecture~5 -- Work-Energy Theorem and Law of
+Conservation of Energy}}\footnote{\url{https://oyc.yale.edu/node/1555}} (Open Yale Courses,
+PHYS~200 \emph{Fundamentals of Physics~I}, Ramamurti Shankar, recorded 2006, about 70~min; an
+optional full lecture, with a transcript). After a review of the loop-the-loop (circular motion,
+Week~4), Shankar derives the work--energy theorem for motion along a line, as in this section and
+in~\eqref{eq:wke-1d} of the next. The second half, potential energy and the conservation of
+energy, and how friction spoils it, is a preview of Chapter~8.
+\end{aside}
+
 %----------------------------------------------------------------------
 \subsection{Variable forces, work and energy}\label{sec:variable}
 
@@ -498,6 +529,18 @@ whether the net force is constant or changes from point to point. (It still hold
 force, not for one of several forces.) If several forces act on the body, the net force is their sum, $F = F_1 + F_2 + \cdots$,
 and the integral of a sum is the sum of the integrals. So the work done by the net force is the sum of
 the works done by the individual forces, $W = W_1 + W_2 + \cdots$: the total work.
+
+\needspace{9\baselineskip}
+\begin{aside}
+\textbf{Video:}
+\href{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-7-kinetic-energy-and-work/20-3-work-by-a-non-constant-force/}{\emph{20.3
+Work by a Non-Constant
+Force}}\footnote{\url{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-7-kinetic-energy-and-work/20-3-work-by-a-non-constant-force/}}
+(MIT OpenCourseWare, 8.01SC \emph{Classical Mechanics}, 2016, short). The work of a force that
+changes with position as the integral~\eqref{eq:W-int}, the area under the graph of $F$ against $x$,
+as in Figure~\ref{fig:area}. Below we find the work of a spring in the same way, as the area of a
+triangle.
+\end{aside}
 
 \begin{figure}[ht]
 \centering
@@ -783,6 +826,30 @@ $(\qty{0.10}{m})\sqrt{(\qty{200}{N/m})/(\qty{0.50}{kg})} = \qty{2.0}{m/s}$. Equa
 never exceed $x\sub{max}^2$. The body oscillates back and forth between $x = x\sub{max}$ and
 $x = -x\sub{max}$, where it stops for an instant and turns back.
 
+\begin{aside}
+\textbf{Simulation:}
+\href{https://phet.colorado.edu/en/simulations/hookes-law}{\emph{Hooke's
+Law}}\footnote{\url{https://phet.colorado.edu/en/simulations/hookes-law}} (PhET Interactive
+Simulations, University of Colorado Boulder). Stretch and compress a spring and read the applied
+force $kx$ against the displacement. The Energy screen can plot this force against the
+displacement, a straight line as in Figure~\ref{fig:spring}(b), and shade the triangle under it,
+whose area is the work $\frac12 kx^2$ (the simulation calls it potential energy, which we meet in
+Chapter~8). Check that compressing by $x$ takes as much work as stretching by $x$, and that
+doubling the stretch takes four times the work, so that the second step, from $x$ to $2x$, takes
+three times as much as the first.
+\par\smallskip
+\textbf{Simulation:}
+\href{https://phet.colorado.edu/en/simulations/masses-and-springs}{\emph{Masses and
+Springs}}\footnote{\url{https://phet.colorado.edu/en/simulations/masses-and-springs}} (PhET
+Interactive Simulations, University of Colorado Boulder). Hang a mass on a spring, set the damping
+to zero, pull the mass down and let it go. The spring hangs vertically, so gravity acts as well, but
+it only shifts the equilibrium position down by $mg/k$; measured from there, the net force is still
+$-kx$, and everything above holds. On the Energy screen the kinetic energy is largest each time the
+mass passes through equilibrium, as in~\eqref{eq:v-eq}, and zero at the turning points; the other
+bars are energies of Chapter~8. With damping, the swings die away as friction takes energy from the
+mass.
+\end{aside}
+
 \subsubsection*{Work along a curved path}
 
 As an example of a force that acts on a body moving along a curved path, consider a pendulum, a small
@@ -886,6 +953,29 @@ this speed from Newton's second law, we would have had to solve the equation of 
 pendulum, which for large angles cannot even be done with elementary functions; with work and energy
 it takes one line.
 
+\begin{aside}
+\textbf{Video:}
+\href{https://lecturedemos.ph.utexas.edu/demo/47}{\emph{Conservation of Energy: Nose
+Basher}}\footnote{\url{https://lecturedemos.ph.utexas.edu/demo/47}} (University of Texas at
+Austin, Physics Lecture Demonstrations, demonstration 1M40.10; a page with a short video). A heavy
+ball on a long wire is pulled aside until it touches the demonstrator's nose and released from
+rest; it swings away and comes back, but stops just short of the nose. The ball is at rest when it
+is released and again when it comes back, so the total work done on it is zero. The tension does no
+work, so the work of gravity is zero, or slightly positive, because air resistance does a little
+negative work; by $W\sub{grav} = -mg\,(y_B - y_A)$ the ball comes back to the height from which it
+started, or slightly lower, never higher. It must be released, not pushed: a push would give it
+kinetic energy at the start, and it would come back higher.
+\par\smallskip
+\textbf{Simulation:}
+\href{https://phet.colorado.edu/en/simulations/pendulum-lab}{\emph{Pendulum
+Lab}}\footnote{\url{https://phet.colorado.edu/en/simulations/pendulum-lab}} (PhET Interactive
+Simulations, University of Colorado Boulder). Release the pendulum from rest, with the friction set
+to zero, and watch it rise on the other side to the height from which it started, and come back to
+it, swing after swing. On the Energy screen the kinetic energy is largest at the bottom; the other
+bars are energies of Chapter~8. Change the mass: the motion does not change, since $m$ cancels in
+$v = \sqrt{2gL(1 - \cos\theta_0)}$.
+\end{aside}
+
 %----------------------------------------------------------------------
 \subsection{Power}\label{sec:power}
 
@@ -958,6 +1048,47 @@ $Pt \approx \qty{1.6e5}{J}$, which is just $mgh = (\qty{800}{kg})(\qty{9.8}{m/s^
 as in \eqref{eq:carry}. Gravity, meanwhile, does work at the rate $m\vec{g}\cdot\vec{v} = -mgv$; the
 total power is zero, and the kinetic energy of the cabin does not change.
 \end{example}
+
+\needspace{9\baselineskip}
+\begin{aside}
+\textbf{Video:}
+\href{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-7-kinetic-energy-and-work/20-6-power/}{\emph{20.6
+Power}}\footnote{\url{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-7-kinetic-energy-and-work/20-6-power/}}
+(MIT OpenCourseWare, 8.01SC \emph{Classical Mechanics}, 2016, short). Power as the time rate at
+which a force does work, $P = \dd W/\dd t$, and, for a force acting on a moving body,
+$P = \vec{F}\cdot\vec{v}$, as in~\eqref{eq:P-Fv}; its unit is the watt. In the elevator example the
+cable pulls along the velocity, so its power is simply $Tv$.
+\end{aside}
+
+%======================================================================
+\section*{Videos and simulations for this week}
+\begin{itemize}[nosep]
+\item \href{https://www.pbs.org/video/noethers-theorem-and-the-symmetries-of-reality-tf9sqz}{\emph{Noether's
+  Theorem and The Symmetries of Reality}} (PBS Space Time; optional): Section~\ref{sec:symmetry},
+  symmetries and conservation laws.
+\item \href{https://www.youtube.com/watch?v=w4QFJb9a8vo}{\emph{Work, Energy, and Power: Crash
+  Course Physics \#9}} (CrashCourse): Sections~\ref{sec:wke}--\ref{sec:power}, review of work,
+  kinetic energy and power.
+\item \href{https://oyc.yale.edu/node/1555}{\emph{Lecture~5 -- Work-Energy Theorem and Law of
+  Conservation of Energy}} (Open Yale Courses, Ramamurti Shankar; optional full lecture):
+  Sections~\ref{sec:wke} and~\ref{sec:variable}, the work--energy theorem.
+\item \href{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-7-kinetic-energy-and-work/20-3-work-by-a-non-constant-force/}{\emph{20.3
+  Work by a Non-Constant Force}} (MIT OpenCourseWare, 8.01SC): Section~\ref{sec:variable}, work as
+  an integral.
+\item \href{https://phet.colorado.edu/en/simulations/hookes-law}{\emph{Hooke's Law}} (PhET
+  simulation, University of Colorado): Section~\ref{sec:variable}, the work done in stretching a
+  spring.
+\item \href{https://phet.colorado.edu/en/simulations/masses-and-springs}{\emph{Masses and Springs}}
+  (PhET simulation, University of Colorado): Section~\ref{sec:variable}, a body oscillating on a
+  spring.
+\item \href{https://lecturedemos.ph.utexas.edu/demo/47}{\emph{Conservation of Energy: Nose
+  Basher}} (University of Texas at Austin, Physics Lecture Demonstrations):
+  Section~\ref{sec:variable}, a pendulum released from rest.
+\item \href{https://phet.colorado.edu/en/simulations/pendulum-lab}{\emph{Pendulum Lab}} (PhET
+  simulation, University of Colorado): Section~\ref{sec:variable}, work along a curved path.
+\item \href{https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-7-kinetic-energy-and-work/20-6-power/}{\emph{20.6
+  Power}} (MIT OpenCourseWare, 8.01SC): Section~\ref{sec:power}, power.
+\end{itemize}
 
 \section*{About these notes}
 These notes are not original. They draw heavily on the books listed in the Week~1 notes, on Walter Lewin's 8.01x Classical Mechanics lectures at MIT, and on the Dynamics and Relativity courses taught at different times by Stephen Siklos and David Tong at the University of Cambridge. They are not official course notes of FIZ~101: they are written only to help the students of Mehmet \"Ozkan's section. Istanbul Technical University and its Department of Physics Engineering bear no responsibility for them.
