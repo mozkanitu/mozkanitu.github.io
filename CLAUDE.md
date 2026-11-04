@@ -50,6 +50,7 @@ The repo is public, so quiz questions are committed only encrypted; a time check
 - Describe ongoing research only at the level the owner states; do not add unpublished details.
 - Group theory course: no tutorials; both weekly sessions (Monday 14:30–16:30, Wednesday 13:30–15:30) are lectures. The midterm date is not set; it will be just before or just after the fall break (16–20 November 2026).
 - Quiz solutions are posted only after the quiz has been given.
+- In any problem (pool, exam, quiz) that gives a specific angle, state the sine, cosine or tangent values students need (e.g. "Use $\cos 60^\circ = \tfrac12$ and $\sin 60^\circ = \tfrac{\sqrt3}{2}$"), in every exam version too; students are not expected to memorize them.
 - Group theory schedule: list a problem set or quiz only once the owner gives it; no "soon" placeholders for future ones.
 
 ## Group theory conventions (match the lecture slides)
