@@ -29,6 +29,9 @@ A directory argument loads every *.json in it, sorted by topic. Each problem:
                {"values", "stem", "choices", "correct", "answer_value"}
 
 Needs pdflatex and latexmk; the style comes from ../physics-1-notes/fiz101notes.sty.
+A build prints the page count, overfull boxes, choices wider than their column (they would run
+into the next choice; LaTeX itself does not report this) and undefined references, each with its
+problem number. All three counts should be 0.
 """
 import argparse, json, os, re, shutil, subprocess, sys, tempfile
 
@@ -70,12 +73,20 @@ PREAMBLE = r"""\documentclass[11pt,a4paper]{article}
 \newenvironment{problem}{\par\needspace{6\baselineskip}\refstepcounter{prob}%
   \tcolorbox[blank,before skip=1.0em plus 0.4em,after skip=0.4em]}{\endtcolorbox}
 \newenvironment{probfig}{\par\nopagebreak\begin{center}\vspace{-0.6em}}{\vspace{-0.6em}\end{center}}
-% Five choices: one row, rows of three or two, or one per line, whichever fits the longest choice.
-\newlength\pc@w \newlength\pc@max \newlength\pc@col
+% Five choices: one row, rows of three or two, or one per line, whichever fits the longest choice
+% plus a 2.6em margin (the label and a gap). The lengths are \newdimen, not \newlength: after
+% "2.6em" in a skip register TeX looks for "plus", expanding the \ifdim tests below before the
+% margin is added (all three tests then ignore it and wide choices overlap their neighbours).
+% \pc@i writes "Pool warning: choice (X) is ...pt wider than its column, line N" to the log if a
+% choice still does not fit; build_pool.py reports these with the problem number.
+\newdimen\pc@w \newdimen\pc@max \newdimen\pc@col \newsavebox\pc@box
 \newcommand\pc@m[1]{\settowidth\pc@w{#1}\ifdim\pc@w>\pc@max\global\pc@max\pc@w\fi}
-\newcommand\pc@i[2]{\makebox[\pc@col][l]{\textsf{\small(#1)}\hspace{0.5em}#2}}
+\newcommand\pc@i[2]{\sbox\pc@box{\textsf{\small(#1)}\hspace{0.5em}#2}%
+  \ifdim\wd\pc@box>\pc@col\typeout{Pool warning: choice (#1) is
+    \the\dimexpr\wd\pc@box-\pc@col\relax\space wider than its column, line \the\inputlineno}\fi
+  \makebox[\pc@col][l]{\usebox\pc@box}}
 \newcommand{\choices}[5]{\par\nopagebreak{\setlength\parskip{0.45em}%
-  \global\pc@max=0pt\pc@m{#1}\pc@m{#2}\pc@m{#3}\pc@m{#4}\pc@m{#5}%
+  \global\pc@max\z@\pc@m{#1}\pc@m{#2}\pc@m{#3}\pc@m{#4}\pc@m{#5}%
   \global\advance\pc@max by 2.6em\relax
   \ifdim\pc@max<0.2\linewidth
     \setlength\pc@col{0.2\linewidth}%
@@ -263,13 +274,25 @@ def build_tex(topics, mode):
     return '\n'.join(body)
 
 
+def where(tex, ln):
+    """', problem N (topic T, item I)' for line ln of the generated file, plus the exam version
+    when the line is in one (instructor copy)."""
+    tl = tex.splitlines()[:ln]
+    for i in range(len(tl) - 1, -1, -1):
+        if tl[i].startswith('% ---- problem'):
+            s = ', ' + tl[i].strip('% -')
+            ver = [m.group(1) for m in (re.match(r'\\medskip\\textbf\{Exam version (\d+)\}', x) for x in tl[i:]) if m]
+            return s + (', exam version ' + ver[-1] if ver else '')
+    return ''
+
+
 def compile_tex(tex, out_pdf, png_dir=None):
     tmp = tempfile.mkdtemp(prefix='pool-')
     try:
         src = os.path.join(tmp, 'pool.tex')
         with open(src, 'w', encoding='utf-8') as fh:
             fh.write(tex)
-        env = dict(os.environ, TEXINPUTS=NOTES + ':')
+        env = dict(os.environ, TEXINPUTS=NOTES + ':', max_print_line='1000')  # log lines unwrapped, for the regexes below
         r = subprocess.run(['latexmk', '-pdf', '-interaction=nonstopmode', '-halt-on-error', 'pool.tex'],
                            cwd=tmp, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         log = open(os.path.join(tmp, 'pool.log'), encoding='latin-1').read() if os.path.exists(os.path.join(tmp, 'pool.log')) else ''
@@ -281,22 +304,23 @@ def compile_tex(tex, out_pdf, png_dir=None):
                     print('\n'.join(lines[i:i + 8]))
                     m = re.search(r'l\.(\d+)', '\n'.join(lines[i:i + 12]))
                     if m:
-                        ln = int(m.group(1)); tl = tex.splitlines()
-                        owner = [x for x in tl[:ln] if x.startswith('% ---- problem')]
-                        print('  in the generated file at line %d%s' % (ln, (', ' + owner[-1][2:]) if owner else ''))
+                        ln = int(m.group(1))
+                        print('  in the generated file at line %d%s' % (ln, where(tex, ln)))
                     break
             return False
         os.makedirs(os.path.dirname(os.path.abspath(out_pdf)), exist_ok=True)
         shutil.copy(os.path.join(tmp, 'pool.pdf'), out_pdf)
         over = re.findall(r'Overfull \\hbox \(([\d.]+)pt too wide\)[^\n]*lines? (\d+)', log)
+        # Written by \pc@i in PREAMBLE: a choice that runs into the next column (\makebox hides it).
+        wide = re.findall(r'Pool warning: choice \(([A-E])\) is ([\d.]+)pt wider than its column, line (\d+)', log)
         und = len(re.findall(r'undefined', log))
         pages = re.search(r'Output written on pool.pdf \((\d+) page', log)
-        print('%s: %s pages, %d overfull boxes, %d undefined references'
-              % (out_pdf, pages.group(1) if pages else '?', len(over), und))
-        tl = tex.splitlines()
+        print('%s: %s pages, %d overfull boxes, %d choices wider than their column, %d undefined references'
+              % (out_pdf, pages.group(1) if pages else '?', len(over), len(wide), und))
         for pt, ln in over[:20]:
-            owner = [x for x in tl[:int(ln)] if x.startswith('% ---- problem')]
-            print('  overfull by %spt at line %s%s' % (pt, ln, (', ' + owner[-1][2:]) if owner else ''))
+            print('  overfull by %spt at line %s%s' % (pt, ln, where(tex, int(ln))))
+        for let, pt, ln in wide[:20]:
+            print('  choice (%s) %spt wider than its column at line %s%s' % (let, pt, ln, where(tex, int(ln))))
         if png_dir:
             os.makedirs(png_dir, exist_ok=True)
             base = os.path.join(png_dir, os.path.splitext(os.path.basename(out_pdf))[0])

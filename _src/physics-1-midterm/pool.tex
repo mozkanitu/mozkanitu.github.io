@@ -31,12 +31,20 @@
 \newenvironment{problem}{\par\needspace{6\baselineskip}\refstepcounter{prob}%
   \tcolorbox[blank,before skip=1.0em plus 0.4em,after skip=0.4em]}{\endtcolorbox}
 \newenvironment{probfig}{\par\nopagebreak\begin{center}\vspace{-0.6em}}{\vspace{-0.6em}\end{center}}
-% Five choices: one row, rows of three or two, or one per line, whichever fits the longest choice.
-\newlength\pc@w \newlength\pc@max \newlength\pc@col
+% Five choices: one row, rows of three or two, or one per line, whichever fits the longest choice
+% plus a 2.6em margin (the label and a gap). The lengths are \newdimen, not \newlength: after
+% "2.6em" in a skip register TeX looks for "plus", expanding the \ifdim tests below before the
+% margin is added (all three tests then ignore it and wide choices overlap their neighbours).
+% \pc@i writes "Pool warning: choice (X) is ...pt wider than its column, line N" to the log if a
+% choice still does not fit; build_pool.py reports these with the problem number.
+\newdimen\pc@w \newdimen\pc@max \newdimen\pc@col \newsavebox\pc@box
 \newcommand\pc@m[1]{\settowidth\pc@w{#1}\ifdim\pc@w>\pc@max\global\pc@max\pc@w\fi}
-\newcommand\pc@i[2]{\makebox[\pc@col][l]{\textsf{\small(#1)}\hspace{0.5em}#2}}
+\newcommand\pc@i[2]{\sbox\pc@box{\textsf{\small(#1)}\hspace{0.5em}#2}%
+  \ifdim\wd\pc@box>\pc@col\typeout{Pool warning: choice (#1) is
+    \the\dimexpr\wd\pc@box-\pc@col\relax\space wider than its column, line \the\inputlineno}\fi
+  \makebox[\pc@col][l]{\usebox\pc@box}}
 \newcommand{\choices}[5]{\par\nopagebreak{\setlength\parskip{0.45em}%
-  \global\pc@max=0pt\pc@m{#1}\pc@m{#2}\pc@m{#3}\pc@m{#4}\pc@m{#5}%
+  \global\pc@max\z@\pc@m{#1}\pc@m{#2}\pc@m{#3}\pc@m{#4}\pc@m{#5}%
   \global\advance\pc@max by 2.6em\relax
   \ifdim\pc@max<0.2\linewidth
     \setlength\pc@col{0.2\linewidth}%
