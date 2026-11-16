@@ -128,7 +128,7 @@
       w.label='Week '+w.n;
       if(w.n===8){
         var bs=addDays(TERM_START,49), cur=isNow(bs);
-        h+='<div class="brk'+(cur?' current':'')+'"'+(cur?' id="this-week"':'')+'><div><span class="wk-n">Fall break</span><span class="wk-d">'+fmt(bs,addDays(bs,4))+'</span></div><p class="lec">No classes. The midterm will be held just before or just after the break; the date will be announced.</p></div>';
+        h+='<div class="brk'+(cur?' current':'')+'"'+(cur?' id="this-week"':'')+'><div><span class="wk-n">Fall break</span><span class="wk-d">'+fmt(bs,addDays(bs,4))+'</span></div><p class="lec">No classes. The midterm is on Saturday 28 November, 10:00–13:00.</p></div>';
         h+='<p class="part-h">Part II. Continuous groups</p>';
       }
       h+=wkRow(w,weekStart(w.n));
