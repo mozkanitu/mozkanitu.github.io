@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Problem Set 3 – Theory of Groups in Physics</title>
+<meta name="description" content="FZT 203E Theory of Groups in Physics, Fall 2026: Problem Set 3, due Wednesday 25 November 2026.">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/site.css?v=30">
+<link rel="stylesheet" href="../../../assets/katex/katex.min.css">
+<script src="../../../assets/analytics.js" defer></script>
+<style>
+.ps-links{margin:1.1em 0 0;display:flex;flex-wrap:wrap;gap:10px 28px;font-family:var(--sans);font-size:1rem}
+.ps-links a{color:var(--chalk);text-decoration-color:var(--yellow);text-decoration-thickness:1.5px;text-underline-offset:5px}
+.ps{max-width:46rem}
+.ps .facts{margin-bottom:2.2em}
+.ps h2{margin-top:1.6em}
+.ps h3{font-size:1.3rem;font-weight:600;line-height:1.3;margin:1.9em 0 .5em}
+.ps p{margin:0 0 .9em}
+.ps ul,.ps ol{margin:0 0 1em;padding-left:1.6em}
+.ps li{margin:0 0 .55em}
+.ps ul li::marker{color:var(--muted)}
+.ps ol.parts{list-style:none;counter-reset:part;padding-left:2.4em}
+.ps ol.parts>li{counter-increment:part;position:relative}
+.ps ol.parts>li::before{content:"(" counter(part,lower-alpha) ")";position:absolute;left:-2.4em;font-weight:700}
+.ps ol.items{margin:.5em 0 .6em;padding-left:1.8em}
+.ps ol.items>li{margin-bottom:.3em}
+.ps .note{color:var(--muted)}
+.ps .katex{font-size:1.08em}
+.ps .katex-display{margin:.8em 0;overflow-x:auto;overflow-y:hidden;padding:2px 0}
+.ps .eqs{display:flex;flex-wrap:wrap;align-items:center;column-gap:2.5em}
+.ps .eqs .katex-display{margin:.5em 0}
+.ps-end{margin-top:3em;padding-top:1.4em;border-top:1px solid var(--rule);font-family:var(--sans);font-size:1rem}
+@media (max-width:600px){.ps ol.parts{padding-left:2.1em}.ps ol.parts>li::before{left:-2.1em}}
+.ps .tbl{display:block}
+@media (max-width:480px){.ps .tbl .katex{font-size:.86em}}
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+
+<header class="board">
+  <div class="head wrap page-head">
+    <a class="crumb" href="../">Theory of Groups in Physics</a>
+    <h1 tabindex="-1">Problem Set 3</h1>
+    <p class="role">FZT 203E, Fall 2026. Due Wednesday 25 November, at the start of the lecture.</p>
+    <p class="ps-links"><a href="GT_PS3.pdf">Download the PDF</a></p>
+  </div>
+  <div class="tray" aria-hidden="true"></div>
+</header>
+
+<main id="content">
+  <section class="section">
+    <div class="wrap">
+      <article class="ps">
+        <dl class="facts">
+          <dt>Covers</dt><dd>Lectures 7–10: linear algebra, representations, Schur's lemma, the Great Orthogonality Theorem and characters. Everything from Problem Sets 1 and 2 may be used.</dd>
+          <dt>Due</dt><dd>Wednesday, 25 November 2026, at the start of the lecture</dd>
+          <dt>Reading</dt><dd>Lecture notes for Weeks 4 and 5; Zee, chapters II.1–II.3. Zee III.1 (Bloch's theorem) goes with Problem 2, and Zee III.2 (harmonic motion and zero modes) with Problem 1.</dd>
+        </dl>
+
+        <p>Justify every answer; a correct answer without reasoning earns partial credit.</p>
+
+        <h2>Conventions</h2>
+        <p>These are the conventions of the lectures and of Problem Sets 1 and 2.</p>
+        <ul>
+          <li>Products are read right to left: in $gh$, the element $h$ acts first. A permutation $p$ sends position $i$ to position $p(i)$, and $(12)(23)$ means first $(23)$, then $(12)$. For the triangle, $r = (123)$, $s = (23)$ and $rs = (12)$.</li>
+          <li>Vectors are columns. A representation is a homomorphism $D\colon G \to GL(d, \C)$, $D(gh) = D(g)D(h)$; representations are finite dimensional over $\C$ unless a real space is specified.</li>
+          <li>For a finite group, $N = |G|$; the conjugacy classes are $C_1, \dots, C_k$, with $n_i = |C_i|$ elements. The character of $D$ is $\chi_D(g) = \tr D(g)$. For functions on $G$, \[\begin{aligned}\langle f, h\rangle_G &amp;= \frac{1}{N}\sum_{g \in G} f(g)^* h(g) \\ &amp;= \frac{1}{N}\sum_{i=1}^{k} n_i\, f(C_i)^* h(C_i),\end{aligned}\] the second form for class functions. The multiplicity of the irreducible representation $D^{(\alpha)}$ in $D$ is $m_\alpha = \langle \chi_\alpha, \chi_D\rangle_G$, and $D$ is irreducible exactly when $\langle \chi_D, \chi_D\rangle_G = 1$.</li>
+          <li>The plane representation of $D_3 \cong S_3$, with vertex 1 at $(1, 0)$, is <span class="eqs">\[D_E(r) = R = \begin{pmatrix} -\tfrac12 &amp; -\tfrac{\sqrt3}{2} \\[2pt] \tfrac{\sqrt3}{2} &amp; -\tfrac12 \end{pmatrix},\]\[D_E(s) = F = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{pmatrix}.\]</span> The classes of $S_3$ are $\{e\}$, the two 3-cycles $\{r, r^2\}$ (rotations) and the three transpositions $\{s, rs, r^2 s\}$ (reflections). Its irreducible representations are the trivial representation $1$, the sign representation $\sgn$ and $E$, with the characters <span class="tbl">\[ \begin{array}{c|ccc} &amp; \{e\} &amp; \{r, r^2\} &amp; \{s, rs, r^2 s\} \\ \hline 1 &amp; 1 &amp; 1 &amp; 1 \\ \sgn &amp; 1 &amp; 1 &amp; -1 \\ E &amp; 2 &amp; -1 &amp; 0 \end{array} \]</span></li>
+          <li>You may use the results of the lectures, among them the finite-group unitarity theorem, both forms of Schur's lemma, the Great Orthogonality Theorem, the orthonormality of irreducible characters, $\sum_\alpha d_\alpha^2 = N$, and that the number of inequivalent irreducible representations equals the number of conjugacy classes.</li>
+        </ul>
+
+        <h2>Problems</h2>
+
+        <h3>1. The vibrations of carbon dioxide</h3>
+        <p>The carbon dioxide molecule is straight, O=C=O, with the carbon atom (mass $M$) between two oxygen atoms (mass $m$). Consider motion along the axis only: $x_1$, $x_2$ and $x_3$ are the displacements of the three atoms from equilibrium, and each bond acts as a spring with constant $k$: <span class="eqs">\[m\ddot x_1 = -k(x_1 - x_2),\]\[M\ddot x_2 = -k(x_2 - x_1) - k(x_2 - x_3),\]\[m\ddot x_3 = -k(x_3 - x_2).\]</span></p>
+        <ol class="parts">
+          <li>Write these equations as $\MM\ddot x = -Kx$, with $x = (x_1, x_2, x_3)^T$ and the mass matrix $\MM = \diag(m, M, m)$, and find the symmetric matrix $K$. Show that $x(t) = a\cos\omega t$, with a fixed vector $a \ne 0$, solves the equations exactly when $Ka = \omega^2\MM a$, that is, when $a$ is an eigenvector of $A = \MM^{-1}K$ with eigenvalue $\omega^2$. Show that $a^T K a = k\bigl[(a_1 - a_2)^2 + (a_2 - a_3)^2\bigr]$, and deduce that $\omega^2 \ge 0$ for every real mode $a$.</li>
+          <li>$A$ is not symmetric when $M \ne m$. Show that $\langle a, b\rangle_\MM = a^T \MM b$ is an inner product on $\R^3$ for which $\langle a, Ab\rangle_\MM = \langle Aa, b\rangle_\MM$, and deduce that two modes with different frequencies are orthogonal for $\langle\cdot, \cdot\rangle_\MM$.</li>
+          <li>The inversion through the carbon atom exchanges the two oxygen atoms and reverses the direction of the axis, so it maps a displacement $x$ to $Px = (-x_3, -x_2, -x_1)^T$. Write $P$ as a matrix, and show that $P^2 = I$ and that $P$ commutes with $\MM$ and $K$, and hence with $A$. Thus $\{I, P\}$ is a representation of $\Z_2$ on $\R^3$. Use its character to find how many times the trivial and the sign representations of $\Z_2$ appear in it. Find the subspaces of $\R^3$ on which $P = +1$ and $P = -1$, and show that $A$ maps each of them into itself.</li>
+          <li>Find the three frequencies and modes: on the line where $P = +1$ directly, and on the plane where $P = -1$ by writing $A$ there as a $2 \times 2$ matrix in the basis $(1, 0, 1)^T$, $(0, 1, 0)^T$. Describe each mode in words. Why is one frequency zero? Check that the other two modes are orthogonal to it for $\langle\cdot, \cdot\rangle_\MM$, and explain what this means for the total momentum of the molecule.</li>
+          <li>The oxygen atoms carry a small charge $-q$ each and the carbon atom $+2q$, so a displacement gives the molecule the electric dipole moment $d(x) = q(2x_2 - x_1 - x_3)$ along its axis. Show that $d(Px) = -d(x)$, and deduce that $d = 0$ at all times in a mode with $P = +1$. Only a vibration that makes the dipole oscillate absorbs infrared light: which of your modes does? This asymmetric stretch of CO$_2$ absorbs near a wavelength of $4.3\,\mu$m, and its bending vibrations (sideways, not in this model) near $15\,\mu$m, close to the peak of the infrared radiation emitted by the Earth. Why can a molecule of two identical atoms, like N$_2$ or O$_2$, the main gases of the air, not absorb infrared light in this way?</li>
+        </ol>
+
+        <h3>2. Why polyacetylene is not a metal</h3>
+        <p>Polyacetylene is a long chain of carbon atoms, each bonded to one hydrogen atom, with alternating double and single bonds between the carbons. In the simplest (Hückel) model of its $\pi$ electrons, take a ring of $N \ge 3$ cells, each containing two carbon atoms $A_n$ and $B_n$, with $n = 1, \dots, N$ counted modulo $N$ (so $A_{N+1} = A_1$). A state of an electron is a vector in $\C^{2N}$ with basis vectors $e_{A_n}$, $e_{B_n}$, and its energies are the eigenvalues of the Hamiltonian <span class="eqs">\[He_{A_n} = -t_1 e_{B_n} - t_2 e_{B_{n-1}},\]\[He_{B_n} = -t_1 e_{A_n} - t_2 e_{A_{n+1}},\]</span> where $t_1 &gt; 0$ is the hopping amplitude across the double bond $A_nB_n$ and $t_2 &gt; 0$ across the single bond $B_nA_{n+1}$. The translation by one cell is $Te_{A_n} = e_{A_{n+1}}$, $Te_{B_n} = e_{B_{n+1}}$.</p>
+        <ol class="parts">
+          <li>Show that $H$ is real and symmetric, that $T^N = I$, and that $HT = TH$. Thus the powers of $T$ form a representation of $\Z_N$ on $\C^{2N}$, and $H$ commutes with every matrix in it.</li>
+          <li>Use Schur's lemma to show that every irreducible representation of an Abelian group is one-dimensional. Show that $\Z_N = \{e, a, \dots, a^{N-1}\}$ has exactly $N$ inequivalent irreducible representations, $D(a^j) = \lambda^j$ with $\lambda^N = 1$.</li>
+          <li>For $k = 2\pi l/N$ with $l = 0, 1, \dots, N - 1$, let <span class="eqs">\[u^A_k = \sum_{n=1}^{N} e^{ikn} e_{A_n},\]\[u^B_k = \sum_{n=1}^{N} e^{ikn} e_{B_n}.\]</span> Show that $Tu^A_k = e^{-ik}u^A_k$ and $Tu^B_k = e^{-ik}u^B_k$, and that the $2N$ vectors $u^A_k$, $u^B_k$ are orthogonal. (Hint: sum a geometric series.) Conclude that $\C^{2N}$ is the direct sum of the planes $V_k = \spn(u^A_k, u^B_k)$, and that each one-dimensional representation of $\Z_N$ appears in it exactly twice.</li>
+          <li>Show that $H$ maps each $V_k$ into itself, with the matrix \[ h(k) = -\begin{pmatrix} 0 &amp; t_1 + t_2e^{-ik} \\ t_1 + t_2e^{ik} &amp; 0 \end{pmatrix} \] in the basis $(u^A_k, u^B_k)$, and find its eigenvalues $E_\pm(k)$. The $2N \times 2N$ problem has become $N$ problems of size $2 \times 2$: this is Bloch's theorem. As a check, take $N = 3$ and $t_1 = t_2 = t$, a ring of six equal bonds like benzene, and list the six energies with their degeneracies.</li>
+          <li>In the limit $N \to \infty$, which we take from now on, the allowed $k$ fill the interval $(-\pi, \pi]$ densely, and the energies form two bands. Find the range of each band. Every carbon atom gives one $\pi$ electron, and each level holds two electrons (spin up and spin down): show that the $2N$ electrons exactly fill the lower band. Show that for $t_1 = t_2$ the two bands touch, so an arbitrarily small energy lifts an electron into an empty level and the chain conducts like a metal, while for $t_1 \ne t_2$ there is an energy gap $2|t_1 - t_2|$ between them. Real polyacetylene has alternating bonds and starts to absorb light at about $1.5$ eV. Taking this as the gap, what is $|t_1 - t_2|$? (The discovery that polyacetylene conducts well when doped with iodine was recognized by the 2000 Nobel Prize in Chemistry.)</li>
+        </ol>
+
+        <h3>3. Degenerate modes of a square drum</h3>
+        <p>The skin of a square drum covers $-1 \le x, y \le 1$ and is fixed along the edges. Its normal modes are vibrations $u(x, y)\cos\omega t$ with <span class="eqs">\[u_{nm}(x, y) = f_n(x)f_m(y),\]\[f_n(x) = \sin\frac{n\pi(x + 1)}{2},\]\[n, m = 1, 2, 3, \dots,\]</span> and frequencies $\omega_{nm} = \frac{\pi c}{2}\sqrt{n^2 + m^2}$, where $c$ is the speed of waves on the skin. (A quantum particle in a square box has the same wavefunctions, with energies proportional to $n^2 + m^2$.) The symmetry group $D_4$ of the square acts on the plane by the quarter-turn and the reflection in the $x$-axis, <span class="eqs">\[D(r) = \begin{pmatrix} 0 &amp; -1 \\ 1 &amp; 0 \end{pmatrix},\]\[D(s) = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{pmatrix},\]</span> and on functions by $(O_g u)(x, y) = u\bigl(D(g)^{-1}(x, y)^T\bigr)$; you may use that $O_{gh} = O_g O_h$. The character table of $D_4$ is <span class="tbl">\[ \begin{array}{c|ccccc} &amp; \{e\} &amp; \{r^2\} &amp; \{r, r^3\} &amp; \{s, r^2 s\} &amp; \{rs, r^3 s\} \\ \hline 1_{++} &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 \\ 1_{+-} &amp; 1 &amp; 1 &amp; 1 &amp; -1 &amp; -1 \\ 1_{-+} &amp; 1 &amp; 1 &amp; -1 &amp; 1 &amp; -1 \\ 1_{--} &amp; 1 &amp; 1 &amp; -1 &amp; -1 &amp; 1 \\ E &amp; 2 &amp; -2 &amp; 0 &amp; 0 &amp; 0 \end{array} \]</span> where $1_{\epsilon\epsilon'}$ is the one-dimensional representation with $r \mapsto \epsilon$ and $s \mapsto \epsilon'$, and $E$ is the representation $D$ itself.</p>
+        <ol class="parts">
+          <li>Show that $f_n(-x) = (-1)^{n+1}f_n(x)$. Show that <span class="eqs">\[O_r u_{nm} = (-1)^{m+1}u_{mn},\]\[O_s u_{nm} = (-1)^{m+1}u_{nm},\]</span> and find $O_{r^2}u_{nm}$ and $O_{rs}u_{nm}$. Deduce that every $O_g$ maps the modes of each frequency to modes of the same frequency, so that these modes span a representation of $D_4$.</li>
+          <li>For $n \ne m$, the modes $u_{nm}$ and $u_{mn}$ have the same frequency. Find the character of the representation of $D_4$ on $W_{nm} = \spn(u_{nm}, u_{mn})$ on the five classes. Show that $W_{nm}$ is irreducible, and equivalent to $E$, exactly when $n + m$ is odd.</li>
+          <li>Let $n \ne m$ with $n + m$ even. Decompose $W_{nm}$ with characters, find its two invariant lines, and say which one-dimensional representation acts on each. Treat the cases of $n$ and $m$ both odd and both even separately.</li>
+          <li>A small change of the drum that keeps all the symmetries of the square, for example a small weight glued to its centre, shifts the frequencies. For the modes of one frequency, the first-order shifts of their frequencies are the eigenvalues of a real symmetric matrix $V$ that acts on their span and commutes with every $O_g$, and its eigenvectors are the new modes. Use Schur's lemma to show that $u_{12}$ and $u_{21}$ keep a common frequency, while $u_{13}$ and $u_{31}$ may split, and that the new modes are then $u_{13} \pm u_{31}$. Check this for the weight at the centre: a mode with a node at the centre is not affected, and a mode that moves there is slowed down. The degeneracy of $u_{13}$ and $u_{31}$ is called accidental: the symmetry of the square does not require it.</li>
+          <li>The smallest value of $n^2 + m^2$ shared by three modes is $50 = 1^2 + 7^2 = 5^2 + 5^2$. Without computing, explain why the symmetry of the square cannot be the reason for this threefold degeneracy. Then find the character of the representation on the span of $u_{17}$, $u_{71}$, $u_{55}$, and decompose it.</li>
+        </ol>
+
+        <h3>4. Three spins on a triangle</h3>
+        <p>Three spin-one-half particles, for example the unpaired electrons of three magnetic ions at the corners of a triangle, sit at the sites $1, 2, 3$. Each spin is up ($\up$) or down ($\dn$), so a state is a vector in $\C^8$ with the basis $\ket{s_1s_2s_3}$, $s_i \in \{\up, \dn\}$. A permutation $p \in S_3$ moves the spin at site $i$ to site $p(i)$: <span class="eqs">\[P(p)\ket{s_1s_2s_3} = \ket{s'_1s'_2s'_3},\]\[s'_{p(i)} = s_i.\]</span> For example, $P\bigl((12)\bigr)\ket{\up\dn\dn} = \ket{\dn\up\dn}$.</p>
+        <ol class="parts">
+          <li>Show that $P(pq) = P(p)P(q)$, and that $\chi_P(p)$ is the number of basis states left unchanged by $P(p)$. Find $\chi_P$ on the three classes of $S_3$, and decompose $P$ into irreducible representations.</li>
+          <li>Permutations do not change the number of up spins, so the subspaces with 3, 2, 1 and 0 up spins (of dimensions 1, 3, 3 and 1) are invariant. Decompose each of them, and check that the results add up to (a). In the subspace with two up spins, find the line on which $S_3$ acts trivially and an invariant complement on which it acts by $E$.</li>
+          <li>Three electrons in the same orbital, such as the 1s orbital of an atom, have a wavefunction that is symmetric in their positions, so the Pauli principle requires their spin state $\psi$ to be antisymmetric: $P(p)\psi = \sgn(p)\psi$ for every $p \in S_3$. Show that no such $\psi \ne 0$ exists. The third electron of a lithium atom therefore cannot occupy the 1s orbital; the lowest orbital still available to it is 2s.</li>
+          <li>Let $K = P\bigl((12)\bigr) + P\bigl((23)\bigr) + P\bigl((13)\bigr)$. Show that $K$ commutes with every $P(p)$. More generally, for any representation $D$ of $S_3$ show that $K_D = D\bigl((12)\bigr) + D\bigl((23)\bigr) + D\bigl((13)\bigr)$ commutes with every $D(p)$, and use Schur's lemma to show that for irreducible $D$ of dimension $d$, $K_D = \lambda I$ with $\lambda = 3\chi_D(\tau)/d$, where $\tau$ is a transposition. Find $\lambda$ for $1$, $\sgn$ and $E$.</li>
+          <li>The Heisenberg model of the three ions has the Hamiltonian $H = J(\vec S_1\cdot\vec S_2 + \vec S_2\cdot\vec S_3 + \vec S_3\cdot\vec S_1)$, where $\vec S_i$ is the spin of the particle at site $i$. For spin one-half, Dirac's identity $\vec S_i\cdot\vec S_j = \tfrac12 P\bigl((ij)\bigr) - \tfrac14$ (with $\hbar = 1$) turns it into \[ H = \frac{J}{2}K - \frac{3J}{4}, \] and you may take this as the definition of $H$. Without diagonalizing an $8 \times 8$ matrix, find the energies and their degeneracies. For $J &gt; 0$ every pair of neighbours prefers opposite spins, which cannot happen for all three pairs of a triangle: the magnet is frustrated. Show that its lowest level is fourfold degenerate. A magnetic field along the $z$-axis adds $-hS_z$ to $H$, where $S_z$ is half the number of up spins minus half the number of down spins. Show that for $0 &lt; h &lt; \tfrac32 J$ the lowest level is still twofold degenerate, and explain with Schur's lemma why the field cannot remove this degeneracy.</li>
+        </ol>
+
+        <p class="ps-end"><a href="../">Back to the course page</a></p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<script src="../../../assets/katex/katex.min.js" defer></script>
+<script src="../../../assets/katex/auto-render.min.js" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  renderMathInElement(document.body,{
+    delimiters:[{left:'\\[',right:'\\]',display:true},{left:'$',right:'$',display:false}],
+    macros:{'\\Z':'\\mathbb{Z}','\\R':'\\mathbb{R}','\\C':'\\mathbb{C}','\\gen':'\\langle #1\\rangle',
+      '\\ord':'\\operatorname{ord}','\\sgn':'\\operatorname{sgn}','\\Cl':'\\operatorname{Cl}','\\lcm':'\\operatorname{lcm}',
+      '\\tr':'\\operatorname{tr}','\\diag':'\\operatorname{diag}','\\spn':'\\operatorname{span}','\\ket':'\\lvert #1\\rangle',
+      '\\up':'{\\uparrow}','\\dn':'{\\downarrow}','\\MM':'\\mathsf{M}'},
+    throwOnError:false
+  });
+});
+</script>
+</body>
+</html>
