@@ -1,9 +1,11 @@
 (function(){
   /* ---------- papers (single source for home, research and publications) ---------- */
   var PAPERS=[
+    {"y": 2026, "t": "Spectra and Central Charges of Gauged Curvature Squared Supergravities in Five Dimensions", "a": "E. Aksoy, C. Okyay, M. Ozkan and C. B. Senisik", "j": "", "x": "2611.15444", "k": "sugra", "s": 1},
     {"y": 2026, "t": "A Common Type II Origin of Galilean and Carroll Superstrings", "a": "M. Ozkan and U. Zorba", "j": "", "x": "2610.41582", "k": "carroll", "s": 1},
     {"y": 2026, "t": "A Twisted Origin for Magnetic Carroll Supersymmetry", "a": "I. Bulunur, O. Ergec, O. Kasikci, M. Ozkan and M. S. Zog", "j": "", "x": "2603.28269", "k": "carroll", "s": 1},
     {"y": 2026, "t": "Chern–Simons-Like Formulation of 3D MMG-Like Massive Gravity Models", "a": "B. Dedeoğlu, M. Ozkan and Ö. Sarıoğlu", "j": "Eur. Phys. J. C 86 (2026) 600", "x": "2601.03936", "k": "3d", "s": 1},
+    {"y": 2026, "t": "On Five-Dimensional Curvature Squared Supergravity and Holography", "a": "G. Gold, P.-J. Hu, J. Hutomo, S. Khandelwal, M. Ozkan, Y. Pang and G. Tartaglino-Mazzucchelli", "j": "MATRIX Book Ser. 7 (2026) 457–481", "x": "2504.10856", "k": "sugra", "s": 0},
     {"y": 2025, "t": "Supersymmetric Carroll Galileons in Three Dimensions", "a": "U. Zorba, I. Bulunur, O. Kasikci, M. Ozkan, Y. Pang and M. S. Zog", "j": "Phys. Rev. D 111 (2025) 085008", "x": "2409.15428", "k": "carroll", "s": 1},
     {"y": 2024, "t": "Chern–Simons-Like Formulation of Exotic Massive 3D Gravity Models", "a": "B. Dedeoğlu, M. Ozkan and Ö. Sarıoğlu", "j": "Eur. Phys. J. C 84 (2024) 1225", "x": "2407.16799", "k": "3d", "s": 1},
     {"y": 2024, "t": "Higher Derivative Supergravities in Diverse Dimensions", "a": "M. Ozkan, Y. Pang and E. Sezgin", "j": "Phys. Rept. 1086 (2024) 1–95", "x": "2401.08945", "k": "sugra", "s": 1},
