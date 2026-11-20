@@ -103,10 +103,13 @@ PREAMBLE = r"""\documentclass[11pt,a4paper]{article}
 
 INTRO = r"""\pooltitle{Midterm problem pool}{Topics 1--6 \textperiodcentered\ Mehmet \"Ozkan, Istanbul Technical University}
 
-The midterm on Tuesday 24 November, during the usual class time, has 10 multiple-choice questions,
-all taken from this pool of %(n)d problems. On the exam a question may have different numbers from
-the ones here, and its choices may be in a different order, so learn how to solve each problem
-instead of memorizing its answer. The answers are at the end.
+The midterm on Tuesday 24 November, during the usual class time, lasts three hours and has 20
+multiple-choice questions, all taken from this pool of %(n)d problems. On the exam a question may have
+different numbers from the ones here, and its choices may be in a different order, so learn how to
+solve each problem instead of memorizing its answer. The answers are at the end.
+
+Each question is worth 5 points, and a wrong answer costs nothing. You mark your answers in pencil on
+a separate answer sheet, so bring a pencil and an eraser.
 
 No calculators are allowed, and none are needed: the numbers are chosen so that the arithmetic can be
 done by hand. Take $g = \qty{10}{m/s^2}$ throughout, and ignore air resistance unless a problem says
